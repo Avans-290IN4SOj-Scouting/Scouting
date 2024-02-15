@@ -1,7 +1,7 @@
 # Scouting Project Groep J
 Welkom!
 
-# Developer Handleiding
+# Developer Handleiding (Basis opzet, niet af)
 Kleine handleiding voor een developer om een werkende development environment te krijgen.
 
 ## Vereisten
