@@ -6,8 +6,10 @@
     <title>@yield('title')</title>
 </head>
 
-<body>
-    @yield('content')
+<body class="bg-white dark:bg-black antialiased">
+<x-navbar></x-navbar>
+
+@yield('content')
 </body>
 
 </html>
