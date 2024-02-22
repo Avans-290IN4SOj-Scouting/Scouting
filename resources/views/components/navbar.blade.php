@@ -39,7 +39,7 @@
                 <div
                     class="hs-dropdown [--strategy:static] sm:[--strategy:fixed] [--adaptive:none] sm:[--trigger:hover] sm:py-4">
                     <button type="button"
-                            class="flex items-center w-full text-gray-500 hover:text-gray-400 font-medium dark:text-gray-400 dark:hover:text-gray-500 ">
+                            class="{{ request()->routeIs('manage-products') || request()->routeIs('manage-accounts') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
                         {{__('navbar.admin')}}
                         <svg class="ms-2 size-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
