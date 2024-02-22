@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Home')
+@section('title', 'TODO: put title here')
 
 @section('content')
     {{--TODO: put content home page here--}}
