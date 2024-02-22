@@ -36,6 +36,7 @@
                    href="{{route('checkout')}}">{{__('navbar.checkout')}}</a>
 
                 {{--This is the dropdown for Admin--}}
+                {{--TODO: Based on the user role, show the dropdown--}}
                 <div
                     class="hs-dropdown [--strategy:static] sm:[--strategy:fixed] [--adaptive:none] sm:[--trigger:hover] sm:py-4">
                     <button type="button"
@@ -63,6 +64,7 @@
                 </div>
 
                 {{--TODO: Change href to right link--}}
+                {{--TODO: When user is logged in, show other link name and direct to different href--}}
                 <a class="flex items-center gap-x-2 font-medium text-gray-500 hover:text-blue-600 sm:border-s sm:border-gray-300 sm:my-6 sm:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500"
                    href="#">
                     <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -73,6 +75,14 @@
                     {{--This is the Login link--}}
                     {{__('navbar.login')}}
                 </a>
+
+                {{--This is the other link for when user is logged in--}}
+
+                {{--<a class="flex items-center gap-x-2 font-medium text-gray-500 hover:text-blue-600 sm:border-s sm:border-gray-300 sm:my-6 sm:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500"--}}
+                {{--href="#">--}}
+                {{----}}{{--This is the link to 'Mijn account'--}}
+                {{--{{__('navbar.account')}}--}}
+                {{--</a>--}}
             </div>
         </div>
     </nav>
