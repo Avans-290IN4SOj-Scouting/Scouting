@@ -7,6 +7,8 @@
 @endpush
 
 @section('content')
+@include('orders.delete_this')
+
     <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ $productCategory }} - Producten</h1>
 
     <div class="hs-dropdown relative inline-flex">
@@ -27,18 +29,18 @@
     <div class="products-container">
         @foreach ($products as $product)
             <div class="product">
-                <a href="#">
+                <a href="{{ route('orders.product', [ 'id' => $product]) }}">
                     <div class="flex flex-col bg-white rounded-xl dark:bg-slate-900">
-                        <img class="rounded-t-xl" src="https://placehold.co/200x200" alt="Image Description">
+                        <img class="rounded-t-xl" src="https://placehold.co/200x200" alt="{{$product}}">
                         <div class="p-2">
                             <div class="product-info-container">
                                 <div>
                                     <h4 class="text-lg font-bold text-gray-800 dark:text-white">
                                         {{ $product }}
                                     </h4>
-                                    <p>
+                                    <p class="dark:text-white">
                                         <span class="pre-discount-price dark:text-white">€12,34</span>
-                                        <span class="dark:text-white">€12,34</span>
+                                        <span>€12,34</span>
                                     </p>
                                 </div>
                                 <div>
