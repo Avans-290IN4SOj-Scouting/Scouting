@@ -14,5 +14,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('customer.home');
+}) -> name('home');
+
+Route::get('/cart', function () {
+    return view('customer.cart');
+}) -> name('cart');
+
+Route::get('/checkout', function () {
+    return view('customer.checkout');
+}) -> name('checkout');
+
+Route::get('/manageaccounts', function () {
+    return view('admin.accounts');
+}) -> name('manage-accounts');
+
+Route::get('/manageproducts', function () {
+    return view('admin.products');
+}) -> name('manage-products');
