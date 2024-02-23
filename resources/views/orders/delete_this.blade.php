@@ -4,7 +4,7 @@
         align-items: center;
         gap: 1rem;
 
-        background-color: red;
+        background-color: darkcyan;
     }
 
     .my-options > a {
@@ -17,6 +17,6 @@
 <div class="my-options">
     Temporary Navbar :D
     <a href="{{ route('orders.overview') }}">To Products</a>
-    <a href="{{ route('orders.product', [ 'id' => 'Appel']) }}">To Shopping Cart</a>
+    <a href="{{ route('shoppingcart.index') }}">To Shopping Cart</a>
     <a href="{{ route('orders.product', [ 'id' => 'Appel']) }}">To Bestellen</a>
 </div>

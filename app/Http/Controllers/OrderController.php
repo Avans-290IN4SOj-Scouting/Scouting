@@ -45,6 +45,7 @@ class OrderController extends Controller
         $product->price = '12,34';
         $product->salePrice = '11,22';
         $product->imageUri = 'https://placehold.co/400x400';
+        $product->amount = 1;
 
         return view('orders.product', [
             'sizes' => $this->getSizes(),
