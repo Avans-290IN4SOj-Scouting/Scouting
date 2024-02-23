@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,7 @@ Route::get('/', function () {
 // Orders
 Route::get('/product-categorie/{category?}', [OrderController::class, 'overview'])
     ->defaults('category', 'endpoint not implemented');
+
+// Shopping Cart
+Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert'])
+    ->name('shoppingcart.insert');

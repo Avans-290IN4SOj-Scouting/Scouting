@@ -21,3 +21,21 @@
 .pre-discount-price {
     text-decoration: line-through;
 }
+
+.product-shopping-cart {
+    border-radius: 100%;
+    background-color: purple;
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
