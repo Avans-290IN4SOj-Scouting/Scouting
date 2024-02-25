@@ -5,6 +5,10 @@
 @section('content')
 {{--TODO: Add navbar --}}
 
+<head>
+    @vite(['resources/js/app.js'])
+</head>
+
 <div class="mx-auto text-center">
     <h1 class="text-4xl m-8">{{__('accounts.page_title')}}</h1>
 
@@ -40,13 +44,5 @@
         <button id="saveBtn" name="saveBtn" class="bg-blue-500 text-white px-8 py-4 rounded">{{__('accounts.save_button')}}</button>
     </div>
 </div>
-
-<script>
-    const saveBtn = document.getElementById("saveBtn");
-
-    saveBtn.addEventListener("click", function () {
-        // TODO: summon modal
-    });
-</script>
 
 @endsection
