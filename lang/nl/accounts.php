@@ -9,4 +9,8 @@ return [
     "team_leader"=> "teamleider",
     "admin"=> "admin",
     "save_button"=> "Opslaan",
+    "modal_warning_title"=> "Keuze bevestigen",
+    "modal_warning_message"=> "De rollen van de volgende accounts zullen worden aangepast:",
+    "close_button"=> "Sluiten",
+    "confirm_button"=> "Bevestigen",
 ];
