@@ -3,7 +3,6 @@
         display: flex;
         align-items: center;
         gap: 1rem;
-
         background-color: darkcyan;
     }
 
@@ -126,3 +125,6 @@ window.addEventListener('load', () => {
 })
 
 </script>
+    <a href="{{ route('orders.product', [ 'id' => 'Appel']) }}">To Shopping Cart</a>
+    <a href="{{ route('orders.product', [ 'id' => 'Appel']) }}">To Bestellen</a>
+</div>

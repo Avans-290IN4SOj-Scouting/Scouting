@@ -1,7 +1,28 @@
+/* @media screen and (min-width: 630px) {
+    :root {
+        --product-width: 200px;
+        --product-spacing: 0.75rem;
+        --products-per-row: 2;
+    }
+} */
+
 :root {
     --product-width: 200px;
     --product-spacing: 0.75rem;
     --products-per-row: 5;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+main > .content-devider {
+    display: flex;
+    flex-direction: column;
+    gap: var(--product-spacing);
 }
 
 .products-container {
