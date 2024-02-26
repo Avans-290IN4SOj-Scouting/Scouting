@@ -5,6 +5,9 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/orders/shoppingcart.css') }}">
 @endpush
+@push('scripts')
+    <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
+@endpush
 
 @section('content')
 @include('orders.delete_this')
@@ -27,8 +30,8 @@
                                             {{ $product->name }}
                                         </h4>
                                         <p class="dark:text-white">
-                                            <span class="pre-discount-price dark:text-white">€12,34</span>
-                                            <span>€12,34</span>
+                                            <span class="pre-discount-price dark:text-white">{{ $product->price }}</span>
+                                            <span>{{ $product->salePrice }}</span>
                                         </p>
                                     </div>
                                     <div class="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700" data-hs-input-number>
@@ -47,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="product-shoppingcart-delete">
-                                <button type="submit">
+                                <button type="submit" onclick="removeProductFromShoppingCart({{ $product->id }})" >
                                     <div class="icon">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M3 6H21"

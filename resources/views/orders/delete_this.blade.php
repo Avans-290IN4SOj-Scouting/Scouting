@@ -18,6 +18,13 @@
     <a href="{{ route('orders.overview') }}">To Products</a>
     <a href="{{ route('shoppingcart.index') }}">To Shopping Cart</a>
     <a href="{{ route('orders.product', [ 'id' => 'Appel']) }}">To Bestellen</a>
+    <button onclick="printShoppingCart()">Print Cart</button>
+    <button onclick="clearShoppingCart()">Clear Cart</button>
+    <script>
+        function printShoppingCart() {
+            console.log(getShoppingCart());
+        }
+    </script>
     <div>
         <button type="button" class="hs-dark-mode-active:hidden block hs-dark-mode group flex items-center text-gray-600 hover:text-blue-600 font-medium dark:text-gray-400 dark:hover:text-gray-500" data-hs-theme-click-value="dark">
             <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>

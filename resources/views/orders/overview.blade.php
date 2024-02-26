@@ -5,6 +5,9 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
 @endpush
+@push('scripts')
+    <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
+@endpush
 
 @section('content')
 @include('orders.delete_this')
@@ -31,42 +34,39 @@
             <div class="products-container">
                 @foreach ($products as $product)
                     <div class="product">
-                        <a href="{{ route('orders.product', [ 'id' => $product]) }}">
                             <div class="flex flex-col bg-white border rounded-xl dark:bg-slate-900">
-                                <img class="rounded-t-xl" src="https://placehold.co/200x200" alt="{{$product}}">
+                                <a href="{{ route('orders.product', [ 'id' => $product->id]) }}">
+                                    <img class="rounded-t-xl" src="https://placehold.co/200x200" alt="{{ $product->name }}">
+                                </a>
+
                                 <div class="p-2">
                                     <div class="product-info-container">
                                         <div>
                                             <h4 class="text-lg font-bold text-gray-800 dark:text-white">
-                                                {{ $product }}
+                                                {{ $product->name }}
                                             </h4>
                                             <p class="dark:text-white">
-                                                <span class="pre-discount-price dark:text-white">€12,34</span>
-                                                <span>€12,34</span>
+                                                <span class="pre-discount-price dark:text-white">{{ $product->price }}</span>
+                                                <span>{{ $product->salePrice }}</span>
                                             </p>
                                         </div>
                                         <div>
-                                            <form name="shopping-cart" method="POST" action="{{ route('shoppingcart.insert', ['id' => $product]) }}">
-                                                @csrf
-
-                                                <button type="submit">
-                                                    <div class="product-shopping-cart">
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"
-                                                                stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            <path d="M19 22C19.5523 22 20 21.5523 20 21C20 20.4477 19.5523 20 19 20C18.4477 20 18 20.4477 18 21C18 21.5523 18.4477 22 19 22Z"
-                                                                stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            <path d="M2.05005 2.05005H4.05005L6.71005 14.47C6.80763 14.9249 7.06072 15.3315 7.42576 15.6199C7.7908 15.9083 8.24495 16.0604 8.71005 16.05H18.49C18.9452 16.0493 19.3865 15.8933 19.7411 15.6079C20.0956 15.3224 20.3422 14.9246 20.4401 14.48L22.09 7.05005H5.12005"
-                                                                stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round"/>
-                                                        </svg>
-                                                    </div>
-                                                </button>
-                                            </form>
+                                            <button type="submit" onclick="addProductToShoppingCart('{{ $product->id }}', 1)" style="background-color: red;">
+                                                <div class="product-shopping-cart">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"
+                                                            stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M19 22C19.5523 22 20 21.5523 20 21C20 20.4477 19.5523 20 19 20C18.4477 20 18 20.4477 18 21C18 21.5523 18.4477 22 19 22Z"
+                                                            stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M2.05005 2.05005H4.05005L6.71005 14.47C6.80763 14.9249 7.06072 15.3315 7.42576 15.6199C7.7908 15.9083 8.24495 16.0604 8.71005 16.05H18.49C18.9452 16.0493 19.3865 15.8933 19.7411 15.6079C20.0956 15.3224 20.3422 14.9246 20.4401 14.48L22.09 7.05005H5.12005"
+                                                            stroke="#2563eb" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </a>
                     </div>
                 @endforeach
             </div>

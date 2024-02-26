@@ -5,6 +5,7 @@
     @vite('resources/js/app.js')
     <title>@yield('title')</title>
     @stack('styles')
+    @stack('scripts')
 </head>
 
 <body class="dark:bg-slate-900">
