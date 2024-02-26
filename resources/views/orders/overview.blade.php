@@ -30,7 +30,7 @@
         @foreach ($products as $product)
             <div class="product">
                 <a href="{{ route('orders.product', [ 'id' => $product]) }}">
-                    <div class="flex flex-col bg-white rounded-xl dark:bg-slate-900">
+                    <div class="flex flex-col bg-white border rounded-xl dark:bg-slate-900">
                         <img class="rounded-t-xl" src="https://placehold.co/200x200" alt="{{$product}}">
                         <div class="p-2">
                             <div class="product-info-container">

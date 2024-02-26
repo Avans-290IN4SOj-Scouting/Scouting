@@ -4,11 +4,6 @@
     --products-per-row: 5;
 }
 
-/* TODO: remove */
-body {
-    background-color: #121212;
-}
-
 .products-container {
     display: flex;
     flex-wrap: wrap;

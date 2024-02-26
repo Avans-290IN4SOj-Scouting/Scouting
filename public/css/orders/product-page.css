@@ -3,10 +3,6 @@ main {
     justify-content: center;
 }
 
-body {
-    background-color: #121212;
-}
-
 .single-product-view {
     display: flex;
     flex-direction: row;
