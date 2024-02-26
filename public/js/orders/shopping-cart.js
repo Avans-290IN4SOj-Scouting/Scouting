@@ -23,7 +23,6 @@ class ShoppingCart {
 
     removeProductById(id) {
         for (let i = 0; i < this.products.length; i++) {
-            console.log(this.products[i].id + " : " + id);
             if (this.products[i].id == id) {
                 this.products.splice(i, 1);
                 return true;
@@ -31,6 +30,15 @@ class ShoppingCart {
         }
 
         return false;
+    }
+
+    setProductAmount(id, amount) {
+        for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].id == id) {
+                this.products[i].amount = amount;
+                return true;
+            }
+        }
     }
 }
 
@@ -58,8 +66,6 @@ function addProductToShoppingCart(id, amount) {
 function removeProductFromShoppingCart(id) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
-    console.log(shoppingCart);
-    console.log(id);
 
     // 2. Make Changes
     // Check if product exists
@@ -72,16 +78,15 @@ function removeProductFromShoppingCart(id) {
     saveShoppingCart(shoppingCart);
 }
 
-function increaseShoppingCartProductAmount(id, amount) {
-
-}
-
-function decreaseShoppingCartProductAmount(id, amount) {
-
-}
-
 function setShoppingCartProductAmount(id, amount) {
+    // 1. Get Current
+    let shoppingCart = getShoppingCart();
 
+    // 2. Make Changes
+    shoppingCart.setProductAmount(id, amount);
+
+    // 3. Save Changes
+    saveShoppingCart(shoppingCart);
 }
 
 const shoppingCartcookieName = 'shopping-cart';
@@ -119,6 +124,5 @@ function getShoppingCart() {
 }
 
 function clearShoppingCart() {
-    console.log("DEBUG::ClearedCookie");
     document.cookie = `${shoppingCartcookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
 }
