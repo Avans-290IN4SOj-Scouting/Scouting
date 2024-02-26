@@ -13,27 +13,27 @@
     <div class="mx-auto text-center">
         <h1 class="text-4xl m-8">{{__('accounts.page_title')}}</h1>
 
-        <div class="w-1/2 mx-auto overflow-hidden border rounded-lg">
+        <div class="w-1/2 mx-auto overflow-hidden border rounded-lg mb-4">
             <table class="w-full divide-y divide-gray-200">
-                <thead>
+                <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">
                             {{__('accounts.email')}}</th>
-                        <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">
                             {{__('accounts.role')}}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
 
                     @foreach ($accounts as $account)
-                    <tr>
+                    <tr class="hover:bg-gray-100">
                         <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
                             {{$account['email']}}
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
                             <div class="relative inline-block text-left">
                                 <select id="dropdownRoles" name="dropdownRoles"
-                                    class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                    class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:border-blue-500">
                                     <option value="gebruiker" {{$account['role']==='gebuiker' ? 'selected' : '' }}>
                                         {{__('accounts.user')}}</option>
                                     <option value="teamleider" {{$account['role']==='teamleider' ? 'selected' : '' }}>
@@ -52,7 +52,7 @@
 
         <div class="fixed bottom-0 right-0 m-4">
             <button id="saveBtn" name="saveBtn"
-                class="bg-blue-500 text-white px-8 py-4 rounded">{{__('accounts.save_button')}}</button>
+                class="bg-blue-500 text-white px-8 py-4 rounded hover:bg-blue-600">{{__('accounts.save_button')}}</button>
         </div>
 
         <div id="confirmModal" name="confirmModal"
@@ -65,9 +65,9 @@
                 <p class="text-gray-800 mb-4">test@test.com -> teamleider</p>
                 <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
                     <button id="closeModalBtn" name="closeModalBtn"
-                        class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">{{__('accounts.close_button')}}</button>
+                        class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('accounts.close_button')}}</button>
                     <button id="confirmModalBtn" name="confirmModalBtn"
-                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         {{__('accounts.confirm_button')}}
                     </button>
                 </div>
