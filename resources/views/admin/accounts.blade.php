@@ -24,21 +24,28 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    {{--TODO: Iterate through accounts; use example below for each iteration --}}
+
+                    @foreach ($accounts as $account)
                     <tr>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">test@test.com
+                        <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
+                            {{$account['email']}}
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
                             <div class="relative inline-block text-left">
                                 <select id="dropdownRoles" name="dropdownRoles"
                                     class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                    <option value="gebruiker">{{__('accounts.user')}}</option>
-                                    <option value="teamleider">{{__('accounts.team_leader')}}</option>
-                                    <option value="admin">{{__('accounts.admin')}}</option>
+                                    <option value="gebruiker" {{$account['role']==='gebuiker' ? 'selected' : '' }}>
+                                        {{__('accounts.user')}}</option>
+                                    <option value="teamleider" {{$account['role']==='teamleider' ? 'selected' : '' }}>
+                                        {{__('accounts.team_leader')}}</option>
+                                    <option value="admin" {{$account['role']==='admin' ? 'selected' : '' }}>
+                                        {{__('accounts.admin')}}</option>
                                 </select>
                             </div>
                         </td>
                     </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>
@@ -51,7 +58,8 @@
         <div id="confirmModal" name="confirmModal"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
             <div class="bg-white p-4 rounded shadow-lg">
-                <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2">{{__('accounts.modal_warning_title')}}</h3>
+                <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2">{{__('accounts.modal_warning_title')}}
+                </h3>
                 <p class="text-gray-800 mb-4">{{__('accounts.modal_warning_message')}}</p>
                 {{-- TODO: Iterate through each account that is edited, see below --}}
                 <p class="text-gray-800 mb-4">test@test.com -> teamleider</p>
