@@ -74,16 +74,16 @@
 
                 <div class="order-data">
                     <h2 class="text-4xl font-extrabold dark:text-white">Bestelling</h2>
-                    <p class="dark:text-white">Artikelen: ({{ count($products) }})</p>
+                    <p class="dark:text-white">Artikelen: (<span id="productCount">{{ count($products) }}</span>)</p>
 
                     <div class="order-total">
                         <div>
                             <p class="dark:text-white">Totaal:</p>
-                            <p class="dark:text-white">€{{ $product->price }}</p>
+                            <p class="dark:text-white">€<span id="shoppingCartTotal">{{ $product->price }}</span></p>
                         </div>
                         <div>
                             <p class="dark:text-white">Korting:</p>
-                            <p class="dark:text-white">€{{ $product->salePrice }}</p>
+                            <p class="dark:text-white">€<span id="shoppingCartSale">{{ $product->salePrice }}</span></p>
                         </div>
                     </div>
 
@@ -97,6 +97,7 @@
                 </div>
             </div>
         </div>
-    </main>
 
+        <input type="hidden" id="shoppingcartUpdate" value="{{ route('shoppingcart.update') }}">
+    </main>
 @endsection

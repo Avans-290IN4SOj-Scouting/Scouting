@@ -36,3 +36,5 @@ Route::get('/winkelmand', [ShoppingCartController::class, 'index'])
 // Shopping Cart
 Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert'])
     ->name('shoppingcart.insert');
+Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
+    ->name('shoppingcart.update');

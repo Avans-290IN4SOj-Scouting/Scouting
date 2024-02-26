@@ -37,57 +37,57 @@ class OrderController extends Controller
             case 0:
                 $product->id = 0;
                 $product->name = 'Appel';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
                 break;
             case 1:
                 $product->id = 1;
                 $product->name = 'Banaan';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
             case 2:
                 $product->id = 2;
                 $product->name = 'C';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
             case 3:
                 $product->id = 3;
                 $product->name = 'Draaitol';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
             case 4:
                 $product->id = 4;
                 $product->name = 'Eten';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
             case 5:
                 $product->id = 5;
                 $product->name = 'Fornuis';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
             case 6:
                 $product->id = 6;
                 $product->name = 'Goud';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
             case 7:
                 $product->id = 7;
                 $product->name = 'Huis';
-                $product->price = '12,34';
-                $product->salePrice = '11,22';
+                $product->price = 12.34;
+                $product->salePrice = 11.22;
                 $product->imageUri = 'https://placehold.co/150x150';
             break;
         }
