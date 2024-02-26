@@ -21,7 +21,14 @@ Route::get('/', function () {
 
 // Orders
 Route::get('/product-categorie/{category?}', [OrderController::class, 'overview'])
+    ->name('orders.overview')
     ->defaults('category', 'endpoint not implemented');
+
+Route::get('/product/{id}', [OrderController::class, 'product'])
+    ->name('orders.product');
+Route::get('/products', function() {
+    return view('orders.overview');
+});
 
 // Shopping Cart
 Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert'])

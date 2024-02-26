@@ -1,0 +1,36 @@
+main {
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    background-color: #121212;
+}
+
+.single-product-view {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.single-product-view > .image {
+    width: 400px;
+    height: 400px;
+}
+
+.single-product-view > .image > img {
+    width: 400px;
+    height: 400px;
+}
+
+.single-product-view > .info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.single-product-view > .info > .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
