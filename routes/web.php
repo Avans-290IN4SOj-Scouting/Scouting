@@ -30,6 +30,9 @@ Route::get('/products', function() {
     return view('orders.overview');
 });
 
+Route::get('/winkelmand', [ShoppingCartController::class, 'index'])
+    ->name('shoppingcart.index');
+
 // Shopping Cart
 Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert'])
     ->name('shoppingcart.insert');

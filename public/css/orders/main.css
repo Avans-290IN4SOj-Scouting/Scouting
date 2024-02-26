@@ -12,11 +12,6 @@
     --products-per-row: 5;
 }
 
-/* TODO: remove */
-body {
-    background-color: #121212;
-}
-
 main {
     display: flex;
     flex-direction: column;
