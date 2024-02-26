@@ -32,7 +32,8 @@
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
                             <div class="relative inline-block text-left">
-                                <select id="dropdownRoles" name="dropdownRoles"
+                                <select data-account-email="{{$account['email']}}"
+                                    data-original-role="{{$account['role']}}"
                                     class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:border-blue-500">
                                     <option value="gebruiker" {{$account['role']==='gebuiker' ? 'selected' : '' }}>
                                         {{__('accounts.user')}}</option>
@@ -60,9 +61,7 @@
             <div class="bg-white p-4 rounded shadow-lg">
                 <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2">{{__('accounts.modal_warning_title')}}
                 </h3>
-                <p class="text-gray-800 mb-4">{{__('accounts.modal_warning_message')}}</p>
-                {{-- TODO: Iterate through each account that is edited, see below --}}
-                <p class="text-gray-800 mb-4">test@test.com -> teamleider</p>
+                <div id="changedAccountsInfo" name="changedAccountsInfo" class="text-gray-800 mb-4"></div>
                 <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
                     <button id="closeModalBtn" name="closeModalBtn"
                         class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('accounts.close_button')}}</button>
