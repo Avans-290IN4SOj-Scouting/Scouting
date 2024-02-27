@@ -21,16 +21,16 @@
                 <div>
                     <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $productCategory }}</h2>
                     <p class="text-lg dark:text-white">
-                        <span>€{{ $product->price }}</span>
+                        <span>{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
                         @if ($product->salePrice != 0)
-                            <span>€{{ $product->salePrice }}</span>
+                            <span>{{ __('orders.currency-symbol') }}{{ $product->salePrice }}</span>
                         @endif
                     </p>
                 </div>
                 <div class="actions">
                     <div class="hs-dropdown relative inline-flex">
                         <button id="hs-dropdown-default" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                            Selecteer maat
+                            {{ __('orders.select-size') }}
                             <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                         </button>
 
@@ -44,7 +44,7 @@
                     </div>
 
                     <button type="submit" onclick="addProductToShoppingCart('{{ $product->id }}', 1)" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        Voeg toe aan winkelwagen
+                        {{ __('orders.add-to-shoppingcart') }}
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"
                                 stroke="white" stroke-linecap="round" stroke-linejoin="round"/>

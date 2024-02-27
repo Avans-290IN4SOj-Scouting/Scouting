@@ -15,7 +15,7 @@
 
     <main>
         <div class="shopingcart-view">
-            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Winkelwagen</h1>
+            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ __('orders.shoppingcart') }}</h1>
 
             <div class="idk">
                 <div class="shoppingcart-products-container">
@@ -31,8 +31,8 @@
                                             {{ $product->name }}
                                         </h4>
                                         <p class="dark:text-white">
-                                            <span class="pre-discount-price dark:text-white">{{ $product->price }}</span>
-                                            <span>{{ $product->salePrice }}</span>
+                                            <span class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                            <span>{{ __('orders.currency-symbol') }}{{ $product->salePrice }}</span>
                                         </p>
                                     </div>
                                     <div class="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700" data-hs-input-number>
@@ -73,17 +73,17 @@
                 </div>
 
                 <div class="order-data">
-                    <h2 class="text-4xl font-extrabold dark:text-white">Bestelling</h2>
-                    <p class="dark:text-white">Artikelen: (<span id="productCount">{{ count($products) }}</span>)</p>
+                    <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.shoppingcart-order') }}</h2>
+                    <p class="dark:text-white">{{ __('orders.order-products') }}: (<span id="productCount">{{ count($products) }}</span>)</p>
 
                     <div class="order-total">
                         <div>
-                            <p class="dark:text-white">Totaal:</p>
-                            <p class="dark:text-white">€<span id="shoppingCartTotal">{{ $product->price }}</span></p>
+                            <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
+                            <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span id="shoppingCartTotal">{{ $product->price }}</span></p>
                         </div>
                         <div>
-                            <p class="dark:text-white">Korting:</p>
-                            <p class="dark:text-white">€<span id="shoppingCartSale">{{ $product->salePrice }}</span></p>
+                            <p class="dark:text-white">{{ __('orders.order-sale') }}:</p>
+                            <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span id="shoppingCartSale">{{ $product->salePrice }}</span></p>
                         </div>
                     </div>
 
@@ -91,7 +91,7 @@
 
                     <a {{-- href="{{ route('orders.order') }}" --}}>
                         <button type="submit" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                            Naar bestellen
+                            {{ __('orders.order-to-order') }}
                         </button>
                     </a>
                 </div>
