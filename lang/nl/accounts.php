@@ -13,4 +13,5 @@ return [
     "modal_warning_message"=> "De rollen van de volgende accounts zullen worden aangepast:",
     "close_button"=> "Sluiten",
     "confirm_button"=> "Bevestigen",
+    "saved_confirmation"=> "Gegevens zijn succesvol opgeslagen!",
 ];
