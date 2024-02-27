@@ -17,7 +17,7 @@
     Temporary Navbar :D
     <a href="{{ route('orders.overview') }}">To Products</a>
     <a href="{{ route('shoppingcart.index') }}">To Shopping Cart</a>
-    <a href="{{ route('orders.product', [ 'id' => 'Appel']) }}">To Bestellen</a>
+    <a href="{{ route('orders.order') }}">To Bestellen</a>
     <button onclick="printShoppingCart()">Print Cart</button>
     <button onclick="clearShoppingCart()">Clear Cart</button>
     <script>

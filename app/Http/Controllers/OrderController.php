@@ -30,6 +30,17 @@ class OrderController extends Controller
         ]);
     }
 
+    public function order()
+    {
+        $order = 1;
+        $groups = OrderController::getGroups();
+
+        return view('orders.order', [
+            'order' => $order,
+            'groups' => $groups
+        ]);
+    }
+
     // DELETE in pull request!!!!!!!!!!!!!!!!!!!
     public static function getProduct($id) {
         $product = new Product;
@@ -115,6 +126,16 @@ class OrderController extends Controller
             'M',
             'L',
             'XL'
+        ];
+    }
+
+    public static function getGroups()
+    {
+        return [
+            'Bevers',
+            'Bevertjes',
+            'Beverinos',
+            'Bee-heel-vers'
         ];
     }
 }
