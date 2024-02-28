@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             ProductSizeSeeder::class,
             ProductSeeder::class,
             StockSeeder::class,
-            OrderLineSeeder::class,
             OrderSeeder::class,
+            OrderLineSeeder::class,
 
             // Below are unordered
             DeliveryStateSeeder::class,

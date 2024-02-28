@@ -11,16 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_lines', function (Blueprint $table) {
-            $table->id();
-
-            $table->integer('amount');
-            $table->double('product_price');
-
-            $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('product_id');
-
-            $table->timestamps();
+        Schema::table('order_lines', function (Blueprint $table) {
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_lines');
+        //
     }
 };
