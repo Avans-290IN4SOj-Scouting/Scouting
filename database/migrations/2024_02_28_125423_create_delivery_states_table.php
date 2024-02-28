@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('delivery_states', function (Blueprint $table) {
             $table->id();
+
+            $table->dateTime('date');
+
             $table->timestamps();
         });
     }
