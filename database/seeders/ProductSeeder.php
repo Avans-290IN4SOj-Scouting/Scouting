@@ -15,17 +15,20 @@ class ProductSeeder extends Seeder
     {
         DB::table('products')->insert([
             'name' => 'TestDames',
-            'discount' => 0.00
+            'discount' => 0.00,
+            'product_type_id' => 1
         ]);
 
         DB::table('products')->insert([
             'name' => 'TestHeren',
-            'discount' => 0.00
+            'discount' => 0.00,
+            'product_type_id' => 2
         ]);
 
         DB::table('products')->insert([
             'name' => 'TestUnisex',
-            'discount' => 0.00
+            'discount' => 0.00,
+            'product_type_id' => 3
         ]);
     }
 }
