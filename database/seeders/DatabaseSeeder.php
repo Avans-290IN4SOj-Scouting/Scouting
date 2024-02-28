@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            // ORDER OF SEEDING IS VERY IMPORTANT!!!
+            // Also, php artisan migrate:fresh --seed  |  https://laravel.com/docs/10.x/seeding#running-seeders
+            ProductTypeSeeder::class,
+            ProductSizeSeeder::class,
+            ProductSeeder::class,
+
+            // Below are unordered
             DeliveryStateSeeder::class,
             DeliveryStatusSeeder::class,
             FeedbackFormSeeder::class,
@@ -29,9 +36,6 @@ class DatabaseSeeder extends Seeder
             OrderLineSeeder::class,
             OrderSeeder::class,
             OrderStatusSeeder::class,
-            ProductSeeder::class,
-            ProductSizeSeeder::class,
-            ProductTypeSeeder::class,
             StockSeeder::class
         ]);
     }
