@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             ProductTypeSeeder::class,
             ProductSizeSeeder::class,
             ProductSeeder::class,
+            StockSeeder::class,
+            OrderLineSeeder::class,
+            OrderSeeder::class,
 
             // Below are unordered
             DeliveryStateSeeder::class,
@@ -33,10 +36,7 @@ class DatabaseSeeder extends Seeder
             FeedbackFormSeeder::class,
             FeedbackTypeSeeder::class,
             GroupSeeder::class,
-            OrderLineSeeder::class,
-            OrderSeeder::class,
             OrderStatusSeeder::class,
-            StockSeeder::class
         ]);
     }
 }
