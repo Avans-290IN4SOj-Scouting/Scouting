@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ProductType;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProductTypeSeeder extends Seeder
 {
@@ -13,16 +12,13 @@ class ProductTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        DB::table('product_types')->insert([
+        ProductType::create([
             'type' => 'dames'
         ]);
-
-        DB::table('product_types')->insert([
+        ProductType::create([
             'type' => 'unisex'
         ]);
-
-        DB::table('product_types')->insert([
+        ProductType::create([
             'type' => 'heren'
         ]);
     }
