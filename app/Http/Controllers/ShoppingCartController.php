@@ -62,7 +62,8 @@ class ShoppingCartController extends Controller
         return new JsPriceChange($amount, $totalPrice, $totalSale);
     }
 
-    public function getShoppingCartProducts() {
+    public function getShoppingCartProducts()
+    {
         $products = [];
         $shoppingCart = new JsShoppingCart();
 

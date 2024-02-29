@@ -21,5 +21,11 @@ return [
     'groups' => 'Groep',
     'email' => 'Email',
     'lid-name' => 'Lid naam',
-    'billing-address' => 'Factuur adres'
+    'billing-address' => 'Factuur adres',
+
+    'postal-code' => 'Postcode',
+    'housenumber' => 'Huisnummer',
+    'housenumber-addition' => 'Toevoeging',
+    'streetname' => 'Straatnaam',
+    'city' => 'Plaatsnaam'
 ];
