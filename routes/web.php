@@ -18,18 +18,23 @@ Route::get('/', function () {
     return view('customer.home');
 }) -> name('home');
 
-Route::get('/cart', function () {
+Route::get(__('navbar.cart'), function () {
     return view('customer.cart');
 }) -> name('cart');
 
-Route::get('/checkout', function () {
+Route::get(__('navbar.checkout'), function () {
     return view('customer.checkout');
 }) -> name('checkout');
 
-Route::get('/manageaccounts', [AccountsController::class, 'index']) 
+Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index']) 
    -> name('manage-accounts');
 
 
-Route::get('/manageproducts', function () {
+Route::get(__('navbar.manage_products'), function () {
     return view('admin.products');
 }) -> name('manage-products');
+
+// TODO: Add a route for the login page
+Route::get(__('navbar.login'), function () {
+    return view('customer.home');
+}) -> name('login');

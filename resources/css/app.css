@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .inactive-nav-link {
+        @apply font-medium text-gray-500 hover:text-gray-400 sm:py-6 dark:text-gray-400 dark:hover:text-gray-500;
+    }
+    .active-nav-link {
+        @apply font-medium text-blue-600 sm:py-6 dark:text-blue-500;
+    }
+}
+
+header {
+    position: fixed;
+    z-index: 1000;
+}
