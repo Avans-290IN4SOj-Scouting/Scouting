@@ -1,79 +1,30 @@
 <?php
 
-    class Product extends Model
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+class Product extends Model
+{
+    use HasFactory;
+
+    public function productType(): BelongsTo
     {
-        private string $name;
-        private array $priceForSize;
-        private $category;
-        private $picture;
-
-        public function __construct($name, $category, $picture)
-        {
-            $this->name = $name;
-            $this->priceForSize = [];
-            $this->groups = [];
-            $this->category = $category;
-            $this->picture = $picture;
-        }
-
-        public function getName()
-        {
-            return $this->name;
-        }
-
-        public function setName(string $name)
-        {
-            $this->name = $name;
-        }
-
-        public function getPriceForSize()
-        {
-            return $this->priceForSize;
-        }
-
-        public function addPriceForSize(string $size, string $price)
-        {
-            $this->priceForSize[$size] = $price;
-        }
-
-        public function setPriceForSize(array $priceForSize)
-        {
-            $this->priceForSize = $priceForSize;
-        }
-
-        public function getGroups()
-        {
-            return $this->groups;
-        }
-
-        public function addGroup($group)
-        {
-            $this->groups[] = $group;
-        }
-
-        public function setGroups(array $groups)
-        {
-            $this->groups = $groups;
-        }
-
-        public function getCategory()
-        {
-            return $this->category;
-        }
-
-        public function setCategory($category)
-        {
-            $this->category = $category;
-        }
-
-        public function getPicture()
-        {
-            return $this->picture;
-        }
-
-        public function setPicture($picture)
-        {
-            $this->picture = $picture;
-
-        }
+        return $this->belongsTo(ProductType::class);
     }
+
+    public function productSize(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSize::class)
+            ->withPivot('price');
+    }
+
+    public function stock(): HasOne
+    {
+        return $this->hasOne(Stock::class);
+    }
+}
