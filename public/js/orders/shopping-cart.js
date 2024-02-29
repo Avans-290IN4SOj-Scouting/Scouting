@@ -92,6 +92,7 @@ function setShoppingCartProductAmount(id, amount) {
 const shoppingCartcookieName = 'shopping-cart';
 const shoppingCartcookieDomain = '127.0.0.1';
 const shoppingCartcookiePath = '/';
+
 // Cookie
 function saveShoppingCart(shoppingCart) {
     const expirationDate = new Date();

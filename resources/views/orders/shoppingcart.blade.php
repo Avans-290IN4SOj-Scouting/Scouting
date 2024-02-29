@@ -99,18 +99,18 @@
                 <div class="order-data">
                     <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.shoppingcart-order') }}</h2>
                     <p class="dark:text-white">{{ __('orders.order-products') }}: (<span
-                            id="productCount">{{ count($products) }}</span>)</p>
+                            id="productCount">{{ $prices->amount }}</span>)</p>
 
                     <div class="order-total">
                         <div>
                             <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
                             <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span
-                                    id="shoppingCartTotal">{{ $product->price }}</span></p>
+                                    id="shoppingCartTotal">{{ $prices->total }}</span></p>
                         </div>
                         <div>
                             <p class="dark:text-white">{{ __('orders.order-sale') }}:</p>
                             <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span
-                                    id="shoppingCartSale">{{ $product->salePrice }}</span></p>
+                                    id="shoppingCartSale">{{ $prices->sale }}</span></p>
                         </div>
                     </div>
 

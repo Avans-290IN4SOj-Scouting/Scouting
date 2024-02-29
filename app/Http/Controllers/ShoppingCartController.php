@@ -32,14 +32,24 @@ class ShoppingCartController extends Controller
     public function index()
     {
         $products = $this->getShoppingCartProducts();
+        $prices = $this->getPrices($products);
+
         return view('orders.shoppingcart', [
             'products' => $products,
+            'prices' => $prices
         ]);
     }
 
     public function update(Request $request)
     {
         $products = $this->getShoppingCartProducts();
+        $priceChange = $this->getPrices($products);
+
+        return response()->json(['success' => true, 'priceChange' => json_encode($priceChange)]);
+    }
+
+    public function getPrices($products)
+    {
         $amount = count($products);
         $totalPrice = 0.0;
         $totalSale = 0.0;
@@ -49,14 +59,24 @@ class ShoppingCartController extends Controller
             $totalSale += ($product->price - $product->salePrice) * $product->amount;
         }
 
-        $priceChange = new JsPriceChange($amount, $totalPrice, $totalSale);
-        return response()->json(['success' => true, 'priceChange' => json_encode($priceChange)]);
+        return new JsPriceChange($amount, $totalPrice, $totalSale);
     }
 
     public function getShoppingCartProducts() {
         $products = [];
-        $shoppingCartCookie = $_COOKIE['shopping-cart'];
-        $shoppingCart = json_decode($shoppingCartCookie);
+        $shoppingCart = new JsShoppingCart();
+
+        if (!isset($_COOKIE['shopping-cart']))
+        {
+            $shoppingCart = new JsShoppingCart();
+            $shoppingCart->products = [];
+        }
+        else
+        {
+            $shoppingCartCookie = $_COOKIE['shopping-cart'];
+            $shoppingCart = json_decode($shoppingCartCookie);
+        }
+
         foreach ($shoppingCart->products as $shoppingCartProduct)
         {
             $product = OrderController::getProduct($shoppingCartProduct->id);
