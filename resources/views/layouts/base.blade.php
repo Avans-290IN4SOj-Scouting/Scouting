@@ -13,7 +13,9 @@
 <body class="bg-white dark:bg-black antialiased">
 <x-navbar></x-navbar>
 
-@yield('content')
+<div style="padding-top: 70px">
+    @yield('content')
+</div>
 </body>
 
 </html>
