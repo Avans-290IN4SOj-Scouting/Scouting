@@ -56,6 +56,7 @@ class OrderController extends Controller
         //     'streetname' => 'required|max:32',
         //     'cityName' => 'required|max:32',
         // ]);
+        // Pre deadly merge, very scary
 
         dd($request, $request->input('email'));
     }
