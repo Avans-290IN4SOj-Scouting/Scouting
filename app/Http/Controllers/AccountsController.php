@@ -4,25 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AccountsController extends Controller
 {
     public function index()
     {
-        // test data; remove when done
-        $accounts = [];
-
-        for ($i = 1; $i <= 50; $i++) {
-            $accounts[] = ['email' => "gebruiker{$i}@example.com", 'role' => 'gebruiker'];
-        }
-
-        for ($i = 1; $i <= 10; $i++) {
-            $accounts[] = ['email' => "teamleider{$i}@example.com", 'role' => 'teamleider'];
-        }
-
-        $accounts[] = ['email' => 'admin1@example.com', 'role' => 'admin'];
-        $accounts[] = ['email' => 'admin2@example.com', 'role' => 'admin'];
+        $accounts = User::all();
 
         return view("admin.accounts", ["accounts" => $accounts]);
+    }
+
+    public function updateRoles(Request $request) {
+        $accounts = $request->input("accounts");
+
+        foreach ($accounts as $account) {
+            $email = $account["email"];
+            $role = $account["role"];
+        }
     }
 }
