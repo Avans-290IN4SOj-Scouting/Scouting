@@ -16,8 +16,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('customer.home');
+}) -> name('home');
+
+Route::get(__('navbar.cart'), function () {
+    return view('customer.cart');
+}) -> name('cart');
+
+Route::get(__('navbar.checkout'), function () {
+    return view('customer.checkout');
+}) -> name('checkout');
+
+Route::get(__('navbar.manage_accounts'), function () {
+    return view('admin.accounts');
+}) -> name('manage-accounts');
+
+Route::get(__('navbar.manage_products'), function () {
+    return view('admin.products');
+}) -> name('manage-products');
+
+// TODO: Add a route for the login page
+Route::get(__('navbar.login'), function () {
+    return view('customer.home');
+}) -> name('login');
 
 // Orders
 Route::get('/product-categorie/{category?}', [OrderController::class, 'overview'])
