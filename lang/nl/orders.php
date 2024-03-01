@@ -27,5 +27,5 @@ return [
     'housenumber' => 'Huisnummer',
     'housenumber-addition' => 'Toevoeging',
     'streetname' => 'Straatnaam',
-    'city' => 'Plaatsnaam'
+    'cityName' => 'Plaatsnaam'
 ];

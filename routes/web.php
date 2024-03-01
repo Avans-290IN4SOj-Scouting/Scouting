@@ -31,7 +31,9 @@ Route::get('/products', function() {
 });
 
 Route::get('/bestelling', [OrderController::class, 'order'])
-->name('orders.order');
+    ->name('orders.order');
+Route::post('/complete-order', [OrderController::class, 'completeOrder'])
+    ->name('orders.complete-order');
 
 Route::get('/winkelmand', [ShoppingCartController::class, 'index'])
     ->name('shoppingcart.index');

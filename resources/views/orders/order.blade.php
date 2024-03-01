@@ -3,6 +3,7 @@
 @section('title', 'Your Page Title')
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('css/orders/shoppingcart.css') }}">
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
 <link rel="stylesheet" href="{{ asset('css/orders/order.css') }}">
 @endpush
@@ -15,7 +16,8 @@
         {{ __('orders.order') }}
     </h1>
 
-    <form method="POST">
+    <form  name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
+        @csrf
         <div class="idk">
             <div>
                 <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -34,13 +36,13 @@
                         <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
                             <!-- Email -->
                             <div class="sm:col-span-3">
-                                <label for="af-account-email"
+                                <label for="email"
                                     class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
                                     {{ __('orders.email') }}
                                 </label>
                             </div>
                             <div class="sm:col-span-9">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.email') }}"
+                                <input id="email" name="email" type="email" placeholder="{{ __('orders.email') }}"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                             </div>
                             <!-- Email -->
@@ -48,7 +50,7 @@
                             <!-- Lid Naam -->
                             <div class="sm:col-span-3">
                                 <div class="inline-block">
-                                    <label for="af-account-phone"
+                                    <label for="lid-name"
                                         class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
                                         {{ __('orders.lid-name') }}
                                     </label>
@@ -56,7 +58,7 @@
                             </div>
                             <div class="sm:col-span-9">
                                 <div class="sm:flex">
-                                    <input id="af-account-phone" type="text" placeholder="{{ __('orders.lid-name') }}"
+                                    <input id="lid-name" name="lid-name" type="text" placeholder="{{ __('orders.lid-name') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                     <select class="py-2 px-3 pe-9 block w-full sm:w-auto border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
 
@@ -77,56 +79,43 @@
                             </div>
 
                             <!-- Address -->
-                            <div class="sm:col-span-3">
-                                <label for="af-account-email"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
-                                    {{ __('orders.billing-address') }}
-                                </label>
-                            </div>
-                            <div class="sm:col-span-9">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.email') }}"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
-                            </div>
-
                             <!-- Postcode + Huisnummer -->
                             <div class="sm:col-span-3">
-                                <label for="af-account-email"
+                                <label
                                     class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
-                                    {{-- {{ __('orders.email') }} --}}
                                     {{ __('orders.postal-code') }} en {{ __('orders.housenumber') }}
                                 </label>
                             </div>
                             <div class="sm:col-span-5">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.postal-code') }}"
+                                <input id="postalCode" name="postalCode" type="text" placeholder="{{ __('orders.postal-code') }}"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                             </div>
 
                             <div class="sm:col-span-2">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.housenumber') }}"
+                                <input id="houseNumber" name="houseNumber" type="text" placeholder="{{ __('orders.housenumber') }}"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                             </div>
 
                             <div class="sm:col-span-2">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.housenumber-addition') }}"
+                                <input id="houseNumberAddition" name="houseNumberAddition" type="text" placeholder="{{ __('orders.housenumber-addition') }}"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                             </div>
                             <!-- /Postcode + Huisnummer -->
 
                             <!-- Straatnaam en Plaatsnaam -->
                             <div class="sm:col-span-3">
-                                <label for="af-account-email"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
+                                <label class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
                                     {{-- {{ __('orders.email') }} --}}
-                                    Straatnaam en Plaatsnaam
+                                    {{ __('orders.streetname') }} en {{ __('orders.cityName') }}
                                 </label>
                             </div>
 
                             <div class="sm:col-span-4">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.email') }}"
+                                <input id="streetname" name="streetname" type="text" placeholder="{{ __('orders.streetname') }}"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                             </div>
                             <div class="sm:col-span-5">
-                                <input id="af-account-email" type="email" placeholder="{{ __('orders.email') }}"
+                                <input id="cityName" name="cityName" type="text" placeholder="{{ __('orders.cityName') }}"
                                     class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                             </div>
                             <!-- Straatnaam en Plaatsnaam -->
