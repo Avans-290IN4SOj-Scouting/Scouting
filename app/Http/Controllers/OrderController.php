@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderLine;
 use App\Models\Product;
+use App\Models\ProductSize;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class OrderController extends Controller
 {
@@ -11,10 +18,12 @@ class OrderController extends Controller
     public function overview(string $category)
     {
         $productCategory = $category;
-        $products = OrderController::getAllproducts();
+        $products = Product::all();
+
+        $sizes = ProductSize::all();
 
         return view('orders.overview', [
-            'sizes' => OrderController::getSizes(),
+            'sizes' => $sizes,
             'productCategory' => $productCategory,
             'products' => $products
         ]);
@@ -22,10 +31,15 @@ class OrderController extends Controller
 
     public function product(string $id)
     {
-        $product = OrderController::getProduct($id);
+        $product = Product::find($id);
+        if ($product === null) {
+            return redirect()->route('orders.overview');
+        }
+
+        $sizes = ProductSize::all();
 
         return view('orders.product', [
-            'sizes' => OrderController::getSizes(),
+            'sizes' => $sizes,
             'productCategory' => 'Not Implemented!',
             'product' => $product
         ]);
@@ -56,97 +70,39 @@ class OrderController extends Controller
         //     'streetname' => 'required|max:32',
         //     'cityName' => 'required|max:32',
         // ]);
-        // Pre deadly merge, very scary
 
-        dd($request, $request->input('email'));
-    }
+        // Create Order
+        $order = new Order();
+        $order->order_date = now();
+        $order->save();
 
-    // DELETE in pull request!!!!!!!!!!!!!!!!!!!
-    public static function getProduct($id) {
-        $product = new Product;
-        switch ($id) {
-            case 0:
-                $product->id = 0;
-                $product->name = 'Appel';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-                break;
-            case 1:
-                $product->id = 1;
-                $product->name = 'Banaan';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
-            case 2:
-                $product->id = 2;
-                $product->name = 'C';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
-            case 3:
-                $product->id = 3;
-                $product->name = 'Draaitol';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
-            case 4:
-                $product->id = 4;
-                $product->name = 'Eten';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
-            case 5:
-                $product->id = 5;
-                $product->name = 'Fornuis';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
-            case 6:
-                $product->id = 6;
-                $product->name = 'Goud';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
-            case 7:
-                $product->id = 7;
-                $product->name = 'Huis';
-                $product->price = 12.34;
-                $product->salePrice = 11.22;
-                $product->imageUri = 'https://placehold.co/150x150';
-            break;
+        DB::beginTransaction();
+        try {
+            $orderlines = [];
+            $products = ShoppingCartController::getShoppingCartProducts(); // Returns a Product[];
+
+            foreach ($products as $product)
+            {
+                // Create an orderline
+                $orderLine = new OrderLine();
+                $orderLine->order_id = $order->id;
+                $orderLine->product_id = $product->id;
+                $orderLine->amount = $product->amount;
+                dd($product->productSizes);
+                $orderLine->product_price = 12.34;
+
+                $orderLine->save();
+            }
+
+            // Below
+            DB::commit();
         }
-
-        return $product;
-    }
-
-    public static function getAllproducts() {
-        return [
-            OrderController::getProduct(0),
-            OrderController::getProduct(1),
-            OrderController::getProduct(2),
-            OrderController::getProduct(3),
-            OrderController::getProduct(4),
-            OrderController::getProduct(5),
-            OrderController::getProduct(6),
-            OrderController::getProduct(7)
-        ];
-    }
-
-    public static function getSizes()
-    {
-        return [
-            'S',
-            'M',
-            'L',
-            'XL'
-        ];
+        catch (Exception $e)
+        {
+            DB::rollBack();
+            $order->delete();
+            dd("ERROR", $e);
+        }
     }
 
     public static function getGroups()

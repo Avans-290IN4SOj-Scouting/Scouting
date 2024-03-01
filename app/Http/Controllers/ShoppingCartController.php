@@ -31,8 +31,8 @@ class ShoppingCartController extends Controller
     // GET
     public function index()
     {
-        $products = $this->getShoppingCartProducts();
-        $prices = $this->getPrices($products);
+        $products = ShoppingCartController::getShoppingCartProducts();
+        $prices = ShoppingCartController::getPrices($products);
 
         return view('orders.shoppingcart', [
             'products' => $products,
@@ -42,13 +42,13 @@ class ShoppingCartController extends Controller
 
     public function update(Request $request)
     {
-        $products = $this->getShoppingCartProducts();
-        $priceChange = $this->getPrices($products);
+        $products = ShoppingCartController::getShoppingCartProducts();
+        $priceChange = ShoppingCartController::getPrices($products);
 
         return response()->json(['success' => true, 'priceChange' => json_encode($priceChange)]);
     }
 
-    public function getPrices($products)
+    public static function getPrices($products)
     {
         $amount = count($products);
         $totalPrice = 0.0;
@@ -62,7 +62,7 @@ class ShoppingCartController extends Controller
         return new JsPriceChange($amount, $totalPrice, $totalSale);
     }
 
-    public function getShoppingCartProducts()
+    public static function getShoppingCartProducts()
     {
         $products = [];
         $shoppingCart = new JsShoppingCart();
@@ -80,7 +80,7 @@ class ShoppingCartController extends Controller
 
         foreach ($shoppingCart->products as $shoppingCartProduct)
         {
-            $product = OrderController::getProduct($shoppingCartProduct->id);
+            $product = Product::find($shoppingCartProduct->id);
             $product->amount = $shoppingCartProduct->amount;
             array_push($products, $product);
         }

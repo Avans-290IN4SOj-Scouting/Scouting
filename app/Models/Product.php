@@ -17,7 +17,7 @@ class Product extends Model
         return $this->belongsTo(ProductType::class);
     }
 
-    public function productSize(): BelongsToMany
+    public function productSizes(): BelongsToMany
     {
         return $this->belongsToMany(ProductSize::class)
             ->withPivot('price');
