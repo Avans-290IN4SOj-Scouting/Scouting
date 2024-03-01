@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    // GET
     public function overview(string $category)
     {
         $productCategory = $category;
@@ -28,6 +29,35 @@ class OrderController extends Controller
             'productCategory' => 'Not Implemented!',
             'product' => $product
         ]);
+    }
+
+    public function order()
+    {
+        $order = 1;
+        $groups = OrderController::getGroups();
+
+        return view('orders.order', [
+            'order' => $order,
+            'groups' => $groups
+        ]);
+    }
+
+    // POST
+    public function completeOrder(Request $request)
+    {
+        // $request->session()->flash('form_data', $request->all());
+
+        // $validated = $request->validate([
+        //     'email' => 'required|max:64',
+        //     'lid-naam' => 'required|max:32',
+        //     'postalCode' => 'required|max:32',
+        //     'houseNumber' => 'required|max:32',
+        //     'houseNumberAddition' => 'max:8',
+        //     'streetname' => 'required|max:32',
+        //     'cityName' => 'required|max:32',
+        // ]);
+
+        dd($request, $request->input('email'));
     }
 
     // DELETE in pull request!!!!!!!!!!!!!!!!!!!
@@ -115,6 +145,16 @@ class OrderController extends Controller
             'M',
             'L',
             'XL'
+        ];
+    }
+
+    public static function getGroups()
+    {
+        return [
+            'Bevers',
+            'Bevertjes',
+            'Beverinos',
+            'Bee-heel-vers'
         ];
     }
 }

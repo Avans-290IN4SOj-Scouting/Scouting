@@ -53,12 +53,24 @@ function updateShoppingCartPrices() {
     })
     .then(response => response.json())
     .then(data => {
+        if (data === null || data.priceChange === null)
+        {
+            console.log("oofies1");
+            return;
+        }
+
         let priceChangeData = JSON.parse(data.priceChange);
         let priceChange = new PHPPriceChange(priceChangeData.amount, priceChangeData.total, priceChangeData.sale);
 
         const amountText = document.querySelector('#productCount');
         const totalText = document.querySelector('#shoppingCartTotal');
         const saleText = document.querySelector('#shoppingCartSale');
+        if (amountText === null || totalText === null || saleText === null)
+        {
+            // TODO: Maybe an error
+            console.log("oofies2");
+            return;
+        }
 
         amountText.textContent = priceChange.amount;
         totalText.textContent = priceChange.total;
