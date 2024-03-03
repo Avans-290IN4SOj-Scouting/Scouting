@@ -29,6 +29,8 @@ Route::get(__('navbar.checkout'), function () {
 Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index']) 
    -> name('manage-accounts');
 
+Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
+    ->name('manage-accounts.updateRoles');
 
 Route::get(__('navbar.manage_products'), function () {
     return view('admin.products');

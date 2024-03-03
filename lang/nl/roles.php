@@ -2,6 +2,6 @@
 
 return [
     "user" => "gebruiker",
-    "team_leader" => "teamleider",
+    "teamleader" => "teamleider",
     "admin" => "admin",
 ];

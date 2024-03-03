@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     dropdownElements.forEach(select => {
         select.addEventListener('change', function () {
             const accountEmail = this.getAttribute('data-account-email');
-            const originalRole = this.getAttribute('data-original-role');
+            const oldRole = this.getAttribute('data-old-role');
             const newRole = this.value;
 
             const existingChangeIndex = changedAccounts.findIndex(account => account.email === accountEmail);
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 changedAccounts.push({
                     email: accountEmail,
-                    originalRole: originalRole,
+                    oldRole: oldRole,
                     newRole: newRole
                 });
             }
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateChangedAccountsInfo() {
         let infoHtml = '';
         changedAccounts.forEach(account => {
-            infoHtml += `<strong>${account.email}</strong>: ${account.originalRole} naar ${account.newRole}<br>`
+            infoHtml += `<strong>${account.email}</strong>: ${account.oldRole} naar ${account.newRole}<br>`
         });
         changedAccountsInfo.innerHTML = infoHtml;
     }
@@ -48,9 +48,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     confirmModalBtn.addEventListener("click", () => {
+        submitForm();
+        updateRoles();
         confirmModal.classList.add("hidden");
-        showToast();
     });
+
+    function submitForm() {
+        document.getElementById("userRoles").value = JSON.stringify(changedAccounts);
+
+        document.getElementById("updateRoleForm").submit();
+
+        showToast();
+    }
 
     function showToast() {
         const toast = document.getElementById("toast");
@@ -63,5 +72,5 @@ document.addEventListener('DOMContentLoaded', function () {
             toast.classList.add("opacity-0");
         }, 3000);
     }
+});
 
-})

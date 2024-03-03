@@ -14,7 +14,7 @@
         <h1 class="text-4xl m-8">{{__('accounts.page_title')}}</h1>
 
         <div class="w-1/2 mx-auto overflow-hidden border rounded-lg mb-4">
-            <table class="w-full divide-y divide-gray-200">
+            <table id="usersTable" name="usersTable" class="w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">
@@ -33,14 +33,15 @@
                         <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
                             <div class="relative inline-block text-left">
                                 <select data-account-email="{{ $account->email }}"
-                                    data-original-role="{{ $account->roles->first()->name }}"
+                                    data-old-role="{{ $account->roles->first()->name }}"
                                     class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:border-blue-500">
-                                    <option value="gebruiker" {{$account->roles->first()->name === 'user' ? 'selected' : '' }}>
-                                        {{__('accounts.user')}}</option>
-                                    <option value="teamleider" {{$account->roles->first()->name === 'teamleader' ? 'selected' : '' }}>
-                                        {{__('accounts.team_leader')}}</option>
-                                    <option value="admin" {{$account->roles->first()->name === 'admin' ? 'selected' : '' }}>
-                                        {{__('accounts.admin')}}</option>
+                                    
+                                    @foreach (trans('roles') as $role => $translatedRole) 
+                                        <option value="{{ $role }}" {{ $account->roles->first()->name === $role ? "selected" : "" }}>
+                                            {{ __('roles.' . $role) }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
                             </div>
                         </td>
@@ -65,10 +66,14 @@
                 <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
                     <button id="closeModalBtn" name="closeModalBtn"
                         class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('accounts.close_button')}}</button>
-                    <button id="confirmModalBtn" name="confirmModalBtn"
-                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        {{__('accounts.confirm_button')}}
-                    </button>
+                    <form id="updateRoleForm" action="{{ route('manage-accounts.updateRoles') }}" method="post">
+                        @csrf
+                        <input type="hidden" id="userRoles" name="userRoles" value="">
+                        <button type="button" id="confirmModalBtn" name="confirmModalBtn"
+                            class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            {{__('accounts.confirm_button')}}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
