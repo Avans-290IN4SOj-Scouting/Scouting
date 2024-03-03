@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $this->createUserWithRole("gebruiker@mail.com", "gebruiker", "gebruiker123", "user");
-        $this->createUserWithRole("teamleider@mail.com", "teamleider", "teamleider123", "teamleader");
+        $this->createUserWithRole("teamleider@mail.com", "teamleider", "teamleider123", "team_bevers");
         $this->createUserWithRole("admin@mail.com", "admin", "admin123", "admin");
     }
 

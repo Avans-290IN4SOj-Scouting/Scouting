@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
             }
         }
 
-        $teamleaderRoles = ['bevers', 'gidsen', 'kabouters', 'scouts', 'zeeverkenners', 'welpen'];
+        $teamleaderRoles = ['team_bevers', 'team_gidsen', 'team_kabouters', 'team_scouts', 'team_zeeverkenners', 'team_welpen'];
 
         foreach ($teamleaderRoles as $subRole) {
             if (!Role::where('name', $subRole)->exists()) {
