@@ -10,12 +10,13 @@ class AccountsController extends Controller
 {
     public function index()
     {
-        $accounts = User::all();
+        $accounts = User::with("roles")->get();
 
         return view("admin.accounts", ["accounts" => $accounts]);
     }
 
-    public function updateRoles(Request $request) {
+    public function updateRoles(Request $request)
+    {
         $accounts = $request->input("accounts");
 
         foreach ($accounts as $account) {

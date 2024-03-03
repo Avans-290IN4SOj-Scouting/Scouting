@@ -32,14 +32,14 @@
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-800">
                             <div class="relative inline-block text-left">
-                                <select data-account-email="{{$account['email']}}"
-                                    data-original-role="{{$account['role']}}"
+                                <select data-account-email="{{ $account->email }}"
+                                    data-original-role="{{ $account->roles->first()->name }}"
                                     class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:border-blue-500">
-                                    <option value="gebruiker" {{$account['role'] === 'gebuiker' ? 'selected' : '' }}>
+                                    <option value="gebruiker" {{$account->roles->first()->name === 'user' ? 'selected' : '' }}>
                                         {{__('accounts.user')}}</option>
-                                    <option value="teamleider" {{$account['role'] === 'teamleider' ? 'selected' : '' }}>
+                                    <option value="teamleider" {{$account->roles->first()->name === 'teamleader' ? 'selected' : '' }}>
                                         {{__('accounts.team_leader')}}</option>
-                                    <option value="admin" {{$account['role'] === 'admin' ? 'selected' : '' }}>
+                                    <option value="admin" {{$account->roles->first()->name === 'admin' ? 'selected' : '' }}>
                                         {{__('accounts.admin')}}</option>
                                 </select>
                             </div>
