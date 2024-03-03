@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function addProduct()
     {
-        return view('Products.Add');
+        return view('Products.Add', ['scoutingGroups' => Group::all(), 'sizes' => ProductSize::all()]);
     }
 
     public function createProduct()
@@ -49,7 +49,6 @@ class ProductController extends Controller
         $product->setPicture(request('picture'));
         $product->setPriceForSize(request('priceForSize'));
         $product->setGroups(request('groups'));
-
 
         DB::beginTransaction();
         try {
@@ -87,7 +86,11 @@ class ProductController extends Controller
 
     public function editProduct($productId)
     {
-        ## $product = Product::find($productId);
+        $product = Product::find($productId);
+        if (!$product) {
+            console.log('Product with id not found: ' . $productId);
+            return redirect('/products');
+        }
         return view('Products.Edit', ['product' => $product]);
     }
 
