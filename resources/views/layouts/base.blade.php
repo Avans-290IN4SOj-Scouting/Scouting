@@ -13,7 +13,7 @@
 <body class="bg-white dark:bg-black antialiased">
 <x-navbar/>
 
-<div class="m-6">
+<div class="m-6" style="padding-top: 70px;">
     @if(session('toast-message'))
         <x-toast type="{{ session('toast-type') }}"
                  message="{{ session('toast-message') }}"
