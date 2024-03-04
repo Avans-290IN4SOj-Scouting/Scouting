@@ -80,7 +80,7 @@ class ShoppingCartController extends Controller
 
         foreach ($shoppingCart->products as $shoppingCartProduct)
         {
-            $product = Product::find($shoppingCartProduct->id);
+            $product = Product::find($shoppingCartProduct->id)->productsizes;
             $product->amount = $shoppingCartProduct->amount;
             array_push($products, $product);
         }

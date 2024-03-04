@@ -59,6 +59,8 @@ class OrderController extends Controller
     // POST
     public function completeOrder(Request $request)
     {
+
+        return $products = ShoppingCartController::getShoppingCartProducts();
         // $request->session()->flash('form_data', $request->all());
 
         // $validated = $request->validate([

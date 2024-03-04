@@ -56,6 +56,7 @@ Route::get('/bestelling', [OrderController::class, 'order'])
 Route::post('/complete-order', [OrderController::class, 'completeOrder'])
     ->name('orders.complete-order');
 
+// https://gyazo.com/aad381774efb9fc0f6eb40bb5584c908
 Route::get('/winkelmand', [ShoppingCartController::class, 'index'])
     ->name('shoppingcart.index');
 
