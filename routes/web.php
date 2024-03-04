@@ -32,3 +32,7 @@ Route::get('/manageaccounts', function () {
 Route::get('/manageproducts', function () {
     return view('admin.products');
 }) -> name('manage-products');
+
+Route::get('/manageproducts/addProduct', function () {
+    return view('admin.addProduct');
+}) -> name('manage-products');
