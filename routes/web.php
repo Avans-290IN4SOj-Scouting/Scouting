@@ -46,8 +46,9 @@ Route::get('/product-categorie/{category?}/{size?}', [OrderController::class, 'o
     ->defaults('category', 'bevers')
     ->defaults('size', 'S');
 
-Route::get('/product/{id}', [OrderController::class, 'product'])
-    ->name('orders.product');
+Route::get('/product/{id}/{size?}', [OrderController::class, 'product'])
+    ->name('orders.product')
+    ->defaults('size', 'S');
 Route::get('/products', function() {
     return view('orders.overview');
 });
@@ -58,7 +59,7 @@ Route::post('/complete-order', [OrderController::class, 'completeOrder'])
     ->name('orders.complete-order');
 
 // https://gyazo.com/aad381774efb9fc0f6eb40bb5584c908
-Route::get('/winkelmand', [ShoppingCartController::class, 'index'])
+Route::get('/winkelwagen', [ShoppingCartController::class, 'index'])
     ->name('shoppingcart.index');
 
 // Shopping Cart

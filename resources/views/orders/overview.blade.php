@@ -1,9 +1,10 @@
 @extends('layouts.base')
 
-@section('title', 'Your Page Title')
+@section('title', 'Producten')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/orders/overview.css') }}">
 @endpush
 @push('scripts')
     <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
@@ -18,7 +19,7 @@
         <div class="content-devider">
             <div class="hs-dropdown relative inline-flex">
                 <button id="hs-dropdown-default" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                    {{ __('orders.select-size') }}
+                    {{ $sizeSelected }}
                     <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                 </button>
 
@@ -46,10 +47,16 @@
                                             <h4 class="text-lg font-bold text-gray-800 dark:text-white">
                                                 {{ $product->name }}
                                             </h4>
-                                            <p class="dark:text-white">
-                                                <span class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
-                                                <span>{{ __('orders.currency-symbol') }}{{ $product->salePrice }}</span>
-                                            </p>
+                                            @if ($product->discount == 0)
+                                                <p class="dark:text-white">
+                                                    <span class="dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                                </p>
+                                            @else
+                                                <p class="dark:text-white">
+                                                    <span class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                                    <span>{{ __('orders.currency-symbol') }}{{ ($product->price * (1 - $product->discount)) }}</span>
+                                                </p>
+                                            @endif
                                         </div>
                                         <div>
                                             <button type="submit" onclick="addProductToShoppingCart('{{ $product->id }}', 1)">
@@ -70,6 +77,9 @@
                             </div>
                     </div>
                 @endforeach
+                @if (count($products) == 0)
+                    <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.no-products-to-show') }}</h2>
+                @endif
             </div>
         </div>
     </main>

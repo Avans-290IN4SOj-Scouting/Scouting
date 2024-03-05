@@ -41,6 +41,7 @@ class ShoppingCartController extends Controller
         ]);
     }
 
+    // POST response
     public function update(Request $request)
     {
         $products = ShoppingCartController::getShoppingCartProducts();
@@ -54,6 +55,10 @@ class ShoppingCartController extends Controller
         $amount = count($products);
         $totalPrice = 0.0;
         $totalSale = 0.0;
+
+        $noDiscountPrice = 0.00;
+        $totalDiscount = 0.00;
+
         foreach ($products as $product)
         {
             $productSize = null;
@@ -67,14 +72,15 @@ class ShoppingCartController extends Controller
             }
             if ($productSize == null)
             {
+                dd("meow");
                 continue;
             }
 
-            $totalPrice += $productSize->price * $product->amount;
-            $totalSale += ($productSize->price - $product->salePrice) * $product->amount;
+            $noDiscountPrice += ($productSize->price * $product->amount);
+            $totalDiscount += ($productSize->price * $product->discount) * $product->amount;
         }
 
-        return new JsPriceChange($amount, $totalPrice, $totalSale);
+        return new JsPriceChange($amount, $noDiscountPrice - $totalDiscount, $totalDiscount);
     }
 
     public static function getShoppingCartProducts()
@@ -95,7 +101,12 @@ class ShoppingCartController extends Controller
 
         foreach ($shoppingCart->products as $shoppingCartProduct)
         {
-            $product = Product::find($shoppingCartProduct->id);
+            $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
+            ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
+            ->where('products.id', '=', $shoppingCartProduct->id)
+            ->where('product_sizes.size', '=', $shoppingCartProduct->size)
+            ->select('products.*', 'product_product_size.*')
+            ->first(1);
             $product->amount = $shoppingCartProduct->amount;
             $product->size = $shoppingCartProduct->size;
             array_push($products, $product);

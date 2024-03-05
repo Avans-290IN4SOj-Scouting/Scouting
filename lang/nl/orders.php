@@ -4,6 +4,10 @@ return [
     'shoppingcart' => 'Winkelmandje',
     'products' => 'Producten',
     'order' => 'Bestelling',
+    'empty-shoppingcart' => 'Je winkelwagen is leeg!',
+    'no-products-to-show' => 'Er zijn geen producten.',
+    'size' => 'Maat',
+    'complete-order' => 'Bestelling afronden',
 
     'currency-symbol' => '€',
     'select-size' => 'Selecteer maat',

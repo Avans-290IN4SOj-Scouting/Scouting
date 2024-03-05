@@ -3,7 +3,6 @@
 @section('title', 'Your Page Title')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/orders/shoppingcart.css') }}">
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
 <link rel="stylesheet" href="{{ asset('css/orders/order.css') }}">
 @endpush
@@ -130,33 +129,29 @@
             <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                 <div class="order-data">
                     <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.shoppingcart-order') }}</h2>
-                    <p class="dark:text-white">
-                        {{ __('orders.order-products') }}: (<span id="productCount">{{ 1 }}</span>)
-                    </p>
+                    <p class="dark:text-white">{{ __('orders.order-products') }}: (<span
+                            id="productCount">{{ $prices->amount }}</span>)</p>
 
                     <div class="order-total">
                         <div>
                             <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
-                            <p class="dark:text-white">
-                                {{ __('orders.currency-symbol') }}<span id="shoppingCartTotal">{{ 1 }}</span>
-                            </p>
+                            <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span
+                                    id="shoppingCartTotal">{{ $prices->total }}</span></p>
                         </div>
                         <div>
                             <p class="dark:text-white">{{ __('orders.order-sale') }}:</p>
-                            <p class="dark:text-white">
-                                {{ __('orders.currency-symbol') }}<span id="shoppingCartSale">{{ 1 }}</span>
-                            </p>
+                            <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span
+                                    id="shoppingCartSale">{{ $prices->sale }}</span></p>
                         </div>
                     </div>
 
-                    <hr class="border-gray-800 dark:border-white"></hr>
+                    <hr class="border-gray-800 dark:border-white">
+                    </hr>
 
-                    <a {{-- href="{{ route('orders.order') }}" --}}>
-                        <button type="submit"
+                    <button type="submit"
                             class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                            {{ __('orders.order-to-order') }}
-                        </button>
-                    </a>
+                            {{ __('orders.complete-order') }}
+                    </button>
                 </div>
             </div>
         </div>

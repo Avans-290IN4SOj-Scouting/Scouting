@@ -31,9 +31,9 @@
                 <a class="{{ request()->routeIs('home') ? 'active-nav-link' : 'inactive-nav-link' }}"
                    href="{{route('home')}}">{{__('navbar.home')}}</a>
                 <a class="{{ request()->routeIs('cart') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                   href="{{route('cart')}}">{{__('navbar.cart')}}</a>
+                   href="{{route('shoppingcart.index')}}">{{__('navbar.cart')}}</a>
                 <a class="{{ request()->routeIs('checkout') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                   href="{{route('checkout')}}">{{__('navbar.checkout')}}</a>
+                   href="{{route('orders.order')}}">{{__('navbar.checkout')}}</a>
 
                 {{--This is the dropdown for Admin--}}
                 {{--TODO: Based on the user role, show the dropdown--}}

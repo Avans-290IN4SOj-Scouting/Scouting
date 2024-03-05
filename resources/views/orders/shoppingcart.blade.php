@@ -1,8 +1,9 @@
 @extends('layouts.base')
 
-@section('title', 'Your Page Title')
+@section('title', 'Winkelwagen')
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
 <link rel="stylesheet" href="{{ asset('css/orders/shoppingcart.css') }}">
 @endpush
 @push('scripts')
@@ -31,13 +32,18 @@
                             <div>
                                 <div>
                                     <h4 class="text-lg font-bold text-gray-800 dark:text-white">
-                                        {{ $product->name }}
+                                        {{ $product->name }} - {{ __('orders.size') }} {{ $product->size }}
                                     </h4>
-                                    <p class="dark:text-white">
-                                        <span
-                                            class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
-                                        <span>{{ __('orders.currency-symbol') }}{{ $product->salePrice }}</span>
-                                    </p>
+                                    @if ($product->discount == 0)
+                                        <p class="dark:text-white">
+                                            <span class="dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                        </p>
+                                    @else
+                                        <p class="dark:text-white">
+                                            <span class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                            <span>{{ __('orders.currency-symbol') }}{{ ($product->price * (1 - $product->discount)) }}</span>
+                                        </p>
+                                    @endif
                                 </div>
                                 <div class="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700"
                                     data-hs-input-number>
@@ -92,6 +98,9 @@
                         </div>
                     </div>
                     @endforeach
+                    @if (count($products) == 0)
+                    <p>{{ __('orders.empty-shoppingcart') }}<p>
+                    @endif
                 </div>
             </div>
 

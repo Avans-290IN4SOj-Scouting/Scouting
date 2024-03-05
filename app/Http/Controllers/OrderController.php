@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
-use App\Models\ProductProductSize;
 use App\Models\ProductSize;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 
 use function Laravel\Prompts\error;
 
@@ -38,14 +36,21 @@ class OrderController extends Controller
 
         return view('orders.overview', [
             'sizes' => $sizes,
+            'sizeSelected' => $size,
             'productCategory' => $productCategory,
             'products' => $products
         ]);
     }
 
-    public function product(string $id)
+    public function product(string $id, string $size)
     {
-        $product = Product::find($id);
+        $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
+        ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
+        ->where('products.id', '=', $id)
+        ->where('product_sizes.size', '=', $size)
+        ->select('products.*', 'product_product_size.*')
+        ->first(1);
+
         if ($product === null) {
             return redirect()->route('orders.overview');
         }
@@ -54,6 +59,7 @@ class OrderController extends Controller
 
         return view('orders.product', [
             'sizes' => $sizes,
+            'sizeSelected' => $size,
             'productCategory' => 'Not Implemented!',
             'product' => $product
         ]);
@@ -64,8 +70,12 @@ class OrderController extends Controller
         $order = 1;
         $groups = OrderController::getGroups();
 
+        $products = ShoppingCartController::getShoppingCartProducts();
+        $prices = ShoppingCartController::getPrices($products);
+
         return view('orders.order', [
             'order' => $order,
+            'prices' => $prices,
             'groups' => $groups
         ]);
     }
@@ -73,7 +83,6 @@ class OrderController extends Controller
     // POST
     public function completeOrder(Request $request)
     {
-
         return $products = ShoppingCartController::getShoppingCartProducts();
         // $request->session()->flash('form_data', $request->all());
 

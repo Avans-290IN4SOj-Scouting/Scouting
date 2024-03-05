@@ -71,20 +71,3 @@ main {
     align-items: center;
     border: 2px solid lightgray;
 }
-
-.order-data {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    min-width: 250px;
-}
-
-.order-total {
-
-}
-
-.order-total > div {
-    display: flex;
-    justify-content: space-between;
-}

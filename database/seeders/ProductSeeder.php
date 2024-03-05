@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
         {
             $product = Product::create([
                 'name' => 'TestHeren',
-                'discount' => 0.00,
+                'discount' => 0.20,
                 'image_path' => 'https://placehold.co/200x200',
                 'product_type_id' => 2
             ]);
