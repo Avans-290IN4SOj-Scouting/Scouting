@@ -1,23 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Product;
-use App\Models\ProductGroup;
-use App\Models\ProductSize;
-use App\Models\ProductType;
-use App\Models\ProductProductSizes;
-use App\Viewmodels\ProductViewmodel;
 
-foreach (glob("Viewmodels/*.php") as $filename)
-{
-    include $filename;
-}
+use App\Models;
+use App\Viewmodels\ProductViewmodel;
 
 class ProductController extends Controller
 {
     public function productOverview()
     {
         $products = Product::all();
+        $groups = ProductGroup::all();
         $sizes = ProductSize::all();
         $connectSizes = ProductProductSizes::all();
         $categories = ProductType::all();
