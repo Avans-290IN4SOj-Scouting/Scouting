@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-
-            $table->dateTime('order_date');
-
-            $table->unsignedBigInteger('group_id');
-
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 
@@ -27,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        //
     }
 };

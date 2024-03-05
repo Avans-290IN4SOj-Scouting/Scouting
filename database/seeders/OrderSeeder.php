@@ -14,7 +14,8 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         Order::create([
-            'order_date' => '2024-02-25'
+            'order_date' => '2024-02-25',
+            'group_id' => 1
         ]);
     }
 }
