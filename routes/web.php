@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('customer.home');
-}) -> name('home');
+})->name('home');
 
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
@@ -32,16 +32,31 @@ require __DIR__.'/auth.php';
 
 Route::get(__('navbar.cart'), function () {
     return view('customer.cart');
-}) -> name('cart');
+})->name('cart');
 
 Route::get(__('navbar.checkout'), function () {
     return view('customer.checkout');
-}) -> name('checkout');
+})->name('checkout');
 
 Route::get(__('navbar.manage_accounts'), function () {
     return view('admin.accounts');
-}) -> name('manage-accounts');
+})->name('manage-accounts');
 
 Route::get(__('navbar.manage_products'), function () {
     return view('admin.products');
-}) -> name('manage-products');
+})->name('manage-products');
+
+// TODO: Add a route for the login page
+Route::get(__('navbar.login'), function () {
+    return view('customer.home');
+})->name('login');
+
+// TODO: Temporary route to test toasts
+Route::get('/test', function () {
+    return redirect()
+        ->route('home')
+        ->with([
+            'toast-type' => 'error',
+            'toast-message' => 'This is a test error message'
+        ]);
+});
