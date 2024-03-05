@@ -18,9 +18,9 @@ Route::get('/', function () {
     return view('customer.home');
 }) -> name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,8 +45,3 @@ Route::get(__('navbar.manage_accounts'), function () {
 Route::get(__('navbar.manage_products'), function () {
     return view('admin.products');
 }) -> name('manage-products');
-
-// TODO: Add a route for the login page
-Route::get(__('navbar.login'), function () {
-    return view('customer.home');
-}) -> name('login');
