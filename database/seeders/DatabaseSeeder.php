@@ -39,5 +39,9 @@ class DatabaseSeeder extends Seeder
             FeedbackTypeSeeder::class,
             OrderStatusSeeder::class,
         ]);
+
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
