@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,25 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            // ORDER OF SEEDING IS VERY IMPORTANT!!!
+            // Also, php artisan migrate:fresh --seed  |  https://laravel.com/docs/10.x/seeding#running-seeders
+            ProductTypeSeeder::class,
+            ProductSizeSeeder::class,
+            ProductSeeder::class,
+            GroupSeeder::class,
+            ProductGroupSeeder::class,
+            StockSeeder::class,
+            OrderSeeder::class,
+            OrderLineSeeder::class,
+
+            // Below are unordered
+            DeliveryStateSeeder::class,
+            DeliveryStatusSeeder::class,
+            FeedbackFormSeeder::class,
+            FeedbackTypeSeeder::class,
+            OrderStatusSeeder::class,
+        ]);
     }
 }
