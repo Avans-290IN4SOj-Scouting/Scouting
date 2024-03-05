@@ -1,6 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+include "models/Product.php";
+include "models/ProductType.php";
+include "models/ProductSize.php";
+include "models/ProductProductSize.php";
+include "models/Group.php";
+include "models/ProductGroup.php";
+
 foreach (glob("Viewmodels/*.php") as $filename)
 {
     include $filename;
