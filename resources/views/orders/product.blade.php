@@ -15,7 +15,7 @@
     <main>
         <div class="single-product-view">
             <div class="image">
-                <img class="product-image" src="{{ $product->imageUri }}" alt="{{$product->name}}">
+                <img class="product-image" src="{{ $product->image_path }}" alt="{{$product->name}}">
             </div>
             <div class="info">
                 <div>

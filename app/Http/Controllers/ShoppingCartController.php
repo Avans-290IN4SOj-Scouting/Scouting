@@ -12,6 +12,7 @@ class JsShoppingCart {
 class JsProduct {
     public $id;
     public $amount;
+    public $size;
 }
 
 class JsPriceChange {
@@ -55,8 +56,22 @@ class ShoppingCartController extends Controller
         $totalSale = 0.0;
         foreach ($products as $product)
         {
-            $totalPrice += $product->price * $product->amount;
-            $totalSale += ($product->price - $product->salePrice) * $product->amount;
+            $productSize = null;
+            foreach ($product->productSizes as $productProductSize)
+            {
+                if ($product->size == $productProductSize->size)
+                {
+                    $productSize = $productProductSize->pivot;
+                    break;
+                }
+            }
+            if ($productSize == null)
+            {
+                continue;
+            }
+
+            $totalPrice += $productSize->price * $product->amount;
+            $totalSale += ($productSize->price - $product->salePrice) * $product->amount;
         }
 
         return new JsPriceChange($amount, $totalPrice, $totalSale);
@@ -80,8 +95,9 @@ class ShoppingCartController extends Controller
 
         foreach ($shoppingCart->products as $shoppingCartProduct)
         {
-            $product = Product::find($shoppingCartProduct->id)->productsizes;
+            $product = Product::find($shoppingCartProduct->id);
             $product->amount = $shoppingCartProduct->amount;
+            $product->size = $shoppingCartProduct->size;
             array_push($products, $product);
         }
 

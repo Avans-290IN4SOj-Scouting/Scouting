@@ -26,7 +26,7 @@
                     <div class="shoppingcart-product" id="product-{{ $product->id }}">
                         <div class="split">
                             <div class="image">
-                                <img class="product-image" src="{{ $product->imageUri }}" alt="{{$product}}">
+                                <img class="product-image" src="{{ $product->image_path }}" alt="{{$product}}">
                             </div>
                             <div>
                                 <div>

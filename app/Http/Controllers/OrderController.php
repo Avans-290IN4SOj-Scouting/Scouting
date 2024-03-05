@@ -5,20 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
+use App\Models\ProductProductSize;
 use App\Models\ProductSize;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 use function Laravel\Prompts\error;
 
 class OrderController extends Controller
 {
     // GET
-    public function overview(string $category)
+    public function overview(string $category, string $size)
     {
         $productCategory = $category;
-        $products = Product::all();
+
+        // I'm leaving this here, so leave it :)
+        // This how to access pivot table data
+        // $query->where('product_product_size.price', '>', 11.11);
+        // $products = Product::whereHas('productSizes', function (Builder $query) use ($size) {
+        //     $query->where('size', '=', $size);
+        // })->get();
+
+        $products = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
+            ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
+            ->where('product_sizes.size', '=', $size)
+            ->select('products.*', 'product_product_size.*')
+            ->get();
 
         $sizes = ProductSize::all();
 
@@ -80,7 +94,6 @@ class OrderController extends Controller
 
         DB::beginTransaction();
         try {
-            $orderlines = [];
             $products = ShoppingCartController::getShoppingCartProducts(); // Returns a Product[];
 
             foreach ($products as $product)
@@ -90,7 +103,6 @@ class OrderController extends Controller
                 $orderLine->order_id = $order->id;
                 $orderLine->product_id = $product->id;
                 $orderLine->amount = $product->amount;
-                dd($product->productSizes);
                 $orderLine->product_price = 12.34;
 
                 $orderLine->save();

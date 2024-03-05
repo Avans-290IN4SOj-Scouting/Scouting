@@ -3,6 +3,7 @@ class Product {
     constructor() {
         this.id;
         this.amount;
+        this.size;
     }
 }
 
@@ -56,6 +57,7 @@ function addProductToShoppingCart(id, amount) {
     let newProduct = new Product;
     newProduct.id = id;
     newProduct.amount = amount;
+    newProduct.size = 'S';
 
     shoppingCart.products.push(newProduct);
 

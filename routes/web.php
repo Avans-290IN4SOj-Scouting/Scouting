@@ -41,9 +41,10 @@ Route::get(__('navbar.login'), function () {
 }) -> name('login');
 
 // Orders
-Route::get('/product-categorie/{category?}', [OrderController::class, 'overview'])
+Route::get('/product-categorie/{category?}/{size?}', [OrderController::class, 'overview'])
     ->name('orders.overview')
-    ->defaults('category', 'endpoint not implemented');
+    ->defaults('category', 'bevers')
+    ->defaults('size', 'S');
 
 Route::get('/product/{id}', [OrderController::class, 'product'])
     ->name('orders.product');
