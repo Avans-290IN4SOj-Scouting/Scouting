@@ -14,37 +14,29 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::create([
-            'name' => 'TestDames',
-            'discount' => 0.00,
-            'product_type_id' => 1
-        ]);
-        // // ProductProductSizes::create([
-        // //     'product_id' => 1,
-        // //     'product_size_id' => 1,
-        // //     'price' => 12.34
-        // // ]);
-        // ProductProductSizes::create([
-        //     'product_id' => 1,
-        //     'product_size_id' => 2,
-        //     'price' => 23.45
-        // ]);
-        // ProductProductSizes::create([
-        //     'product_id' => 1,
-        //     'product_size_id' => 3,
-        //     'price' => 34.56
-        // ]);
-
-        Product::create([
-            'name' => 'TestHeren',
-            'discount' => 0.00,
-            'product_type_id' => 2
-        ]);
-
-        Product::create([
-            'name' => 'TestUnisex',
-            'discount' => 0.00,
-            'product_type_id' => 3
-        ]);
+        {
+            $product = Product::create([
+                'name' => 'TestDames',
+                'discount' => 0.00,
+                'product_type_id' => 1
+            ]);
+            $product->productSizes()->attach($product->id, ['price' => 12.34]);
+        }
+        {
+            $product = Product::create([
+                'name' => 'TestHeren',
+                'discount' => 0.00,
+                'product_type_id' => 2
+            ]);
+            $product->productSizes()->attach($product->id, ['price' => 23.45]);
+        }
+        {
+            $product = Product::create([
+                'name' => 'TestUnisex',
+                'discount' => 0.00,
+                'product_type_id' => 3
+            ]);
+            $product->productSizes()->attach($product->id, ['price' => 34.56]);
+        }
     }
 }
