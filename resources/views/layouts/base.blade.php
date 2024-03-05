@@ -4,9 +4,10 @@
     <title>@yield('title')</title>
 
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    @vite('resources/js/product.js')
     @stack('styles')
 
-    @vite('resources/js/app.js')
     @stack('scripts')
 </head>
 
