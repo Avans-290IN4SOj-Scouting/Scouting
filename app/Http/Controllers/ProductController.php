@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-include "models/Product.php";
-include "models/ProductType.php";
-include "models/ProductSize.php";
-include "models/ProductProductSize.php";
-include "models/Group.php";
-include "models/ProductGroup.php";
+use App\Models\Product;
+use App\Models\ProductGroup;
+use App\Models\ProductSize;
+use App\Models\ProductType;
+use App\Models\ProductProductSizes;
+use App\Viewmodels\ProductViewmodel;
 
 foreach (glob("Viewmodels/*.php") as $filename)
 {
@@ -18,10 +18,8 @@ class ProductController extends Controller
     public function productOverview()
     {
         $products = Product::all();
-        $groups = ProductGroup::all();
-        ## $connectGroups = ProductProductGroup::all(); Not implemented
         $sizes = ProductSize::all();
-        $connectSizes = ProductProductSize::all();
+        $connectSizes = ProductProductSizes::all();
         $categories = ProductType::all();
 
         $productsModel = array();
@@ -29,6 +27,7 @@ class ProductController extends Controller
         {
             $productViewmodel = new ProductViewmodel();
             $productViewmodel->name = $product->name;
+
             $productViewmodel->category = $categories->where('id', $product->product_type_id)->first()->name;
             ## $productViewmodel->picture = $product->picture; Not implemented
             foreach ($sizes as $size)
@@ -40,7 +39,7 @@ class ProductController extends Controller
         }
 
 
-        return view('Products.Overview', ['products' => $productsModel]);
+        return view('admin.products', ['products' => $productsModel]);
     }
 
     public function addProduct()
@@ -95,7 +94,7 @@ class ProductController extends Controller
     {
         $product = Product::find($productId);
         if (!$product) {
-            console.log('Product with id not found: ' . $productId);
+
             return redirect('/products');
         }
         return view('Products.Edit', ['product' => $product]);

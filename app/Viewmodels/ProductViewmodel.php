@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Viewmodels;
+
 class ProductViewmodel
 {
     public string $name;
@@ -7,4 +9,5 @@ class ProductViewmodel
     public array $groups; // value = group
     public string $category; // productType (Heren, Dames, Unisex)
     public string $picture; // link to? (not implemented)
+
 }
