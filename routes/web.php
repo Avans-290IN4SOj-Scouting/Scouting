@@ -36,3 +36,8 @@ Route::get(__('navbar.manage_products'), function () {
 Route::get('/manageproducts/addProduct', function () {
     return view('admin.addProduct');
 }) -> name('manage-products');
+
+// TODO: Add a route for the login page
+Route::get(__('navbar.login'), function () {
+    return view('customer.home');
+}) -> name('login');
