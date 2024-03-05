@@ -37,7 +37,7 @@
                 @foreach ($products as $product)
                     <div class="product">
                             <div class="flex flex-col bg-white border rounded-xl dark:bg-slate-900">
-                                <a href="{{ route('orders.product', [ 'id' => $product->id]) }}">
+                                <a href="{{ route('orders.product', [ 'id' => $product->product_id, 'size' => $product->size]) }}">
                                     <img class="rounded-t-xl" src="{{ $product->image_path }}" alt="{{ $product->name }}">
                                 </a>
 
@@ -59,7 +59,7 @@
                                             @endif
                                         </div>
                                         <div>
-                                            <button type="submit" onclick="addProductToShoppingCart('{{ $product->id }}', 1)">
+                                            <button type="submit" onclick="addProductToShoppingCart('{{ $product->product_id }}', '{{ $product->size }}', 1)">
                                                 <div class="product-shopping-cart">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"

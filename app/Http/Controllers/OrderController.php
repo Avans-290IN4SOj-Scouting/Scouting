@@ -18,18 +18,10 @@ class OrderController extends Controller
     public function overview(string $category, string $size)
     {
         $productCategory = $category;
-
-        // I'm leaving this here, so leave it :)
-        // This how to access pivot table data
-        // $query->where('product_product_size.price', '>', 11.11);
-        // $products = Product::whereHas('productSizes', function (Builder $query) use ($size) {
-        //     $query->where('size', '=', $size);
-        // })->get();
-
         $products = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
             ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
             ->where('product_sizes.size', '=', $size)
-            ->select('products.*', 'product_product_size.*')
+            ->select('products.*', 'product_product_size.*', 'product_sizes.*')
             ->get();
 
         $sizes = ProductSize::all();
@@ -48,8 +40,8 @@ class OrderController extends Controller
         ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
         ->where('products.id', '=', $id)
         ->where('product_sizes.size', '=', $size)
-        ->select('products.*', 'product_product_size.*')
-        ->first(1);
+        ->select('products.*', 'product_product_size.*', 'product_sizes.*')
+        ->first();
 
         if ($product === null) {
             return redirect()->route('orders.overview');

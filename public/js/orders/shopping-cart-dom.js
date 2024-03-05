@@ -6,32 +6,32 @@ class PHPPriceChange {
     }
 }
 
-function DOM_removeShoppingCartProduct(id) {
-    const toDelete = document.querySelector('#product-' + id);
+function DOM_removeShoppingCartProduct(id, size) {
+    const toDelete = document.querySelector('#product-' + id + 'size-' + size);
 
-    removeProductFromShoppingCart(id);
+    removeProductFromShoppingCart(id, size);
     shoppingCartChanged();
 
     toDelete.remove();
 }
 
-function DOM_shoppingCartProductAmountChange(id) {
-    let input = document.querySelector('#input-' + id);
+function DOM_shoppingCartProductAmountChange(id, size) {
+    let input = document.querySelector('#input-' + id + 'size-' + size);
 
     if (input.value == 0) {
-        DOM_removeShoppingCartProduct(id);
+        DOM_removeShoppingCartProduct(id, size);
         return;
     }
 
-    setShoppingCartProductAmount(id, Number(input.value));
+    setShoppingCartProductAmount(id, size, Number(input.value));
     shoppingCartChanged();
 }
 
-function DOM_shoppingCartProductAdd(id, amount) {
-    let input = document.querySelector('#input-' + id);
+function DOM_shoppingCartProductAdd(id, size, amount) {
+    let input = document.querySelector('#input-' + id + 'size-' + size);
     input.value = (Number(input.value) + amount);
 
-    DOM_shoppingCartProductAmountChange(id);
+    DOM_shoppingCartProductAmountChange(id, size);
 }
 
 function shoppingCartChanged() {

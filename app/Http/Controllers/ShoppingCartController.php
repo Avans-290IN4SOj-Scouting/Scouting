@@ -53,34 +53,17 @@ class ShoppingCartController extends Controller
     public static function getPrices($products)
     {
         $amount = count($products);
-        $totalPrice = 0.0;
-        $totalSale = 0.0;
 
         $noDiscountPrice = 0.00;
         $totalDiscount = 0.00;
 
         foreach ($products as $product)
         {
-            $productSize = null;
-            foreach ($product->productSizes as $productProductSize)
-            {
-                if ($product->size == $productProductSize->size)
-                {
-                    $productSize = $productProductSize->pivot;
-                    break;
-                }
-            }
-            if ($productSize == null)
-            {
-                dd("meow");
-                continue;
-            }
-
-            $noDiscountPrice += ($productSize->price * $product->amount);
-            $totalDiscount += ($productSize->price * $product->discount) * $product->amount;
+            $noDiscountPrice += ($product->price * $product->amount);
+            $totalDiscount += ($product->price * $product->discount) * $product->amount;
         }
 
-        return new JsPriceChange($amount, $noDiscountPrice - $totalDiscount, $totalDiscount);
+        return new JsPriceChange($amount, round($noDiscountPrice - $totalDiscount, 2), round($totalDiscount, 2));
     }
 
     public static function getShoppingCartProducts()
@@ -105,8 +88,8 @@ class ShoppingCartController extends Controller
             ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
             ->where('products.id', '=', $shoppingCartProduct->id)
             ->where('product_sizes.size', '=', $shoppingCartProduct->size)
-            ->select('products.*', 'product_product_size.*')
-            ->first(1);
+            ->select('products.*', 'product_product_size.*', 'product_sizes.*')
+            ->first();
             $product->amount = $shoppingCartProduct->amount;
             $product->size = $shoppingCartProduct->size;
             array_push($products, $product);

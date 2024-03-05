@@ -12,9 +12,9 @@ class ShoppingCart {
         this.products = [];
     }
 
-    isProductInShoppingCart(id) {
+    isProductInShoppingCart(id, size) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
+            if (this.products[i].id == id && this.products[i].size == size) {
                 return true;
             }
         }
@@ -22,9 +22,9 @@ class ShoppingCart {
         return false;
     }
 
-    removeProductById(id) {
+    removeProductById(id, size) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id) {
+            if (this.products[i].id == id && this.products[i].size == size) {
                 this.products.splice(i, 1);
                 return true;
             }
@@ -33,9 +33,9 @@ class ShoppingCart {
         return false;
     }
 
-    setProductAmount(id, amount) {
+    setProductAmount(id, size, amount) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id) {
+            if (this.products[i].id == id && this.products[i].size == size) {
                 this.products[i].amount = amount;
                 return true;
             }
@@ -44,20 +44,20 @@ class ShoppingCart {
 }
 
 // Code
-function addProductToShoppingCart(id, amount) {
+function addProductToShoppingCart(id, size, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
     // Check if Product already exists
-    if (shoppingCart.isProductInShoppingCart(id) === true) {
+    if (shoppingCart.isProductInShoppingCart(id, size) === true) {
         return;
     }
 
     let newProduct = new Product;
     newProduct.id = id;
     newProduct.amount = amount;
-    newProduct.size = 'S';
+    newProduct.size = size;
 
     shoppingCart.products.push(newProduct);
 
@@ -65,13 +65,13 @@ function addProductToShoppingCart(id, amount) {
     saveShoppingCart(shoppingCart);
 }
 
-function removeProductFromShoppingCart(id) {
+function removeProductFromShoppingCart(id, size) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
     // Check if product exists
-    if (shoppingCart.removeProductById(id) === false) {
+    if (shoppingCart.removeProductById(id, size) === false) {
         console.warn("Product could not be removed from shopping cart, product was not present.");
         return;
     }
@@ -80,12 +80,12 @@ function removeProductFromShoppingCart(id) {
     saveShoppingCart(shoppingCart);
 }
 
-function setShoppingCartProductAmount(id, amount) {
+function setShoppingCartProductAmount(id, size, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
-    shoppingCart.setProductAmount(id, amount);
+    shoppingCart.setProductAmount(id, size, amount);
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);

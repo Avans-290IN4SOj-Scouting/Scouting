@@ -24,7 +24,7 @@
             <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                 <div class="shoppingcart-products-container">
                     @foreach ($products as $product)
-                    <div class="shoppingcart-product" id="product-{{ $product->id }}">
+                    <div class="shoppingcart-product" id="product-{{ $product->product_id }}size-{{$product->size}}">
                         <div class="split">
                             <div class="image">
                                 <img class="product-image" src="{{ $product->image_path }}" alt="{{$product}}">
@@ -49,7 +49,7 @@
                                     data-hs-input-number>
                                     <div class="flex items-center gap-x-1.5">
                                         <button type="button"
-                                            onclick="DOM_shoppingCartProductAdd({{ $product->id }}, -1)"
+                                            onclick="DOM_shoppingCartProductAdd({{ $product->product_id }}, '{{ $product->size }}', -1)"
                                             class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                             <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg"
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -58,13 +58,13 @@
                                                 <path d="M5 12h14" /></svg>
                                         </button>
 
-                                        <input id="input-{{ $product->id }}"
+                                        <input id="input-{{ $product->product_id }}size-{{ $product->size }}"
                                             class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 dark:text-white"
-                                            onchange="DOM_shoppingCartProductAmountChange({{ $product->id }})"
+                                            onchange="DOM_shoppingCartProductAmountChange({{ $product->product_id }}, '{{ $product->size }}')"
                                             type="text" value="{{ $product->amount }}">
 
                                         <button type="button"
-                                            onclick="DOM_shoppingCartProductAdd({{ $product->id }}, 1)"
+                                            onclick="DOM_shoppingCartProductAdd({{ $product->product_id }}, '{{ $product->size }}', 1)"
                                             class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                             <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg"
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -79,7 +79,7 @@
                         </div>
 
                         <div class="product-shoppingcart-delete">
-                            <button type="submit" onclick="DOM_removeShoppingCartProduct({{ $product->id }})">
+                            <button type="submit" onclick="DOM_removeShoppingCartProduct({{ $product->product_id }}, '{{ $product->size }}')">
                                 <div class="icon">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@
                     </div>
                     @endforeach
                     @if (count($products) == 0)
-                    <p>{{ __('orders.empty-shoppingcart') }}<p>
+                        <p>{{ __('orders.empty-shoppingcart') }}<p>
                     @endif
                 </div>
             </div>
