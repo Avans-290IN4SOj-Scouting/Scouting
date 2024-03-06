@@ -13,7 +13,8 @@
 @section('content')
 @include('orders.delete_this')
 
-    <main>
+<div id="wrapper">
+    <div id="main">
         <div class="single-product-view">
             <div class="image">
                 <img class="product-image" src="{{ $product->image_path }}" alt="{{$product->name}}">
@@ -63,5 +64,6 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</div>
 @endsection

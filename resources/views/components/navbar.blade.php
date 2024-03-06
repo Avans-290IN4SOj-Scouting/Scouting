@@ -29,7 +29,7 @@
                 class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
                 {{--This are all links--}}
                 <a class="{{ request()->routeIs('home') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                   href="{{route('home')}}">{{__('navbar.home')}}</a>
+                   href="{{route('orders.overview')}}">{{__('navbar.home')}}</a>
                 <a class="{{ request()->routeIs('cart') ? 'active-nav-link' : 'inactive-nav-link' }}"
                    href="{{route('shoppingcart.index')}}">{{__('navbar.cart')}}</a>
                 <a class="{{ request()->routeIs('checkout') ? 'active-nav-link' : 'inactive-nav-link' }}"

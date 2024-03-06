@@ -1,3 +1,18 @@
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#header {
+    display: flex;
+}
+
+#main {
+    display: flex;
+}
+
 .pre-discount-price {
     text-decoration: line-through;
 }

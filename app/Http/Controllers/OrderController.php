@@ -17,7 +17,7 @@ class OrderController extends Controller
     // GET
     public function overview(string $category, string $size)
     {
-        $productCategory = $category;
+        $productCategory = ucfirst($category);
         $products = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
             ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
             ->where('product_sizes.size', '=', $size)
@@ -75,7 +75,6 @@ class OrderController extends Controller
     // POST
     public function completeOrder(Request $request)
     {
-        return $products = ShoppingCartController::getShoppingCartProducts();
         // $request->session()->flash('form_data', $request->all());
 
         // $validated = $request->validate([
@@ -102,9 +101,10 @@ class OrderController extends Controller
                 // Create an orderline
                 $orderLine = new OrderLine();
                 $orderLine->order_id = $order->id;
-                $orderLine->product_id = $product->id;
+                $orderLine->product_id = $product->product_id;
                 $orderLine->amount = $product->amount;
-                $orderLine->product_price = 12.34;
+                $orderLine->product_price = $product->price;
+                $orderLine->product_size = $product->size;
 
                 $orderLine->save();
             }
@@ -116,8 +116,17 @@ class OrderController extends Controller
         {
             DB::rollBack();
             $order->delete();
-            dd("ERROR", $e);
+
+            return redirect()->route('orders.order')->with('error', '__(\'orders.completed-error\')');
         }
+
+        return redirect()->route('orders.completed')->with('success', '__(\'orders.completed-success\')');
+    }
+
+    public function completedOrder() {
+        return view('orders.complete', [
+
+        ]);
     }
 
     public static function getGroups()
