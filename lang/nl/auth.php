@@ -12,4 +12,7 @@ return [
     "password" => "Wachtwoord",
     "confirm-password" => "Bevestig wachtwoord",
     "password-confirmed-at" => "Wachtwoord bevestigd op",
+    "logout" => "Uitloggen",
+    "logout-success" => "Je bent uitgelogd",
+    "login-success" => "Je bent ingelogd",
 ];

@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('customer.home');
 })->name('home');
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,25 +34,21 @@ Route::get(__('navbar.checkout'), function () {
     return view('customer.checkout');
 })->name('checkout');
 
-Route::get(__('navbar.manage_accounts'), function () {
-    return view('admin.accounts');
-})->name('manage-accounts');
+Route::middleware('role:admin')->group(function () {
+    Route::get(__('navbar.manage_accounts'), function () {
+        return view('admin.accounts');
+    })->name('manage-accounts');
 
-Route::get(__('navbar.manage_products'), function () {
-    return view('admin.products');
-})->name('manage-products');
+    Route::get(__('navbar.manage_products'), function () {
+        return view('admin.products');
+    })->name('manage-products');
+});
 
-// TODO: Add a route for the login page
-Route::get(__('navbar.login'), function () {
-    return view('customer.home');
-})->name('login');
-
-// TODO: Temporary route to test toasts
-Route::get('/test', function () {
+Route::get('/logout', function () {
     return redirect()
         ->route('home')
         ->with([
-            'toast-type' => 'error',
-            'toast-message' => 'This is a test error message'
+            'toast-type' => 'success',
+            'toast-message' => __('auth.logout-success')
         ]);
-});
+})->name('logout');

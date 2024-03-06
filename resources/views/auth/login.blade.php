@@ -20,7 +20,7 @@
 
                 <div class="mt-5">
                     <!-- Form -->
-                    <form method="POST" action="{{ route('test') }}">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="grid gap-y-4">
                             <!-- Form Group -->

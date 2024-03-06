@@ -29,7 +29,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('home');
+        return redirect()->route('home')
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('auth.login-success')
+            ]);
     }
 
     /**
@@ -43,6 +47,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/logout');
     }
 }
