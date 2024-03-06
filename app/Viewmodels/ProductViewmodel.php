@@ -10,4 +10,12 @@ class ProductViewmodel
     public string $category; // productType (Heren, Dames, Unisex)
     public string $picture; // link to? (not implemented)
 
+    public function __construct()
+    {
+        $this->name = '';
+        $this->priceForSize = [];
+        $this->groups = [];
+        $this->category = '';
+        $this->picture = '';
+    }
 }

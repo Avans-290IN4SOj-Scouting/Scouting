@@ -10,6 +10,6 @@ class Group extends Model
     use HasFactory;
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'product_group');
     }
 }

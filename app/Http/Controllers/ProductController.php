@@ -2,35 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models;
+use App\Models\Product;
+use App\Models\ProductGroup;
+use App\Models\ProductSize;
+use App\Models\ProductProductSizes;
+use App\Models\ProductType;
+use App\Models\Group;
 use App\Viewmodels\ProductViewmodel;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function productOverview()
     {
         $products = Product::all();
-        $groups = ProductGroup::all();
+        $groups = Group::all();
+        $connectGroups = DB::table('product_group')->get();
         $sizes = ProductSize::all();
         $connectSizes = ProductProductSizes::all();
         $categories = ProductType::all();
 
         $productsModel = array();
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $productViewmodel = new ProductViewmodel();
             $productViewmodel->name = $product->name;
 
-            $productViewmodel->category = $categories->where('id', $product->product_type_id)->first()->name;
+            ## $productViewmodel->category = $categories->where('id', $product->product_type_id)->first()->name;
             ## $productViewmodel->picture = $product->picture; Not implemented
-            foreach ($sizes as $size)
-            {
-                $productViewmodel->priceForSize[$size->name] = $connectSizes->where('product_id', $product->id)->where('product_size_id', $size->id)->first()->price;
+            foreach ($sizes as $size) {
+                ## $productViewmodel->priceForSize[$size->name] = $connectSizes->where('product_id', $product->id)->where('product_size_id', $size->id)->first()->price;
             }
-            ## $productViewmodel->groups = $connectGroups->where('product_id', $product->id)->where('product_group_id')->toArray(); Not implemented
+            $productViewmodel->groups = $connectGroups->where('product_id', $product->id)->where('product_group_id')->toArray();
             $productsModel[] = $productViewmodel;
         }
-
 
         return view('admin.products', ['products' => $productsModel]);
     }
@@ -67,7 +71,7 @@ class ProductController extends Controller
 
             $sizes = ProductSize::all();
             foreach (array_keys($product->setPriceForSize) as $size) {
-                ProductProductSize::create([
+                ProductProductSizes::create([
                     'product_id' => Product::where('name', $product->getName())->first()->id,
                     'product_size_id' => $sizes->where('size', $size)->first()->id,
                     'price' => $product->setPriceForSize[$size]
