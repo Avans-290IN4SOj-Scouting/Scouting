@@ -35,6 +35,8 @@
                 <a class="{{ request()->routeIs('checkout') ? 'active-nav-link' : 'inactive-nav-link' }}"
                    href="{{route('checkout')}}">{{__('navbar.checkout')}}</a>
 
+
+
                 {{--This is the dropdown for Admin--}}
                 {{--TODO: Based on the user role, show the dropdown--}}
                 <div
@@ -42,6 +44,8 @@
                     <button type="button"
                             class="{{ request()->routeIs('manage-products') || request()->routeIs('manage-accounts') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
                         {{__('navbar.admin')}}
+
+
                         <svg class="ms-2 size-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5"
@@ -52,18 +56,17 @@
                     <div
                         class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] sm:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 sm:w-48 hidden z-10 bg-white sm:shadow-md rounded-lg p-2 dark:bg-gray-800 sm:dark:border dark:border-gray-700 dark:divide-gray-700 before:absolute top-full sm:border before:-top-5 before:start-0 before:w-full before:h-5">
                         {{--These are all links in the dropdown--}}
-                        <a class="{{ request()->routeIs('manage-accounts') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                           href="{{route('manage-accounts')}}">
-                            {{__('navbar.manage_accounts')}}
-                        </a>
+                        <a      class="{{ request()->routeIs('add-product') || request()->routeIs('add-product') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
+                            {{__('navbar.admin')}} <a/>
+
                         <a class="{{ request()->routeIs('manage-products') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
                            href="{{route('manage-products')}}">
                             {{__('navbar.manage_products')}}
                         </a>
-                        <a class="{{ request()->routeIs('add-product') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                           href="{{ route('add-product') }}">
+                       {{-- <a class="{{ request()->routeIs('admin_products') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                           href="{{ route('admin_products') }}">
                             Add Product
-                        </a>
+                        </a>--}}
                     </div>
                 </div>
 

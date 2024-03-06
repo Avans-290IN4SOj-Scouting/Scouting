@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models;
+use App\Models\Product;
+use App\Models\ProductGroup;
+use App\Models\ProductProductSizes;
+use App\Models\ProductSize;
+use App\Models\ProductType;
 use App\Viewmodels\ProductViewmodel;
 
 class ProductController extends Controller
@@ -10,7 +15,7 @@ class ProductController extends Controller
     public function productOverview()
     {
         $products = Product::all();
-        $groups = ProductGroup::all();
+/*        $groups = ProductGroup::all();*/
         $sizes = ProductSize::all();
         $connectSizes = ProductProductSizes::all();
         $categories = ProductType::all();
@@ -21,7 +26,9 @@ class ProductController extends Controller
             $productViewmodel = new ProductViewmodel();
             $productViewmodel->name = $product->name;
 
-            $productViewmodel->category = $categories->where('id', $product->product_type_id)->first()->name;
+//            $productViewmodel->category = ProductType::where('id', '=', $product->product_type_id)->first()->name;
+//            dd($product);
+            $productViewmodel->category = ProductType::find($product->product_type_id)->type;
             ## $productViewmodel->picture = $product->picture; Not implemented
             foreach ($sizes as $size)
             {
