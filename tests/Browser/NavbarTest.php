@@ -32,10 +32,20 @@ class NavbarTest extends DuskTestCase
         });
     }
 
-    //TODO: Add checks if user has right role
+    // TODO!
     public function test_manage_accounts_link()
     {
+        // Sign in as admin
         $this->browse(function (Browser $browser) {
+            $browser->visit(__('navbar.login'))
+                ->type(__('auth.email'), 'admin@admin')
+                ->type(__('auth.password'), 'password');
+            $browser->press(__('auth.sign-in'));
+        });
+
+        // Check if admin link is visible
+        $this->browse(function (Browser $browser) {
+            $browser->screenshot('navbar-admin');
             $browser->visit(__('navbar.manage_accounts'))
                 ->assertSee(__('navbar.admin'));
         });
