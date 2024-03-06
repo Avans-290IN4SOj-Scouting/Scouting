@@ -12,7 +12,19 @@
 </head>
 
 <body class="bg-white dark:bg-black antialiased">
-<x-navbar></x-navbar>
+<x-navbar/>
+
+<div class="m-6" style="padding-top: 70px;">
+    @if(session('toast-message'))
+        <x-toast type="{{ session('toast-type') }}"
+                 message="{{ session('toast-message') }}"
+        />
+    @endif
+
+    <main>
+        @yield('content')
+    </main>
+</div>
 
 <div style="padding-top: 70px">
     @yield('content')
