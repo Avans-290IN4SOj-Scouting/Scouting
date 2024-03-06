@@ -44,7 +44,7 @@ Route::middleware('role:admin')->group(function () {
     })->name('manage-products');
 });
 
-Route::get('/logout', function () {
+Route::get(__('navbar.logout'), function () {
     return redirect()
         ->route('home')
         ->with([
