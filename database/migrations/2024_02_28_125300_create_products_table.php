@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->double('discount', 2);
+            $table->string('image_path');
 
             $table->timestamps();
         });

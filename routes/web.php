@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,3 +58,32 @@ Route::get('/test', function () {
             'toast-message' => 'This is a test error message'
         ]);
 });
+}) -> name('login');
+
+// Orders
+Route::get('/product-categorie/{category?}/{size?}', [OrderController::class, 'overview'])
+    ->name('orders.overview')
+    ->defaults('category', 'bevers')
+    ->defaults('size', 'S');
+
+Route::get('/product/{id}/{size?}', [OrderController::class, 'product'])
+    ->name('orders.product')
+    ->defaults('size', 'S');
+Route::get('/products', function() {
+    return view('orders.overview');
+});
+
+Route::get('/bestelling', [OrderController::class, 'order'])
+    ->name('orders.order');
+Route::post('/complete-order', [OrderController::class, 'completeOrder'])
+    ->name('orders.complete-order');
+
+// https://gyazo.com/aad381774efb9fc0f6eb40bb5584c908
+Route::get('/winkelwagen', [ShoppingCartController::class, 'index'])
+    ->name('shoppingcart.index');
+
+// Shopping Cart
+Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert'])
+    ->name('shoppingcart.insert');
+Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
+    ->name('shoppingcart.update');

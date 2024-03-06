@@ -1,0 +1,16 @@
+.pre-discount-price {
+    text-decoration: line-through;
+}
+
+.order-data {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    min-width: 250px;
+}
+
+.order-total > div {
+    display: flex;
+    justify-content: space-between;
+}

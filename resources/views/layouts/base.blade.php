@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title')</title>
 
     @vite('resources/css/app.css')
@@ -25,6 +27,8 @@
         @yield('content')
     </main>
 </div>
+<body class="bg-white dark:bg-slate-900">
+<x-navbar></x-navbar>
 
 <div style="padding-top: 70px">
     @yield('content')
