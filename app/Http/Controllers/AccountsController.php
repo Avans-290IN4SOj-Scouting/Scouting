@@ -50,8 +50,15 @@ class AccountsController extends Controller
             }
         }
 
-        $accounts = User::with("roles")->get();
 
-        return view("admin.accounts", ["accounts" => $accounts]);
+
+        return redirect()->route('manage-accounts')->with([
+            'toast-type' => 'success',
+            'toast-message' => 'This is a test success message'
+        ]);
+
+        //$accounts = User::with("roles")->get();
+
+        //return view("admin.accounts", ["accounts" => $accounts]);
     }
 }

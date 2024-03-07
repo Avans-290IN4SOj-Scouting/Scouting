@@ -39,7 +39,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmModalBtn = document.getElementById("confirmModalBtn");
     const confirmModal = document.getElementById("confirmModal");
 
-    saveBtn.addEventListener("click", () => {
+    saveBtn.addEventListener("click", function () {
+        if (!(Array.isArray(changedAccounts) && changedAccounts.length)) {
+            window.location.href = "/warning-toast-accounts";
+            return;
+        }
         confirmModal.classList.remove("hidden");
     });
 
@@ -49,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     confirmModalBtn.addEventListener("click", () => {
         submitForm();
-        updateRoles();
         confirmModal.classList.add("hidden");
     });
 
@@ -57,20 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("userRoles").value = JSON.stringify(changedAccounts);
 
         document.getElementById("updateRoleForm").submit();
-
-        showToast();
-    }
-
-    function showToast() {
-        const toast = document.getElementById("toast");
-
-        toast.classList.remove("opacity-0");
-        toast.classList.add("opacity-100");
-
-        setTimeout(function () {
-            toast.classList.remove("opacity-100");
-            toast.classList.add("opacity-0");
-        }, 3000);
     }
 });
 
