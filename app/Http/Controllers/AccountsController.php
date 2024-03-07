@@ -12,7 +12,9 @@ class AccountsController extends Controller
 {
     public function index()
     {
-        $accounts = User::with("roles")->get();
+        $accounts = User::with(["roles" => function ($query) {
+            $query->where('name', '!=', 'teamleader');
+        }])->get();
 
         return view("admin.accounts", ["accounts" => $accounts]);
     }
@@ -29,8 +31,7 @@ class AccountsController extends Controller
             if ($user && isset($account["newRole"])) {
 
                 if ($user->hasRole($account["oldRole"])) {
-                    $oldRole = Role::where("name", $account["oldRole"])->first();
-                    $user->removeRole($oldRole);
+                    $user->roles()->detach();
                 }
 
                 $teamleaderRole = Role::where("name", "teamleader")->first();
@@ -50,15 +51,9 @@ class AccountsController extends Controller
             }
         }
 
-
-
         return redirect()->route('manage-accounts')->with([
             'toast-type' => 'success',
             'toast-message' => 'This is a test success message'
         ]);
-
-        //$accounts = User::with("roles")->get();
-
-        //return view("admin.accounts", ["accounts" => $accounts]);
     }
 }
