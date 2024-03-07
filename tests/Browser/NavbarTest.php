@@ -32,49 +32,6 @@ class NavbarTest extends DuskTestCase
         });
     }
 
-    // TODO!
-    public function test_manage_accounts_link()
-    {
-        // Sign in as admin
-        $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.login'))
-                ->type(__('auth.email'), 'admin@admin')
-                ->type(__('auth.password'), 'password');
-            $browser->press(__('auth.sign-in'));
-        });
-
-        // Check if admin link is visible
-        $this->browse(function (Browser $browser) {
-            $browser->screenshot('navbar-admin');
-            $browser->visit(__('navbar.manage_accounts'))
-                ->assertSee(__('navbar.admin'));
-        });
-    }
-
-    //TODO: Add checks if user has right role
-    public function test_manage_products_link()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.manage_products'))
-                ->assertSee(__('navbar.admin'));
-        });
-    }
-
-    //TODO: Add checks if user has right role
-    public function test_admin_dropdown()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.manage_products'))
-                ->mouseover('.hs-dropdown')
-                ->assertSee(__('navbar.manage_products'));
-        });
-        $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.manage_accounts'))
-                ->mouseover('.hs-dropdown')
-                ->assertSee(__('navbar.manage_accounts'));
-        });
-    }
-
     public function test_login_link()
     {
         $this->browse(function (Browser $browser) {
@@ -90,18 +47,28 @@ class NavbarTest extends DuskTestCase
         });
     }
 
+    public function test_admin_navlink_visible()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(__('navbar.login'))
+                ->type('email', 'admin@admin')
+                ->type('password', 'password')
+                ->press(__('auth.sign-in'))
+                ->assertPathIs('/')
+                ->assertSee(__('navbar.admin'));
+        });
+    }
+
     public function test_responsiveness_hamburgermenu()
     {
         $this->browse(function (Browser $browser) {
             $browser->resize(400, 700)
                 ->screenshot('navbar-mobile')
                 ->click('.hs-collapse-toggle')
-                // TODO: if user is logged in wait for other text
-                ->waitForText(__('navbar.login'))
+                ->waitForText(__('navbar.account'))
                 ->assertSee(__('navbar.home'))
                 ->assertSee(__('navbar.cart'))
                 ->assertSee(__('navbar.checkout'))
-                ->assertSee(__('navbar.admin'))
                 ->screenshot('navbar-mobile-expanded');
             $browser->maximize();
         });
@@ -111,7 +78,6 @@ class NavbarTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->clickLink(__('navbar.checkout'));
-
             $browser->assertSeeIn('.active-nav-link', __('navbar.checkout'));
         });
     }
