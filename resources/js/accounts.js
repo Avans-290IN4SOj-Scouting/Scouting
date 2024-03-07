@@ -13,7 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const existingChangeIndex = changedAccounts.findIndex(account => account.email === accountEmail);
 
             if (existingChangeIndex !== -1) {
-                changedAccounts[existingChangeIndex].newRole = newRole;
+                if (oldRole === newRole) {
+                    changedAccounts.splice(existingChangeIndex, 1);
+                } else {
+                    changedAccounts[existingChangeIndex].newRole = newRole;
+                }
             } else {
                 changedAccounts.push({
                     email: accountEmail,
@@ -29,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateChangedAccountsInfo() {
         let infoHtml = '';
         changedAccounts.forEach(account => {
-            infoHtml += `<strong>${account.email}</strong>: ${account.oldRole} naar ${account.newRole}<br>`
+            infoHtml += `<strong>${account.email}</strong>: ${account.oldRole} ➔ ${account.newRole}<br>`
         });
         changedAccountsInfo.innerHTML = infoHtml;
     }
