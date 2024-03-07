@@ -67,7 +67,7 @@
                 @endif
 
                 @if (Auth::guest())
-                    <a class="flex items-center gap-x-2 font-medium text-gray-500 hover:text-blue-600 sm:border-s sm:border-gray-300 sm:my-6 sm:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500"
+                    <a class="flex items-center gap-x-2 {{ request()->routeIs('login') ? 'active-nav-link' : 'inactive-nav-link' }}"
                        href="{{route('login')}}">
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                              fill="currentColor" viewBox="0 0 16 16">
@@ -79,7 +79,7 @@
                     </a>
                 @else
                     {{--This is the other link for when user is logged in--}}
-                    <a class="flex items-center gap-x-2 font-medium text-gray-500 hover:text-blue-600 sm:border-s sm:border-gray-300 sm:my-6 sm:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500"
+                    <a class="flex items-center gap-x-2 {{ request()->routeIs('profile.edit') ? 'active-nav-link' : 'inactive-nav-link' }}"
                        href="{{route('profile.update')}}">
                         {{__('navbar.account')}}
                     </a>
