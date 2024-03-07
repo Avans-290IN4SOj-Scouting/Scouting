@@ -35,8 +35,8 @@
                                 <select data-account-email="{{ $account->email }}"
                                     data-old-role="{{ $account->roles->first()->name }}"
                                     class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:border-blue-500">
-                                    
-                                    @foreach (trans('roles') as $role => $translatedRole) 
+
+                                    @foreach (trans('roles') as $role => $translatedRole)
                                         <option value="{{ $role }}" {{ $account->roles->first()->name === $role ? "selected" : "" }}>
                                             {{ __('roles.' . $role) }}
                                         </option>
@@ -75,17 +75,6 @@
                         </button>
                     </form>
                 </div>
-            </div>
-        </div>
-
-        <div id="toast" class="fixed bg-white bottom-5 left-1/2 transform -translate-x-1/2 p-4 border rounded shadow-lg transition-opacity duration-500 ease-out opacity-0">
-            <div class="flex space-x-4">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="8" fill="#7E869E" fill-opacity="0.25"/>
-                    <path d="M9.5 12L11.3939 13.8939C11.4525 13.9525 11.5475 13.9525 11.6061 13.8939L15.5 10" stroke="#222222" stroke-width="1.2"/>
-                </svg>
-
-                <p id="toast-message">{{__('accounts.saved_confirmation')}}</p>
             </div>
         </div>
     </div>
