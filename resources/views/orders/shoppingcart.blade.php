@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Winkelwagen')
+@section('title', '{{ __('orders.shoppingcart') }}')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
@@ -23,7 +23,7 @@
 
     <div id="main">
         <div class="shopingcart-view">
-            <div class="idk ">
+            <div class="order-container ">
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                     <div class="shoppingcart-products-container">
                         @foreach ($products as $product)

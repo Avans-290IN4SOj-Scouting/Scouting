@@ -142,11 +142,4 @@ class OrderController extends Controller
 
         ]);
     }
-
-    public static function getGroups()
-    {
-        return [
-            'Bevers'
-        ];
-    }
 }

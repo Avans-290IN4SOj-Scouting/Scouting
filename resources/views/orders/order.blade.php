@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Bestelling afronden')
+@section('title', '{{ __('complete-order') }}')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
@@ -26,14 +26,14 @@
         @endif
         <form name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
             @csrf
-            <div class="idk">
+            <div class="order-container">
                 <div>
                     <div class="max-w-4xl px-4 sm:px-6 mx-auto">
                         <!-- Card -->
                         <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                             <div class="mb-8">
                                 <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                                    {{ __('orders.temp-title')}}
+                                    {{ __('orders.order-data')}}
                                 </h2>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">
                                     {{ __('orders.fill-information')}}

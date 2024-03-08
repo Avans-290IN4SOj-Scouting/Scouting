@@ -1,8 +1,8 @@
 <?php
 return [
-    '' => 'Needs translation key-value',
-    'shoppingcart' => 'Winkelmandje',
+    'shoppingcart' => 'Winkelwagen',
     'products' => 'Producten',
+    'product' => 'Product',
     'order' => 'Bestelling',
     'empty-shoppingcart' => 'Je winkelwagen is leeg!',
     'no-products-to-show' => 'Er zijn geen producten.',
@@ -23,7 +23,7 @@ return [
     'order-sale' => 'Korting',
     'order-to-order' => 'Naar bestellen',
 
-    'temp-title' => 'Gegevens',
+    'order-data' => 'Gegevens',
     'fill-information' => 'Vul hier je gegevens in.',
     'groups' => 'Groep',
     'email' => 'Email',
