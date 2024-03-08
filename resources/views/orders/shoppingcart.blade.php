@@ -12,7 +12,6 @@
 @endpush
 
 @section('content')
-@include('orders.delete_this')
 
 <div id="wrapper">
     <div id="header">
@@ -108,7 +107,7 @@
                         </div>
                         @endforeach
                         @if (count($products) == 0)
-                            <p>{{ __('orders.empty-shoppingcart') }}<p>
+                            <p class="dark:text-white">{{ __('orders.empty-shoppingcart') }}<p>
                         @endif
                     </div>
                 </div>

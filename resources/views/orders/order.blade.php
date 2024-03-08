@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Your Page Title')
+@section('title', 'Bestelling afronden')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
@@ -8,7 +8,6 @@
 @endpush
 
 @section('content')
-@include('orders.delete_this')
 
 <div id="wrapper">
     <div id="header">
@@ -18,11 +17,18 @@
     </div>
 
     <div id="main">
-        <form  name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
+        @if ($errors->any())
+            <script>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    createToast("{{ __('orders.incorrect-form-data') }}", 'error');
+                });
+            </script>
+        @endif
+        <form name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
             @csrf
             <div class="idk">
                 <div>
-                    <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                    <div class="max-w-4xl px-4 sm:px-6 mx-auto">
                         <!-- Card -->
                         <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                             <div class="mb-8">
@@ -44,7 +50,7 @@
                                     </label>
                                 </div>
                                 <div class="sm:col-span-9">
-                                    <input id="email" name="email" type="email" placeholder="{{ __('orders.email') }}"
+                                    <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="{{ __('orders.email') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                 </div>
                                 <!-- Email -->
@@ -60,7 +66,7 @@
                                 </div>
                                 <div class="sm:col-span-9">
                                     <div class="sm:flex">
-                                        <input id="lid-name" name="lid-name" type="text" placeholder="{{ __('orders.lid-name') }}"
+                                        <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders.lid-name') }}"
                                             class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                         <select class="py-2 px-3 pe-9 block w-full sm:w-auto border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
 
@@ -89,17 +95,17 @@
                                     </label>
                                 </div>
                                 <div class="sm:col-span-5">
-                                    <input id="postalCode" name="postalCode" type="text" placeholder="{{ __('orders.postal-code') }}"
+                                    <input id="postalCode" name="postalCode" type="text" value="{{ old('postalCode') }}" placeholder="{{ __('orders.postal-code') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                 </div>
 
                                 <div class="sm:col-span-2">
-                                    <input id="houseNumber" name="houseNumber" type="text" placeholder="{{ __('orders.housenumber') }}"
+                                    <input id="houseNumber" name="houseNumber" type="text" value="{{ old('houseNumber') }}" placeholder="{{ __('orders.housenumber') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                 </div>
 
                                 <div class="sm:col-span-2">
-                                    <input id="houseNumberAddition" name="houseNumberAddition" type="text" placeholder="{{ __('orders.housenumber-addition') }}"
+                                    <input id="houseNumberAddition" name="houseNumberAddition" value="{{ old('houseNumberAddition') }}" type="text" placeholder="{{ __('orders.housenumber-addition') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                 </div>
                                 <!-- /Postcode + Huisnummer -->
@@ -113,11 +119,11 @@
                                 </div>
 
                                 <div class="sm:col-span-4">
-                                    <input id="streetname" name="streetname" type="text" placeholder="{{ __('orders.streetname') }}"
+                                    <input id="streetname" name="streetname" type="text" value="{{ old('streetname') }}" placeholder="{{ __('orders.streetname') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                 </div>
                                 <div class="sm:col-span-5">
-                                    <input id="cityName" name="cityName" type="text" placeholder="{{ __('orders.cityName') }}"
+                                    <input id="cityName" name="cityName" type="text" value="{{ old('cityName') }}" placeholder="{{ __('orders.cityName') }}"
                                         class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                 </div>
                                 <!-- Straatnaam en Plaatsnaam -->
@@ -133,7 +139,26 @@
                     <div class="order-data">
                         <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.shoppingcart-order') }}</h2>
                         <p class="dark:text-white">{{ __('orders.order-products') }}: (<span
-                                id="productCount">{{ $prices->amount }}</span>)</p>
+                            id="productCount">{{ $prices->amount }}</span>)
+                        </p>
+
+                        <ul>
+                            @foreach ($products as $product)
+                            <li class="dark:text-white">
+                                {{ $product->amount }}x {{ $product->name }}, {{ __('orders.size') }} {{ $product->size }},
+                                @if ($product->discount == 0)
+                                    <span class="dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                @else
+                                    <span class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                    <span>{{ __('orders.currency-symbol') }}{{ ($product->price * (1 - $product->discount)) }}</span>
+                                 @endif
+                            </li>
+                            @endforeach
+                        </ul>
+
+
+                        <hr class="border-gray-800 dark:border-white">
+                        </hr>
 
                         <div class="order-total">
                             <div>

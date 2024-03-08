@@ -11,7 +11,6 @@
 @endpush
 
 @section('content')
-@include('orders.delete_this')
 
 <div id="wrapper">
     <div id="header">
@@ -19,7 +18,7 @@
     </div>
 
     <div id="main">
-        <div class="content-devider">
+        <div class="content-devider bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
             <div class="hs-dropdown relative inline-flex">
                 <button id="hs-dropdown-default" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                     {{ $sizeSelected }}
@@ -62,7 +61,7 @@
                                             @endif
                                         </div>
                                         <div>
-                                            <button type="submit" onclick="addProductToShoppingCart('{{ $product->product_id }}', '{{ $product->size }}', 1)">
+                                            <button class="add-product" onclick="addProductToShoppingCart('{{ $product->product_id }}', '{{ $product->size }}', 1)">
                                                 <div class="product-shopping-cart">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"

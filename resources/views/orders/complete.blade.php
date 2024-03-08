@@ -7,7 +7,6 @@
 @endpush
 
 @section('content')
-@include('orders.delete_this')
 
 <div id="wrapper">
     <div id="header">
@@ -15,10 +14,11 @@
             class="mb-4 text-4xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
             {{ __('orders.completed-success') }}
         </h1>
+
     </div>
 
     <div id="main">
-
+        <a href="{{ route('orders.overview') }}">Terug naar de home pagina</a>
     </div>
 </div>
 

@@ -10,6 +10,7 @@ return [
     'complete-order' => 'Bestelling afronden',
     'completed-success' => 'Bestelling voltooid!',
     'completed-error' => 'Fout bij bestellen, probeer nog een keer',
+    'incorrect-form-data' => 'Foute gegevens ingevuld!',
 
     'currency-symbol' => '€',
     'select-size' => 'Selecteer maat',

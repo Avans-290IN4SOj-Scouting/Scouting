@@ -17,6 +17,13 @@ function DOM_removeShoppingCartProduct(id, size) {
 
 function DOM_shoppingCartProductAmountChange(id, size) {
     let input = document.querySelector('#input-' + id + 'size-' + size);
+    console.log(input.value);
+
+    const regex = /^[0-9]{0,3}$/;
+    if (!regex.test(input.value)) {
+        setShoppingCartProductAmount(id, size, 1);
+        input.value = 1;
+    }
 
     if (input.value == 0) {
         DOM_removeShoppingCartProduct(id, size);

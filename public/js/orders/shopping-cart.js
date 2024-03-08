@@ -47,10 +47,12 @@ class ShoppingCart {
 function addProductToShoppingCart(id, size, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
+    // createToast("Error below is expected!", 'success');
 
     // 2. Make Changes
     // Check if Product already exists
     if (shoppingCart.isProductInShoppingCart(id, size) === true) {
+        createToast('Product al in winkelwagen', 'warning')
         return;
     }
 
@@ -60,9 +62,15 @@ function addProductToShoppingCart(id, size, amount) {
     newProduct.size = size;
 
     shoppingCart.products.push(newProduct);
+    // createToast(JSON.stringify(newProduct), 'warning');
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
+    // getShoppingCart();
+
+    // 4. Show message
+    // createToast(JSON.stringify(getShoppingCart()), 'warning');
+    createToast('Product toegevoegd!', 'success');
 }
 
 function removeProductFromShoppingCart(id, size) {
@@ -78,6 +86,9 @@ function removeProductFromShoppingCart(id, size) {
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
+
+    // 4. Message
+    createToast('Product verwijderd!', 'success');
 }
 
 function setShoppingCartProductAmount(id, size, amount) {
@@ -99,7 +110,9 @@ const shoppingCartcookiePath = '/';
 function saveShoppingCart(shoppingCart) {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 30);
-    document.cookie = `${shoppingCartcookieName}=${JSON.stringify(shoppingCart)}; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
+    const cookie = `${shoppingCartcookieName}=${JSON.stringify(shoppingCart)}; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
+    document.cookie = cookie;
+    // createToast(JSON.stringify(cookie), 'warning');
 }
 
 function getShoppingCart() {
@@ -110,9 +123,11 @@ function getShoppingCart() {
 
     let shoppingCartData;
     if (cookieValue === undefined) {
+        // createToast("Cookie not SET!", 'error');
         return new ShoppingCart;
     } else {
         shoppingCartData = JSON.parse(cookieValue);
+        // createToast("Cookie is SET!", 'success');
     }
 
     // Deserialize the JSON string back into a Product instance

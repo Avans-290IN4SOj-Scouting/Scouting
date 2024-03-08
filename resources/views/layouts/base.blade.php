@@ -10,6 +10,10 @@
 
     @vite('resources/js/app.js')
     @stack('scripts')
+
+
+    <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
+    <script src="{{ asset('js/toast.js') }}" defer></script>
 </head>
 
 <body class="bg-white dark:bg-slate-900">
@@ -17,6 +21,8 @@
 
 <div style="padding-top: 70px">
     @yield('content')
+    <div class="norefresh-toast-container">
+    </div>
 </div>
 </body>
 

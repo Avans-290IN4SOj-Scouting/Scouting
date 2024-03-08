@@ -11,7 +11,6 @@
 @endpush
 
 @section('content')
-@include('orders.delete_this')
 
 <div id="wrapper">
     <div id="main">

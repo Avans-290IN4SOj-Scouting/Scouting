@@ -9,6 +9,8 @@ use App\Models\ProductSize;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\error;
 
@@ -68,28 +70,36 @@ class OrderController extends Controller
         return view('orders.order', [
             'order' => $order,
             'prices' => $prices,
-            'groups' => $groups
+            'groups' => $groups,
+            'products' => $products
         ]);
     }
 
     // POST
     public function completeOrder(Request $request)
     {
-        // $request->session()->flash('form_data', $request->all());
+        $request->flash('form_data', $request->all());
 
-        // $validated = $request->validate([
-        //     'email' => 'required|max:64',
-        //     'lid-naam' => 'required|max:32',
-        //     'postalCode' => 'required|max:32',
-        //     'houseNumber' => 'required|max:32',
-        //     'houseNumberAddition' => 'max:8',
-        //     'streetname' => 'required|max:32',
-        //     'cityName' => 'required|max:32',
-        // ]);
+        $validated = $request->validate([
+            'email' => 'required|max:64',
+            'lid-name' => 'required|max:32',
+            'postalCode' => 'regex:/^[0-9]{4} ?[a-zA-Z]{2}$/',
+            'houseNumber' => 'required|integer|max:32',
+            'houseNumberAddition' => 'max:8',
+            'streetname' => 'required|max:32',
+            'cityName' => 'required|max:32',
+        ]);
 
         // Create Order
         $order = new Order();
         $order->order_date = now();
+        $order->email = $request->input('email');
+        $order->lid_name = $request->input('lid-name');
+        $order->postal_code = $request->input('postalCode');
+        $order->house_number = $request->input('houseNumber');
+        $order->house_number_addition = $request->input('houseNumberAddition');
+        $order->streetname = $request->input('streetname');
+        $order->cityname = $request->input('cityName');
         $order->save();
 
         DB::beginTransaction();
@@ -120,6 +130,7 @@ class OrderController extends Controller
             return redirect()->route('orders.order')->with('error', '__(\'orders.completed-error\')');
         }
 
+        ShoppingCartController::clearShoppingCart();
         return redirect()->route('orders.completed')->with('success', '__(\'orders.completed-success\')');
     }
 
@@ -132,10 +143,7 @@ class OrderController extends Controller
     public static function getGroups()
     {
         return [
-            'Bevers',
-            'Bevertjes',
-            'Beverinos',
-            'Bee-heel-vers'
+            'Bevers'
         ];
     }
 }

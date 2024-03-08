@@ -15,6 +15,13 @@ return new class extends Migration
             $table->id();
 
             $table->dateTime('order_date');
+            $table->string('email');
+            $table->string('lid_name');
+            $table->string('postal_code');
+            $table->integer('house_number');
+            $table->string('house_number_addition')->nullable();
+            $table->string('streetname');
+            $table->string('cityname');
 
             $table->timestamps();
         });

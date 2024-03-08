@@ -14,7 +14,13 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         Order::create([
-            'order_date' => '2024-02-25'
+            'order_date' => '2024-02-25',
+            'email' => 'scouting@scouting.nl',
+            'lid_name' => 'jantje',
+            'postal_code' => '1234AB',
+            'house_number' => '1',
+            'streetname' => 'Straat',
+            'cityname' => 'Stad'
         ]);
     }
 }
