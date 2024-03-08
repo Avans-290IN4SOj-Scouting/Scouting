@@ -6,12 +6,31 @@
     .inactive-nav-link {
         @apply font-medium text-gray-500 hover:text-gray-400 sm:py-6 dark:text-gray-400 dark:hover:text-gray-500;
     }
+
     .active-nav-link {
         @apply font-medium text-blue-600 sm:py-6 dark:text-blue-500;
+    }
+
+    .toast-info {
+        @apply bg-blue-100 border border-blue-200 text-sm text-blue-800 rounded-lg dark:bg-blue-800/10 dark:border-blue-900 dark:text-blue-500;
+    }
+
+    .toast-success {
+        @apply bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500;
+    }
+
+    .toast-warning {
+        @apply bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500;
+    }
+
+    .toast-error {
+        @apply max-w-xs bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg dark:bg-red-800/10 dark:border-red-900 dark:text-red-500;
     }
 }
 
 header {
     position: fixed;
+    top: 0;
     z-index: 1000;
 }
+

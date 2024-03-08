@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('streetname');
             $table->string('cityname');
 
+            $table->unsignedBigInteger('group_id');
+
             $table->timestamps();
         });
     }

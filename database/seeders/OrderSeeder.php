@@ -20,7 +20,8 @@ class OrderSeeder extends Seeder
             'postal_code' => '1234AB',
             'house_number' => '1',
             'streetname' => 'Straat',
-            'cityname' => 'Stad'
+            'cityname' => 'Stad',
+            'group_id' => 1
         ]);
     }
 }

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             ProductTypeSeeder::class,
             ProductSizeSeeder::class,
             ProductSeeder::class,
+            GroupSeeder::class,
+            ProductGroupSeeder::class,
             StockSeeder::class,
             OrderSeeder::class,
             OrderLineSeeder::class,
@@ -35,8 +37,13 @@ class DatabaseSeeder extends Seeder
             DeliveryStatusSeeder::class,
             FeedbackFormSeeder::class,
             FeedbackTypeSeeder::class,
-            GroupSeeder::class,
+            // GroupSeeder::class,
             OrderStatusSeeder::class,
         ]);
+
+
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(UserWithRoleSeeder::class);
     }
 }
