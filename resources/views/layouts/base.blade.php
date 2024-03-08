@@ -14,7 +14,7 @@
 <x-navbar/>
 
 <div class="m-6" style="padding-top: 70px;">
-    @if(session('toast-message'))
+    @if(session('toast-type'))
         <x-toast type="{{ session('toast-type') }}"
                  message="{{ session('toast-message') }}"
         />

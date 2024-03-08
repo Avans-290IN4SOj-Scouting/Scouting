@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,14 @@ Route::get('/', function () {
     return view('customer.home');
 })->name('home');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
+
 Route::get(__('navbar.cart'), function () {
     return view('customer.cart');
 })->name('cart');
@@ -25,25 +34,21 @@ Route::get(__('navbar.checkout'), function () {
     return view('customer.checkout');
 })->name('checkout');
 
-Route::get(__('navbar.manage_accounts'), function () {
-    return view('admin.accounts');
-})->name('manage-accounts');
+Route::middleware('role:admin')->group(function () {
+    Route::get(__('navbar.manage_accounts'), function () {
+        return view('admin.accounts');
+    })->name('manage-accounts');
 
-Route::get(__('navbar.manage_products'), function () {
-    return view('admin.products');
-})->name('manage-products');
+    Route::get(__('navbar.manage_products'), function () {
+        return view('admin.products');
+    })->name('manage-products');
+});
 
-// TODO: Add a route for the login page
-Route::get(__('navbar.login'), function () {
-    return view('customer.home');
-})->name('login');
-
-// TODO: Temporary route to test toasts
-Route::get('/test', function () {
+Route::get(__('navbar.logout'), function () {
     return redirect()
         ->route('home')
         ->with([
-            'toast-type' => 'error',
-            'toast-message' => 'This is a test error message'
+            'toast-type' => 'success',
+            'toast-message' => __('auth.logout-success')
         ]);
-});
+})->name('logout');
