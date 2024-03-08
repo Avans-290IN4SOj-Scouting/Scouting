@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
@@ -62,7 +63,7 @@ class OrderController extends Controller
     public function order()
     {
         $order = 1;
-        $groups = OrderController::getGroups();
+        $groups = Group::all();
 
         $products = ShoppingCartController::getShoppingCartProducts();
         $prices = ShoppingCartController::getPrices($products);
@@ -88,6 +89,7 @@ class OrderController extends Controller
             'houseNumberAddition' => 'max:8',
             'streetname' => 'required|max:32',
             'cityName' => 'required|max:32',
+            'group' => 'required|integer'
         ]);
 
         // Create Order
@@ -100,6 +102,7 @@ class OrderController extends Controller
         $order->house_number_addition = $request->input('houseNumberAddition');
         $order->streetname = $request->input('streetname');
         $order->cityname = $request->input('cityName');
+        $order->group_id = $request->input('group');
         $order->save();
 
         DB::beginTransaction();

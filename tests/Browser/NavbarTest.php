@@ -78,6 +78,7 @@ class NavbarTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->clickLink(__('navbar.checkout'));
+            $browser->screenshot('test1');
             $browser->assertSeeIn('.active-nav-link', __('navbar.checkout'));
         });
     }
