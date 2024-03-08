@@ -20,6 +20,26 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        $this->call([
+            // ORDER OF SEEDING IS VERY IMPORTANT!!!
+            // Also, php artisan migrate:fresh --seed  |  https://laravel.com/docs/10.x/seeding#running-seeders
+            ProductTypeSeeder::class,
+            ProductSizeSeeder::class,
+            ProductSeeder::class,
+            GroupSeeder::class,
+            ProductGroupSeeder::class,
+            StockSeeder::class,
+            OrderSeeder::class,
+            OrderLineSeeder::class,
+
+            // Below are unordered
+            DeliveryStateSeeder::class,
+            DeliveryStatusSeeder::class,
+            FeedbackFormSeeder::class,
+            FeedbackTypeSeeder::class,
+            OrderStatusSeeder::class,
+        ]);
+
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserWithRoleSeeder::class);
