@@ -10,9 +10,6 @@
 
     @vite('resources/js/app.js')
     @stack('scripts')
-
-    <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
-    <script src="{{ asset('js/toast.js') }}" defer></script>
 </head>
 
 

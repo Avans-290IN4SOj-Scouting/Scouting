@@ -52,7 +52,6 @@ function addProductToShoppingCart(id, size, amount) {
     // 2. Make Changes
     // Check if Product already exists
     if (shoppingCart.isProductInShoppingCart(id, size) === true) {
-        createToast('Product al in winkelwagen', 'warning')
         return;
     }
 
@@ -70,7 +69,6 @@ function addProductToShoppingCart(id, size, amount) {
 
     // 4. Show message
     // createToast(JSON.stringify(getShoppingCart()), 'warning');
-    createToast('Product toegevoegd!', 'success');
 }
 
 function removeProductFromShoppingCart(id, size) {
@@ -86,9 +84,6 @@ function removeProductFromShoppingCart(id, size) {
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
-
-    // 4. Message
-    createToast('Product verwijderd!', 'success');
 }
 
 function setShoppingCartProductAmount(id, size, amount) {

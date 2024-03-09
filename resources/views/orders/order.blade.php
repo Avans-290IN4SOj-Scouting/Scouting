@@ -20,7 +20,7 @@
         @if ($errors->any())
             <script>
                 document.addEventListener('DOMContentLoaded', (event) => {
-                    createToast("{{ __('orders.incorrect-form-data') }}", 'error');
+                    // createToast("{{ __('orders.incorrect-form-data') }}", 'error');
                 });
             </script>
         @endif

@@ -41,6 +41,8 @@ class OrderTest extends DuskTestCase
         });
     }
 
+    // This test is commented out because to my current knowledge, its not possible to test cookies with Dusk
+    // if someone finds a way, it can be tested with below function
     // public function test_shoppingcart(): void
     // {
     //     $this->browse(function (Browser $browser) {
