@@ -14,6 +14,12 @@ class GroupSeeder extends Seeder
     public function run(): void
     {
         Group::create([
+            "name" => "Bevers",
+            "min_age" => "5",
+            "max_age" => "6",
+        ]);
+
+        Group::create([
             "name" => "Kabouters",
             "min_age" => "4",
             "max_age" => "6",

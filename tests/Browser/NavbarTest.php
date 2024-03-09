@@ -19,16 +19,16 @@ class NavbarTest extends DuskTestCase
     public function test_cart_link()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.cart'))
-                ->assertSee(__('navbar.cart'));
+            $browser->visit(__('route.shopping-cart'))
+                ->assertSee(__('orders.shoppingcart'));
         });
     }
 
     public function test_checkout_link()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.checkout'))
-                ->assertSee(__('navbar.checkout'));
+            $browser->visit(__('route.checkout'))
+                ->assertSee(__('orders.order'));
         });
     }
 
