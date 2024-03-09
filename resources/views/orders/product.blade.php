@@ -20,7 +20,7 @@
             </div>
             <div class="info">
                 <div>
-                    <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $productCategory }}</h2>
+                    <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }}</h2>
                     @if ($product->discount == 0)
                         <p class="dark:text-white">
                             <span class="dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
