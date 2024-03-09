@@ -3,11 +3,6 @@
 @section('title', __('accounts.title'))
 
 @section('content')
-    {{--TODO: Add navbar --}}
-
-    <head>
-        @vite(['resources/js/app.js'])
-    </head>
 
     <body>
     <div class="mx-auto text-center">
