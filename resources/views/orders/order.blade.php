@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', '{{ __('complete-order') }}')
+@section('title', __('complete-order'))
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
@@ -17,13 +17,6 @@
     </div>
 
     <div id="main">
-        @if ($errors->any())
-            <script>
-                document.addEventListener('DOMContentLoaded', (event) => {
-                    // createToast("{{ __('orders.incorrect-form-data') }}", 'error');
-                });
-            </script>
-        @endif
         <form name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
             @csrf
             <div class="order-container">
@@ -51,7 +44,10 @@
                                 </div>
                                 <div class="sm:col-span-9">
                                     <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="{{ __('orders.email') }}"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                        class="{{ $errors->has('email') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    @error('email')
+                                        <p class="form-error-text">{{ __('orders.form-email-error') }}</p>
+                                    @enderror
                                 </div>
                                 <!-- Email -->
 
@@ -67,15 +63,20 @@
                                 <div class="sm:col-span-9">
                                     <div class="sm:flex">
                                         <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders.lid-name') }}"
-                                            class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
-
+                                            class="{{ $errors->has('lid-name') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                         <select name="group"
-                                        class="py-2 px-3 pe-9 block w-full sm:w-auto border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                            class="{{ $errors->has('group') ? 'form-error-input' : '' }} py-2 px-3 pe-9 block w-full sm:w-auto border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                             @foreach ($groups as $group)
                                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    @error('lid-name')
+                                        <p class="form-error-text">{{ __('orders.form-lid-name-error') }}</p>
+                                    @enderror
+                                    @error('group')
+                                        <p class="form-error-text">{{ __('orders.form-group-error') }}</p>
+                                    @enderror
                                 </div>
                                 <!-- Lid Naam -->
 
@@ -96,35 +97,49 @@
                                 </div>
                                 <div class="sm:col-span-5">
                                     <input id="postalCode" name="postalCode" type="text" value="{{ old('postalCode') }}" placeholder="{{ __('orders.postal-code') }}"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
-                                </div>
+                                        class="{{ $errors->has('postalCode') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    @error('postalCode')
+                                        <p class="form-error-text">{{ __('orders.form-postal-code-error') }}</p>
+                                    @enderror
+                                    </div>
 
                                 <div class="sm:col-span-2">
                                     <input id="houseNumber" name="houseNumber" type="text" value="{{ old('houseNumber') }}" placeholder="{{ __('orders.housenumber') }}"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
-                                </div>
+                                        class="{{ $errors->has('houseNumber') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    @error('houseNumber')
+                                        <p class="form-error-text">{{ __('orders.form-housenumber-error') }}</p>
+                                    @enderror
+                                    </div>
 
                                 <div class="sm:col-span-2">
                                     <input id="houseNumberAddition" name="houseNumberAddition" value="{{ old('houseNumberAddition') }}" type="text" placeholder="{{ __('orders.housenumber-addition') }}"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                        class="{{ $errors->has('houseNumberAddition') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    @error('houseNumberAddition')
+                                        <p class="form-error-text">{{ __('orders.form-housenumber-addition-error') }}</p>
+                                    @enderror
                                 </div>
                                 <!-- /Postcode + Huisnummer -->
 
                                 <!-- Straatnaam en Plaatsnaam -->
                                 <div class="sm:col-span-3">
                                     <label class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
-                                        {{-- {{ __('orders.email') }} --}}
                                         {{ __('orders.streetname') }} en {{ __('orders.cityName') }}
                                     </label>
                                 </div>
 
                                 <div class="sm:col-span-4">
                                     <input id="streetname" name="streetname" type="text" value="{{ old('streetname') }}" placeholder="{{ __('orders.streetname') }}"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                        class="{{ $errors->has('streetname') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    @error('streetname')
+                                        <p class="form-error-text">{{ __('orders.form-streetname-error') }}</p>
+                                    @enderror
                                 </div>
                                 <div class="sm:col-span-5">
                                     <input id="cityName" name="cityName" type="text" value="{{ old('cityName') }}" placeholder="{{ __('orders.cityName') }}"
-                                        class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                        class="{{ $errors->has('cityName') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    @error('cityName')
+                                        <p class="form-error-text">{{ __('orders.form-cityname-error') }}</p>
+                                    @enderror
                                 </div>
                                 <!-- Straatnaam en Plaatsnaam -->
                                 <!-- Address -->

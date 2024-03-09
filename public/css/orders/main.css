@@ -29,3 +29,11 @@
     display: flex;
     justify-content: space-between;
 }
+
+.form-error-input {
+    border: 1px solid #fe6860;
+}
+
+.form-error-text {
+    color: #fe6860;
+}

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', '{{ __('orders.completed-success') }}')
+@section('title', __('orders.completed-success'))
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">

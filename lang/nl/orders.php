@@ -34,5 +34,14 @@ return [
     'housenumber' => 'Huisnummer',
     'housenumber-addition' => 'Toevoeging',
     'streetname' => 'Straatnaam',
-    'cityName' => 'Plaatsnaam'
+    'cityName' => 'Plaatsnaam',
+
+    'form-email-error' => 'Uw e-mailadres is onjuist.',
+    'form-lid-name-error' => 'Uw lid naam is onjuist.',
+    'form-group-error' => 'Uw groep is onjuist.',
+    'form-postal-code-error' => 'Uw postcode is onjuist.',
+    'form-housenumber-error' => 'Uw huisnummer is onjuist.',
+    'form-housenumber-addition-error' => 'Uw toevoeging is onjuist.',
+    'form-streetname-error' => 'Uw straatnaam is onjuist.',
+    'form-cityname-error' => 'Uw plaatsnaam is onjuist.',
 ];
