@@ -54,7 +54,7 @@ class AccountsController extends Controller
 
             return redirect()->route('manage-accounts')->with([
                 'toast-type' => 'success',
-                'toast-message' => 'This is a test success message'
+                'toast-message' => __('toast.success-role-update'),
             ]);
         } catch (\Exception $e) {
             dd($e->getMessage());
