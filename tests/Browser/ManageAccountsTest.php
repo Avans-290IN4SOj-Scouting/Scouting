@@ -26,22 +26,24 @@ class ManageAccountsTest extends DuskTestCase
 
     public function testRoleDropdown()
     {
-        $account = User::first();
+        $admin = User::factory()->create(['name' => 'admin']);
+        $admin->assignRole('admin');
 
-        $this->browse(function (Browser $browser) use ($account) {
+        $this->browse(function (Browser $browser) use ($admin) {
             $browser->visit(route('manage-accounts'))
-                ->select('[data-account-email="' . $account->email . '"]', __('roles.admin'))
+                ->select('[data-account-email="' . $admin->email . '"]', __('roles.admin'))
                 ->assertSee(__('roles.admin'));
         });
     }
 
     public function testModalAppearsAfterRoleChange()
     {
-        $account = User::first();
+        $admin = User::factory()->create(['name' => 'admin']);
+        $admin->assignRole('admin');
 
-        $this->browse(function (Browser $browser) use ($account) {
+        $this->browse(function (Browser $browser) use ($admin) {
             $browser->visit(route('manage-accounts'))
-                ->select('[data-account-email="' . $account->email . '"]', __('roles.admin'))
+                ->select('[data-account-email="' . $admin->email . '"]', __('roles.admin'))
                 ->click('#saveBtn')
                 ->waitFor('#confirmModal')
                 ->assertVisible('#confirmModal')
@@ -51,7 +53,10 @@ class ManageAccountsTest extends DuskTestCase
 
     public function testNoModalDisplayedWithNoChanges()
     {
-        $this->browse(function (Browser $browser) {
+        $admin = User::factory()->create(['name' => 'admin']);
+        $admin->assignRole('admin');
+
+        $this->browse(function (Browser $browser) use ($admin) {
             $browser->visit(route('manage-accounts'))
                 ->click('#saveBtn')
                 ->waitFor('#toast', 10)
