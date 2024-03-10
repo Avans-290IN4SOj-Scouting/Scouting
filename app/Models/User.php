@@ -21,7 +21,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
@@ -52,5 +51,9 @@ class User extends Authenticatable
 
     public function permissions() {
         return $this->belongsToMany(Permission::class);
+    }
+
+    public function getEmail() {
+        return $this->email;
     }
 }

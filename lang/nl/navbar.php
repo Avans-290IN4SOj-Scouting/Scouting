@@ -9,4 +9,5 @@ return [
     'checkout' => 'Afrekenen',
     'login' => 'Log in',
     'admin' => 'Admin',
+    'register' => 'Registreren',
 ];

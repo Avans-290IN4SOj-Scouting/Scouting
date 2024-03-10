@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title')</title>
 
     @vite('resources/css/app.css')
@@ -10,11 +12,12 @@
     @stack('scripts')
 </head>
 
-<body class="bg-white dark:bg-black antialiased">
+
+<body class="bg-white dark:bg-slate-900">
 <x-navbar/>
 
 <div class="m-6" style="padding-top: 70px;">
-    @if(session('toast-message'))
+    @if(session('toast-type'))
         <x-toast type="{{ session('toast-type') }}"
                  message="{{ session('toast-message') }}"
         />
@@ -22,6 +25,7 @@
 
     <main>
         @yield('content')
+        <div class="norefresh-toast-container"></div>
     </main>
 </div>
 
