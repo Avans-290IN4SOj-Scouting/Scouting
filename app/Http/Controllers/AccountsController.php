@@ -57,7 +57,7 @@ class AccountsController extends Controller
                 'toast-message' => __('toast.success-role-update'),
             ]);
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            return redirect()->route('home');
         }
     }
 }
