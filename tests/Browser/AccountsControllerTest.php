@@ -17,6 +17,13 @@ class AccountsControllerTest extends DuskTestCase
         });
     }
 
+    public function test_responsiveness_screenshots()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->responsiveScreenshots('manage-accounts');
+        });
+    }
+
     public function testRoleDropdown()
     {
         $account = User::first();
