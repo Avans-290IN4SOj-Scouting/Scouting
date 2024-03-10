@@ -21,39 +21,43 @@ class AccountsController extends Controller
 
     public function updateRoles(Request $request)
     {
-        $accounts = json_decode($request->input("userRoles"), true);
+        try {
+            $accounts = json_decode($request->input("userRoles"), true);
 
-        $teamRoles = Role::where("name", "LIKE", "team_%")->pluck("name")->toArray();
+            $teamRoles = Role::where("name", "LIKE", "team_%")->pluck("name")->toArray();
 
-        foreach ($accounts as $account) {
-            $user = User::where("email", $account["email"])->first();
+            foreach ($accounts as $account) {
+                $user = User::where("email", $account["email"])->first();
 
-            if ($user && isset($account["newRole"])) {
+                if ($user && isset($account["newRole"])) {
 
-                if ($user->hasRole($account["oldRole"])) {
-                    $user->roles()->detach();
+                    if ($user->hasRole($account["oldRole"])) {
+                        $user->roles()->detach();
+                    }
+
+                    $teamleaderRole = Role::where("name", "teamleader")->first();
+                    if (in_array($account["newRole"], $teamRoles)) {
+                        $user->assignRole($teamleaderRole);
+                    } else {
+                        $user->removeRole($teamleaderRole);
+                    }
+
+                    $translatedRole = Lang::has("accounts." . $account["newRole"])
+                        ? Lang::get("accounts." . $account["newRole"])
+                        : $account["newRole"];
+
+                    $role = Role::firstOrCreate(["name" => $translatedRole]);
+
+                    $user->assignRole($role);
                 }
-
-                $teamleaderRole = Role::where("name", "teamleader")->first();
-                if (in_array($account["newRole"], $teamRoles)) {
-                    $user->assignRole($teamleaderRole);
-                } else {
-                    $user->removeRole($teamleaderRole);
-                }
-
-                $translatedRole = Lang::has("accounts." . $account["newRole"])
-                    ? Lang::get("accounts." . $account["newRole"])
-                    : $account["newRole"];
-
-                $role = Role::firstOrCreate(["name" => $translatedRole]);
-
-                $user->assignRole($role);
             }
-        }
 
-        return redirect()->route('manage-accounts')->with([
-            'toast-type' => 'success',
-            'toast-message' => 'This is a test success message'
-        ]);
+            return redirect()->route('manage-accounts')->with([
+                'toast-type' => 'success',
+                'toast-message' => 'This is a test success message'
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }
