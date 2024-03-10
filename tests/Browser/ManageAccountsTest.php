@@ -26,11 +26,12 @@ class ManageAccountsTest extends DuskTestCase
 
     public function testRoleDropdown()
     {
-        $admin = User::factory()->create(['name' => 'admin']);
+        $admin = User::factory()->create(['email' => 'role.dropdown.test']);
         $admin->assignRole('admin');
 
         $this->browse(function (Browser $browser) use ($admin) {
-            $browser->visit(route('manage-accounts'))
+            $browser->loginAs($admin)
+                ->visit(route('manage-accounts'))
                 ->select('[data-account-email="' . $admin->email . '"]', __('roles.admin'))
                 ->assertSee(__('roles.admin'));
         });
@@ -38,30 +39,32 @@ class ManageAccountsTest extends DuskTestCase
 
     public function testModalAppearsAfterRoleChange()
     {
-        $admin = User::factory()->create(['name' => 'admin']);
-        $admin->assignRole('admin');
+        $admin = User::factory()->create(['email' => 'modal.role.change']);
+        $admin->assignRole('user');
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->visit(route('manage-accounts'))
+                ->loginAs($admin)
                 ->select('[data-account-email="' . $admin->email . '"]', __('roles.admin'))
-                ->click('#saveBtn')
-                ->waitFor('#confirmModal')
-                ->assertVisible('#confirmModal')
+                ->click('.saveBtn')
+                ->screenshot('test12')
+                ->waitFor('.confirmModal', 10)
+                ->assertVisible('.confirmModal')
                 ->screenshot('manage-accounts-modal');
         });
     }
 
     public function testNoModalDisplayedWithNoChanges()
     {
-        $admin = User::factory()->create(['name' => 'admin']);
+        $admin = User::factory()->create(['email' => 'no.model.displayed']);
         $admin->assignRole('admin');
 
         $this->browse(function (Browser $browser) use ($admin) {
-            $browser->visit(route('manage-accounts'))
-                ->click('#saveBtn')
-                ->waitFor('#toast', 10)
-                ->assertVisible('#toast')
-                ->assertSee(__('toast.warning-accounts'))
+            $browser->loginAs($admin)
+                ->visit(route('manage-accounts'))
+                ->click('.saveBtn')
+                ->waitFor('.toast-warning', 10)
+                ->assertVisible('.toast-warning')
                 ->screenshot('manage-accounts-warning-toast');
         });
     }

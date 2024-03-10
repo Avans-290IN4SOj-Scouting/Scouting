@@ -28,8 +28,8 @@
                             <div class="relative inline-block text-left">
 
                                 @php
-                                    $oldRole = $account->roles->first()->name;
-                                    $translatedOldRole = __('roles.' . $oldRole);
+                                    $oldRole = $account->roles->first() ? $account->roles->first()->name : null;
+                                    $translatedOldRole = $oldRole ? __('roles.' . $oldRole) : null;
                                 @endphp
 
                                 <label hidden>{{ __('accounts.role')  }}</label>
@@ -39,7 +39,7 @@
 
                                     @foreach (trans('roles') as $role => $translatedRole)
                                         <option
-                                            value="{{ $role }}" {{ $translatedOldRole === $translatedRole ? "selected" : "" }}>
+                                                value="{{ $role }}" {{ $translatedOldRole === $translatedRole ? "selected" : "" }}>
                                             {{ __('roles.' . $role) }}
                                         </option>
                                     @endforeach
@@ -56,15 +56,16 @@
 
         <div class="fixed bottom-0 right-0 m-4">
             <button id="saveBtn" name="saveBtn"
-                    class="bg-blue-500 text-white px-8 py-4 rounded hover:bg-blue-600">{{__('accounts.save_button')}}</button>
+                    class="saveBtn bg-blue-500 text-white px-8 py-4 rounded hover:bg-blue-600">{{__('accounts.save_button')}}</button>
         </div>
 
         <div id="confirmModal" name="confirmModal"
-             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+             class="confirmModal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
             <div class="bg-white p-4 rounded shadow-lg dark:bg-gray-800">
                 <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2 dark:text-white dark:border-gray-600">{{__('accounts.modal_warning_title')}}
                 </h3>
-                <div id="changedAccountsInfo" name="changedAccountsInfo" class="text-gray-800 mb-4 dark:text-gray-400"></div>
+                <div id="changedAccountsInfo" name="changedAccountsInfo"
+                     class="text-gray-800 mb-4 dark:text-gray-400"></div>
                 <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-600">
                     <button id="closeModalBtn" name="closeModalBtn"
                             class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('accounts.close_button')}}</button>
