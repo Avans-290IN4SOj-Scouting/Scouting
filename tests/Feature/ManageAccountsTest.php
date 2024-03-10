@@ -8,7 +8,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-class AccountsControllerTest extends TestCase
+class ManageAccountsTest extends TestCase
 {
     use RefreshDatabase;
 

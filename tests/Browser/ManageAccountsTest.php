@@ -6,7 +6,7 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Models\User;
 
-class AccountsControllerTest extends DuskTestCase
+class ManageAccountsTest extends DuskTestCase
 {
     public function testView()
     {
