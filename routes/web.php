@@ -39,28 +39,27 @@ Route::get(__('navbar.checkout'), function () {
     return view('customer.checkout');
 })->name('checkout');
 
-Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
-   -> name('manage-accounts');
 
-Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
-    ->name('manage-accounts.updateRoles');
 
-Route::get('warning-toast-accounts', function () {
-    return redirect()
-        ->route('manage-accounts')
-        ->with([
-           'toast-type' => 'warning',
-           'toast-message' => __('toast.warning-accounts')
-        ]);
-});
 Route::middleware('role:admin')->group(function () {
-    Route::get(__('navbar.manage_accounts'), function () {
-        return view('admin.accounts');
-    })->name('manage-accounts');
+    Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
+        ->name('manage-accounts');
 
     Route::get(__('navbar.manage_products'), function () {
         return view('admin.products');
     })->name('manage-products');
+
+    Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
+        ->name('manage-accounts.updateRoles');
+
+    Route::get('warning-toast-accounts', function () {
+        return redirect()
+            ->route('manage-accounts')
+            ->with([
+                'toast-type' => 'warning',
+                'toast-message' => __('toast.warning-accounts')
+            ]);
+    });
 });
 
 Route::get(__('navbar.logout'), function () {
