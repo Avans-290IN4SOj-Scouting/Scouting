@@ -32,6 +32,7 @@
                                     $translatedOldRole = __('roles.' . $oldRole);
                                 @endphp
 
+                                <label hidden>{{ __('accounts.role')  }}</label>
                                 <select data-account-email="{{ $account->email }}"
                                         data-old-role="{{ $account->roles->first()->name }}"
                                         class="block appearance-none w-full border border-gray-300 py-2 px-4 pr-8 rounded leading tight focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700">
