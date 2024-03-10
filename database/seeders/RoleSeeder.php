@@ -13,22 +13,26 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $guardName = 'web';
+
         $roles = ['admin', 'teamleader', 'user'];
 
         foreach ($roles as $role) {
             if (!Role::where('name', $role)->exists()) {
-                Role::create(['name' => $role]);
+                Role::create([
+                    'name' => $role,
+                    'guard_name' => $guardName,
+                ]);
             }
         }
 
-        $teamleaderRoles = ['bevers', 'gidsen', 'kabouters', 'scouts', 'zeeverkenners', 'welpen'];
-
-        $teamleaderRole = Role::where('name', 'teamleader')->first();
+        $teamleaderRoles = ['team_bevers', 'team_gidsen', 'team_kabouters', 'team_scouts', 'team_zeeverkenners', 'team_welpen'];
 
         foreach ($teamleaderRoles as $subRole) {
             if (!Role::where('name', $subRole)->exists()) {
                 Role::create([
                     'name' => $subRole,
+                    'guard_name'=> $guardName,
                 ]);
             }
         }
