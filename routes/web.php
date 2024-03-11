@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
+    return view('customer.home');
+}) -> name('home');
+
+Route::get('/home', function () {
     return view('customer.home');
 }) -> name('home');
 
@@ -27,8 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-require __DIR__.'/auth.php';
 
 Route::get(__('navbar.cart'), function () {
     return view('customer.cart');
@@ -46,7 +50,3 @@ Route::get(__('navbar.manage_products'), function () {
     return view('admin.products');
 }) -> name('manage-products');
 
-// TODO: Add a route for the login page
-Route::get(__('navbar.login'), function () {
-    return view('customer.home');
-}) -> name('login');

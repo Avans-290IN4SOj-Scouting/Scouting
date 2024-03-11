@@ -8,5 +8,8 @@ return [
     'cart' => 'Winkelwagen',
     'checkout' => 'Afrekenen',
     'login' => 'Log in',
+    'register' => 'Registreer',
     'admin' => 'Admin',
+    'logout' => "Log uit"
+
 ];

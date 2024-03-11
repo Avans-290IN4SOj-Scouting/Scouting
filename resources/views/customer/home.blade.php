@@ -4,4 +4,5 @@
 
 @section('content')
     {{--TODO: put content home page here--}}
+    {{ phpinfo() }}
 @endsection
