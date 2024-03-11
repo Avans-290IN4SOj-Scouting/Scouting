@@ -37,7 +37,6 @@ class DatabaseSeeder extends Seeder
             DeliveryStatusSeeder::class,
             FeedbackFormSeeder::class,
             FeedbackTypeSeeder::class,
-            // GroupSeeder::class,
             OrderStatusSeeder::class,
         ]);
 

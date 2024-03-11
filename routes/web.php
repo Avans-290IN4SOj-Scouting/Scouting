@@ -61,7 +61,6 @@ Route::middleware('role:admin')->group(function () {
             ]);
     });
 });
-
 Route::get(__('navbar.logout'), function () {
     return redirect()
         ->route('home')

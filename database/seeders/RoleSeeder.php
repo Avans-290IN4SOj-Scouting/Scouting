@@ -14,7 +14,6 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $guardName = 'web';
-
         $roles = ['admin', 'teamleader', 'user'];
 
         foreach ($roles as $role) {

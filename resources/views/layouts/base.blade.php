@@ -12,7 +12,6 @@
     @stack('scripts')
 </head>
 
-
 <body class="bg-white dark:bg-slate-900">
 <x-navbar/>
 
