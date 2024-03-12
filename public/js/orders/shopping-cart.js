@@ -3,7 +3,7 @@ class Product {
     constructor() {
         this.id;
         this.amount;
-        this.size;
+        this.sizeId;
     }
 }
 
@@ -12,9 +12,9 @@ class ShoppingCart {
         this.products = [];
     }
 
-    isProductInShoppingCart(id, size) {
+    isProductInShoppingCart(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].size == size) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
                 return true;
             }
         }
@@ -22,9 +22,9 @@ class ShoppingCart {
         return false;
     }
 
-    removeProductById(id, size) {
+    removeProductById(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].size == size) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
                 this.products.splice(i, 1);
                 return true;
             }
@@ -33,9 +33,9 @@ class ShoppingCart {
         return false;
     }
 
-    setProductAmount(id, size, amount) {
+    setProductAmount(id, sizeId, amount) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].size == size) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
                 this.products[i].amount = amount;
                 return true;
             }
@@ -44,21 +44,21 @@ class ShoppingCart {
 }
 
 // Code
-function addProductToShoppingCart(id, size, amount) {
+function addProductToShoppingCart(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
     // createToast("Error below is expected!", 'success');
 
     // 2. Make Changes
     // Check if Product already exists
-    if (shoppingCart.isProductInShoppingCart(id, size) === true) {
+    if (shoppingCart.isProductInShoppingCart(id, sizeId) === true) {
         return;
     }
 
     let newProduct = new Product;
     newProduct.id = id;
     newProduct.amount = amount;
-    newProduct.size = size;
+    newProduct.sizeId = sizeId;
 
     shoppingCart.products.push(newProduct);
     // createToast(JSON.stringify(newProduct), 'warning');
@@ -71,13 +71,13 @@ function addProductToShoppingCart(id, size, amount) {
     // createToast(JSON.stringify(getShoppingCart()), 'warning');
 }
 
-function removeProductFromShoppingCart(id, size) {
+function removeProductFromShoppingCart(id, sizeId) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
     // Check if product exists
-    if (shoppingCart.removeProductById(id, size) === false) {
+    if (shoppingCart.removeProductById(id, sizeId) === false) {
         console.warn("Product could not be removed from shopping cart, product was not present.");
         return;
     }
@@ -86,12 +86,12 @@ function removeProductFromShoppingCart(id, size) {
     saveShoppingCart(shoppingCart);
 }
 
-function setShoppingCartProductAmount(id, size, amount) {
+function setShoppingCartProductAmount(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
-    shoppingCart.setProductAmount(id, size, amount);
+    shoppingCart.setProductAmount(id, sizeId, amount);
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);

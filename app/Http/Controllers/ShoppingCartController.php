@@ -19,12 +19,10 @@ class JsProduct {
 class JsPriceChange {
     public $amount;
     public $total;
-    public $sale;
 
-    public function __construct($amount, $total, $sale) {
+    public function __construct($amount, $total) {
         $this->amount = $amount;
         $this->total = $total;
-        $this->sale = $sale;
     }
 }
 
@@ -56,17 +54,14 @@ class ShoppingCartController extends Controller
         try
         {
             $amount = count($products);
-
-            $noDiscountPrice = 0.00;
-            $totalDiscount = 0.00;
+            $totalPrice = 0.00;
 
             foreach ($products as $product)
             {
-                $noDiscountPrice += ($product->price * $product->amount);
-                $totalDiscount += ($product->price * $product->discount) * $product->amount;
+                $totalPrice += ($product->price * $product->amount);
             }
 
-            return new JsPriceChange($amount, round($noDiscountPrice - $totalDiscount, 2), round($totalDiscount, 2));
+            return new JsPriceChange($amount, round($totalPrice, 2));
         }
         catch (Exception $e)
         {
@@ -99,11 +94,18 @@ class ShoppingCartController extends Controller
                 $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
                 ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
                 ->where('products.id', '=', $shoppingCartProduct->id)
-                ->where('product_sizes.size', '=', $shoppingCartProduct->size)
+                ->where('product_sizes.id', '=', $shoppingCartProduct->sizeId)
                 ->select('products.*', 'product_product_size.*', 'product_sizes.*')
                 ->first();
+
+                if ($product === null)
+                {
+                    dd($shoppingCartProduct);
+                    break;
+                }
+
                 $product->amount = $shoppingCartProduct->amount;
-                $product->size = $shoppingCartProduct->size;
+                $product->size = $product->size;
                 array_push($products, $product);
             }
 

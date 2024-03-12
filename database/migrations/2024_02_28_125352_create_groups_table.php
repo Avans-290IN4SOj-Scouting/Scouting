@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->integer('max_age');
             $table->integer('min_age');
+            $table->string('image_url');
+
+            $table->unsignedBigInteger('size_id');
 
             $table->timestamps();
         });

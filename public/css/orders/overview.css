@@ -21,11 +21,10 @@
 .products-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: start;
-    justify-content: start;
+    justify-content: space-between;
     gap: var(--product-spacing);
 
-    width: calc((var(--product-width) + var(--product-spacing)) * var(--products-per-row));
+    max-width: calc((var(--product-width) + var(--product-spacing)) * var(--products-per-row));
 }
 
 .product {

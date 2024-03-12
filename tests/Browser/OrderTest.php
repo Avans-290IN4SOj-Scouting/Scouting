@@ -19,25 +19,9 @@ class OrderTest extends DuskTestCase
     public function test_to_product(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/product-categorie/Bevers/S')
+            $browser->visit('/product-categorie/Bevers')
                     ->click('.product a')
                     ->assertUrlIs(env('APP_URL') . '/product/2/S');
-        });
-    }
-
-    public function test_size_no_products(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/product-categorie/Bevers/XXL')
-                    ->assertSee(__('orders.no-products-to-show'));
-        });
-    }
-
-    public function test_product_has_sale(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/product-categorie/Bevers/S')
-                    ->assertVisible('.product .pre-discount-price');
         });
     }
 

@@ -1,0 +1,30 @@
+:root {
+    --group-width: 250px;
+    --group-height: calc(var(--product-width) + 2rem);
+    --group-spacing: 2rem;
+    --groups-per-row: 4;
+}
+
+.group-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--group-spacing);
+
+    max-width: calc((var(--group-width) + var(--group-spacing)) * var(--groups-per-row));
+}
+
+.group-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.group-item .image {
+    height: var(--group-width);
+    width: var(--group-width);
+}
+
+.group-item .group-name {
+    font-weight: bold;
+}

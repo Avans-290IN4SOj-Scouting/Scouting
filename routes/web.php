@@ -17,9 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('customer.home');
-})->name('home');
+Route::get('/', [OrderController::class, 'index'])
+    ->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -72,14 +71,13 @@ Route::get(__('navbar.logout'), function () {
 })->name('logout');
 
 /// Orders
-Route::get(__('route.overview') . '/{category?}/{size?}', [OrderController::class, 'overview'])
+Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
     ->name('orders.overview')
-    ->defaults('category', 'bevers')
-    ->defaults('size', 'S');
+    ->defaults('category', '');
 
-Route::get(__('route.product') . '/{id}/{size?}', [OrderController::class, 'product'])
+Route::get(__('route.product') . '/{name}/{groupName?}', [OrderController::class, 'product'])
     ->name('orders.product')
-    ->defaults('size', 'S');
+    ->defaults('groupName', '');
 
 // Shopping Cart
 Route::get(__('route.shopping-cart'), [ShoppingCartController::class, 'index'])

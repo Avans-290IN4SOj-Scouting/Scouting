@@ -1,44 +1,43 @@
 class PHPPriceChange {
-    constructor(amount, total, sale) {
+    constructor(amount, total) {
         this.amount = amount;
         this.total = total;
-        this.sale = sale;
     }
 }
 
-function DOM_removeShoppingCartProduct(id, size) {
-    const toDelete = document.querySelector('#product-' + id + 'size-' + size);
+function DOM_removeShoppingCartProduct(id, sizeId) {
+    const toDelete = document.querySelector('#product-' + id + 'size-' + sizeId);
 
-    removeProductFromShoppingCart(id, size);
+    removeProductFromShoppingCart(id, sizeId);
     shoppingCartChanged();
 
     toDelete.remove();
 }
 
-function DOM_shoppingCartProductAmountChange(id, size) {
-    let input = document.querySelector('#input-' + id + 'size-' + size);
+function DOM_shoppingCartProductAmountChange(id, sizeId) {
+    let input = document.querySelector('#input-' + id + 'size-' + sizeId);
     console.log(input.value);
 
     const regex = /^[0-9]{0,3}$/;
     if (!regex.test(input.value)) {
-        setShoppingCartProductAmount(id, size, 1);
+        setShoppingCartProductAmount(id, sizeId, 1);
         input.value = 1;
     }
 
     if (input.value == 0) {
-        DOM_removeShoppingCartProduct(id, size);
+        DOM_removeShoppingCartProduct(id, sizeId);
         return;
     }
 
-    setShoppingCartProductAmount(id, size, Number(input.value));
+    setShoppingCartProductAmount(id, sizeId, Number(input.value));
     shoppingCartChanged();
 }
 
-function DOM_shoppingCartProductAdd(id, size, amount) {
-    let input = document.querySelector('#input-' + id + 'size-' + size);
+function DOM_shoppingCartProductAdd(id, sizeId, amount) {
+    let input = document.querySelector('#input-' + id + 'size-' + sizeId);
     input.value = (Number(input.value) + amount);
 
-    DOM_shoppingCartProductAmountChange(id, size);
+    DOM_shoppingCartProductAmountChange(id, sizeId);
 }
 
 function shoppingCartChanged() {
@@ -67,21 +66,17 @@ function updateShoppingCartPrices() {
         }
 
         let priceChangeData = JSON.parse(data.priceChange);
-        let priceChange = new PHPPriceChange(priceChangeData.amount, priceChangeData.total, priceChangeData.sale);
+        let priceChange = new PHPPriceChange(priceChangeData.amount, priceChangeData.total);
 
         const amountText = document.querySelector('#productCount');
         const totalText = document.querySelector('#shoppingCartTotal');
-        const saleText = document.querySelector('#shoppingCartSale');
-        if (amountText === null || totalText === null || saleText === null)
+        if (amountText === null || totalText === null)
         {
-            // TODO: Maybe an error
-            console.log("oofies2");
             return;
         }
 
-        amountText.textContent = priceChange.amount;
+        amountText.textContent = priceChange.amount.toString().replace('.', ',');
         totalText.textContent = priceChange.total;
-        saleText.textContent = priceChange.sale;
     })
     .catch(error => {
         console.error('Error updating text field:', error);

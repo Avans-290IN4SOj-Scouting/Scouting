@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\error;
@@ -18,31 +19,57 @@ use function Laravel\Prompts\error;
 class OrderController extends Controller
 {
     // GET
-    public function overview(string $category, string $size)
+    public function index()
     {
-        $productCategory = ucfirst($category);
-        $products = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
-            ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
-            ->where('product_sizes.size', '=', $size)
-            ->select('products.*', 'product_product_size.*', 'product_sizes.*')
-            ->get();
+        $groups = Group::all();
 
-        $sizes = ProductSize::all();
-
-        return view('orders.overview', [
-            'sizes' => $sizes,
-            'sizeSelected' => $size,
-            'productCategory' => $productCategory,
-            'products' => $products
+        return view('orders.groups', [
+            'groups' => $groups
         ]);
     }
 
-    public function product(string $id, string $size)
+    public function overview(string $category)
     {
+        $group = Group::where('name', $category)->first();
+        if ($group === null)
+        {
+            return redirect()->route('home');
+        }
+
+        $productCategory = ucfirst($category);
+
+        $products = Product::join('product_group', 'products.id', '=', 'product_group.product_id')
+            ->join('groups', 'product_group.group_id', '=', 'groups.id')
+            ->join('product_sizes', 'groups.size_id', '=', 'product_sizes.id')
+            ->join('product_product_size', function ($join) {
+                $join->on('products.id', '=', 'product_product_size.product_id')
+                    ->on('product_sizes.id', '=', 'product_product_size.product_size_id');
+            })
+            ->where('groups.id', '=', $group->id)
+            ->select('products.*', 'product_product_size.*')
+            ->get();
+
+        return view('orders.overview', [
+            'productCategory' => $productCategory,
+            'products' => $products,
+            'group' => $group
+        ]);
+    }
+
+    public function product(string $name, string $groupName)
+    {
+        $productFromName = Product::where('name', $name)->first();
+        $groupFromName = Group::where('name', $groupName)->first();
+        if ($productFromName === null || $groupFromName === null)
+        {
+            dd(1);
+            return redirect()->route('orders.overview');
+        }
+
         $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
         ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
-        ->where('products.id', '=', $id)
-        ->where('product_sizes.size', '=', $size)
+        ->where('products.id', '=', $productFromName->id)
+        ->where('product_sizes.id', '=', $groupFromName->id)
         ->select('products.*', 'product_product_size.*', 'product_sizes.*')
         ->first();
 
@@ -50,26 +77,22 @@ class OrderController extends Controller
             return redirect()->route('orders.overview');
         }
 
-        $sizes = ProductSize::all();
-
         return view('orders.product', [
-            'sizes' => $sizes,
-            'sizeSelected' => $size,
-            'productCategory' => 'Not Implemented!',
-            'product' => $product
+            'group' => $groupFromName,
+            'product' => $product,
+            'sizeSelected' => $groupFromName->size,
+            'productSizes' => ['Nog implemneteren']
         ]);
     }
 
     public function order()
     {
-        $order = 1;
         $groups = Group::all();
 
         $products = ShoppingCartController::getShoppingCartProducts();
         $prices = ShoppingCartController::getPrices($products);
 
         return view('orders.order', [
-            'order' => $order,
             'prices' => $prices,
             'groups' => $groups,
             'products' => $products
@@ -82,30 +105,29 @@ class OrderController extends Controller
         $request->flash('form_data', $request->all());
 
         $validated = $request->validate([
-            'email' => 'required|max:64',
             'lid-name' => 'required|max:32',
-            'postalCode' => 'regex:/^[0-9]{4} ?[a-zA-Z]{2}$/',
-            'houseNumber' => 'required|integer|max:32',
-            'houseNumberAddition' => 'max:8',
-            'streetname' => 'required|max:32',
-            'cityName' => 'required|max:32',
             'group' => 'required|integer'
         ]);
 
         // Create Order
-        $order = new Order();
-        $order->order_date = now();
-        $order->email = $request->input('email');
-        $order->lid_name = $request->input('lid-name');
-        $order->postal_code = $request->input('postalCode');
-        $order->house_number = $request->input('houseNumber');
-        $order->house_number_addition = $request->input('houseNumberAddition');
-        $order->streetname = $request->input('streetname');
-        $order->cityname = $request->input('cityName');
-        $order->group_id = $request->input('group');
-        $order->save();
-
         DB::beginTransaction();
+        $order = new Order();
+        try
+        {
+            $order->order_date = now();
+            $order->lid_name = $request->input('lid-name');
+            $order->group_id = $request->input('group');
+            $order->save();
+        }
+        catch (Exception $e)
+        {
+            dd($e);
+            DB::rollBack();
+            $order->delete();
+
+            return redirect()->route('orders.order')->with('error', '__(\'orders.completed-error\')');
+        }
+
         try {
             $products = ShoppingCartController::getShoppingCartProducts(); // Returns a Product[];
 

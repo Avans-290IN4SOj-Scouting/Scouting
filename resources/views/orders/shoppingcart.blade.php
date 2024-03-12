@@ -38,18 +38,12 @@
                                         <h4 class="text-lg font-bold text-gray-800 dark:text-white">
                                             {{ $product->name }} - {{ __('orders.size') }} {{ $product->size }}
                                         </h4>
-                                        @if ($product->discount == 0)
                                         <p class="dark:text-white">
                                             <span
-                                                class="dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
+                                                class="dark:text-white">{{ __('currency.symbol') }}
+                                                {{ number_format($product->price, 2, __('currency.seperator'), '.') }}
+                                            </span>
                                         </p>
-                                        @else
-                                        <p class="dark:text-white">
-                                            <span
-                                                class="pre-discount-price dark:text-white">{{ __('orders.currency-symbol') }}{{ $product->price }}</span>
-                                            <span>{{ __('orders.currency-symbol') }}{{ ($product->price * (1 - $product->discount)) }}</span>
-                                        </p>
-                                        @endif
                                     </div>
                                     <div class="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700"
                                         data-hs-input-number>
@@ -121,13 +115,10 @@
                         <div class="order-total">
                             <div>
                                 <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
-                                <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span
-                                        id="shoppingCartTotal">{{ $prices->total }}</span></p>
-                            </div>
-                            <div>
-                                <p class="dark:text-white">{{ __('orders.order-sale') }}:</p>
-                                <p class="dark:text-white">{{ __('orders.currency-symbol') }}<span
-                                        id="shoppingCartSale">{{ $prices->sale }}</span></p>
+                                <p class="dark:text-white">{{ __('currency.symbol') }}<span
+                                        id="shoppingCartTotal">
+                                        {{ number_format($prices->total, 2, __('currency.seperator'), '.') }}
+                                    </span></p>
                             </div>
                         </div>
 
