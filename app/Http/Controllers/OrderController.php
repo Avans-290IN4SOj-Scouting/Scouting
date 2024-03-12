@@ -62,7 +62,6 @@ class OrderController extends Controller
         $groupFromName = Group::where('name', $groupName)->first();
         if ($productFromName === null || $groupFromName === null)
         {
-            dd(1);
             return redirect()->route('orders.overview');
         }
 
@@ -77,11 +76,13 @@ class OrderController extends Controller
             return redirect()->route('orders.overview');
         }
 
+        $productSizes = $product->productSizes;
+
         return view('orders.product', [
             'group' => $groupFromName,
             'product' => $product,
-            'sizeSelected' => $groupFromName->size,
-            'productSizes' => ['Nog implemneteren']
+            'sizeSelected' => $groupFromName->name,
+            'productSizes' => $productSizes
         ]);
     }
 

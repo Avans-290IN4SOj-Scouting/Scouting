@@ -83,6 +83,16 @@ function updateShoppingCartPrices() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-
-});
+function DOM_addProductFromProductPage(productId) {
+    try
+    {
+        const element = document.querySelector('#product-sizes');
+        const sizeId = element.options[element.selectedIndex].id;
+        const amount = 1;
+        addProductToShoppingCart(productId, sizeId, amount);
+    }
+    catch (e)
+    {
+        return;
+    }
+}
