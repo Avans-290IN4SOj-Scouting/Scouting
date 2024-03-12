@@ -36,8 +36,6 @@ class OrderController extends Controller
             return redirect()->route('home');
         }
 
-        $productCategory = ucfirst($category);
-
         $products = Product::join('product_group', 'products.id', '=', 'product_group.product_id')
             ->join('groups', 'product_group.group_id', '=', 'groups.id')
             ->join('product_sizes', 'groups.size_id', '=', 'product_sizes.id')
@@ -50,7 +48,6 @@ class OrderController extends Controller
             ->get();
 
         return view('orders.overview', [
-            'productCategory' => $productCategory,
             'products' => $products,
             'group' => $group
         ]);
@@ -66,11 +63,9 @@ class OrderController extends Controller
         }
 
         $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
-        ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
-        ->where('products.id', '=', $productFromName->id)
-        ->where('product_sizes.id', '=', $groupFromName->id)
-        ->select('products.*', 'product_product_size.*', 'product_sizes.*')
-        ->first();
+            ->where('products.id', '=', $productFromName->id)
+            ->where('product_product_size.product_size_id', '=', $groupFromName->id)
+            ->first();
 
         if ($product === null) {
             return redirect()->route('orders.overview');
@@ -81,7 +76,6 @@ class OrderController extends Controller
         return view('orders.product', [
             'group' => $groupFromName,
             'product' => $product,
-            'sizeSelected' => $groupFromName->name,
             'productSizes' => $productSizes
         ]);
     }
