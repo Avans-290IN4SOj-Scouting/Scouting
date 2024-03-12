@@ -11,8 +11,8 @@ class OrderTest extends DuskTestCase
     public function test_on_page(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/product-categorie/Bevers/S')
-                    ->assertSee('- ' . __('orders.products'));
+            $browser->visit('/product-categorie/bevers/')
+                    ->assertSee('Bevers - ' . __('orders.products'));
         });
     }
 
@@ -21,7 +21,7 @@ class OrderTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/product-categorie/Bevers')
                     ->click('.product a')
-                    ->assertUrlIs(env('APP_URL') . '/product/2/S');
+                    ->assertUrlIs(env('APP_URL') . '/product/TestAll/Bevers');
         });
     }
 
