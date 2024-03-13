@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
+    protected $fillable = ['name', 'discount', 'product_type_id', 'image_path', 'size'];
+
     use HasFactory;
 
     public function productType(): BelongsTo

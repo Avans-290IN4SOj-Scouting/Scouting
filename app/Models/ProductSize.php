@@ -10,6 +10,8 @@ class ProductSize extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['size'];
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)

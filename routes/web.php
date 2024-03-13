@@ -36,20 +36,15 @@ Route::get(__('navbar.manage_accounts'), function () {
     return view('admin.accounts');
 })->name('manage-accounts');
 
-Route::get(__('navbar.admin'), [ProductController::class, 'productOverview'])->name('manage-products');
 
-Route::get('/manageproducts/addProduct', function () {
-    return view('admin.addProduct');
-});
-Route::get(__('navbar.manage_products'), function () {
-    return view('admin.products');
-})->name('manage-products');
+
+
 
 Route::get(__('navbar.login'), function () {
     return view('customer.home');
 })->name('login');
 
-// TODO: Temporary route to test toasts
+/*// TODO: Temporary route to test toasts
 Route::get('/test', function () {
     return redirect()
         ->route('home')
@@ -58,7 +53,20 @@ Route::get('/test', function () {
             'toast-message' => 'This is a test error message'
         ]);
 });
-}) -> name('login');
+}) -> name('login');*/
+
+// Products beheer
+Route::get(__('navbar.manage_products'),
+    [ProductController::class, 'productOverview'])->name('manage-products');
+
+Route::post('/products/create', [ProductController::class, 'createProduct'])->name('product.createProduct');
+
+Route::get(__('navbar.manage_addProduct'),
+    [ProductController::class, 'goToAddProduct'])->name('manage-addProduct');
+
+Route::get('/product/{id}/edit', [ProductController::class, 'editProduct'])->name('product.edit');
+
+
 
 // Orders
 Route::get('/product-categorie/{category?}/{size?}', [OrderController::class, 'overview'])

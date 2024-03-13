@@ -27,12 +27,13 @@
         @yield('content')
     </main>
 </div>
-<body class="bg-white dark:bg-slate-900">
+</body>
+{{--<body class="bg-white dark:bg-slate-900">
 <x-navbar></x-navbar>
 
 <div style="padding-top: 70px">
     @yield('content')
 </div>
-</body>
+</body>--}}
 
 </html>
