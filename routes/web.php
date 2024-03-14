@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -27,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get(__('navbar.cart'), function () {
     dd("help");
@@ -40,15 +41,16 @@ Route::get(__('navbar.checkout'), function () {
 })->name('checkout');
 
 
-
 Route::middleware('role:admin')->group(function () {
     Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
         ->name('manage-accounts');
 
+    Route::get(__('navbar.manage_mails'), [MailController::class, 'index'])
+        ->name('manage-mails');
+
     Route::get(__('navbar.manage_products'), function () {
         return view('admin.products');
     })->name('manage-products');
-
     Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
         ->name('manage-accounts.updateRoles');
 
