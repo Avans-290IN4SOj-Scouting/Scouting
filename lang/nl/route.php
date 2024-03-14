@@ -7,4 +7,5 @@ return [
     'checkout' => '/bestelling',
     'completed-order' => '/bestelling-voltooid',
     'manage_accounts' => '/Beheer%20accounts',
+    'manage-email' => '/beheer-emails',
 ];
