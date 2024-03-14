@@ -1,12 +1,12 @@
 <?php
 
 return [
-    "user" => "gebruiker",
-    "admin" => "admin",
-    "team_bevers" => "bevers",
-    "team_gidsen" => "gidsen",
-    "team_kabouters" => "kabouters",
-    "team_scouts" => "scouts",
-    "team_zeeverkenners" => "zeeverkenners",
-    "team_welpen" => "welpen",
+    "user" => "GEBRUIKER",
+    "admin" => "ADMIN",
+    "team_bevers" => "BEVERS",
+    "team_gidsen" => "GIDSEN",
+    "team_kabouters" => "KABOUTERS",
+    "team_scouts" => "SCOUTS",
+    "team_zeeverkenners" => "ZEEVERKENNERS",
+    "team_welpen" => "WELPEN",
 ];
