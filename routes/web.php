@@ -60,6 +60,15 @@ Route::middleware('role:admin')->group(function () {
                 'toast-message' => __('toast.warning-accounts')
             ]);
     });
+
+    Route::get('warning-toast-no-admins', function () {
+        return redirect()
+            ->route('manage-accounts')
+            ->with([
+                'toast-type' => 'warning',
+                'toast-message' => __('toast.warning-no-admins')
+            ]);
+    });
 });
 
 Route::get(__('navbar.logout'), function () {

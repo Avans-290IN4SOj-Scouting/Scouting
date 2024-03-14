@@ -48,6 +48,13 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = "/warning-toast-accounts";
             return;
         }
+
+        if (!adminRolePresent()) {
+            console.log(!adminRolePresent());
+            window.location.href = "/warning-toast-no-admins";
+            return;
+        }
+
         confirmModal.classList.remove("hidden");
     });
 
@@ -64,6 +71,20 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("userRoles").value = JSON.stringify(changedAccounts);
 
         document.getElementById("updateRoleForm").submit();
+    }
+
+    function adminRolePresent() {
+        let selectElements = document.querySelectorAll('select');
+
+        for (let i = 0; i < selectElements.length; i++) {
+            let selectedRole = selectElements[i].value;
+
+            if (selectedRole === 'admin') {
+                return true;
+            }
+        }
+
+        return false;
     }
 });
 

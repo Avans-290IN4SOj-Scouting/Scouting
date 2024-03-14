@@ -68,5 +68,22 @@ class ManageAccountsTest extends DuskTestCase
                 ->screenshot('manage-accounts-warning-toast');
         });
     }
+
+    public function testToastWhenNoAdminsPresent()
+    {
+        $admin = User::factory()->create(['email' => 'no.admins.present']);
+        $admin->assignRole('admin');
+
+        $this->browse(function (Browser $browser) use ($admin) {
+            $browser->loginAs($admin)
+                ->visit(route('manage-accounts'))
+                ->click('.saveBtn')
+                ->select('[data-account-email="' . $admin->email . '"]', __('roles.team_bevers'))
+                ->click('.saveBtn')
+                ->waitFor('.toast-warning', 10)
+                ->assertVisible('.toast-warning')
+                ->screenshot('manage-accounts-warning-toast-admin');
+        });
+    }
 }
 
