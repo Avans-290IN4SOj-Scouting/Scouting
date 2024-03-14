@@ -45,7 +45,7 @@ Route::middleware('role:admin')->group(function () {
     Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
         ->name('manage-accounts');
 
-    Route::get(__('navbar.manage_mails'), [MailController::class, 'index'])
+    Route::get(__('route.manage-email'), [MailController::class, 'index'])
         ->name('manage-mails');
 
     Route::get(__('navbar.manage_products'), function () {
