@@ -12,11 +12,18 @@ class AccountsController extends Controller
 {
     public function index()
     {
-        $accounts = User::with(["roles" => function ($query) {
-            $query->where('name', '!=', 'teamleader');
-        }])->get();
+        try {
+            $accounts = User::with(["roles" => function ($query) {
+                $query->where('name', '!=', 'teamleader');
+            }])->get();
 
-        return view("admin.accounts", ["accounts" => $accounts]);
+            return view("admin.accounts", ["accounts" => $accounts]);
+        } catch (\Exception $e) {
+            return redirect()->route('home')->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast.error-account-loading'),
+            ]);
+        }
     }
 
     public function updateRoles(Request $request)
@@ -57,7 +64,10 @@ class AccountsController extends Controller
                 'toast-message' => __('toast.success-role-update'),
             ]);
         } catch (\Exception $e) {
-            return redirect()->route('home');
+            return redirect()->route('manage-accounts')->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast.error-account-saving'),
+            ]);
         }
     }
 }
