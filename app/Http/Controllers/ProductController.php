@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Group;
 use App\Models\Product;
 use App\Models\ProductGroup;
@@ -93,10 +94,25 @@ class ProductController extends Controller
         $product->setPriceForSize($request->input('priceForSize'));
         $product->setGroups($request->input('groups'));
 
+        $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
+            return $price != null;
+        }));
+        $product->setGroups(array_filter($product->groups, function ($group) {
+            return $group != null;
+        }));
+
+        // TODO: remove these bypasses when implemented
+        $product->setCategory('heren');
+        // $product->setPicture('uploads/placeholder.jpg');
+
+        if ($product->getName() == null || $product->getCategory() == null || $product->getPicture() == null || empty($product->priceForSize) || empty($product->groups)) {
+            return view('admin.addProduct')->with('error', 'Please fill in all fields');
+        }
+
+
         DB::beginTransaction();
         try {
             $category = $this->catagoryToId($product->getCategory());
-
 
             // Create the product with all attributes including image_path
             Product::create([
@@ -107,14 +123,14 @@ class ProductController extends Controller
             ]);
 
             $sizes = ProductSize::all();
-            foreach ($request->input('priceForSize') as $size => $price) {
+            foreach ($product->priceForSize as $size => $price) {
                 if (!$sizes->where('size', $size)->first()) {
                     ProductSize::create(['size' => $size]);
                 }
             }
 
             $sizes = ProductSize::all();
-            foreach ($request->input('priceForSize') as $size => $price) {
+            foreach ($product->priceForSize as $size => $price) {
                 ProductProductSize::create([
                     'product_id' => Product::where('name', $product->getName())->first()->id,
                     'product_size_id' => $sizes->where('size', $size)->first()->id,
@@ -122,12 +138,13 @@ class ProductController extends Controller
                 ]);
             }
 
+            // TODO: Link to groups
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect('/products');
+        return redirect('/Beheer%20producten');
     }
 
 
@@ -147,7 +164,11 @@ class ProductController extends Controller
 
     private function catagoryToId($category)
     {
-        $categories = ProductType::all();
-        return $categories->where('name', $category)->first()->id;
+        $category = strtolower($category);
+        $categories = ProductType::all()->select('id', 'type');
+        if ($categories->where('type', $category)->first() == null) {
+            dd($category);
+        }
+        return $categories->where('type', $category)->first()['id'];
     }
 }
