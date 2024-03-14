@@ -23,8 +23,9 @@
                 <div>
                     <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h2>
                     <p class="dark:text-white">
-                        <span class="dark:text-white">{{ __('currency.symbol') }}
-                            {{ number_format($product->price, 2, __('currency.seperator'), '.') }}
+                        <span>{{ __('currency.symbol') }}</span>
+                        <span id="product-price">
+                            {{ number_format($product->productSizes->first()->pivot->price, 2, __('currency.seperator'), '.') }}
                         </span>
                     </p>
                 </div>
@@ -33,15 +34,12 @@
                         <select id="product-sizes" class="peer p-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
                         focus:pt-6
                         focus:pb-2
-                        [&:not(:placeholder-shown)]:pt-6
-                        [&:not(:placeholder-shown)]:pb-2
+                        [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2
                         autofill:pt-6
                         autofill:pb-2">
                             @foreach ($productSizes as $productSize)
-                                <option id="{{ $productSize->id }}"
-                                    @if ($group->size == $productSize->size) selected @endif
-                                    >
-                                    {{ $productSize->size }} - {{ $productSize->pivot->price }}
+                                <option id="{{ $productSize->id }}" @selected($group->size_id == $productSize->id)>
+                                    {{ $productSize->size }} - {{ __('currency.symbol') }} {{ number_format($productSize->pivot->price, 2, __('currency.seperator'), '.') }}
                                 </option>
                             @endforeach
                         </select>
@@ -55,7 +53,7 @@
                         peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('orders.size') }}</label>
                     </div>
 
-                    <button type="submit" onclick="DOM_addProductFromProductPage('{{ $product->id }}')" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    <button type="submit" onclick="DOM_addProductFromProductPage('{{ $product->id }}')" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         {{ __('orders.add-to-shoppingcart') }}
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"

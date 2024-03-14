@@ -18,12 +18,12 @@ return [
 
     'add-to-shoppingcart' => 'Voeg toe aan winkelwagen',
 
-    'shoppingcart-order' => 'Bestelling',
+    'shoppingcart-order' => 'Bestelling overzicht',
     'order-products' => 'Artikelen',
     'order-total' => 'Totaal',
     'order-to-order' => 'Naar bestellen',
 
-    'order-data' => 'Gegevens',
+    'order-data' => 'Uw gegevens',
     'fill-information' => 'Vul hier je gegevens in.',
     'groups' => 'Groep',
     'email' => 'Email',

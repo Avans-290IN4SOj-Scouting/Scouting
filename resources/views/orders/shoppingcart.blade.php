@@ -16,7 +16,7 @@
 <div id="wrapper">
     <div id="header">
         <h1
-            class="mb-4 text-4xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            class="mb-4 text-4xl font-extrabold text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
             {{ __('orders.shoppingcart') }}
         </h1>
     </div>
@@ -99,10 +99,10 @@
                                 </button>
                             </div>
                         </div>
+
                         @endforeach
-                        @if (count($products) == 0)
-                            <p class="dark:text-white">{{ __('orders.empty-shoppingcart') }}<p>
-                        @endif
+
+                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white">{{ __('orders.empty-shoppingcart') }}</p>
                     </div>
                 </div>
 
@@ -126,8 +126,7 @@
                         </hr>
 
                         <a href="{{ route('orders.order') }}">
-                            <button type="submit"
-                                class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                            <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                 {{ __('orders.order-to-order') }}
                             </button>
                         </a>

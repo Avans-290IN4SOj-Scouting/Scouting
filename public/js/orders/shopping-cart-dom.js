@@ -61,7 +61,6 @@ function updateShoppingCartPrices() {
     .then(data => {
         if (data === null || data.priceChange === null)
         {
-            console.log("oofies1");
             return;
         }
 
@@ -77,6 +76,13 @@ function updateShoppingCartPrices() {
 
         amountText.textContent = priceChange.amount.toString().replace('.', ',');
         totalText.textContent = priceChange.total;
+
+        if (priceChange.amount == 0) {
+            const noProductsText = document.querySelector('#empty-shopping-cart-text');
+            noProductsText.hidden = false;
+        } else {
+            noProductsText.hidden = true;
+        }
     })
     .catch(error => {
         console.error('Error updating text field:', error);
@@ -96,3 +102,11 @@ function DOM_addProductFromProductPage(productId) {
         return;
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#product-sizes').addEventListener('change', (event) => {
+        const value = event.target.options[event.target.selectedIndex].textContent;
+        document.querySelector('#product-price').textContent = value.substring(value.indexOf('-') + 4);
+    });
+})
+

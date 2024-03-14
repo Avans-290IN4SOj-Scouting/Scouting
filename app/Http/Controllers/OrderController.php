@@ -6,18 +6,19 @@ use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
-use App\Models\ProductSize;
+use App\Services\ShoppingCartService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\error;
 
 class OrderController extends Controller
 {
+    public function __construct(
+        protected ShoppingCartService $shoppingCartService
+    ) { }
+
     // GET
     public function index()
     {
@@ -30,12 +31,14 @@ class OrderController extends Controller
 
     public function overview(string $category)
     {
+        // Check if URL has matching Group
         $group = Group::where('name', $category)->first();
         if ($group === null)
         {
-            return redirect()->route('home');
+            abort(404);
         }
 
+        // Get all Products from obtained Group
         $products = Product::join('product_group', 'products.id', '=', 'product_group.product_id')
             ->join('groups', 'product_group.group_id', '=', 'groups.id')
             ->join('product_sizes', 'groups.size_id', '=', 'product_sizes.id')
@@ -55,6 +58,7 @@ class OrderController extends Controller
 
     public function product(string $name, string $groupName)
     {
+        // Check if URL contains a valid Product and Group
         $productFromName = Product::where('name', $name)->first();
         $groupFromName = Group::where('name', $groupName)->first();
         if ($productFromName === null || $groupFromName === null)
@@ -62,16 +66,19 @@ class OrderController extends Controller
             return redirect()->route('orders.overview');
         }
 
-        $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
-            ->where('products.id', '=', $productFromName->id)
-            ->where('product_product_size.product_size_id', '=', $groupFromName->id)
+        // Get product from obtained Product, and get default size
+        $product = Product::with(['productSizes' => function ($query) use ($groupFromName) {
+                $query->where('product_size_id', '=', $groupFromName->size_id);
+            }])
+            ->where('id', '=', $productFromName->id)
             ->first();
 
         if ($product === null) {
             return redirect()->route('orders.overview');
         }
 
-        $productSizes = $product->productSizes;
+        // Get Pivot table values
+        $productSizes = $productFromName->productSizes;
 
         return view('orders.product', [
             'group' => $groupFromName,
@@ -84,8 +91,8 @@ class OrderController extends Controller
     {
         $groups = Group::all();
 
-        $products = ShoppingCartController::getShoppingCartProducts();
-        $prices = ShoppingCartController::getPrices($products);
+        $products = $this->shoppingCartService->getShoppingCartProducts();
+        $prices = $this->shoppingCartService->getPrices($products);
 
         return view('orders.order', [
             'prices' => $prices,
@@ -97,18 +104,18 @@ class OrderController extends Controller
     // POST
     public function completeOrder(Request $request)
     {
+        // Validate form data
         $request->flash('form_data', $request->all());
-
         $validated = $request->validate([
             'lid-name' => 'required|max:32',
             'group' => 'required|integer'
         ]);
 
-        // Create Order
         DB::beginTransaction();
         $order = new Order();
         try
         {
+            // Create and save order to obtain ID for OrderLine(s)
             $order->order_date = now();
             $order->lid_name = $request->input('lid-name');
             $order->group_id = $request->input('group');
@@ -116,15 +123,28 @@ class OrderController extends Controller
         }
         catch (Exception $e)
         {
-            dd($e);
             DB::rollBack();
-            $order->delete();
 
-            return redirect()->route('orders.order')->with('error', '__(\'orders.completed-error\')');
+            return redirect()->route('orders.order')->with([
+                'error', '__(\'orders.completed-error\')',
+                'toast-type' => 'error',
+                'toast-message' => __('orders.completed-error'),
+            ]);
         }
 
         try {
-            $products = ShoppingCartController::getShoppingCartProducts(); // Returns a Product[];
+            $products = $this->shoppingCartService->getShoppingCartProducts(); // Returns a Product[];
+            if (count($products) == 0)
+            {
+                DB::rollBack();
+                $this->shoppingCartService->clearShoppingCart();
+
+                return redirect()->route('orders.order')->with([
+                    'error', '__(\'orders.completed-error\')',
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast.order-no-products'),
+                ]);
+            }
 
             foreach ($products as $product)
             {
@@ -145,12 +165,15 @@ class OrderController extends Controller
         catch (Exception $e)
         {
             DB::rollBack();
-            $order->delete();
 
-            return redirect()->route('orders.order')->with('error', '__(\'orders.completed-error\')');
+            return redirect()->route('orders.order')->with([
+                'error', '__(\'orders.completed-error\')',
+                'toast-type' => 'error',
+                'toast-message' => __('toast.order-no-products'),
+            ]);
         }
 
-        ShoppingCartController::clearShoppingCart();
+        $this->shoppingCartService->clearShoppingCart();
         return redirect()->route('orders.completed')->with('success', '__(\'orders.completed-success\')');
     }
 

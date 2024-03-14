@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', __('complete-order'))
+@section('title', __('orders.complete-order'))
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
@@ -11,13 +11,13 @@
 
 <div id="wrapper">
     <div id="header">
-        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
             {{ __('orders.order') }}
         </h1>
     </div>
 
     <div id="main">
-        @if (auth()->check())
+        @if (auth()->check() && count($products) > 0)
             <form name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
         @endif
 
@@ -109,21 +109,22 @@
                         <hr class="border-gray-800 dark:border-white">
                         </hr>
 
-                        @if (auth()->check())
-                            <button type="submit"
-                                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                    {{ __('orders.complete-order') }}
-                            </button>
+                        @if (auth()->check() && count($products) > 0)
+                            <button type="button" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                {{ __('orders.complete-order') }}
+                              </button>
+                        @elseif (count($products) == 0)
+                            <p>{{ __('orders.empty-shoppingcart') }}</p>
                         @else
                             <a href="{{ route('login') }}"
-                                class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                 <p>{{ __('orders.log-in') }}</p>
                             </a>
                         @endif
                     </div>
                 </div>
             </div>
-        @if (auth()->check())
+        @if (auth()->check() && count($products) > 0)
             </form>
         @endif
     </div>

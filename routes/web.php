@@ -29,12 +29,10 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get(__('navbar.cart'), function () {
-    dd("help");
     return view('customer.cart');
 })->name('cart');
 
 Route::get(__('navbar.checkout'), function () {
-    dd("help");
     return view('customer.checkout');
 })->name('checkout');
 
