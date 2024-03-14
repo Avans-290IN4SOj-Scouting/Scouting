@@ -62,7 +62,7 @@
                                 {{__('navbar.manage_products')}}
                             </a>
                             <a class="{{ request()->routeIs('manage-mails') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                               href="{{route('manage-mails')}}">
+                               href="{{ route('manage-mails') }}">
                                 {{__('navbar.manage_mails')}}
                             </a>
                         </div>
