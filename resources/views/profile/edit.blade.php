@@ -1,8 +1,6 @@
 @extends('layouts.base')
 
-@php
-    $title = __('navbar.account');
-@endphp
+@section('title', __('navbar.account'))
 
 @section('content')
     <div class="w-full max-w-md mx-auto p-6 items-center" style="inline-size: fit-content;">
