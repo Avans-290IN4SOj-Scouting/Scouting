@@ -1,8 +1,6 @@
 @extends('layouts.base')
 
-@php
-    $title = __('auth.sign-in');
-@endphp
+@section('title', __('Login'))
 
 @section('content')
     <div class="w-full max-w-md mx-auto p-6">
@@ -35,7 +33,7 @@
                                            required
                                            value="{{old('email')}}">
                                     @error('email')
-                                    <span class="text-red-500">{{ $message }}</span>
+                                        <span class="text-red-500">{{ $message }}</span>
                                     @enderror
                                     <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                                         <svg class="size-5 text-red-500" width="16" height="16"
