@@ -42,7 +42,6 @@ function addCustomSizeInput() {
     // Voeg de nieuwe div toe aan #custom-size-inputs
     document.getElementById('custom-size-inputs').appendChild(newDiv);
 }
-
 function handleFileSelect(event) {
     const file = event.target.files[0];
     const preview = document.getElementById('file-image');
@@ -65,19 +64,17 @@ function handleFileSelect(event) {
     }
 }
 
-document.getElementById('file-upload').addEventListener('change', handleFileSelect);
+document.getElementById('af-submit-app-upload-images').addEventListener('change', handleFileSelect);
 
-function removeImage(event,) {
+function removeImage(event) {
     event.preventDefault();
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
-    const uploadInput = document.getElementById('file-upload');
+    const uploadInput = document.getElementById('af-submit-app-upload-images');
 
     preview.classList.add('hidden');
     removeBtn.classList.add('hidden');
     uploadInput.value = '';
 }
-
-
 
 document.getElementById('remove-image').addEventListener('click', removeImage);
