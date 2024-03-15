@@ -5,13 +5,7 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>
-        @isset($title)
-            {{ $title }} |
-        @endisset
-
-        {{ config('app.name') }}
-    </title>
+    <title>@yield('title')</title>
 
     @vite('resources/css/app.css')
     @stack('styles')

@@ -1,8 +1,6 @@
 @extends('layouts.base')
 
-@php
-    $title = __('orders.complete-order');
-@endphp
+@section('title', __('complete-order'))
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
