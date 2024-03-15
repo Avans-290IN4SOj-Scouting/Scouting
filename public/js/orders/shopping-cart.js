@@ -47,11 +47,11 @@ class ShoppingCart {
 function addProductToShoppingCart(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
-    // createToast("Error below is expected!", 'success');
 
     // 2. Make Changes
     // Check if Product already exists
     if (shoppingCart.isProductInShoppingCart(id, sizeId) === true) {
+        createToast('Product is al in uw winkelwagen!', 'warning');
         return;
     }
 
@@ -61,14 +61,12 @@ function addProductToShoppingCart(id, sizeId, amount) {
     newProduct.sizeId = sizeId;
 
     shoppingCart.products.push(newProduct);
-    // createToast(JSON.stringify(newProduct), 'warning');
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
-    // getShoppingCart();
 
     // 4. Show message
-    // createToast(JSON.stringify(getShoppingCart()), 'warning');
+    createToast('Product toegevoegd aan winkelwagen!', 'success');
 }
 
 function removeProductFromShoppingCart(id, sizeId) {
@@ -84,6 +82,7 @@ function removeProductFromShoppingCart(id, sizeId) {
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
+    createToast('Product verwijderd uit uw winkelwagen!', 'success');
 }
 
 function setShoppingCartProductAmount(id, sizeId, amount) {
