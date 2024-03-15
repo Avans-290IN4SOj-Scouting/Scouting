@@ -50,7 +50,6 @@ class ManageAccountsTest extends DuskTestCase
                 ->screenshot('manage-accounts-modal')
                 ->select('[data-account-email="' . $testUser->email . '"]', 'admin')
                 ->click('#saveBtn') // Click on the save button
-                ->screenshot('test')
                 ->waitFor('.confirmModal', 10) // Wait for the modal to appear
                 ->assertVisible('.confirmModal') // Assert that the modal is visible
                 ->assertSee(__('accounts.modal_warning_title')) // Optionally verify modal content
