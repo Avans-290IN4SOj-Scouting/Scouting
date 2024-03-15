@@ -40,16 +40,21 @@ class ManageAccountsTest extends DuskTestCase
     public function testModalAppearsAfterRoleChange()
     {
         $admin = User::factory()->create(['email' => 'modal.role.change']);
-        $admin->assignRole('user');
+        $testUser = User::factory()->create(['email' => 'modal.role.change.user']);
+        $admin->assignRole('admin');
+        $testUser->assignRole('user');
 
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->visit(route('manage-accounts'))
-                ->loginAs($admin)
-                ->select('[data-account-email="' . $admin->email . '"]', __('roles.admin'))
-                ->click('.saveBtn')
-                ->screenshot('test12')
-                ->waitFor('.confirmModal', 10)
-                ->assertVisible('.confirmModal')
+        $this->browse(function (Browser $browser) use ($admin, $testUser) {
+            $browser->loginAs($admin)
+                ->visit(route('manage-accounts.updateRoles'))
+                ->screenshot('manage-accounts-modal')
+                ->select('[data-account-email="' . $testUser->email . '"]', 'admin')
+                ->click('#saveBtn') // Click on the save button
+                ->screenshot('test')
+                ->waitFor('.confirmModal', 10) // Wait for the modal to appear
+                ->assertVisible('.confirmModal') // Assert that the modal is visible
+                ->assertSee(__('accounts.modal_warning_title')) // Optionally verify modal content
+                ->assertSee(__('accounts.confirm_button'))
                 ->screenshot('manage-accounts-modal');
         });
     }
