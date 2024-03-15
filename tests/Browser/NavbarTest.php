@@ -54,7 +54,7 @@ class NavbarTest extends DuskTestCase
                 ->type('email', 'admin@admin')
                 ->type('password', 'password')
                 ->press(__('auth.sign-in'))
-                ->assertRouteIs('home')
+                ->assertPathIs('/')
                 ->assertSee(__('navbar.admin'));
         });
     }
