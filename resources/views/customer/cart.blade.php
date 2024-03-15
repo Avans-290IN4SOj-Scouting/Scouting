@@ -1,6 +1,8 @@
 @extends('layouts.base')
 
-@section('title', 'TODO: put title here')
+@php
+    $title = 'TODO: put title here';
+@endphp
 
 @section('content')
     {{--TODO: put content home page here--}}
