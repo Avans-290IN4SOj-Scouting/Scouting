@@ -49,10 +49,10 @@ class ManageAccountsTest extends DuskTestCase
                 ->visit(route('manage-accounts.updateRoles'))
                 ->screenshot('manage-accounts-modal')
                 ->select('[data-account-email="' . $testUser->email . '"]', 'admin')
-                ->click('#saveBtn') // Click on the save button
-                ->waitFor('.confirmModal', 10) // Wait for the modal to appear
-                ->assertVisible('.confirmModal') // Assert that the modal is visible
-                ->assertSee(__('accounts.modal_warning_title')) // Optionally verify modal content
+                ->click('#saveBtn')
+                ->waitFor('.confirmModal', 10)
+                ->assertVisible('.confirmModal')
+                ->assertSee(__('accounts.modal_warning_title'))
                 ->assertSee(__('accounts.confirm_button'))
                 ->screenshot('manage-accounts-modal');
         });
