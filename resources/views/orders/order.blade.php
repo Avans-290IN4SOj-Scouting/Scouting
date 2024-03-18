@@ -38,7 +38,6 @@
 
                             <!-- Grid -->
                             <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
-                                <!-- Lid Naam -->
                                 <div class="sm:col-span-3">
                                     <div class="inline-block">
                                         <label for="lid-name"
@@ -48,24 +47,50 @@
                                     </div>
                                 </div>
                                 <div class="sm:col-span-9">
-                                    <div class="sm:flex">
-                                        <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders.lid-name') }}"
-                                            class="{{ $errors->has('lid-name') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
-                                        <select name="group"
-                                            class="{{ $errors->has('group') ? 'form-error-input' : '' }} py-2 px-3 pe-9 block w-full sm:w-auto border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                    <div class=sm:flex>
+                                        <div>
+                                            <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders.lid-name') }}"
+                                                class="{{ $errors->has('lid-name') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px rounded-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                                        </div>
+                                        @error('lid-name')
+                                            <p class="form-error-text">{{ __('orders.form-lid-name-error') }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="sm:col-span-3">
+                                    <div class="inline-block">
+                                        <label for="scouting-group"
+                                            class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
+                                            {{ __('orders.group') }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-9">
+                                    <div class="relative">
+                                        <select id="scouting-group" name="scouting-group" class="peer p-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
+                                        focus:pt-6
+                                        focus:pb-2
+                                        [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2
+                                        autofill:pt-6
+                                        autofill:pb-2">
                                             @foreach ($groups as $group)
                                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                                             @endforeach
                                         </select>
+
+                                        <label class="absolute top-0 start-0 p-4 h-full truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                        peer-focus:text-xs
+                                        peer-focus:-translate-y-1.5
+                                        peer-focus:text-gray-500
+                                        peer-[:not(:placeholder-shown)]:text-xs
+                                        peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                        peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('orders.group') }}</label>
                                     </div>
-                                    @error('lid-name')
-                                        <p class="form-error-text">{{ __('orders.form-lid-name-error') }}</p>
-                                    @enderror
-                                    @error('group')
-                                        <p class="form-error-text">{{ __('orders.form-group-error') }}</p>
-                                    @enderror
                                 </div>
-                                <!-- Lid Naam -->
+                                @error('scouting-group')
+                                    <p class="form-error-text">{{ __('orders.form-group-error') }}</p>
+                                @enderror
                             </div>
                             <!-- End Grid -->
                         </div>
@@ -110,7 +135,7 @@
                         </hr>
 
                         @if (auth()->check() && count($products) > 0)
-                            <button type="button" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                            <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                 {{ __('orders.complete-order') }}
                               </button>
                         @elseif (count($products) == 0)

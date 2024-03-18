@@ -13,10 +13,12 @@ return [
     'completed-error' => 'Fout bij bestellen, probeer nog een keer',
     'incorrect-form-data' => 'Foute gegevens ingevuld!',
     'log-in' => 'Log in om te voltooien',
+    'accessibility-group-image' => 'product categorie',
+    'group' => 'Groep',
 
     'select-size' => 'Selecteer maat',
 
-    'add-to-shoppingcart' => 'Voeg toe aan winkelwagen',
+    'add-to-shoppingcart' => 'Product toevoegen aan winkelwagen',
 
     'shoppingcart-order' => 'Bestelling overzicht',
     'order-products' => 'Artikelen',

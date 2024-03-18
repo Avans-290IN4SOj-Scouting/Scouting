@@ -12,7 +12,7 @@
     align-content: flex-start;
     gap: var(--group-spacing);
 
-    /* max-width: calc((var(--group-width) + var(--group-spacing)) * var(--groups-per-row)); */
+    max-width: calc((var(--group-width) + var(--group-spacing)) * var(--groups-per-row));
 }
 
 .group-item {

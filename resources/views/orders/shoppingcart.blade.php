@@ -26,6 +26,8 @@
             <div class="order-container ">
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                     <div class="shoppingcart-products-container">
+                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.products') }}</h2>
+
                         @foreach ($products as $product)
                         <div class="shoppingcart-product"
                             id="product-{{ $product->product_id }}size-{{ $product->product_size_id }}">

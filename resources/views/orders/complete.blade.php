@@ -18,7 +18,7 @@
     </div>
 
     <div id="main">
-        <a href="{{ route('orders.overview') }}">Terug naar de home pagina</a>
+        <a href="{{ route('home') }}">Terug naar de home pagina</a>
     </div>
 </div>
 

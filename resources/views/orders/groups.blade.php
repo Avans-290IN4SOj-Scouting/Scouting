@@ -22,7 +22,7 @@
                 <div class="group-item">
                     <a href="{{ route('orders.overview', ['category' => $group->name]) }}">
                     <div class="image">
-                        <img src="{{ $group->image_url }}">
+                        <img src="{{ $group->image_url }}" alt="{{ __('orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders.group') }}">
                     </div>
 
                     <p class="group-name">{{ $group->name }}</p>

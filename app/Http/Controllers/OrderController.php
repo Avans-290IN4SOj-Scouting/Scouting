@@ -108,7 +108,7 @@ class OrderController extends Controller
         $request->flash('form_data', $request->all());
         $validated = $request->validate([
             'lid-name' => 'required|max:32',
-            'group' => 'required|integer'
+            'scouting-group' => 'required|integer'
         ]);
 
         DB::beginTransaction();
@@ -118,7 +118,7 @@ class OrderController extends Controller
             // Create and save order to obtain ID for OrderLine(s)
             $order->order_date = now();
             $order->lid_name = $request->input('lid-name');
-            $order->group_id = $request->input('group');
+            $order->group_id = $request->input('scouting-group');
             $order->save();
         }
         catch (Exception $e)
