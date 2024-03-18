@@ -15,6 +15,7 @@ return [
     'log-in' => 'Log in om te voltooien',
     'accessibility-group-image' => 'product categorie',
     'group' => 'Groep',
+    'back-to-home-page' => 'Terug naar de home pagina',
 
     'select-size' => 'Selecteer maat',
 
