@@ -36,8 +36,6 @@ Route::get(__('navbar.checkout'), function () {
     return view('customer.checkout');
 })->name('checkout');
 
-
-
 Route::middleware('role:admin')->group(function () {
     Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
         ->name('manage-accounts');
@@ -72,6 +70,7 @@ Route::get(__('navbar.logout'), function () {
 Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
     ->name('orders.overview')
     ->defaults('category', '');
+
 
 Route::get(__('route.product') . '/{name}/{groupName?}', [OrderController::class, 'product'])
     ->name('orders.product')

@@ -1,6 +1,8 @@
 @extends('layouts.base')
 
-@section('title', __('accounts.title'))
+@php
+    $title = __('accounts.page_title');
+@endphp
 
 @section('content')
 

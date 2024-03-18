@@ -1,14 +1,16 @@
 @extends('layouts.base')
 
-@section('title', __('orders.shoppingcart'))
+@php
+    $title = __('orders.shoppingcart');
+@endphp
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
-<link rel="stylesheet" href="{{ asset('css/orders/shoppingcart.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/orders/shoppingcart.css') }}">
 @endpush
 @push('scripts')
-<script src="{{ asset('js/orders/shopping-cart-dom.js') }}"></script>
-<script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
+    <script src="{{ asset('js/orders/shopping-cart-dom.js') }}"></script>
+    <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
 @endpush
 
 @section('content')

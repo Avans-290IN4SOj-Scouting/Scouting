@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 
+<html lang="{{ config('app.locale') }}">
+
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')</title>
+    <title>
+        @isset($title)
+            {{ $title }} |
+        @endisset
+
+        {{ config('app.name') }}
+    </title>
 
     @vite('resources/css/app.css')
     @stack('styles')
