@@ -121,12 +121,12 @@
                                     <img id="file-image" src="#" alt="Preview" class="hidden" />
                                     <div id="start" class="text-center">
                                         <i class="fa fa-download text-4xl mb-2"></i>
-                                        <div class="mb-2.5">Selecteer een plaatje voor het product</div>
-                                        <div id="notimage" class="hidden">Klik hier om je bestanden te openen</div>
+                                        <div class="mb-2.5">Selecteer of sleep een plaatje voor het product</div>
+                                        <div id="notimage" class="hidden">Klik hier</div>
                                         <!-- Clicking this label will trigger file input -->
                                         <label for="file-upload"
-                                            class="btn bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 mt-2">Select
-                                            a file</label>
+                                            class="btn bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 mt-2">Klik
+                                            hier om je bestanden te openen</label>
                                     </div>
                                 </div>
                             </label>

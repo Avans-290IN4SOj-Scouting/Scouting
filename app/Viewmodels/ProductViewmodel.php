@@ -9,7 +9,7 @@ class ProductViewmodel
     public array $groups; // value = group
     public string $category; // productType (Heren, Dames, Unisex)
 
-    public string $image_path;
+    public $image_path;
 
     public function setName($name)
     {
