@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('customer.home');
-})->name('home');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,8 +34,6 @@ Route::get(__('navbar.checkout'), function () {
     dd("help");
     return view('customer.checkout');
 })->name('checkout');
-
-
 
 Route::middleware('role:admin')->group(function () {
     Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
@@ -80,9 +74,9 @@ Route::get(__('navbar.logout'), function () {
         ]);
 })->name('logout');
 
-/// Orders
-Route::get(__('route.overview') . '/{category?}/{size?}', [OrderController::class, 'overview'])
-    ->name('orders.overview')
+// Orders
+Route::get('/{category?}/{size?}', [OrderController::class, 'overview'])
+    ->name('home')
     ->defaults('category', 'bevers')
     ->defaults('size', 'S');
 
