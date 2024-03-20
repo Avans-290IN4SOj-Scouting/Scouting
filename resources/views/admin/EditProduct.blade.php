@@ -42,7 +42,6 @@
                 </div>
 
                 <!-- Select -->
-                <!-- Select -->
                 @include('partials._select', ['label' => 'Scouting groepen', 'placeholder' => 'Select scouting groepen', 'options' => ['Bevers', 'Gidsen', 'Kabouters', 'Leiders', 'Verkenners', 'Waterwerk', 'Welpen']])
 
                 <!-- Product Description Field -->
@@ -82,7 +81,7 @@
                         <progress class="progress w-full bg-gray-300" id="file-progress" value="0"></progress>
                     </div>
                     <!-- Remove Image Button -->
-                    <button id="remove-image" class="absolute top-0 right-0 mt-2 mr-2 bg-gray-300 text-white px-2 py-1 rounded-full hidden" onclick="removeImage()">
+                    <button id="remove-image" class="absolute top-0 right-0 mt-2 mr-2 bg-red-600-300 text-white px-2 py-1 rounded-full hidden" onclick="removeImage()">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6"/>
                         </svg>

@@ -34,5 +34,9 @@ header {
     z-index: 1000;
 }
 
+.containerMaxH {
+    max-height: 400px;
+}
+
 
 

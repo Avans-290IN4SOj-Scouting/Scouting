@@ -66,15 +66,18 @@ function handleFileSelect(event) {
 
 document.getElementById('af-submit-app-upload-images').addEventListener('change', handleFileSelect);
 
+
 function removeImage(event) {
     event.preventDefault();
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
     const uploadInput = document.getElementById('af-submit-app-upload-images');
-
     preview.classList.add('hidden');
     removeBtn.classList.add('hidden');
     uploadInput.value = '';
 }
 
 document.getElementById('remove-image').addEventListener('click', removeImage);
+
+
+
