@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('orders.completed-success');
+    $title = __('orders.store');
 @endphp
 
 @push('styles')
@@ -13,23 +13,19 @@
 
 <div id="wrapper">
     <div id="header">
-        <h1 class="mb-4 font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
-            {{ __('orders.store') }}
-        </h1>
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">{{ __('orders.store') }}</h1>
     </div>
 
     <div id="main">
         <div class="group-container">
             @foreach ($groups as $group)
-                <div class="group-item">
-                    <a href="{{ route('orders.overview', ['category' => $group->name]) }}">
-                    <div class="image">
-                        <img src="{{ $group->image_url }}" alt="{{ __('orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders.group') }}">
-                    </div>
-
-                    <p class="group-name">{{ $group->name }}</p>
-                </a>
+            <a class="group-item" href="{{ route('orders.overview', ['category' => $group->name]) }}">
+                <div class="image">
+                    <img src="{{ $group->image_url }}" alt="{{ __('orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders.group') }}">
                 </div>
+
+                <p class="group-name">{{ $group->name }}</p>
+            </a>
             @endforeach
         </div>
     </div>

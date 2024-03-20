@@ -17,6 +17,7 @@ return [
     'group' => 'Groep',
     'back-to-home-page' => 'Terug naar de home pagina',
 
+    'select-group' => 'Selecteer de aflevergroep',
     'select-size' => 'Selecteer maat',
 
     'add-to-shoppingcart' => 'Product toevoegen aan winkelwagen',

@@ -41,6 +41,15 @@ class ShoppingCart {
             }
         }
     }
+
+    addAmountToProduct(id, sizeId, amount) {
+        for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
+                this.products[i].amount += amount;
+                return true;
+            }
+        }
+    }
 }
 
 // Code
@@ -51,16 +60,15 @@ function addProductToShoppingCart(id, sizeId, amount) {
     // 2. Make Changes
     // Check if Product already exists
     if (shoppingCart.isProductInShoppingCart(id, sizeId) === true) {
-        createToast('Product is al in uw winkelwagen!', 'warning');
-        return;
+        shoppingCart.addAmountToProduct(id, sizeId, 1);
+    } else {
+        let newProduct = new Product;
+        newProduct.id = id;
+        newProduct.amount = amount;
+        newProduct.sizeId = sizeId;
+
+        shoppingCart.products.push(newProduct);
     }
-
-    let newProduct = new Product;
-    newProduct.id = id;
-    newProduct.amount = amount;
-    newProduct.sizeId = sizeId;
-
-    shoppingCart.products.push(newProduct);
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);

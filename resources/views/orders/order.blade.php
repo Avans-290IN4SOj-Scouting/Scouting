@@ -49,22 +49,22 @@
                                     </div>
                                 </div>
                                 <div class="sm:col-span-9">
-                                    <div class=sm:flex>
-                                        <div>
+                                    <div class="sm:flex">
+                                        <div class="w-full">
                                             <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders.lid-name') }}"
                                                 class="{{ $errors->has('lid-name') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px rounded-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                         </div>
-                                        @error('lid-name')
-                                            <p class="form-error-text">{{ __('orders.form-lid-name-error') }}</p>
-                                        @enderror
                                     </div>
+                                    @error('lid-name')
+                                        <p class="form-error-text">{{ __('orders.form-lid-name-error') }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="sm:col-span-3">
                                     <div class="inline-block">
                                         <label for="scouting-group"
                                             class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
-                                            {{ __('orders.group') }}
+                                            {{ __('orders.select-group') }}
                                         </label>
                                     </div>
                                 </div>
