@@ -11,6 +11,7 @@ use App\Models\ProductType;
 use App\Viewmodels\ProductViewmodel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -87,13 +88,36 @@ class ProductController extends Controller
 
     public function createProduct(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|alpha_num:ascii',
+            // 'category' => 'required|string|in:heren,dames,unisex',
+            'picture' => 'required|file|image',
+            'priceForSize' => [
+                'bail',
+                'array',
+                'required',
+                function ($attribute, $value, $fail) {
+                    foreach ($value as $price) {
+                        if (is_numeric($price) || $price == null) {
+                            continue;
+                        }
+                        $fail("The $attribute must contain only numbers.");
+                    }
+                }
+            ],
+            'groups' => 'required|array',
+            'description' => 'nullable|string',
+        ]);
+
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
         $product->setPicture($request->file('picture'));
         $product->setPriceForSize($request->input('priceForSize'));
         $product->setGroups($request->input('groups'));
+        $product->description = $request->input('description');
 
+        // Remove null values from priceForSize and groups
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
         }));
@@ -105,10 +129,12 @@ class ProductController extends Controller
         $product->setCategory('heren');
         // $product->setPicture('uploads/placeholder.jpg');
 
-        if ($product->getName() == null || $product->getCategory() == null || $product->getPicture() == null || empty($product->priceForSize) || empty($product->groups)) {
-            return view('admin.addProduct')->with('error', 'Please fill in all fields');
+        if ($validator->fails()) {
+            return view('admin.addProduct')->with('error', $validator);
         }
-
+        if (empty($product->priceForSize) || empty($product->groups)) {
+            return view('admin.addProduct')->with('error', 'Vul alle velden in');
+        }
 
         DB::beginTransaction();
         try {
