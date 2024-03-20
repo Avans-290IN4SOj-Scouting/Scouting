@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/orders/overview.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
+    <script src="{{ asset('js/orders/shopping-cart.js') }}" type="module"></script>
 @endpush
 
 @section('content')

@@ -6,7 +6,7 @@ use App\Models\Product;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
-// Callses to Match Javascript classes
+// Classes to Match Javascript classes
 class JsShoppingCart {
     public $products;
 }

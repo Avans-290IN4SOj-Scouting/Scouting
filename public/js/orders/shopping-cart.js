@@ -1,3 +1,9 @@
+import {
+    SHOPPINGCART_COOKIE_NAME,
+    SHOPPINGCART_COOKIE_DOMAIN,
+    SHOPPINGCART_COOKIE_PATH
+} from './../env.js';
+
 // Classes
 class Product {
     constructor() {
@@ -104,32 +110,25 @@ function setShoppingCartProductAmount(id, sizeId, amount) {
     saveShoppingCart(shoppingCart);
 }
 
-const shoppingCartcookieName = 'shopping-cart';
-const shoppingCartcookieDomain = '127.0.0.1';
-const shoppingCartcookiePath = '/';
-
 // Cookie
 function saveShoppingCart(shoppingCart) {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 30);
-    const cookie = `${shoppingCartcookieName}=${JSON.stringify(shoppingCart)}; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
+    const cookie = `${SHOPPINGCART_COOKIE_NAME}=${JSON.stringify(shoppingCart)}; domain=${SHOPPINGCART_COOKIE_DOMAIN}; path=${SHOPPINGCART_COOKIE_PATH}`;
     document.cookie = cookie;
-    // createToast(JSON.stringify(cookie), 'warning');
 }
 
 function getShoppingCart() {
     const cookieValue = document.cookie
     .split('; ')
-    .find((row) => row.startsWith(`${shoppingCartcookieName}=`))
+    .find((row) => row.startsWith(`${SHOPPINGCART_COOKIE_NAME}=`))
     ?.split('=')[1];
 
     let shoppingCartData;
     if (cookieValue === undefined) {
-        // createToast("Cookie not SET!", 'error');
         return new ShoppingCart;
     } else {
         shoppingCartData = JSON.parse(cookieValue);
-        // createToast("Cookie is SET!", 'success');
     }
 
     // Deserialize the JSON string back into a Product instance
@@ -144,5 +143,5 @@ function getShoppingCart() {
 }
 
 function clearShoppingCart() {
-    document.cookie = `${shoppingCartcookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
+    document.cookie = `${SHOPPINGCART_COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${SHOPPINGCART_COOKIE_DOMAIN}; path=${SHOPPINGCART_COOKIE_PATH}`;
 }
