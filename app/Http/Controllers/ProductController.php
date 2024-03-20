@@ -83,14 +83,25 @@ class ProductController extends Controller
 
     public function goToAddProduct()
     {
-        return view('admin.addProduct');
+        $categories = ProductType::all();
+        $groups = Group::all();
+        return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => $groups]);
     }
 
     public function createProduct(Request $request)
     {
+        $categories = ProductType::all()->select('id', 'type');
         $validator = Validator::make($request->all(), [
             'name' => 'required|alpha_num:ascii',
-            // 'category' => 'required|string|in:heren,dames,unisex',
+            'category' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) use ($categories) {
+                    if ($categories->where('type', $value)->first() == null) {
+                        $fail("The $attribute must be a valid category.");
+                    }
+                }
+            ],
             'picture' => 'required|file|image',
             'priceForSize' => [
                 'bail',
@@ -125,14 +136,10 @@ class ProductController extends Controller
             return $group != null;
         }));
 
-        // TODO: remove these bypasses when implemented
-        $product->setCategory('heren');
-        // $product->setPicture('uploads/placeholder.jpg');
-
         if ($validator->fails()) {
             return view('admin.addProduct')->with('error', $validator);
         }
-        if (empty($product->priceForSize) || empty($product->groups)) {
+        if (empty ($product->priceForSize) || empty ($product->groups)) {
             return view('admin.addProduct')->with('error', 'Vul alle velden in');
         }
 
@@ -146,6 +153,7 @@ class ProductController extends Controller
                 'discount' => 0,
                 'product_type_id' => $category,
                 'image_path' => $product->getPicture(), // Assign the image path here
+                'description' => $product->description,
             ]);
 
             $sizes = ProductSize::all();
