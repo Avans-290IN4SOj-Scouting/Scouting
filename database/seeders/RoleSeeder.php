@@ -27,13 +27,19 @@ class RoleSeeder extends Seeder
         }
 
         $teamleaderRoles = ['team_bevers', 'team_gidsen', 'team_kabouters', 'team_scouts', 'team_zeeverkenners', 'team_welpen'];
+        $chrA = 65;
 
         foreach ($teamleaderRoles as $subRole) {
             if (!Role::where('name', $subRole)->exists()) {
-                Role::create([
-                    'name' => $subRole,
-                    'guard_name'=> $guardName,
-                ]);
+                $maxAmountSubdivisions = mt_rand(1, 5);
+                for ($i = 0; $i < $maxAmountSubdivisions; $i++) {
+                    $asciiSymbol = chr($i + $chrA);
+
+                    Role::create([
+                        'name' => $subRole  . '_' . $asciiSymbol,
+                        'guard_name' => $guardName,
+                    ]);
+                }
             }
         }
     }
