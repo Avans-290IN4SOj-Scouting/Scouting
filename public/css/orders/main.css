@@ -13,10 +13,6 @@
     display: flex;
 }
 
-.pre-discount-price {
-    text-decoration: line-through;
-}
-
 .order-data {
     display: flex;
     flex-direction: column;

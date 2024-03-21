@@ -1,9 +1,15 @@
+import {
+    SHOPPINGCART_COOKIE_NAME,
+    SHOPPINGCART_COOKIE_DOMAIN,
+    SHOPPINGCART_COOKIE_PATH
+} from './../env.js';
+
 // Classes
 class Product {
     constructor() {
         this.id;
         this.amount;
-        this.size;
+        this.sizeId;
     }
 }
 
@@ -12,9 +18,9 @@ class ShoppingCart {
         this.products = [];
     }
 
-    isProductInShoppingCart(id, size) {
+    isProductInShoppingCart(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].size == size) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
                 return true;
             }
         }
@@ -22,9 +28,9 @@ class ShoppingCart {
         return false;
     }
 
-    removeProductById(id, size) {
+    removeProductById(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].size == size) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
                 this.products.splice(i, 1);
                 return true;
             }
@@ -33,10 +39,19 @@ class ShoppingCart {
         return false;
     }
 
-    setProductAmount(id, size, amount) {
+    setProductAmount(id, sizeId, amount) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].size == size) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
                 this.products[i].amount = amount;
+                return true;
+            }
+        }
+    }
+
+    addAmountToProduct(id, sizeId, amount) {
+        for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
+                this.products[i].amount += amount;
                 return true;
             }
         }
@@ -44,85 +59,76 @@ class ShoppingCart {
 }
 
 // Code
-function addProductToShoppingCart(id, size, amount) {
+function addProductToShoppingCart(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
-    // createToast("Error below is expected!", 'success');
 
     // 2. Make Changes
     // Check if Product already exists
-    if (shoppingCart.isProductInShoppingCart(id, size) === true) {
-        return;
+    if (shoppingCart.isProductInShoppingCart(id, sizeId) === true) {
+        shoppingCart.addAmountToProduct(id, sizeId, 1);
+    } else {
+        let newProduct = new Product;
+        newProduct.id = id;
+        newProduct.amount = amount;
+        newProduct.sizeId = sizeId;
+
+        shoppingCart.products.push(newProduct);
     }
-
-    let newProduct = new Product;
-    newProduct.id = id;
-    newProduct.amount = amount;
-    newProduct.size = size;
-
-    shoppingCart.products.push(newProduct);
-    // createToast(JSON.stringify(newProduct), 'warning');
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
-    // getShoppingCart();
 
     // 4. Show message
-    // createToast(JSON.stringify(getShoppingCart()), 'warning');
+    createToast('Product toegevoegd aan winkelwagen!', 'success');
 }
 
-function removeProductFromShoppingCart(id, size) {
+function removeProductFromShoppingCart(id, sizeId) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
     // Check if product exists
-    if (shoppingCart.removeProductById(id, size) === false) {
+    if (shoppingCart.removeProductById(id, sizeId) === false) {
         console.warn("Product could not be removed from shopping cart, product was not present.");
         return;
     }
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
+    createToast('Product verwijderd uit uw winkelwagen!', 'success');
 }
 
-function setShoppingCartProductAmount(id, size, amount) {
+function setShoppingCartProductAmount(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
-    shoppingCart.setProductAmount(id, size, amount);
+    shoppingCart.setProductAmount(id, sizeId, amount);
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
 }
 
-const shoppingCartcookieName = 'shopping-cart';
-const shoppingCartcookieDomain = '127.0.0.1';
-const shoppingCartcookiePath = '/';
-
 // Cookie
 function saveShoppingCart(shoppingCart) {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 30);
-    const cookie = `${shoppingCartcookieName}=${JSON.stringify(shoppingCart)}; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
+    const cookie = `${SHOPPINGCART_COOKIE_NAME}=${JSON.stringify(shoppingCart)}; domain=${SHOPPINGCART_COOKIE_DOMAIN}; path=${SHOPPINGCART_COOKIE_PATH}`;
     document.cookie = cookie;
-    // createToast(JSON.stringify(cookie), 'warning');
 }
 
 function getShoppingCart() {
     const cookieValue = document.cookie
     .split('; ')
-    .find((row) => row.startsWith(`${shoppingCartcookieName}=`))
+    .find((row) => row.startsWith(`${SHOPPINGCART_COOKIE_NAME}=`))
     ?.split('=')[1];
 
     let shoppingCartData;
     if (cookieValue === undefined) {
-        // createToast("Cookie not SET!", 'error');
         return new ShoppingCart;
     } else {
         shoppingCartData = JSON.parse(cookieValue);
-        // createToast("Cookie is SET!", 'success');
     }
 
     // Deserialize the JSON string back into a Product instance
@@ -137,5 +143,5 @@ function getShoppingCart() {
 }
 
 function clearShoppingCart() {
-    document.cookie = `${shoppingCartcookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${shoppingCartcookieDomain}; path=${shoppingCartcookiePath}`;
+    document.cookie = `${SHOPPINGCART_COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${SHOPPINGCART_COOKIE_DOMAIN}; path=${SHOPPINGCART_COOKIE_PATH}`;
 }

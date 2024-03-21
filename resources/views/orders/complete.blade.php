@@ -18,9 +18,8 @@
             </h1>
 
         </div>
-
         <div id="main">
-            <a href="{{ route('orders.overview') }}">Terug naar de home pagina</a>
+            <a href="{{ route('home') }}">{{ __('orders.back-to-home-page') }}</a>
         </div>
     </div>
 

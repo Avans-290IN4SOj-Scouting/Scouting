@@ -34,3 +34,6 @@ header {
     z-index: 1000;
 }
 
+.breadcrumbs-container {
+    margin-bottom: 1.5rem;
+}

@@ -28,5 +28,25 @@ class ProductGroupSeeder extends Seeder
         $scoutsGroup->products()->attach($test2Product);
         $scoutsGroup->products()->attach($test3Product);
 
+        {
+            $product = Product::where('id', 1)->first();
+            $group = Group::where('id', 1)->first();
+            $group->products()->attach($product);
+        }
+        {
+            $product = Product::where('id', 1)->first();
+            $group = Group::where('id', 2)->first();
+            $group->products()->attach($product);
+        }
+        {
+            $product = Product::where('id', 1)->first();
+            $group = Group::where('id', 3)->first();
+            $group->products()->attach($product);
+        }
+        {
+            $product = Product::where('id', 1)->first();
+            $group = Group::where('id', 4)->first();
+            $group->products()->attach($product);
+        }
     }
 }
