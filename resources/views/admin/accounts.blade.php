@@ -37,7 +37,6 @@
 
                                             @php
                                                 $oldRole = $account->roles->first() ? $account->roles->first()->name : null;
-                                                $translatedOldRole = $oldRole ? __('roles.' . $oldRole) : null;
                                             @endphp
 
                                             <label for="selectRole" hidden>{{ __('accounts.role')  }}</label>
@@ -47,7 +46,7 @@
 
                                                 @foreach ($roles as $role)
                                                     <option
-                                                        value="{{ $role }}">
+                                                        value="{{ $role }}" {{ $oldRole === $role->name ? 'selected' : '' }}>
                                                         {{ Str::upper($role->name) }}
                                                     </option>
                                                 @endforeach
