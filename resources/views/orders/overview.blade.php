@@ -41,7 +41,7 @@
                 @foreach ($products as $product)
                     <div class="product">
                             <div class="flex flex-col bg-white border rounded-xl dark:bg-slate-900">
-                                <a href="{{ route('orders.product', [ 'name' => $product->name, 'groupName' => $group->name]) }}">
+                                <a dusk="{{ $product->name }}" href="{{ route('orders.product', [ 'name' => $product->name, 'groupName' => $group->name]) }}">
                                     <img class="rounded-t-xl" src="{{ $product->image_path }}" alt="{{ $product->name }}">
                                 </a>
 

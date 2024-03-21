@@ -8,20 +8,43 @@ use Tests\DuskTestCase;
 
 class OrderTest extends DuskTestCase
 {
-    public function test_on_page(): void
+    public function test_product_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/product-categorie/bevers/')
-                    ->assertSee('Bevers - ' . __('orders.products'));
+            $browser->visit('/')
+                    ->click('@Bevers')
+                    ->click('@TestAll')
+                    ->screenshot('test_jeroen.png')
+                    ->assertSee('TestAll - Bevers');
         });
     }
 
-    public function test_to_product(): void
+    public function test_order_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/product-categorie/Bevers')
-                    ->click('.product a')
-                    ->assertUrlIs(env('APP_URL') . '/product/TestAll/Bevers');
+            $browser->visit(__('route.shopping-cart'))
+                    ->click('@shoppingcart-next-button')
+                    ->assertSee(__('orders.order'));
+        });
+    }
+
+    public function test_resizability() : void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/')
+                    ->responsiveScreenshots('orders/home')
+
+                    ->visit(__('route.overview') . '/Welpen')
+                    ->responsiveScreenshots('orders/product-overview')
+
+                    ->visit(__('route.product') . '/TestAll/Welpen')
+                    ->responsiveScreenshots('orders/product')
+
+                    ->visit(__('route.shopping-cart'))
+                    ->responsiveScreenshots('orders/shopping-cart')
+
+                    ->visit(__('route.checkout'))
+                    ->responsiveScreenshots('orders/order');
         });
     }
 

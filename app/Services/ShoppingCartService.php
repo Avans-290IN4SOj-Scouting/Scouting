@@ -80,12 +80,6 @@ class ShoppingCartService
                     ->select('products.*', 'product_product_size.*', 'product_sizes.*')
                     ->first();
 
-                // $product = Product::with(['productSizes' => function ($query) use ($shoppingCartProduct) {
-                //         $query->where('product_size_id', '=', $shoppingCartProduct->sizeId);
-                //     }])
-                //     ->where('id', '=', $shoppingCartProduct->id)
-                //     ->first();
-
                 if ($product === null)
                 {
                     continue;

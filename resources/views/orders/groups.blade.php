@@ -19,12 +19,12 @@
     <div id="main">
         <div class="group-container">
             @foreach ($groups as $group)
-            <a class="group-item" href="{{ route('orders.overview', ['category' => $group->name]) }}">
+            <a dusk="{{ $group->name }}" class="group-item" href="{{ route('orders.overview', ['category' => $group->name]) }}">
                 <div class="image">
-                    <img src="{{ $group->image_url }}" alt="{{ __('orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders.group') }}">
+                    <img src="{{ asset($group->image_url) }}" alt="{{ __('orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders.group') }}">
                 </div>
 
-                <p class="group-name">{{ $group->name }}</p>
+                <p class="group-name dark:text-white">{{ $group->name }}</p>
             </a>
             @endforeach
         </div>
