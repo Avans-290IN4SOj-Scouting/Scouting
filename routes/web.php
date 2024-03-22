@@ -92,3 +92,14 @@ Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert
     ->name('shoppingcart.insert');
 Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
     ->name('shoppingcart.update');
+
+// track orders
+// Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
+//     ->name('track_orders.index');
+
+Route::get(__('route.track_orders'), function () {
+    return view('track_orders.trackOrders');
+}
+
+
+

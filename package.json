@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@preline/remove-element": "^2.0.2",
-        "preline": "^2.0.3"
+        "preline": "^2.0.3",
+        "vendor": "^1.7.0"
     }
 }

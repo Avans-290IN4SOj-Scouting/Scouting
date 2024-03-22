@@ -58,7 +58,7 @@
                                href="{{route('manage-accounts')}}">
                                 {{__('navbar.manage_accounts')}}
                             </a>
-                            <a class="{{ request()->routeIs('manage-products') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                            <a class="{{ request()->routeIs('trackOrders') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
                                href="{{route('manage-products')}}">
                                 {{__('navbar.manage_products')}}
                             </a>
@@ -66,7 +66,12 @@
                     </div>
                 @endif
 
-                @if (Auth::guest())
+                @if (Auth::user()){
+                    <a class="{{ request()->routeIs('track_orders.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                        href="{{ route('track_orders.index') }}">{{__('navbar.track_orders')}}</a>
+                }
+
+                @elseif (Auth::guest())
                     <a class="flex items-center gap-x-2 {{ request()->routeIs('login') ? 'active-nav-link' : 'inactive-nav-link' }}"
                        href="{{route('login')}}">
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
