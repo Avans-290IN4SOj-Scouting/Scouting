@@ -50,9 +50,6 @@ class ProductController extends Controller
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
 
-    // ProductController.php
-
-
     public function viewProduct($productId)
     {
         $product = Product::findOrFail($productId);
@@ -60,13 +57,11 @@ class ProductController extends Controller
 
         $productViewModel = new ProductViewmodel();
         $productViewModel->name = $product->name;
-        $productViewModel->category = $product->type->type; // Assuming you have defined the relationship in your Product model
+        $productViewModel->category = $product->type->type;
 
-        // Fetch groups associated with the product
         $groups = $product->groups()->pluck('name')->toArray();
         $productViewModel->groups = $groups;
 
-        // Fetch sizes and prices for the product
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
@@ -133,7 +128,6 @@ class ProductController extends Controller
         $product->setGroups($request->input('groups'));
         $product->description = $request->input('description');
 
-        // Remove null values from priceForSize and groups
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
         }));
@@ -158,7 +152,7 @@ class ProductController extends Controller
                 'name' => $product->getName(),
                 'discount' => 0,
                 'product_type_id' => $category,
-                'image_path' => $product->getPicture(), // Assign the image path here
+                'image_path' => $product->getPicture(),
                 'description' => $product->description,
             ]);
 
@@ -193,7 +187,6 @@ class ProductController extends Controller
         }
         return redirect('/Beheer%20producten');
     }
-
 
     public function editProduct($productId)
     {
