@@ -40,36 +40,20 @@
                                     <!-- Extra invoervelden voor specifieke maten -->
                                     <div id="specific-size-prices">
                                         <label class="block text-gray-700 font-semibold">Specifieke Maten</label>
-                                        <div class="flex items-center space-x-4">
-                                            <span class="text-gray-600">Small (S): €</span>
-                                            <input type="number" placeholder="Prijs"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-md specific-size-price"
-                                                name="priceForSize[Small]">
-                                        </div>
-                                        <div class="flex items-center space-x-4">
-                                            <span class="text-gray-600">Medium (M): €</span>
-                                            <input type="number" placeholder="Prijs"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-md specific-size-price"
-                                                name="priceForSize[Medium]">
-                                        </div>
-                                        <div class="flex items-center space-x-4">
-                                            <span class="text-gray-600">Large (L): €</span>
-                                            <input type="number" placeholder="Prijs"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-md specific-size-price"
-                                                name="priceForSize[Large]">
-                                        </div>
-                                        <div class="flex items-center space-x-4">
-                                            <span class="text-gray-600">Extra Large (XL): €</span>
-                                            <input type="number" placeholder="Prijs"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-md specific-size-price"
-                                                name="priceForSize[Extra Large]">
-                                        </div>
+                                        @foreach ($baseProductSizes as $productSize)
+                                            @include('partials._price-input', [
+                                                'label' => $productSize->size,
+                                                'id' => 'product-size-price',
+                                                'placeholder' => 'Prijs voor maat ' . $productSize->size,
+                                                'name' => 'priceForSize[' . $productSize->size . ']',
+                                            ])
+                                        @endforeach
                                         <!-- Nieuwe invoervelden voor aangepaste maten -->
                                         <div id="custom-size-inputs">
                                             <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
                                         </div>
                                         <!-- Knop om een nieuwe maat toe te voegen -->
-                                        <button onclick="addCustomSizeInput()"
+                                        <button onclick="addCustomSizeInput()" type="button"
                                             class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">Voeg maat toe</button>
                                     </div>
                                 </div>
@@ -80,21 +64,13 @@
                         @include('partials._select', [
                             'label' => 'Scouting groepen',
                             'placeholder' => 'Select scouting groepen',
-                            'options' => [
-                                'Bevers',
-                                'Gidsen',
-                                'Kabouters',
-                                'Leiders',
-                                'Verkenners',
-                                'Waterwerk',
-                                'Welpen',
-                            ],
+                            'options' => $baseGroups->pluck('name'),
                             'name' => 'groups',
                         ])
                         @include('partials._select', [
                             'label' => 'Scouting categorie',
                             'placeholder' => 'Select scouting categorie',
-                            'options' => ['heren', 'dames', 'unisex'],
+                            'options' => $baseCategories->pluck('type'),
                             'name' => 'categories',
                         ])
 

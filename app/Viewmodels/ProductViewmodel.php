@@ -34,15 +34,10 @@ class ProductViewmodel
 
     public function setPicture($image_path)
     {
-        // Check if a file was uploaded
         if ($image_path) {
-            // Save the uploaded file or its path as needed
-            // For example:
-            // $this->picture = $picture->store('uploads'); // Save uploaded file to storage/uploads directory
             $this->image_path = $image_path->getPathname(); // Save the path of the uploaded file
         } else {
-            // Handle the case where no file was uploaded
-            $this->image_path = ''; // Or any default value you prefer
+            $this->image_path = '';
         }
     }
     public function getPicture()
@@ -55,14 +50,24 @@ class ProductViewmodel
         $this->priceForSize = $priceForSize;
     }
 
+    public function addPriceForSize($sizes, $prices)
+    {
+        if (!is_array($sizes) || !is_array($prices)) {
+            return;
+        }
+        if (count($sizes) != count($prices)) {
+            dd('The number of sizes and prices do not match', $sizes, $prices);
+        }
+        for ($i = 0; $i < count($sizes); $i++) {
+            $this->priceForSize[$sizes[$i]] = $prices[$i];
+        }
+    }
+
     public function setGroups($groups)
     {
-        // Ensure that $groups is an array
         if (is_array($groups)) {
             $this->groups = $groups;
         } else {
-            // Handle the case where a non-array value is passed
-            // For example, you can convert the string to an array or handle it in another way based on your requirements
             $this->groups = [$groups]; // Convert the string to a single-element array
         }
     }

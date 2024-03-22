@@ -85,24 +85,26 @@ class ProductController extends Controller
     {
         $categories = ProductType::all();
         $groups = Group::all();
-        return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => $groups]);
+        $productSizes = ProductSize::all();
+        return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => $groups, 'baseProductSizes' => $productSizes]);
     }
 
     public function createProduct(Request $request)
     {
         $categories = ProductType::all()->select('id', 'type');
         $validator = Validator::make($request->all(), [
-            'name' => 'required|alpha_num:ascii',
-            'category' => [
-                'required',
-                'string',
-                function ($attribute, $value, $fail) use ($categories) {
-                    if ($categories->where('type', $value)->first() == null) {
-                        $fail("The $attribute must be a valid category.");
-                    }
-                }
-            ],
-            'picture' => 'required|file|image',
+            'name' => 'required|string',
+            'categories' => 'required|array',
+            // 'category' => [
+            //     'required',
+            //     'string',
+            //     function ($attribute, $value, $fail) use ($categories) {
+            //         if ($categories->where('type', $value)->first() == null) {
+            //             $fail("The $attribute must be a valid category.");
+            //         }
+            //     }
+            // ],
+            'af-submit-app-upload-images' => 'required|file|image',
             'priceForSize' => [
                 'bail',
                 'array',
@@ -116,15 +118,18 @@ class ProductController extends Controller
                     }
                 }
             ],
+            'custom_prices.*' => 'nullable|numeric',
+            'custom_sizes.*' => 'nullable|string',
             'groups' => 'required|array',
             'description' => 'nullable|string',
         ]);
 
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
-        $product->setCategory($request->input('category'));
-        $product->setPicture($request->file('picture'));
+        $product->setCategory($request->input('categories')[0]);
+        $product->setPicture($request->file('af-submit-app-upload-images'));
         $product->setPriceForSize($request->input('priceForSize'));
+        $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
         $product->setGroups($request->input('groups'));
         $product->description = $request->input('description');
 
@@ -137,10 +142,11 @@ class ProductController extends Controller
         }));
 
         if ($validator->fails()) {
-            return view('admin.addProduct')->with('error', $validator);
+            dd($validator);
+            return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => Group::all()])->with('error', $validator);
         }
         if (empty ($product->priceForSize) || empty ($product->groups)) {
-            return view('admin.addProduct')->with('error', 'Vul alle velden in');
+            return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => Group::all()])->with('error', 'Vul alle velden in');
         }
 
         DB::beginTransaction();
@@ -163,16 +169,23 @@ class ProductController extends Controller
                 }
             }
 
-            $sizes = ProductSize::all();
             foreach ($product->priceForSize as $size => $price) {
-                ProductProductSize::create([
-                    'product_id' => Product::where('name', $product->getName())->first()->id,
-                    'product_size_id' => $sizes->where('size', $size)->first()->id,
-                    'price' => $price
-                ]);
+                Product::where('name', $product->getName())->first()->productSizes()
+                    ->attach(ProductSize::where('size', $size)->first(), ['price' => $price]);
             }
 
-            // TODO: Link to groups
+            $groups = Group::all();
+            foreach ($product->groups as $group) {
+                if (!$groups->where('name', $group)->first()) {
+                    dd($group);
+                }
+            }
+
+            foreach ($product->groups as $group) {
+                Product::where('name', $product->getName())->first()->groups()
+                    ->attach(Group::where('name', $group)->first());
+            }
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
