@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrderTrackingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,7 +67,7 @@ Route::get(__('navbar.logout'), function () {
 })->name('logout');
 
 // Orders
-Route::get('/{category?}/{size?}', [OrderController::class, 'overview'])
+Route::get('orders/{category?}/{size?}', [OrderController::class, 'overview'])
     ->name('home')
     ->defaults('category', 'bevers')
     ->defaults('size', 'S');
@@ -94,12 +95,15 @@ Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
     ->name('shoppingcart.update');
 
 // track orders
-// Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
-//     ->name('track_orders.index');
+Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
+    ->name('track_orders.index');
 
-Route::get(__('route.track_orders'), function () {
-    return view('track_orders.trackOrders');
-}
+    // Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
+    // ->name('track_orders.index');
+
+// Route::get(__('route.track_orders'), function () {
+//     return view('track_orders.trackOrders');
+// })->name('track_orders.index');
 
 
 
