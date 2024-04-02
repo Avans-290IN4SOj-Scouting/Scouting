@@ -14,8 +14,8 @@ class OrderTest extends DuskTestCase
             $browser->visit('/')
                     ->click('@Bevers')
                     ->click('@TestAll')
-                    ->screenshot('test_jeroen.png')
-                    ->assertSee('TestAll - Bevers');
+                    ->press(__('orders.add-to-shoppingcart'))
+                    ->assertSee(__('orders.product-added'));
         });
     }
 

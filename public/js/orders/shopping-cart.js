@@ -1,8 +1,6 @@
-import {
-    SHOPPINGCART_COOKIE_NAME,
-    SHOPPINGCART_COOKIE_DOMAIN,
-    SHOPPINGCART_COOKIE_PATH
-} from './../env.js';
+const SHOPPINGCART_COOKIE_NAME      = 'shopping-cart';
+const SHOPPINGCART_COOKIE_DOMAIN    = '127.0.0.1';
+const SHOPPINGCART_COOKIE_PATH      = '/';
 
 // Classes
 class Product {

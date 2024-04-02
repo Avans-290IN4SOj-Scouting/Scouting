@@ -21,6 +21,7 @@ return [
     'select-size' => 'Selecteer maat',
 
     'add-to-shoppingcart' => 'Product toevoegen aan winkelwagen',
+    'product-added' => 'Product toegevoegd aan winkelwagen!',
 
     'shoppingcart-order' => 'Bestelling overzicht',
     'order-products' => 'Artikelen',

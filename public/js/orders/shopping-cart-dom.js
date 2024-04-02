@@ -16,7 +16,6 @@ function DOM_removeShoppingCartProduct(id, sizeId) {
 
 function DOM_shoppingCartProductAmountChange(id, sizeId) {
     let input = document.querySelector('#input-' + id + 'size-' + sizeId);
-    console.log(input.value);
 
     const regex = /^[0-9]{0,3}$/;
     if (!regex.test(input.value)) {
@@ -77,8 +76,8 @@ function updateShoppingCartPrices() {
         amountText.textContent = priceChange.amount.toString().replace('.', ',');
         totalText.textContent = priceChange.total;
 
+        const noProductsText = document.querySelector('#empty-shopping-cart-text');
         if (priceChange.amount == 0) {
-            const noProductsText = document.querySelector('#empty-shopping-cart-text');
             noProductsText.hidden = false;
         } else {
             noProductsText.hidden = true;
