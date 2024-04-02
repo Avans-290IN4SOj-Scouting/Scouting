@@ -11,6 +11,16 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Product Form -->
                     <div class="space-y-4">
+                        <!-- Error Messages -->
+                        @if ($errors->any())
+                            <div class="bg-red-500 text-white px-4 py-2 rounded-md">
+                                <ul>
+                                    @foreach ($errors->all() as $e)
+                                        <li>{{ $e }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <!-- Product Name Field -->
                         @include('partials._input', [
                             'label' => 'Product Naam',
@@ -67,11 +77,11 @@
                             'options' => $baseGroups->pluck('name'),
                             'name' => 'groups',
                         ])
-                        @include('partials._select', [
+                        @include('partials._single-select', [
                             'label' => 'Scouting categorie',
                             'placeholder' => 'Select scouting categorie',
                             'options' => $baseCategories->pluck('type'),
-                            'name' => 'categories',
+                            'name' => 'category',
                         ])
 
                         <!-- Product Description Field -->
@@ -79,7 +89,7 @@
                             Beschrijving</label>
                         <div>
                             <textarea id="product-description" name="description" rows="4"
-                                class="w-full px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring focus:border-blue-500 transition duration-300"></textarea>
+                                class="w-full px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring focus:border-blue-500 transition duration-300">{{ request('description') }}</textarea>
                         </div>
                         <!-- Add Product Button -->
                         <div>
