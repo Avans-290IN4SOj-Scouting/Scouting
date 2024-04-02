@@ -76,52 +76,97 @@ class ProductController extends Controller
         return view('admin.product', ['product' => $productViewModel, 'categories' => $categories]);
     }
 
-    public function goToAddProduct()
+    public function goToAddProduct($failure = null)
     {
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::all();
-        return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => $groups, 'baseProductSizes' => $productSizes]);
+        if ($failure == null)
+            return view('admin.addProduct', [
+                'baseCategories' => $categories,
+                'baseGroups' => $groups,
+                'baseProductSizes' => $productSizes,
+            ]);
+        if (is_string($failure)) {
+            return view('admin.addProduct', [
+                'baseCategories' => $categories,
+                'baseGroups' => $groups,
+                'baseProductSizes' => $productSizes,
+                'errors' => [$failure],
+            ]);
+        }
+        // validator
+        return view('admin.addProduct', [
+            'baseCategories' => $categories,
+            'baseGroups' => $groups,
+            'baseProductSizes' => $productSizes,
+            'errors' => $failure->errors(),
+        ]);
     }
 
     public function createProduct(Request $request)
     {
         $categories = ProductType::all()->select('id', 'type');
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'categories' => 'required|array',
-            // 'category' => [
-            //     'required',
-            //     'string',
-            //     function ($attribute, $value, $fail) use ($categories) {
-            //         if ($categories->where('type', $value)->first() == null) {
-            //             $fail("The $attribute must be a valid category.");
-            //         }
-            //     }
-            // ],
-            'af-submit-app-upload-images' => 'required|file|image',
-            'priceForSize' => [
-                'bail',
-                'array',
+            'name' => [
                 'required',
+                'string',
+            ],
+            'priceForSize' => [
+                'required',
+                'array',
                 function ($attribute, $value, $fail) {
                     foreach ($value as $price) {
                         if (is_numeric($price) || $price == null) {
                             continue;
                         }
-                        $fail("The $attribute must contain only numbers.");
+                        $fail("Het $attribute mag alleen nummers bevatten.");
                     }
                 }
             ],
-            'custom_prices.*' => 'nullable|numeric',
-            'custom_sizes.*' => 'nullable|string',
-            'groups' => 'required|array',
-            'description' => 'nullable|string',
+            'custom_prices.*' => ['nullable', 'numeric',],
+            'custom_sizes.*' => ['nullable', 'string'],
+            'groups' => ['required', 'array'],
+            'category' => [
+                'required',
+                'array',
+                'max:1',
+                function ($attribute, $value, $fail) use ($categories) {
+                    if ($value[0] == null) {
+                        $fail("Het categorie veld moet ingevuld worden.");
+                    } else if ($categories->where('type', $value[0])->first() == null) {
+                        $fail("$value[0] is geen geldige categorie.");
+                    }
+                }
+            ],
+            'af-submit-app-upload-images' => [
+                'required',
+                'file',
+                'image',
+            ],
+            'description' => ['nullable', 'string'],
+        ], [
+            'name.required' => 'Het naam veld moet ingevuld worden.',
+            'name.string' => 'Het naam veld moet een tekst zijn.',
+            'category.required' => 'Het categorie veld moet ingevuld worden.',
+            'category.array' => 'Het categorie veld moet een lijst zijn.',
+            'category.max:1' => 'Het categorie veld mag maar 1 category bevatten.',
+            'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
+            'af-submit-app-upload-images.file' => 'Je probeert iets te uploaden dat geen bestand is.',
+            'af-submit-app-upload-images.image' => 'Het geüploade bestand moet een afbeelding zijn.',
+            'priceForSize.required' => 'Vul minimaal 1 prijs in voor de maat.',
+            'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
+            'custom_prices.*.numeric' => 'Het aangepaste prijzen veld moet numeriek zijn.',
+            'groups.required' => 'Geef aan bij welke groepen de functie hoort',
         ]);
+
+        if ($validator->fails()) {
+            return $this->goToAddProduct($validator);
+        }
 
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
-        $product->setCategory($request->input('categories')[0]);
+        $product->setCategory($request->input('category')[0]);
         $product->setPicture($request->file('af-submit-app-upload-images'));
         $product->setPriceForSize($request->input('priceForSize'));
         $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
@@ -135,12 +180,9 @@ class ProductController extends Controller
             return $group != null;
         }));
 
-        if ($validator->fails()) {
-            dd($validator);
-            return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => Group::all()])->with('error', $validator);
-        }
-        if (empty ($product->priceForSize) || empty ($product->groups)) {
-            return view('admin.addProduct', ['baseCategories' => $categories, 'baseGroups' => Group::all()])->with('error', 'Vul alle velden in');
+        if (empty($product->priceForSize) || empty($product->groups)) {
+            $validator->errors()->add('priceForSize', 'Vul een prijs van een maat in.');
+            return $this->goToAddProduct($validator);
         }
 
         DB::beginTransaction();
