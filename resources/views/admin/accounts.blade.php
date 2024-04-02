@@ -14,7 +14,8 @@
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                         <tr>
-                            <th style="width: 80%" scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                            <th style="width: 80%" scope="col"
+                                class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                 {{ __('accounts.email') }}
                             </th>
                             <th scope="col"
@@ -105,8 +106,10 @@
     </nav>
 
     <div class="fixed bottom-0 right-0 m-4">
-        <button id="saveBtn" name="saveBtn"
-                class="saveBtn bg-blue-500 text-white px-8 py-4 rounded hover:bg-blue-600">{{__('accounts.save_button')}}</button>
+        <button id="saveBtn" name="saveBtn" type="button"
+                class="saveBtn p-4 sm:p-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            {{__('accounts.save_button')}}
+        </button>
     </div>
 
     <div id="confirmModal" name="confirmModal"
