@@ -25,6 +25,17 @@ class Product extends Model
             ->withPivot('price');
     }
 
+    public function size()
+    {
+        return $this->belongsTo(ProductSize::class, 'product_size_id');
+    }
+
+    public function sizes(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSize::class)
+            ->withPivot('price');
+    }
+
     public function stock(): HasOne
     {
         return $this->hasOne(Stock::class);

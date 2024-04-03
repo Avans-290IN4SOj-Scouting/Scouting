@@ -19,39 +19,59 @@ class ProductController extends Controller
     {
         $products = Product::all();
         $categories = ProductType::all();
-
         $productsModel = [];
 
         foreach ($products as $product) {
             $productViewmodel = new ProductViewmodel();
-            $productViewmodel->name = $product->name;
-            $productViewmodel->category = ProductType::find($product->product_type_id)->type;
-
-            // Fetch groups associated with the current product
-            $groups = $product->groups()->pluck('name')->toArray();
-            $productViewmodel->groups = $groups;
-
-            // Fetch sizes and prices for the current product
-            $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
-            $sizes = [];
-            foreach ($sizesWithPrices as $sizeWithPrice) {
-                $sizeData = [
-                    'size' => ProductSize::find($sizeWithPrice->product_size_id)->size,
-                    'price' => $sizeWithPrice->price,
-                ];
-                $sizes[] = $sizeData;
-            }
-            $productViewmodel->sizesWithPrices = $sizes;
-
-            // Add the populated product viewmodel to the products model array
+            $this->populateProductViewModel($product, $productViewmodel);
             $productsModel[] = $productViewmodel;
         }
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
 
-    // ProductController.php
+    public function editProduct($productId)
+    {
+        $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
 
+        if (!$product) {
+            return redirect('/products');
+        }
+
+        $productViewModel = new ProductViewmodel();
+        $this->populateProductViewModel($product, $productViewModel);
+
+        return view('admin.EditProduct', [
+            'product' => $product,
+            'productViewModel' => $productViewModel,
+
+        ]);
+    }
+
+    private function populateProductViewModel($product, $productViewmodel)
+    {
+        $productViewmodel->name = $product->name;
+        $productViewmodel->category = $product->productType->type;
+        $productViewmodel->groups = $product->groups()->pluck('name')->toArray();
+
+        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
+        $sizes = [];
+        foreach ($sizesWithPrices as $sizeWithPrice) {
+            $size = ProductSize::find($sizeWithPrice->product_size_id);
+            if ($size) {
+                $sizeData = [
+                    'size' => $size->size,
+                    'price' => $sizeWithPrice->price,
+                ];
+                $sizes[] = $sizeData;
+            }
+        }
+        $productViewmodel->sizesWithPrices = $sizes;
+
+        $productViewmodel->id = $product->id;
+
+        return $productViewmodel;
+    }
 
     public function viewProduct($productId)
     {
@@ -117,7 +137,8 @@ class ProductController extends Controller
         $product->setGroups($request->input('groups'));
         $product->description = $request->input('description');
 
-        // Remove null values from priceForSize and groups
+        dd($product);
+
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
         }));
@@ -125,7 +146,6 @@ class ProductController extends Controller
             return $group != null;
         }));
 
-        // TODO: remove these bypasses when implemented
         $product->setCategory('heren');
         // $product->setPicture('uploads/placeholder.jpg');
 
@@ -135,6 +155,9 @@ class ProductController extends Controller
         if (empty($product->priceForSize) || empty($product->groups)) {
             return view('admin.addProduct')->with('error', 'Vul alle velden in');
         }
+
+        // Fetch all categories
+        $categories = ProductType::all();
 
         DB::beginTransaction();
         try {
@@ -170,18 +193,9 @@ class ProductController extends Controller
             DB::rollback();
             throw $e;
         }
-        return redirect('/Beheer%20producten');
+        return view('admin.addProduct', ['categories' => $categories]); // Pass categories to the view
     }
 
-
-    public function editProduct($productId)
-    {
-        $product = Product::find($productId);
-        if (!$product) {
-            return redirect('/products');
-        }
-        return view('Products.Edit', ['product' => $product]);
-    }
 
     public function updateProduct()
     {

@@ -64,7 +64,8 @@ Route::post('/products/create', [ProductController::class, 'createProduct'])->na
 Route::get(__('navbar.manage_addProduct'),
     [ProductController::class, 'goToAddProduct'])->name('manage-addProduct');
 
-Route::get('/product/{id}/edit', [ProductController::class, 'editProduct'])->name('product.edit');
+
+Route::get('/product/{id}/edit', [ProductController::class, 'editProduct'])->name('product.EditProduct');
 
 
 
