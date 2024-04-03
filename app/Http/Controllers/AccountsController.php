@@ -17,9 +17,7 @@ class AccountsController extends Controller
                 $query->where('name', '!=', 'teamleader');
             }])->get();
 
-            $roles = Role::all()->where('name', '!=', 'teamleader');
-
-            return view("admin.accounts", ["accounts" => $accounts], ['roles' => $roles]);
+            return view("admin.accounts", ["accounts" => $accounts]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
