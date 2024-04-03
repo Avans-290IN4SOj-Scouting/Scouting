@@ -1,6 +1,6 @@
 <label class="block text-gray-700 font-semibold">{{ $label }}</label>
 <div class="relative">
-    <select multiple name="{{ $name }}[]"
+    <select name="{{ $name }}[]"
         data-hs-select='{
         "placeholder": "{{ $placeholder }}",
         "toggleTag": "<button type=\"button\"></button>",

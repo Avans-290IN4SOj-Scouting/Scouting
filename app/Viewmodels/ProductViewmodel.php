@@ -8,6 +8,7 @@ class ProductViewmodel
     public array $priceForSize; // key = size, value = price
     public array $groups; // value = group
     public string $category; // productType (Heren, Dames, Unisex)
+    public ?string $description;
 
     public string $image_path;
 
@@ -26,14 +27,47 @@ class ProductViewmodel
         $this->category = $category;
     }
 
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setPicture($image_path)
+    {
+        if ($image_path) {
+            $this->image_path = $image_path->getPathname(); // Save the path of the uploaded file
+        } else {
+            $this->image_path = '';
+        }
+    }
+    public function getPicture()
+    {
+        return $this->image_path;
+    }
+
+    public function setPriceForSize(mixed $priceForSize)
+    {
+        $this->priceForSize = $priceForSize;
+    }
+
+    public function addPriceForSize($sizes, $prices)
+    {
+        if (!is_array($sizes) || !is_array($prices)) {
+            return;
+        }
+        if (count($sizes) != count($prices)) {
+            dd('The number of sizes and prices do not match', $sizes, $prices);
+        }
+        for ($i = 0; $i < count($sizes); $i++) {
+            $this->priceForSize[$sizes[$i]] = $prices[$i];
+        }
+    }
+
     public function setGroups($groups)
     {
-        // Ensure that $groups is an array
         if (is_array($groups)) {
             $this->groups = $groups;
         } else {
-            // Handle the case where a non-array value is passed
-            // For example, you can convert the string to an array or handle it in another way based on your requirements
             $this->groups = [$groups]; // Convert the string to a single-element array
         }
     }
