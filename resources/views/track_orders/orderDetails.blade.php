@@ -6,13 +6,13 @@
 @endphp
 
 @section('content')
-    <main class="flex flex-col w-full items-center">
-        <div class="rounded-md w-4/5 bg-gray-200 min-h-40 flex flex-row items-center justify-center">
+    <main class="flex flex-col w-full justify-center align-center">
+        <div class="rounded-md w-4/5 bg-gray-200 min-h-40 flex flex-row items-center justify-between">
            <p>
                 Bestelling {{$order->id}}
            </p>
            <p>
-                Besteldatum {{}}
+                Besteldatum {{$order->order_date}}
            </p>
         </div>
         @foreach ($order->orderLines as $orderLine)
