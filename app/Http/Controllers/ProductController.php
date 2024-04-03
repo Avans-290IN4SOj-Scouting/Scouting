@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Product;
-use App\Models\ProductGroup;
 use App\Models\ProductProductSize;
 use App\Models\ProductSize;
 use App\Models\ProductType;
@@ -80,7 +79,7 @@ class ProductController extends Controller
     {
         $categories = ProductType::all();
         $groups = Group::all();
-        $productSizes = ProductSize::all();
+        $productSizes = ProductSize::where('size', '!=', 'Default')->get();
         if ($failure == null)
             return view('admin.addProduct', [
                 'baseCategories' => $categories,
