@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->dateTime('order_date');
+            $table->timestamp('order_date')->nullable();
             $table->string('email');
             $table->string('lid_name');
             $table->string('postal_code');

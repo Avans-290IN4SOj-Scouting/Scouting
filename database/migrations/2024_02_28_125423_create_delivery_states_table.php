@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('delivery_states', function (Blueprint $table) {
             $table->id();
-
+            $table->integer('order_id');
             $table->dateTime('date');
-
             $table->timestamps();
         });
     }
