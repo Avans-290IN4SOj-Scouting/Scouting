@@ -70,7 +70,6 @@
                             </div>
                         </div>
                         <!-- Select -->
-                        <!-- TODO: use information from controller-->
                         @include('partials._select', [
                             'label' => 'Scouting groepen',
                             'placeholder' => 'Select scouting groepen',
