@@ -14,13 +14,12 @@
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                         <tr>
-                            <th style="width: 80%" scope="col"
-                                class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                            <th scope="col"
+                                class="w-4/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                 {{ __('accounts.email') }}
                             </th>
                             <th scope="col"
-                                style="width: 20%;"
-                                class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                 {{ __('accounts.role') }}
                             </th>
                         </tr>
