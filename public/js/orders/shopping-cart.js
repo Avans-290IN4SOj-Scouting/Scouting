@@ -1,6 +1,9 @@
 const SHOPPINGCART_COOKIE_NAME      = 'shopping-cart';
-const SHOPPINGCART_COOKIE_DOMAIN    = '127.0.0.1';
 const SHOPPINGCART_COOKIE_PATH      = '/';
+function getCookieDomain() {
+    console.log(window.location.hostname);
+    return window.location.hostname;
+}
 
 // Classes
 class Product {
@@ -18,7 +21,7 @@ class ShoppingCart {
 
     isProductInShoppingCart(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
+            if (parseInt(this.products[i].id) === parseInt(id) && parseInt(this.products[i].sizeId) === parseInt(sizeId)) {
                 return true;
             }
         }
@@ -28,7 +31,7 @@ class ShoppingCart {
 
     removeProductById(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
+            if (parseInt(this.products[i].id) === parseInt(id) && parseInt(this.products[i].sizeId) === parseInt(sizeId)) {
                 this.products.splice(i, 1);
                 return true;
             }
@@ -39,7 +42,7 @@ class ShoppingCart {
 
     setProductAmount(id, sizeId, amount) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
+            if (parseInt(this.products[i].id) === parseInt(id) && parseInt(this.products[i].sizeId) === parseInt(sizeId)) {
                 this.products[i].amount = amount;
                 return true;
             }
@@ -48,7 +51,7 @@ class ShoppingCart {
 
     addAmountToProduct(id, sizeId, amount) {
         for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id && this.products[i].sizeId == sizeId) {
+            if (parseInt(this.products[i].id) === parseInt(id) && parseInt(this.products[i].sizeId) === parseInt(sizeId)) {
                 this.products[i].amount += amount;
                 return true;
             }
@@ -67,9 +70,9 @@ function addProductToShoppingCart(id, sizeId, amount) {
         shoppingCart.addAmountToProduct(id, sizeId, 1);
     } else {
         let newProduct = new Product;
-        newProduct.id = id;
-        newProduct.amount = amount;
-        newProduct.sizeId = sizeId;
+        newProduct.id = parseInt(id);
+        newProduct.amount = parseInt(amount);
+        newProduct.sizeId = parseInt(sizeId);
 
         shoppingCart.products.push(newProduct);
     }
@@ -112,7 +115,7 @@ function setShoppingCartProductAmount(id, sizeId, amount) {
 function saveShoppingCart(shoppingCart) {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 30);
-    const cookie = `${SHOPPINGCART_COOKIE_NAME}=${JSON.stringify(shoppingCart)}; domain=${SHOPPINGCART_COOKIE_DOMAIN}; path=${SHOPPINGCART_COOKIE_PATH}`;
+    const cookie = `${SHOPPINGCART_COOKIE_NAME}=${JSON.stringify(shoppingCart)}; domain=${getCookieDomain()}; path=${SHOPPINGCART_COOKIE_PATH}`;
     document.cookie = cookie;
 }
 
@@ -141,5 +144,5 @@ function getShoppingCart() {
 }
 
 function clearShoppingCart() {
-    document.cookie = `${SHOPPINGCART_COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${SHOPPINGCART_COOKIE_DOMAIN}; path=${SHOPPINGCART_COOKIE_PATH}`;
+    document.cookie = `${SHOPPINGCART_COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${getCookieDomain()}; path=${SHOPPINGCART_COOKIE_PATH}`;
 }

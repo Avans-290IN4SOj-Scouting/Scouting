@@ -23,7 +23,7 @@ function DOM_shoppingCartProductAmountChange(id, sizeId) {
         input.value = 1;
     }
 
-    if (input.value == 0) {
+    if (parseInt(input.value) === 0) {
         DOM_removeShoppingCartProduct(id, sizeId);
         return;
     }
