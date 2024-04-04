@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Lang;
 
@@ -13,11 +14,14 @@ class AccountsController extends Controller
     public function index()
     {
         try {
-            $accounts = User::with(["roles" => function ($query) {
-                $query->where('name', '!=', 'teamleader');
-            }])->sortable()->paginate(10);
+            $accounts = User::where('email', '!=', Auth::user()->email)
+                ->with(["roles" => function ($query) {
+                    $query->whereNot('name', 'teamleader');
+                }])->sortable()->paginate(10);
 
-            return view("admin.accounts", ["accounts" => $accounts]);
+            $roles = Role::whereNot('name', 'teamleader')->get();
+
+            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
@@ -36,26 +40,18 @@ class AccountsController extends Controller
             foreach ($accounts as $account) {
                 $user = User::where("email", $account["email"])->first();
 
-                if ($user && isset($account["newRole"])) {
+                if ($user && isset($account["newRoles"])) {
+                    $user->roles()->detach();
 
-                    if ($user->hasRole($account["oldRole"])) {
-                        $user->roles()->detach();
+                    foreach ($account["newRoles"] as $newRole) {
+                        if (in_array($newRole, $teamRoles)) {
+                            $teamleaderRole = Role::where("name", "teamleader")->first();
+                            $user->assignRole($teamleaderRole);
+                        }
+
+                        $role = Role::firstOrCreate(["name" => $newRole]);
+                        $user->assignRole($role);
                     }
-
-                    $teamleaderRole = Role::where("name", "teamleader")->first();
-                    if (in_array($account["newRole"], $teamRoles)) {
-                        $user->assignRole($teamleaderRole);
-                    } else {
-                        $user->removeRole($teamleaderRole);
-                    }
-
-                    $translatedRole = Lang::has("accounts." . $account["newRole"])
-                        ? Lang::get("accounts." . $account["newRole"])
-                        : $account["newRole"];
-
-                    $role = Role::firstOrCreate(["name" => $translatedRole]);
-
-                    $user->assignRole($role);
                 }
             }
 

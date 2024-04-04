@@ -1,28 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const dropdownElements = document.querySelectorAll('[data-account-email]');
+    const dropdownElements = document.querySelectorAll('#selectRole-div');
     const changedAccountsInfo = document.getElementById('changedAccountsInfo');
 
     const changedAccounts = [];
 
-    dropdownElements.forEach(select => {
-        select.addEventListener('change', function () {
-            const accountEmail = this.getAttribute('data-account-email');
-            const oldRole = this.getAttribute('data-old-role');
-            const newRole = this.value;
+    dropdownElements.forEach(selectDiv => {
+        selectDiv.addEventListener("click", function (event) {
+            const accountEmail = selectDiv.getAttribute('data-account-email');
+            const newRoles = [...selectDiv.querySelectorAll('[data-value]')].filter(option => option.classList.contains('selected')).map(option => option.getAttribute('data-value'));
+            const oldRoles = JSON.parse(selectDiv.getAttribute('data-old-roles'));
+
+            console.log(newRoles);
 
             const existingChangeIndex = changedAccounts.findIndex(account => account.email === accountEmail);
 
             if (existingChangeIndex !== -1) {
-                if (oldRole === newRole) {
-                    changedAccounts.splice(existingChangeIndex, 1);
-                } else {
-                    changedAccounts[existingChangeIndex].newRole = newRole;
-                }
+                changedAccounts[existingChangeIndex].newRoles = newRoles;
             } else {
                 changedAccounts.push({
                     email: accountEmail,
-                    oldRole: oldRole,
-                    newRole: newRole
+                    oldRoles: oldRoles,
+                    newRoles: newRoles
                 });
             }
 
@@ -33,7 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateChangedAccountsInfo() {
         let infoHtml = '';
         changedAccounts.forEach(account => {
-            infoHtml += `<strong>${account.email}</strong>: ${account.oldRole} ➔ ${account.newRole}<br>`
+            const oldRoles = account.oldRoles ? account.oldRoles.map(role => document.querySelector(`option[value="${role}"]`).getAttribute('data-translated-name')).join(', ') : '';
+            const newRoles = account.newRoles.map(role => document.querySelector(`option[value="${role}"]`).getAttribute('data-translated-name')).join(', ');
+            infoHtml += `<strong>${account.email}</strong>: ${oldRoles} ➔ ${newRoles}<br>`;
         });
         changedAccountsInfo.innerHTML = infoHtml;
     }
@@ -44,7 +44,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmModal = document.getElementById("confirmModal");
 
     saveBtn.addEventListener("click", function () {
-        if (!(Array.isArray(changedAccounts) && changedAccounts.length)) {
+        let hasChanges = false;
+        dropdownElements.forEach(selectDiv => {
+            const oldRoles = JSON.parse(selectDiv.getAttribute('data-old-roles'));
+            const newRoles = [...selectDiv.querySelectorAll('[data-value]')].filter(option => option.classList.contains('selected')).map(option => option.getAttribute('data-value'));
+
+            if (JSON.stringify(oldRoles) !== JSON.stringify(newRoles)) {
+                hasChanges = true;
+            }
+        });
+
+        if (!hasChanges) {
             window.location.href = "/warning-toast-accounts";
             return;
         }
@@ -69,22 +79,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function submitForm() {
         document.getElementById("userRoles").value = JSON.stringify(changedAccounts);
-
         document.getElementById("updateRoleForm").submit();
     }
 
     function adminRolePresent() {
-        let selectElements = document.querySelectorAll('select');
-
-        for (let i = 0; i < selectElements.length; i++) {
-            let selectedRole = selectElements[i].value;
-
-            if (selectedRole === 'admin') {
-                return true;
-            }
-        }
-
-        return false;
+        let adminRoleFound = false;
+        dropdownElements.forEach(selectDiv => {
+            Array.from([...selectDiv.querySelectorAll('[data-value]')].filter(option => option.classList.contains('selected')).map(option => option.getAttribute('data-value'))).forEach(option => {
+                if (option === "admin") {
+                    adminRoleFound = true;
+                }
+            });
+        });
+        return adminRoleFound;
     }
 });
-
