@@ -34,9 +34,8 @@
                                     <label for="selectRole" hidden>{{ __('accounts.role')  }}</label>
 
                                     <!-- Select -->
-                                    <div class="relative" style="width: 250px;">
-                                        <select id="selectRole" data-account-email="{{ $account->email }}"
-                                                data-old-roles="{{ json_encode($account->roles->pluck('name')) }}" multiple
+                                    <div id="selectRole-div" class="relative" data-account-email="{{ $account->email }}" data-old-roles="{{ json_encode($account->roles->pluck('name')) }}" style="width: 250px;">
+                                        <select id="selectRole" multiple
                                                 data-hs-select='{
                                                   "placeholder": "{{ __('accounts.multiple_select_placeholder') }}",
                                                   "toggleTag": "<button type=\"button\"></button>",
@@ -46,7 +45,7 @@
                                                   "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                 }' class="hidden">
                                             @foreach($roles as $role)
-                                                <option value="{{ $role->name }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                <option id="option" value="{{ $role->name }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
                                                     {{ __('roles.' . $role->name) }}
                                                 </option>
                                             @endforeach

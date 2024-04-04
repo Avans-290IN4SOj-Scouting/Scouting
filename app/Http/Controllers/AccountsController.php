@@ -39,21 +39,15 @@ class AccountsController extends Controller
                 $user = User::where("email", $account["email"])->first();
 
                 if ($user && isset($account["newRoles"])) {
+                    $user->roles()->detach();
 
-                    if ($user->hasRole($account["oldRoles"])) {
-                        $user->roles()->detach();
-                    }
-
-                    $teamleaderRole = Role::where("name", "teamleader")->first();
                     foreach ($account["newRoles"] as $newRole) {
                         if (in_array($newRole, $teamRoles)) {
+                            $teamleaderRole = Role::where("name", "teamleader")->first();
                             $user->assignRole($teamleaderRole);
-                        } else {
-                            $user->removeRole($teamleaderRole);
                         }
 
                         $role = Role::firstOrCreate(["name" => $newRole]);
-
                         $user->assignRole($role);
                     }
                 }
