@@ -16,7 +16,7 @@
                         <tr>
                             <th scope="col"
                                 class="w-4/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                {{ __('accounts.email') }}
+                                @sortablelink('email', __('accounts.email'))
                             </th>
                             <th scope="col"
                                 class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">

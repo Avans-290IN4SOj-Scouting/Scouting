@@ -13,7 +13,7 @@ class AccountsController extends Controller
     public function index()
     {
         try {
-            $accounts = User::with(["roles" => function ($query) {
+            $accounts = User::sortable()->with(["roles" => function ($query) {
                 $query->where('name', '!=', 'teamleader');
             }])->paginate(6);
 
