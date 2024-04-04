@@ -71,30 +71,5 @@ class ProductViewmodel
             $this->groups = [$groups]; // Convert the string to a single-element array
         }
     }
-
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    public function setPicture($image_path)
-    {
-        // Check if a file was uploaded
-        if ($image_path) {
-            $this->image_path = $image_path->getPathname();
-        }
-    }
-    public function getPicture()
-    {
-        return $this->image_path;
-    }
-
-    public function setPriceForSize(mixed $priceForSize)
-    {
-        $this->priceForSize = $priceForSize;
-    }
-
-
-
 }
 

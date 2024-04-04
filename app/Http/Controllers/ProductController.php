@@ -30,7 +30,7 @@ class ProductController extends Controller
     }
 
     public function editProduct($productId)
-    { 
+    {
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
 
         if (!$product) {
@@ -194,7 +194,6 @@ class ProductController extends Controller
         $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
         $product->setGroups($request->input('groups'));
         $product->description = $request->input('description');
-
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
         }));
@@ -202,19 +201,10 @@ class ProductController extends Controller
             return $group != null;
         }));
 
-        $product->setCategory('heren');
-        // $product->setPicture('uploads/placeholder.jpg');
-
-        if ($validator->fails()) {
-            return view('admin.addProduct')->with('error', $validator);
-        }
         if (empty($product->priceForSize) || empty($product->groups)) {
             $validator->errors()->add('priceForSize', 'Vul een prijs van een maat in.');
             return $this->goToAddProduct($validator);
         }
-
-        // Fetch all categories
-        $categories = ProductType::all();
 
         DB::beginTransaction();
         try {
@@ -258,16 +248,7 @@ class ProductController extends Controller
             DB::rollback();
             throw $e;
         }
-        return view('admin.addProduct', ['categories' => $categories]); // Pass categories to the view
-    }
-
-    public function editProduct($productId)
-    {
-        $product = Product::find($productId);
-        if (!$product) {
-            return redirect('/products');
-        }
-        return view('Products.Edit', ['product' => $product]);
+        return $this->productOverview();
     }
 
     public function updateProduct()
