@@ -8,9 +8,7 @@
     <h1 class="text-4xl m-8 dark:text-white">{{__('accounts.page_title')}}</h1>
 
     <div class="flex flex-col">
-        <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
-                <div class="overflow-hidden">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                         <tr>
@@ -60,13 +58,11 @@
                         @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
         </div>
     </div>
 
     {{ $accounts->appends(\Request::except('page'))->links('components.pagination') }}
-    
+
     <div class="fixed bottom-0 right-0 m-4">
         <button id="saveBtn" name="saveBtn" type="button"
                 class="saveBtn p-4 sm:p-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
