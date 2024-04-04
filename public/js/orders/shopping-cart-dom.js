@@ -73,8 +73,8 @@ function updateShoppingCartPrices() {
             return;
         }
 
-        amountText.textContent = priceChange.amount.toString().replace('.', ',');
-        totalText.textContent = priceChange.total;
+        amountText.textContent = priceChange.amount;
+        totalText.textContent = formatPrice(priceChange.total);
 
         const noProductsText = document.querySelector('#empty-shopping-cart-text');
         if (priceChange.amount == 0) {
@@ -86,6 +86,10 @@ function updateShoppingCartPrices() {
     .catch(error => {
         console.error('Error updating text field:', error);
     });
+}
+
+function formatPrice(price) {
+    return price.toFixed(2).replace('.', ',');
 }
 
 function DOM_addProductFromProductPage(productId) {

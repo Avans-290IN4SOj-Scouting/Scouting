@@ -1,7 +1,6 @@
 const SHOPPINGCART_COOKIE_NAME      = 'shopping-cart';
 const SHOPPINGCART_COOKIE_PATH      = '/';
 function getCookieDomain() {
-    console.log(window.location.hostname);
     return window.location.hostname;
 }
 
