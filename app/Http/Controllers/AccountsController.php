@@ -17,7 +17,7 @@ class AccountsController extends Controller
             $accounts = User::where('email', '!=', Auth::user()->email)
                 ->with(["roles" => function ($query) {
                     $query->whereNot('name', 'teamleader');
-                }])->get();
+                }])->sortable()->paginate(10);
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
