@@ -16,6 +16,7 @@ return [
     'accessibility-group-image' => 'product categorie',
     'group' => 'Groep',
     'back-to-home-page' => 'Terug naar de home pagina',
+    'till' => 'tot',
 
     'select-group' => 'Selecteer de aflevergroep',
     'select-size' => 'Selecteer maat',

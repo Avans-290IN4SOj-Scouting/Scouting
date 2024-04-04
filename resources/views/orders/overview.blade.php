@@ -52,8 +52,10 @@
                                                 {{ $product->name }}
                                             </h4>
                                             <p class="dark:text-white">
-                                                <span class="dark:text-white">{{ __('currency.symbol') }}
-                                                    {{ number_format($product->price, 2, __('currency.seperator'), '.') }}
+                                                <span class="dark:text-white">
+                                                    {{ __('currency.symbol') }} {{ number_format($product->price, 2, __('currency.seperator'), '.') }}
+                                                    {{ __('orders.till') }}
+                                                    {{ __('currency.symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('currency.seperator'), '.') }}
                                                 </span>
                                             </p>
                                         </div>
