@@ -17,7 +17,7 @@ class AccountsController extends Controller
                 $query->where('name', '!=', 'teamleader');
             }])->get();
 
-            $roles = Role::where('name', '!=', 'teamleader')->get();
+            $roles = Role::whereNot('name', 'teamleader')->get();
 
             return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles]);
         } catch (\Exception $e) {

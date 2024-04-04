@@ -24,8 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
-            console.log(changedAccounts);
-
             updateChangedAccountsInfo();
         });
     });
