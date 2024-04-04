@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get(__('navbar.cart'), function () {
     return view('customer.cart');
@@ -40,12 +41,16 @@ Route::middleware('role:admin')->group(function () {
     Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
         ->name('manage-accounts');
 
-    Route::get(__('navbar.manage_products'), function () {
-        return view('admin.products');
-    })->name('manage-products');
-
     Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
         ->name('manage-accounts.updateRoles');
+
+    Route::get(__('navbar.manage_products'), [ProductController::class, 'productOverview'])->name('manage-products');
+
+    Route::post('/products/create', [ProductController::class, 'createProduct'])->name('product.createProduct');
+
+    Route::get(__('navbar.manage_addProduct'), [ProductController::class, 'goToAddProduct'])->name('manage-addProduct');
+
+    Route::get('/product/{id}/edit', [ProductController::class, 'editProduct'])->name('product.EditProduct');
 
     Route::get('warning-toast-accounts', function () {
         return redirect()
