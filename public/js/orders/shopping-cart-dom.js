@@ -103,7 +103,12 @@ function DOM_addProductFromProductPage(productId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#product-sizes').addEventListener('change', (event) => {
+    const productSizes = document.querySelector('#product-sizes');
+    if (productSizes === null) {
+        return;
+    }
+
+    productSizes.addEventListener('change', (event) => {
         const value = event.target.options[event.target.selectedIndex].textContent;
         document.querySelector('#product-price').textContent = value.substring(value.indexOf('-') + 4);
     });
