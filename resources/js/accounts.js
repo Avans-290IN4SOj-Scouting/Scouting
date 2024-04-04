@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateChangedAccountsInfo() {
         let infoHtml = '';
         changedAccounts.forEach(account => {
-            const oldRoles = account.oldRoles ? account.oldRoles.join(', ') : '';
-            const newRoles = account.newRoles.join(', ');
+            const oldRoles = account.oldRoles ? account.oldRoles.map(role => document.querySelector(`option[value="${role}"]`).getAttribute('data-translated-name')).join(', ') : '';
+            const newRoles = account.newRoles.map(role => document.querySelector(`option[value="${role}"]`).getAttribute('data-translated-name')).join(', ');
             infoHtml += `<strong>${account.email}</strong>: ${oldRoles} ➔ ${newRoles}<br>`;
         });
         changedAccountsInfo.innerHTML = infoHtml;
