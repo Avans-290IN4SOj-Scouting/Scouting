@@ -55,7 +55,6 @@ class ProductController extends Controller
         try {
             Product::create([
                 'name' => $product->getName(),
-                'discount' => 0,
                 'product_type_id' => $this->catagoryToId($product->getCategory()),
                 ## 'picture' => $product->getPicture() Not implemented
             ]);

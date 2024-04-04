@@ -8,28 +8,43 @@ use Tests\DuskTestCase;
 
 class OrderTest extends DuskTestCase
 {
-    public function test_on_page(): void
+    public function test_product_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('home', ['category' => 'Bevers', 'size' => 'S']))
-                ->assertSee('- ' . __('orders.products'));
+            $browser->visit('/')
+                    ->click('@Bevers')
+                    ->click('@TestAll')
+                    ->press(__('orders.add-to-shoppingcart'))
+                    ->assertSee(__('orders.product-added'));
         });
     }
 
-    public function test_to_product(): void
+    public function test_order_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('home', ['category' => 'Bevers', 'size' => 'S']))
-                ->click('.product a')
-                ->assertUrlIs(route('orders.product', ['id' => 2, 'size' => 'S']));
+            $browser->visit(__('route.shopping-cart'))
+                    ->click('@shoppingcart-next-button')
+                    ->assertSee(__('orders.order'));
         });
     }
 
-    public function test_size_no_products(): void
+    public function test_resizability() : void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('home', ['category' => 'Bevers', 'size' => 'XXL']))
-                ->assertSee(__('orders.no-products-to-show'));
+            $browser->visit('/')
+                    ->responsiveScreenshots('orders/home')
+
+                    ->visit(__('route.overview') . '/Welpen')
+                    ->responsiveScreenshots('orders/product-overview')
+
+                    ->visit(__('route.product') . '/TestAll/Welpen')
+                    ->responsiveScreenshots('orders/product')
+
+                    ->visit(__('route.shopping-cart'))
+                    ->responsiveScreenshots('orders/shopping-cart')
+
+                    ->visit(__('route.checkout'))
+                    ->responsiveScreenshots('orders/order');
         });
     }
 

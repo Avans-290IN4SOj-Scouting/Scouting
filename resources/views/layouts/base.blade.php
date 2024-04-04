@@ -18,6 +18,8 @@
 
     @vite('resources/js/app.js')
     @stack('scripts')
+
+    <script src="{{ asset('js/toast.js') }}"></script>
 </head>
 
 
@@ -33,7 +35,6 @@
 
     <main>
         @yield('content')
-        <div class="norefresh-toast-container"></div>
     </main>
 </div>
 
