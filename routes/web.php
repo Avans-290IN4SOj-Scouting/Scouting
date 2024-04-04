@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [OrderController::class, 'index'])
+    ->name('home');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -26,12 +29,10 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get(__('navbar.cart'), function () {
-    dd("help");
     return view('customer.cart');
 })->name('cart');
 
 Route::get(__('navbar.checkout'), function () {
-    dd("help");
     return view('customer.checkout');
 })->name('checkout');
 
@@ -65,15 +66,15 @@ Route::get(__('navbar.logout'), function () {
         ]);
 })->name('logout');
 
-// Orders
-Route::get('/{category?}/{size?}', [OrderController::class, 'overview'])
-    ->name('home')
-    ->defaults('category', 'bevers')
-    ->defaults('size', 'S');
+/// Orders
+Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
+    ->name('orders.overview')
+    ->defaults('category', '');
 
-Route::get(__('route.product') . '/{id}/{size?}', [OrderController::class, 'product'])
+
+Route::get(__('route.product') . '/{name}/{groupName?}', [OrderController::class, 'product'])
     ->name('orders.product')
-    ->defaults('size', 'S');
+    ->defaults('groupName', '');
 
 // Shopping Cart
 Route::get(__('route.shopping-cart'), [ShoppingCartController::class, 'index'])

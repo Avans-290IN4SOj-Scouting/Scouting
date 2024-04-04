@@ -3,6 +3,7 @@
 return [
     "warning-accounts" => "Er zijn geen rollen aangepast!",
     "success-role-update" => "Rollen succesvol opgeslagen!",
+    "order-no-products" => "U heeft geen producten in uw winkelwagen!",
 ];
 
 

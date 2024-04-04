@@ -1,44 +1,42 @@
 class PHPPriceChange {
-    constructor(amount, total, sale) {
+    constructor(amount, total) {
         this.amount = amount;
         this.total = total;
-        this.sale = sale;
     }
 }
 
-function DOM_removeShoppingCartProduct(id, size) {
-    const toDelete = document.querySelector('#product-' + id + 'size-' + size);
+function DOM_removeShoppingCartProduct(id, sizeId) {
+    const toDelete = document.querySelector('#product-' + id + 'size-' + sizeId);
 
-    removeProductFromShoppingCart(id, size);
+    removeProductFromShoppingCart(id, sizeId);
     shoppingCartChanged();
 
     toDelete.remove();
 }
 
-function DOM_shoppingCartProductAmountChange(id, size) {
-    let input = document.querySelector('#input-' + id + 'size-' + size);
-    console.log(input.value);
+function DOM_shoppingCartProductAmountChange(id, sizeId) {
+    let input = document.querySelector('#input-' + id + 'size-' + sizeId);
 
     const regex = /^[0-9]{0,3}$/;
     if (!regex.test(input.value)) {
-        setShoppingCartProductAmount(id, size, 1);
+        setShoppingCartProductAmount(id, sizeId, 1);
         input.value = 1;
     }
 
-    if (input.value == 0) {
-        DOM_removeShoppingCartProduct(id, size);
+    if (parseInt(input.value) === 0) {
+        DOM_removeShoppingCartProduct(id, sizeId);
         return;
     }
 
-    setShoppingCartProductAmount(id, size, Number(input.value));
+    setShoppingCartProductAmount(id, sizeId, Number(input.value));
     shoppingCartChanged();
 }
 
-function DOM_shoppingCartProductAdd(id, size, amount) {
-    let input = document.querySelector('#input-' + id + 'size-' + size);
+function DOM_shoppingCartProductAdd(id, sizeId, amount) {
+    let input = document.querySelector('#input-' + id + 'size-' + sizeId);
     input.value = (Number(input.value) + amount);
 
-    DOM_shoppingCartProductAmountChange(id, size);
+    DOM_shoppingCartProductAmountChange(id, sizeId);
 }
 
 function shoppingCartChanged() {
@@ -62,32 +60,61 @@ function updateShoppingCartPrices() {
     .then(data => {
         if (data === null || data.priceChange === null)
         {
-            console.log("oofies1");
             return;
         }
 
         let priceChangeData = JSON.parse(data.priceChange);
-        let priceChange = new PHPPriceChange(priceChangeData.amount, priceChangeData.total, priceChangeData.sale);
+        let priceChange = new PHPPriceChange(priceChangeData.amount, priceChangeData.total);
 
         const amountText = document.querySelector('#productCount');
         const totalText = document.querySelector('#shoppingCartTotal');
-        const saleText = document.querySelector('#shoppingCartSale');
-        if (amountText === null || totalText === null || saleText === null)
+        if (amountText === null || totalText === null)
         {
-            // TODO: Maybe an error
-            console.log("oofies2");
             return;
         }
 
         amountText.textContent = priceChange.amount;
-        totalText.textContent = priceChange.total;
-        saleText.textContent = priceChange.sale;
+        totalText.textContent = formatPrice(priceChange.total);
+
+        const noProductsText = document.querySelector('#empty-shopping-cart-text');
+        if (priceChange.amount == 0) {
+            noProductsText.hidden = false;
+        } else {
+            noProductsText.hidden = true;
+        }
     })
     .catch(error => {
         console.error('Error updating text field:', error);
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function formatPrice(price) {
+    return price.toFixed(2).replace('.', ',');
+}
 
-});
+function DOM_addProductFromProductPage(productId) {
+    try
+    {
+        const element = document.querySelector('#product-sizes');
+        const sizeId = element.options[element.selectedIndex].id;
+        const amount = 1;
+        addProductToShoppingCart(productId, sizeId, amount);
+    }
+    catch (e)
+    {
+        return;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const productSizes = document.querySelector('#product-sizes');
+    if (productSizes === null) {
+        return;
+    }
+
+    productSizes.addEventListener('change', (event) => {
+        const value = event.target.options[event.target.selectedIndex].textContent;
+        document.querySelector('#product-price').textContent = value.substring(value.indexOf('-') + 4);
+    });
+})
+

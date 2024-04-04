@@ -6,70 +6,95 @@ use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
-use App\Models\ProductSize;
+use App\Services\ShoppingCartService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\error;
 
 class OrderController extends Controller
 {
+    public function __construct(
+        protected ShoppingCartService $shoppingCartService
+    ) { }
+
     // GET
-    public function overview(string $category, string $size)
+    public function index()
     {
-        $productCategory = ucfirst($category);
-        $products = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
-            ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
-            ->where('product_sizes.size', '=', $size)
-            ->select('products.*', 'product_product_size.*', 'product_sizes.*')
-            ->get();
+        $groups = Group::all();
 
-        $sizes = ProductSize::all();
-
-        return view('orders.overview', [
-            'sizes' => $sizes,
-            'sizeSelected' => $size,
-            'productCategory' => $productCategory,
-            'products' => $products
+        return view('orders.groups', [
+            'groups' => $groups
         ]);
     }
 
-    public function product(string $id, string $size)
+    public function overview(string $category)
     {
-        $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
-        ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
-        ->where('products.id', '=', $id)
-        ->where('product_sizes.size', '=', $size)
-        ->select('products.*', 'product_product_size.*', 'product_sizes.*')
-        ->first();
+        // Check if URL has matching Group
+        $group = Group::where('name', $category)->first();
+        if ($group === null)
+        {
+            abort(404);
+        }
+
+        // Get all Products from obtained Group
+        $products = Product::join('product_group', 'products.id', '=', 'product_group.product_id')
+            ->join('groups', 'product_group.group_id', '=', 'groups.id')
+            ->join('product_sizes', 'groups.size_id', '=', 'product_sizes.id')
+            ->join('product_product_size', function ($join) {
+                $join->on('products.id', '=', 'product_product_size.product_id')
+                    ->on('product_sizes.id', '=', 'product_product_size.product_size_id');
+            })
+            ->where('groups.id', '=', $group->id)
+            ->select('products.*', 'product_product_size.*')
+            ->get();
+
+        return view('orders.overview', [
+            'products' => $products,
+            'group' => $group
+        ]);
+    }
+
+    public function product(string $name, string $groupName)
+    {
+        // Check if URL contains a valid Product and Group
+        $productFromName = Product::where('name', $name)->first();
+        $groupFromName = Group::where('name', $groupName)->first();
+        if ($productFromName === null || $groupFromName === null)
+        {
+            return redirect()->route('orders.overview');
+        }
+
+        // Get product from obtained Product, and get default size
+        $product = Product::with(['productSizes' => function ($query) use ($groupFromName) {
+                $query->where('product_size_id', '=', $groupFromName->size_id);
+            }])
+            ->where('id', '=', $productFromName->id)
+            ->first();
 
         if ($product === null) {
             return redirect()->route('orders.overview');
         }
 
-        $sizes = ProductSize::all();
+        // Get Pivot table values
+        $productSizes = $productFromName->productSizes;
 
         return view('orders.product', [
-            'sizes' => $sizes,
-            'sizeSelected' => $size,
-            'productCategory' => 'Not Implemented!',
-            'product' => $product
+            'group' => $groupFromName,
+            'product' => $product,
+            'productSizes' => $productSizes
         ]);
     }
 
     public function order()
     {
-        $order = 1;
         $groups = Group::all();
 
-        $products = ShoppingCartController::getShoppingCartProducts();
-        $prices = ShoppingCartController::getPrices($products);
+        $products = $this->shoppingCartService->getShoppingCartProducts();
+        $prices = $this->shoppingCartService->getPrices($products);
 
         return view('orders.order', [
-            'order' => $order,
             'prices' => $prices,
             'groups' => $groups,
             'products' => $products
@@ -79,35 +104,47 @@ class OrderController extends Controller
     // POST
     public function completeOrder(Request $request)
     {
+        // Validate form data
         $request->flash('form_data', $request->all());
-
         $validated = $request->validate([
-            'email' => 'required|max:64',
             'lid-name' => 'required|max:32',
-            'postalCode' => 'regex:/^[0-9]{4} ?[a-zA-Z]{2}$/',
-            'houseNumber' => 'required|integer|max:32',
-            'houseNumberAddition' => 'max:8',
-            'streetname' => 'required|max:32',
-            'cityName' => 'required|max:32',
-            'group' => 'required|integer'
+            'scouting-group' => 'required|integer'
         ]);
 
-        // Create Order
-        $order = new Order();
-        $order->order_date = now();
-        $order->email = $request->input('email');
-        $order->lid_name = $request->input('lid-name');
-        $order->postal_code = $request->input('postalCode');
-        $order->house_number = $request->input('houseNumber');
-        $order->house_number_addition = $request->input('houseNumberAddition');
-        $order->streetname = $request->input('streetname');
-        $order->cityname = $request->input('cityName');
-        $order->group_id = $request->input('group');
-        $order->save();
-
         DB::beginTransaction();
+        $order = new Order();
+        try
+        {
+            // Create and save order to obtain ID for OrderLine(s)
+            $order->order_date = now();
+            $order->lid_name = $request->input('lid-name');
+            $order->group_id = $request->input('scouting-group');
+            $order->save();
+        }
+        catch (Exception $e)
+        {
+            DB::rollBack();
+
+            return redirect()->route('orders.order')->with([
+                'error', '__(\'orders.completed-error\')',
+                'toast-type' => 'error',
+                'toast-message' => __('orders.completed-error'),
+            ]);
+        }
+
         try {
-            $products = ShoppingCartController::getShoppingCartProducts(); // Returns a Product[];
+            $products = $this->shoppingCartService->getShoppingCartProducts(); // Returns a Product[];
+            if (count($products) == 0)
+            {
+                DB::rollBack();
+                $this->shoppingCartService->clearShoppingCart();
+
+                return redirect()->route('orders.order')->with([
+                    'error', '__(\'orders.completed-error\')',
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast.order-no-products'),
+                ]);
+            }
 
             foreach ($products as $product)
             {
@@ -128,12 +165,15 @@ class OrderController extends Controller
         catch (Exception $e)
         {
             DB::rollBack();
-            $order->delete();
 
-            return redirect()->route('orders.order')->with('error', '__(\'orders.completed-error\')');
+            return redirect()->route('orders.order')->with([
+                'error', '__(\'orders.completed-error\')',
+                'toast-type' => 'error',
+                'toast-message' => __('toast.order-no-products'),
+            ]);
         }
 
-        ShoppingCartController::clearShoppingCart();
+        $this->shoppingCartService->clearShoppingCart();
         return redirect()->route('orders.completed')->with('success', '__(\'orders.completed-success\')');
     }
 

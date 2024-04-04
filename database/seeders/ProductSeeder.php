@@ -16,8 +16,20 @@ class ProductSeeder extends Seeder
     {
         {
             $product = Product::create([
+                'name' => 'TestAll',
+                'image_path' => 'https://placehold.co/200x200',
+                'product_type_id' => 3
+            ]);
+            $product->productSizes()->attach($product->id, ['product_size_id' => 1, 'price' => 23.45]);
+            $product->productSizes()->attach($product->id, ['product_size_id' => 2, 'price' => 34.56]);
+            $product->productSizes()->attach($product->id, ['product_size_id' => 3, 'price' => 45.67]);
+            $product->productSizes()->attach($product->id, ['product_size_id' => 4, 'price' => 56.78]);
+            $product->productSizes()->attach($product->id, ['product_size_id' => 5, 'price' => 67.89]);
+        }
+
+        {
+            $product = Product::create([
                 'name' => 'TestDames',
-                'discount' => 0.00,
                 'image_path' => 'https://placehold.co/200x200',
                 'product_type_id' => 1
             ]);
@@ -27,7 +39,6 @@ class ProductSeeder extends Seeder
         {
             $product = Product::create([
                 'name' => 'TestHeren',
-                'discount' => 0.20,
                 'image_path' => 'https://placehold.co/200x200',
                 'product_type_id' => 2
             ]);
@@ -37,7 +48,6 @@ class ProductSeeder extends Seeder
         {
             $product = Product::create([
                 'name' => 'TestUnisex',
-                'discount' => 0.00,
                 'image_path' => 'https://placehold.co/200x200',
                 'product_type_id' => 3
             ]);
