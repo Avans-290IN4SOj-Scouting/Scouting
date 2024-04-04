@@ -15,7 +15,7 @@ class AccountsController extends Controller
         try {
             $accounts = User::with(["roles" => function ($query) {
                 $query->where('name', '!=', 'teamleader');
-            }])->get();
+            }])->sortable()->paginate(10);
 
             return view("admin.accounts", ["accounts" => $accounts]);
         } catch (\Exception $e) {

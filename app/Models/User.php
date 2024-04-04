@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Kyslik\ColumnSortable\Sortable;
 
 class User extends Authenticatable
 {
-    use HasRoles, HasApiTokens, HasFactory, Notifiable;
+    use HasRoles, HasApiTokens, HasFactory, Notifiable, Sortable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,15 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
+    ];
+
+    /**
+     * The attributes that are sortable.
+     *
+     * @var array<int, string>
+     */
+    public $sortable = [
+        'email',
     ];
 
     /**
