@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Lang;
 
@@ -13,9 +14,10 @@ class AccountsController extends Controller
     public function index()
     {
         try {
-            $accounts = User::with(["roles" => function ($query) {
-                $query->where('name', '!=', 'teamleader');
-            }])->get();
+            $accounts = User::where('email', '!=', Auth::user()->email)
+                ->with(["roles" => function ($query) {
+                    $query->whereNot('name', 'teamleader');
+                }])->get();
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
