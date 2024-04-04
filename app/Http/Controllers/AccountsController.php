@@ -17,7 +17,9 @@ class AccountsController extends Controller
                 $query->where('name', '!=', 'teamleader');
             }])->get();
 
-            return view("admin.accounts", ["accounts" => $accounts]);
+            $roles = Role::where('name', '!=', 'teamleader')->get();
+
+            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
@@ -36,26 +38,24 @@ class AccountsController extends Controller
             foreach ($accounts as $account) {
                 $user = User::where("email", $account["email"])->first();
 
-                if ($user && isset($account["newRole"])) {
+                if ($user && isset($account["newRoles"])) {
 
-                    if ($user->hasRole($account["oldRole"])) {
+                    if ($user->hasRole($account["oldRoles"])) {
                         $user->roles()->detach();
                     }
 
                     $teamleaderRole = Role::where("name", "teamleader")->first();
-                    if (in_array($account["newRole"], $teamRoles)) {
-                        $user->assignRole($teamleaderRole);
-                    } else {
-                        $user->removeRole($teamleaderRole);
+                    foreach ($account["newRoles"] as $newRole) {
+                        if (in_array($newRole, $teamRoles)) {
+                            $user->assignRole($teamleaderRole);
+                        } else {
+                            $user->removeRole($teamleaderRole);
+                        }
+
+                        $role = Role::firstOrCreate(["name" => $newRole]);
+
+                        $user->assignRole($role);
                     }
-
-                    $translatedRole = Lang::has("accounts." . $account["newRole"])
-                        ? Lang::get("accounts." . $account["newRole"])
-                        : $account["newRole"];
-
-                    $role = Role::firstOrCreate(["name" => $translatedRole]);
-
-                    $user->assignRole($role);
                 }
             }
 

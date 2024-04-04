@@ -31,17 +31,12 @@
                                     {{ $account['email'] }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                    @php
-                                        $oldRole = $account->roles->first() ? $account->roles->first()->name : null;
-                                        $translatedOldRole = $oldRole ? __('roles.' . $oldRole) : null;
-                                    @endphp
-
                                     <label for="selectRole" hidden>{{ __('accounts.role')  }}</label>
 
                                     <!-- Select -->
                                     <div class="relative" style="width: 250px;">
                                         <select id="selectRole" data-account-email="{{ $account->email }}"
-                                                data-old-role="{{ $account->roles->first()->name }}" multiple
+                                                data-old-roles="{{ json_encode($account->roles->pluck('name')) }}" multiple
                                                 data-hs-select='{
                                                   "placeholder": "{{ __('accounts.multiple_select_placeholder') }}",
                                                   "toggleTag": "<button type=\"button\"></button>",
@@ -50,10 +45,9 @@
                                                   "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
                                                   "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                 }' class="hidden">
-                                            @foreach(trans('roles') as $role => $translatedRole)
-                                                <option
-                                                    value="{{ $role }}" {{ $translatedOldRole === $translatedRole ? "selected" : "" }}>
-                                                    {{ __('roles.' . $role) }}
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->name }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                    {{ __('roles.' . $role->name) }}
                                                 </option>
                                             @endforeach
                                         </select>
