@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('streetname');
             $table->string('cityname');
 
+            $table->foreignId('order_status_id')->constrained(table: 'order_statuses', indexName:'order_status_id');
+            $table->foreignId('user_id')->constrained(table: 'users', indexName:'user_id');
             $table->unsignedBigInteger('group_id');
 
             $table->timestamps();

@@ -12,13 +12,17 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function orderLines(): HasMany
+    public function orderLine(): HasMany
     {
         return $this->hasMany(OrderLine::class);
     }
 
-    public function orderStatus(): HasOne{
-        return $this->hasOne(OrderStatus::class);
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+
+    public function orderStatus(): BelongsTo{
+        return $this->belongsTo(OrderStatus::class);
     }
 
     public function group(): BelongsTo

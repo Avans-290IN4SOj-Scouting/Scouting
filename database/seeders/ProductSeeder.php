@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
             $product = Product::create([
                 'name' => 'TestUnisex',
                 'discount' => 0.00,
-                'image_path' => 'images/trui-bever.jpg',
+                'image_path' => 'images/trui-bever.jpeg',
                 'product_type_id' => 3
             ]);
             $product->productSizes()->attach($product->id, ['product_size_id' => 1, 'price' => 12.34]);

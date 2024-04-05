@@ -25,18 +25,27 @@ class OrderSeeder extends Seeder
             'house_number' => '1',
             'streetname' => 'Straat',
             'cityname' => 'Stad',
+            'order_status_id' => 4,
+            'user_id' => 1,
             'group_id' => 1
         ]);
 
         $order->orderStatus = OrderStatus::first();
 
-        $orders = Order::factory()
-            // ->has(OrderStatus::inRandomOrder()->first())
+        $orders[] = Order::factory()
             ->has(OrderLine::factory())
-            ->has(DeliveryState::factory()
-            // ->has(DeliveryStatus::inRandomOrder()->first())
-            )
-            ->count(3)->create();
+            ->has(DeliveryState::factory())
+            ->count(20)->create();
+        
+            array_push($orders, Order::factory()
+            ->has(OrderLine::factory())
+            ->has(DeliveryState::factory())
+            ->count(1)->create(['user_id' => 13, 'order_status_id' => Order::where('id', 1)->first()->id]));
+
+        array_push($orders, Order::factory()
+            ->has(OrderLine::factory())
+            ->has(DeliveryState::factory())
+            ->count(3)->create(['user_id' => 13]));
 
         foreach($orders as $order) {
             $order->status = OrderStatus::inRandomOrder()->first();

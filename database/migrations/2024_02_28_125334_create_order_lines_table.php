@@ -17,9 +17,8 @@ return new class extends Migration
             $table->integer('amount');
             $table->double('product_price');
             $table->string('product_size');
-
-            $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('product_id');
+            $table->foreignId('order_id')->constrained(table: 'orders', indexName:'order_id');
+            $table->foreignId('product_id')->constrained(table: 'products', indexName:'product_id');
 
             $table->timestamps();
         });

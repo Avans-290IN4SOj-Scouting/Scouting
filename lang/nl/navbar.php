@@ -8,6 +8,7 @@ return [
     'cart' => 'Winkelwagen',
     'checkout' => 'Afrekenen',
     'login' => 'Log in',
+    'logout' => 'logout',
     'admin' => 'Admin',
     'register' => 'Registreren',
     'track_orders' => 'Bestellingen'
