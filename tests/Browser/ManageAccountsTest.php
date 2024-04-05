@@ -32,7 +32,7 @@ class ManageAccountsTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
                 ->visit(route('manage-accounts'))
-                ->select('[data-account-email="' . $admin->email . '"]', __('roles.admin'))
+                ->click('#selectRole-div')
                 ->assertSee(__('roles.admin'));
         });
     }
