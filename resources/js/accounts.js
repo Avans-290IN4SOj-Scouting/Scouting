@@ -10,18 +10,24 @@ document.addEventListener('DOMContentLoaded', function () {
             const newRoles = [...selectDiv.querySelectorAll('[data-value]')].filter(option => option.classList.contains('selected')).map(option => option.getAttribute('data-value'));
             const oldRoles = JSON.parse(selectDiv.getAttribute('data-old-roles'));
 
-            console.log(newRoles);
+            const rolesChanged = JSON.stringify(oldRoles) !== JSON.stringify(newRoles);
 
-            const existingChangeIndex = changedAccounts.findIndex(account => account.email === accountEmail);
-
-            if (existingChangeIndex !== -1) {
-                changedAccounts[existingChangeIndex].newRoles = newRoles;
+            if (rolesChanged) {
+                const existingChangeIndex = changedAccounts.findIndex(account => account.email === accountEmail);
+                if (existingChangeIndex !== -1) {
+                    changedAccounts[existingChangeIndex].newRoles = newRoles;
+                } else {
+                    changedAccounts.push({
+                        email: accountEmail,
+                        oldRoles: oldRoles,
+                        newRoles: newRoles
+                    });
+                }
             } else {
-                changedAccounts.push({
-                    email: accountEmail,
-                    oldRoles: oldRoles,
-                    newRoles: newRoles
-                });
+                const existingChangeIndex = changedAccounts.findIndex(account => account.email === accountEmail);
+                if (existingChangeIndex !== -1) {
+                    changedAccounts.splice(existingChangeIndex, 1);
+                }
             }
 
             updateChangedAccountsInfo();
@@ -59,12 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (!adminRolePresent()) {
-            console.log(!adminRolePresent());
-            window.location.href = "/warning-toast-no-admins";
-            return;
-        }
-
         confirmModal.classList.remove("hidden");
     });
 
@@ -80,17 +80,5 @@ document.addEventListener('DOMContentLoaded', function () {
     function submitForm() {
         document.getElementById("userRoles").value = JSON.stringify(changedAccounts);
         document.getElementById("updateRoleForm").submit();
-    }
-
-    function adminRolePresent() {
-        let adminRoleFound = false;
-        dropdownElements.forEach(selectDiv => {
-            Array.from([...selectDiv.querySelectorAll('[data-value]')].filter(option => option.classList.contains('selected')).map(option => option.getAttribute('data-value'))).forEach(option => {
-                if (option === "admin") {
-                    adminRoleFound = true;
-                }
-            });
-        });
-        return adminRoleFound;
     }
 });
