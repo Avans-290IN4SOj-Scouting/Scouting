@@ -8,35 +8,34 @@
     <h1 class="text-4xl m-8 dark:text-white">{{__('accounts.page_title')}}</h1>
 
     <div class="flex flex-col">
-            <div class="p-1.5 min-w-full inline-block align-middle">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead>
-                        <tr>
-                            <th scope="col"
-                                class="w-4/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                @sortablelink('email', __('accounts.email'))
-                            </th>
-                            <th scope="col"
-                                class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                {{ __('accounts.role') }}
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                        @foreach($accounts as $account)
-                            @if($account->email !== Auth::user()->email)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ $account['email'] }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                        <div id="selectRole-div" class="relative"
-                                             data-account-email="{{ $account->email }}"
-                                             data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
-                                             style="width: 250px;">
-                                            <label for="selectRole" hidden>{{ __('accounts.role')  }}</label>
-                                            <select id="selectRole" multiple
-                                                    data-hs-select='{
+        <div class="p-1.5 min-w-full inline-block align-middle">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead>
+                <tr>
+                    <th scope="col"
+                        class="w-4/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                        @sortablelink('email', __('accounts.email'))
+                    </th>
+                    <th scope="col"
+                        class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                        {{ __('accounts.role') }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                @foreach($accounts as $account)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {{ $account['email'] }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                            <div id="selectRole-div" class="relative"
+                                 data-account-email="{{ $account->email }}"
+                                 data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
+                                 style="width: 250px;">
+                                <label for="selectRole" hidden>{{ __('accounts.role')  }}</label>
+                                <select id="selectRole" multiple
+                                        data-hs-select='{
                                                   "placeholder": "{{ __('accounts.multiple_select_placeholder') }}",
                                                   "toggleTag": "<button type=\"button\"></button>",
                                                   "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
@@ -44,20 +43,19 @@
                                                   "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
                                                   "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                 }' class="hidden">
-                                                @foreach($roles as $role)
-                                                    <option value="{{ $role->name }}"
-                                                            data-translated-name="{{ __('roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                        {{ __('roles.' . $role->name) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
-                        </tbody>
-                    </table>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->name }}"
+                                                data-translated-name="{{ __('roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                            {{ __('roles.' . $role->name) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 

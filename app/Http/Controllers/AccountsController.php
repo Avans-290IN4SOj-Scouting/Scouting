@@ -14,7 +14,7 @@ class AccountsController extends Controller
     public function index()
     {
         try {
-            $accounts = User::where('email', '!=', Auth::user()->email)
+            $accounts = User::whereNot('email', Auth::user()->email)
                 ->with(["roles" => function ($query) {
                     $query->whereNot('name', 'teamleader');
                 }])->sortable()->paginate(10);
