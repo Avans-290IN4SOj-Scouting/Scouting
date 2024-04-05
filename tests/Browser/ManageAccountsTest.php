@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Models\User;
@@ -39,16 +40,18 @@ class ManageAccountsTest extends DuskTestCase
 
     public function testModalAppearsAfterRoleChange()
     {
-        $admin = User::factory()->create(['email' => 'modal.role.change']);
-        $testUser = User::factory()->create(['email' => 'modal.role.change.user']);
+        $admin = User::factory()->create(['email' => 'admin@test.com']);
+        $testUser = User::factory()->create(['email' => 'ABC@test.com']);
         $admin->assignRole('admin');
         $testUser->assignRole('user');
 
         $this->browse(function (Browser $browser) use ($admin, $testUser) {
             $browser->loginAs($admin)
-                ->visit(route('manage-accounts.updateRoles'))
+                ->visit(route('manage-accounts'))
                 ->screenshot('manage-accounts-modal')
-                ->select('[data-account-email="' . $testUser->email . '"]', 'admin')
+                ->click('[data-account-email="' . $testUser->email . '"]')
+                ->waitFor('#selectRole-div')
+                ->click(__('[data-value="admin"]'))
                 ->click('#saveBtn')
                 ->waitFor('.confirmModal', 10)
                 ->assertVisible('.confirmModal')
