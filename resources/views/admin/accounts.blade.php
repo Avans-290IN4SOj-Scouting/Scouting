@@ -5,7 +5,7 @@
 @endphp
 
 @push('scripts')
-    @vite('resources/js/accounts.js')
+    <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script>
 @endpush
 
 @section('content')
