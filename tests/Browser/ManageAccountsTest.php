@@ -12,8 +12,7 @@ class ManageAccountsTest extends DuskTestCase
     public function testView()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('manage-accounts'))
-                ->screenshot('manage-accounts')
+            $browser->visit(route('manage.accounts.index'))
                 ->assertUrlIs(config('APP_URL') . __('route.manage_accounts'));
         });
     }
@@ -21,7 +20,8 @@ class ManageAccountsTest extends DuskTestCase
     public function test_responsiveness_screenshots()
     {
         $this->browse(function (Browser $browser) {
-            $browser->responsiveScreenshots('manage-accounts');
+            $browser->visit(route('manage.accounts.index'))
+                ->responsiveScreenshots('manage-accounts/manage-accounts');
         });
     }
 
@@ -32,7 +32,7 @@ class ManageAccountsTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
-                ->visit(route('manage-accounts'))
+                ->visit(route('manage.accounts.index'))
                 ->click('#selectRole-div')
                 ->assertSee(__('roles.admin'));
         });
@@ -47,8 +47,7 @@ class ManageAccountsTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($admin, $testUser) {
             $browser->loginAs($admin)
-                ->visit(route('manage-accounts'))
-                ->screenshot('manage-accounts-modal')
+                ->visit(route('manage.accounts.index'))
                 ->click('[data-account-email="' . $testUser->email . '"]')
                 ->waitFor('#selectRole-div')
                 ->click(__('[data-value="admin"]'))
@@ -57,7 +56,7 @@ class ManageAccountsTest extends DuskTestCase
                 ->assertVisible('.confirmModal')
                 ->assertSee(__('accounts.modal_warning_title'))
                 ->assertSee(__('accounts.confirm_button'))
-                ->screenshot('manage-accounts-modal');
+                ->screenshot('manage-accounts/modal');
         });
     }
 
@@ -68,11 +67,11 @@ class ManageAccountsTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
-                ->visit(route('manage-accounts'))
+                ->visit(route('manage.accounts.index'))
                 ->click('.saveBtn')
                 ->waitFor('.toast-warning', 10)
                 ->assertVisible('.toast-warning')
-                ->screenshot('manage-accounts-warning-toast');
+                ->screenshot('manage-accounts/warning-toast');
         });
     }
 }

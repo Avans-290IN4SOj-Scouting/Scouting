@@ -22,7 +22,7 @@ class OrderTest extends DuskTestCase
     public function test_order_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('route.shopping-cart'))
+            $browser->visit(route('orders.shoppingcart.index'))
                     ->click('@shoppingcart-next-button')
                     ->assertSee(__('orders.order'));
         });
@@ -34,13 +34,13 @@ class OrderTest extends DuskTestCase
             $browser->visit('/')
                     ->responsiveScreenshots('orders/home')
 
-                    ->visit(__('route.overview') . '/Welpen')
+                    ->visit(route('orders.overview', 'welpen'))
                     ->responsiveScreenshots('orders/product-overview')
 
-                    ->visit(__('route.product') . '/TestAll/Welpen')
+                    ->visit(route('orders.product', '/TestAll/Welpen'))
                     ->responsiveScreenshots('orders/product')
 
-                    ->visit(__('route.shopping-cart'))
+                    ->visit(route('orders.shoppingcart.index'))
                     ->responsiveScreenshots('orders/shopping-cart')
 
                     ->visit(__('route.checkout'))

@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 class NavbarTest extends TestCase
 {
+    // TODO
     public function test_home_link()
     {
         $response = $this->get('/');
@@ -17,44 +18,28 @@ class NavbarTest extends TestCase
         $response->assertSee(__('navbar.home'));
     }
 
+    // TODO
     public function test_cart_link()
     {
-        $response = $this->get(__('navbar.cart'));
+        $response = $this->get(route('orders.shoppingcart.index'));
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.cart'));
     }
 
+    // TODO
     public function test_checkout_link()
     {
-        $response = $this->get(__('navbar.checkout'));
+        $response = $this->get(route('orders.checkout.order'));
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.checkout'));
     }
 
-//    public function test_manage_accounts_link()
-//    {
-//        // simulate logged in user with role admin
-//        $response = $this->actingAs(User::factory()->create(['role' => 'admin']))
-//            ->get(__('navbar.manage_accounts'));
-//
-//        $response->assertStatus(200);
-//        $response->assertSee(__('navbar.manage_accounts'));
-//    }
-//
-//    public function test_manage_products_link()
-//    {
-//        $response = $this->actingAs(User::factory()->create(['role' => 'admin']))
-//            ->get(__('navbar.manage_products'));
-//
-//        $response->assertStatus(200);
-//        $response->assertSee(__('navbar.manage_products'));
-//    }
-
+    // TODO
     public function test_login_link()
     {
-        $response = $this->get(__('navbar.login'));
+        $response = $this->get(route('login'));
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.login'));
@@ -70,7 +55,7 @@ class NavbarTest extends TestCase
 
     public function test_cart_link_name()
     {
-        $response = $this->get(route('cart'));
+        $response = $this->get(route('orders.shoppingcart.index'));
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.cart'));
@@ -78,33 +63,24 @@ class NavbarTest extends TestCase
 
     public function test_checkout_link_name()
     {
-        $response = $this->get(route('checkout'));
+        $response = $this->get(route('orders.checkout.order'));
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.checkout'));
     }
 
-//    public function test_manage_accounts_link_name()
-//    {
-//        $response = $this->actingAs(User::factory()->create(['role' => 'admin']))
-//            ->get(route('manage-accounts'));
-//
-//        $response->assertStatus(200);
-//        $response->assertSee(__('navbar.admin'));
-//    }
+    public function test_manage_accounts_link_name()
+    {
+        $response = $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->get(route('manage.accounts.index'));
 
-//    public function test_manage_products_link_name()
-//    {
-//        $response = $this->actingAs(User::factory()->create()->assignRole('admin'))
-//            ->get(route('manage-products'));
-//
-//        $response->assertStatus(200);
-//        $response->assertSee(__('navbar.admin'));
-//    }
+        $response->assertStatus(200);
+        $response->assertSee(__('navbar.admin'));
+    }
 
     public function test_login_link_name()
     {
-        $response = $this->get(__('navbar.login'));
+        $response = $this->get(route('login'));
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.login'));
