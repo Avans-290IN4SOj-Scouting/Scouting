@@ -109,11 +109,13 @@ Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
     ->name('shoppingcart.update');
 
 // track orders
-Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
-    ->name('track_orders.index');
+Route::middleware('auth')->group(function () {
+    Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
+        ->name('track_orders.index');
 
-Route::get('bestellingen-volgen/{id}', [OrderTrackingController::class, 'details'])
-    ->name('track_orders.details');
+    Route::get('bestellingen-volgen/{id}', [OrderTrackingController::class, 'details'])
+        ->name('track_orders.details');
+});
 
     // Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
     // ->name('track_orders.index');

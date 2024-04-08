@@ -7,7 +7,7 @@ return [
     'home' => 'Home',
     'cart' => 'Winkelwagen',
     'checkout' => 'Afrekenen',
-    'login' => 'Log in',
+    'login' => 'login',
     'logout' => 'logout',
     'admin' => 'Admin',
     'register' => 'Registreren',
