@@ -68,7 +68,7 @@ function addProductToShoppingCart(id, sizeId, amount) {
     if (shoppingCart.isProductInShoppingCart(id, sizeId) === true) {
         shoppingCart.addAmountToProduct(id, sizeId, 1);
     } else {
-        let newProduct = new Product;
+        let newProduct = new Product();
         newProduct.id = parseInt(id);
         newProduct.amount = parseInt(amount);
         newProduct.sizeId = parseInt(sizeId);
@@ -84,6 +84,7 @@ function addProductToShoppingCart(id, sizeId, amount) {
 }
 
 function removeProductFromShoppingCart(id, sizeId) {
+    console.log('Removing product from shopping cart:', id, sizeId);
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 

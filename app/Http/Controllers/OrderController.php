@@ -142,7 +142,7 @@ class OrderController extends Controller
                 return redirect()->route('orders.checkout.order')->with([
                     'error', '__(\'orders.completed-error\')',
                     'toast-type' => 'error',
-                    'toast-message' => __('toast.order-no-products'),
+                    'toast-message' => __('toast/messages.order-no-products'),
                 ]);
             }
 
@@ -169,7 +169,7 @@ class OrderController extends Controller
             return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',
-                'toast-message' => __('toast.order-no-products'),
+                'toast-message' => __('toast/messages.order-no-products'),
             ]);
         }
 

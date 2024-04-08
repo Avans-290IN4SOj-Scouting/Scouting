@@ -20,7 +20,7 @@
 
     <div id="main">
         @if (auth()->check() && count($products) > 0)
-            <form name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
+            <form name="completeOrder" method="POST" action="{{ route('orders.checkout.complete-order') }}">
         @endif
 
             @csrf

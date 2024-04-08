@@ -24,30 +24,30 @@ Route::get('/', [OrderController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'edit'])
+        Route::get('/', [ProfileController::class, 'edit'])
             ->name('edit');
 
-        Route::patch('/profile', [ProfileController::class, 'update'])
+        Route::patch('/', [ProfileController::class, 'update'])
             ->name('update');
     });
-
-    Route::get(__('navbar.logout'), function () {
-        return redirect()
-            ->route('home')
-            ->with([
-                'toast-type' => 'success',
-                'toast-message' => __('auth.logout-success')
-            ]);
-    })->name('logout');
 });
 
+Route::get(__('route.logout'), function () {
+    return redirect()
+        ->route('home')
+        ->with([
+            'toast-type' => 'success',
+            'toast-message' => __('auth.logout-success')
+        ]);
+})->name('logout');
+
 Route::middleware('role:admin')->group(function () {
-    Route::prefix('/manage')->name('manage.')->group(function () {
-        Route::prefix('/accounts')->name('accounts.')->group(function () {
+    Route::prefix(__('route.manage'))->name('manage.')->group(function () {
+        Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
-            Route::post('/update-roles', [AccountsController::class, 'updateRoles'])
+            Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
                 ->name('update.roles');
 
             Route::get('warning-toast-accounts', function () {
@@ -55,7 +55,7 @@ Route::middleware('role:admin')->group(function () {
                     ->route('manage.accounts.index')
                     ->with([
                         'toast-type' => 'warning',
-                        'toast-message' => __('toast.warning-accounts')
+                        'toast-message' => __('toast/messages.warning-accounts')
                     ]);
             });
 
@@ -64,7 +64,7 @@ Route::middleware('role:admin')->group(function () {
                     ->route('manage.accounts.index')
                     ->with([
                         'toast-type' => 'warning',
-                        'toast-message' => __('toast.warning-no-admins')
+                        'toast-message' => __('toast/messages.warning-no-admins')
                     ]);
             });
         });
@@ -75,26 +75,28 @@ Route::middleware('role:admin')->group(function () {
     });
 });
 
-Route::prefix('orders')->name('orders.')->group(function () {
+Route::prefix(__('route.products'))->name('orders.')->group(function () {
     Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
         ->name('overview');
 
-    Route::get(__('route.product') . '/{name}/{groupName?}', [OrderController::class, 'product'])
+    Route::get('/{name}/{groupName?}', [OrderController::class, 'product'])
         ->name('product');
+});
 
-    Route::prefix('checkout')->name('checkout.')->group(function () {
-        Route::get(__('route.checkout'), [OrderController::class, 'order'])
+Route::prefix(__('route.order'))->name('orders.')->group(function () {
+    Route::prefix(__('route.checkout'))->name('checkout.')->group(function () {
+        Route::get('/', [OrderController::class, 'order'])
             ->name('order');
-        Route::post('/complete-order', [OrderController::class, 'completeOrder'])
+        Route::post(__('route.complete_order'), [OrderController::class, 'completeOrder'])
             ->name('complete-order');
-        Route::get(__('route.completed-order'), [OrderController::class, 'completedOrder'])
+        Route::get(__('route.complete_order'), [OrderController::class, 'completedOrder'])
             ->name('completed');
     });
 
-    Route::prefix('shoppingcart')->name('shoppingcart.')->group(function () {
-        Route::get(__('route.shopping-cart'), [ShoppingCartController::class, 'index'])
+    Route::prefix(__('route.cart'))->name('shoppingcart.')->group(function () {
+        Route::get('/', [ShoppingCartController::class, 'index'])
             ->name('index');
-        Route::post('/update', [ShoppingCartController::class, 'update'])
+        Route::post(__('route.update'), [ShoppingCartController::class, 'update'])
             ->name('update');
     });
 });

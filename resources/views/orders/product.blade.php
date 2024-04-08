@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/orders/product-page.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
-    <script src="{{ asset('js/orders/shopping-cart-dom.js') }}"></script>
+    <script src="{{ asset('js/orders/shopping-cart.js') }}" defer></script>
+    <script src="{{ asset('js/orders/shopping-cart-dom.js') }}" defer></script>
 @endpush
 
 @section('content')
