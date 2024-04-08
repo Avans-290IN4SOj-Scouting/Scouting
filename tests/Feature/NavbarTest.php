@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class NavbarTest extends TestCase
@@ -71,7 +72,10 @@ class NavbarTest extends TestCase
 
     public function test_manage_accounts_link_name()
     {
-        $response = $this->actingAs(User::factory()->create(['role' => 'admin']))
+        $user = User::factory()->create();
+        $user->assignRole('admin');
+
+        $response = $this->actingAs($user)
             ->get(route('manage.accounts.index'));
 
         $response->assertStatus(200);
