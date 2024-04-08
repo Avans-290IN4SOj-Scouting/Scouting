@@ -6,6 +6,8 @@
 
 .order-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     flex-direction: row;
     gap: 1rem;
 }
@@ -26,7 +28,7 @@
     padding-right: 10px;
 
     height: 120px;
-    min-width: 600px;
+    min-width: 400px;
 
     border: 1px solid lightgray;
 

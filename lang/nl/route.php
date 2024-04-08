@@ -8,5 +8,6 @@ return [
     'completed-order' => '/bestelling-voltooid',
     'manage_accounts' => '/Beheer%20accounts',
     'track_orders' => '/bestellingen-volgen',
-    'order_details' => '/bestellingen-volgen/details'
+    'order_details' => '/bestellingen-volgen/details',
+    'home' => '/'
 ];

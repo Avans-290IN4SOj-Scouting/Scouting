@@ -11,4 +11,5 @@ return [
     "close_button"=> "Sluiten",
     "confirm_button"=> "Bevestigen",
     "saved_confirmation"=> "Gegevens zijn succesvol opgeslagen!",
+    "multiple_select_placeholder" => "Selecteer rol(len)",
 ];

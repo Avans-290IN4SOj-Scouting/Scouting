@@ -19,7 +19,6 @@ class OrderSeeder extends Seeder
     {
         $order = Order::create([
             'order_date' => '2024-02-25',
-            'email' => 'scouting@scouting.nl',
             'lid_name' => 'jantje',
             'postal_code' => '1234AB',
             'house_number' => '1',
