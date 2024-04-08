@@ -111,8 +111,8 @@
                             @foreach ($products as $product)
                             <li class="dark:text-white">
                                 {{ $product->amount }}x {{ $product->name }}, {{ __('orders.size') }} {{ $product->size }},
-                                <span class="dark:text-white">{{ __('currency.symbol') }}
-                                    {{ number_format($product->price, 2, __('currency.seperator'), '.') }}
+                                <span class="dark:text-white">{{ __('common.symbol') }}
+                                    {{ number_format($product->price, 2, __('common.seperator'), '.') }}
                                 </span>
                             </li>
                             @endforeach
@@ -125,9 +125,9 @@
                         <div class="order-total">
                             <div>
                                 <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
-                                <p class="dark:text-white">{{ __('currency.symbol') }}<span
+                                <p class="dark:text-white">{{ __('common.symbol') }}<span
                                         id="shoppingCartTotal">
-                                        {{ number_format($prices->total, 2, __('currency.seperator'), '.') }}
+                                        {{ number_format($prices->total, 2, __('common.seperator'), '.') }}
                                     </span></p>
                             </div>
                         </div>
