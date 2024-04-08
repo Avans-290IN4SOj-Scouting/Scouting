@@ -14,8 +14,8 @@ class OrderTest extends DuskTestCase
             $browser->visit('/')
                     ->click('@Bevers')
                     ->click('@TestAll')
-                    ->press(__('orders.add-to-shoppingcart'))
-                    ->assertSee(__('orders.product-added'));
+                    ->press(__('orders/orders.add-to-shoppingcart'))
+                    ->assertSee(__('orders/orders.product-added'));
         });
     }
 
@@ -24,7 +24,7 @@ class OrderTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('orders.shoppingcart.index'))
                     ->click('@shoppingcart-next-button')
-                    ->assertSee(__('orders.order'));
+                    ->assertSee(__('orders/orders.order'));
         });
     }
 

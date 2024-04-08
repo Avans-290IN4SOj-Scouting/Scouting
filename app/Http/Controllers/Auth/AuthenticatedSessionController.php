@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
             $request->authenticate();
         } catch (AuthenticationException $e) {
             return redirect()->back()->withErrors(
-                ['email' => __('auth.failed')]
+                ['email' => __('auth/auth.failed')]
             );
         }
 
@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
         return redirect()->route('home')
             ->with([
                 'toast-type' => 'success',
-                'toast-message' => __('auth.login-success')
+                'toast-message' => __('auth/auth.login-success')
             ]);
     }
 

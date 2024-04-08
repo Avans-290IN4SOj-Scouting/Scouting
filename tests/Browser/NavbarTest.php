@@ -20,7 +20,7 @@ class NavbarTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('orders.shoppingcart.index'))
-                ->assertSee(__('orders.shoppingcart'));
+                ->assertSee(__('orders/orders.shoppingcart'));
         });
     }
 
@@ -28,7 +28,7 @@ class NavbarTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('orders.checkout.order'))
-                ->assertSee(__('orders.order'));
+                ->assertSee(__('orders/orders.order'));
         });
     }
 
@@ -53,7 +53,7 @@ class NavbarTest extends DuskTestCase
             $browser->visit(route('login'))
                 ->type('email', 'admin@admin')
                 ->type('password', 'password')
-                ->press(__('auth.sign-in'))
+                ->press(__('auth/auth.sign-in'))
                 ->assertRouteIs('home')
                 ->assertSee(__('navbar.admin'));
         });

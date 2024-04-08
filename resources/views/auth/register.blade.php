@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('auth.sign-up');
+    $title = __('auth/auth.sign-up');
 @endphp
 
 @section('content')
@@ -9,12 +9,12 @@
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
-                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">{{__('auth.sign-up')}}</h1>
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">{{__('auth/auth.sign-up')}}</h1>
                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        {{__('auth.account')}}
+                        {{__('auth/auth.account')}}
                         <a class="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                            href="{{route('login')}}">
-                            {{__('auth.sign-in-here')}}
+                            {{__('auth/auth.sign-in-here')}}
                         </a>
                     </p>
                 </div>
@@ -27,14 +27,14 @@
                             <!-- Form Group -->
                             <div>
                                 <label for="email"
-                                       class="block text-sm mb-2 dark:text-white">{{__('auth.email')}}</label>
+                                       class="block text-sm mb-2 dark:text-white">{{__('auth/auth.email')}}</label>
                                 <div class="relative">
                                     <input type="email" id="email" name="email"
                                            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                            required
                                            value="{{old('email')}}">
                                     @error('email')
-                                    <span class="text-red-500">{{ __('auth.' . $message) }}</span>
+                                    <span class="text-red-500">{{ __('auth/auth.' . $message) }}</span>
                                     @enderror
                                     <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                                         <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor"
@@ -50,13 +50,13 @@
                             <!-- Form Group -->
                             <div>
                                 <label for="password"
-                                       class="block text-sm mb-2 dark:text-white">{{__('auth.password')}}</label>
+                                       class="block text-sm mb-2 dark:text-white">{{__('auth/auth.password')}}</label>
                                 <div class="relative">
                                     <input type="password" id="password" name="password"
                                            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                            required>
                                     @error('password')
-                                    <span class="text-red-500">{{ __('auth.' . $message) }}</span>
+                                    <span class="text-red-500">{{ __('auth/auth.' . $message) }}</span>
                                     @enderror
                                     <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                                         <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor"
@@ -72,7 +72,7 @@
                             <!-- Form Group -->
                             <div>
                                 <label for="password_confirmation" class="block text-sm mb-2 dark:text-white">
-                                    {{__('auth.confirm-password')}}
+                                    {{__('auth/auth.confirm-password')}}
                                 </label>
                                 <div class="relative">
                                     <input type="password" id="password_confirmation" name="password_confirmation"
@@ -91,7 +91,7 @@
 
                             <button type="submit"
                                     class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                {{__('auth.sign-up')}}
+                                {{__('auth/auth.sign-up')}}
                             </button>
                         </div>
                     </form>

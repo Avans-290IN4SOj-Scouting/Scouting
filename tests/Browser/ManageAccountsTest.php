@@ -34,7 +34,7 @@ class ManageAccountsTest extends DuskTestCase
             $browser->loginAs($admin)
                 ->visit(route('manage.accounts.index'))
                 ->click('#selectRole-div')
-                ->assertSee(__('roles.admin'));
+                ->assertSee(__('manage-accounts/roles.admin'));
         });
     }
 
@@ -54,8 +54,8 @@ class ManageAccountsTest extends DuskTestCase
                 ->click('#saveBtn')
                 ->waitFor('.confirmModal', 10)
                 ->assertVisible('.confirmModal')
-                ->assertSee(__('accounts.modal_warning_title'))
-                ->assertSee(__('accounts.confirm_button'))
+                ->assertSee(__('manage-accounts/accounts.modal_warning_title'))
+                ->assertSee(__('manage-accounts/accounts.confirm_button'))
                 ->screenshot('manage-accounts/modal');
         });
     }

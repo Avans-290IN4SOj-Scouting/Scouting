@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('orders.product');
+    $title = __('orders/orders.product');
 @endphp
 
 @push('styles')
@@ -73,11 +73,11 @@
                         peer-focus:text-gray-500
                         peer-[:not(:placeholder-shown)]:text-xs
                         peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                        peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('orders.size') }}</label>
+                        peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('orders/orders.size') }}</label>
                     </div>
 
                     <button type="submit" onclick="DOM_addProductFromProductPage('{{ $product->id }}')" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        {{ __('orders.add-to-shoppingcart') }}
+                        {{ __('orders/orders.add-to-shoppingcart') }}
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z"
                                 stroke="white" stroke-linecap="round" stroke-linejoin="round"/>

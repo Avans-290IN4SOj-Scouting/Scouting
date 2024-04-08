@@ -128,7 +128,7 @@ class OrderController extends Controller
             return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',
-                'toast-message' => __('orders.completed-error'),
+                'toast-message' => __('orders/orders.completed-error'),
             ]);
         }
 

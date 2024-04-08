@@ -37,7 +37,7 @@ Route::get(__('route.logout'), function () {
         ->route('home')
         ->with([
             'toast-type' => 'success',
-            'toast-message' => __('auth.logout-success')
+            'toast-message' => __('auth/auth.logout-success')
         ]);
 })->name('logout');
 

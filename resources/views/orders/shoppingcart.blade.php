@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('orders.shoppingcart');
+    $title = __('orders/orders.shoppingcart');
 @endphp
 
 @push('styles')
@@ -19,7 +19,7 @@
     <div id="header">
         <h1
             class="mb-4 text-4xl font-extrabold text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
-            {{ __('orders.shoppingcart') }}
+            {{ __('orders/orders.shoppingcart') }}
         </h1>
     </div>
 
@@ -28,7 +28,7 @@
             <div class="order-container ">
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                     <div class="shoppingcart-products-container">
-                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.products') }}</h2>
+                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders/orders.products') }}</h2>
 
                         @foreach ($products as $product)
                         <div class="shoppingcart-product"
@@ -40,7 +40,7 @@
                                 <div>
                                     <div>
                                         <h4 class="text-lg font-bold text-gray-800 dark:text-white">
-                                            {{ $product->name }} - {{ __('orders.size') }} {{ $product->size }}
+                                            {{ $product->name }} - {{ __('orders/orders.size') }} {{ $product->size }}
                                         </h4>
                                         <p class="dark:text-white">
                                             <span
@@ -106,19 +106,19 @@
 
                         @endforeach
 
-                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white">{{ __('orders.empty-shoppingcart') }}</p>
+                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white">{{ __('orders/orders.empty-shoppingcart') }}</p>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                     <div class="order-data">
-                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.shoppingcart-order') }}</h2>
-                        <p class="dark:text-white">{{ __('orders.order-products') }}: (<span
+                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders/orders.shoppingcart-order') }}</h2>
+                        <p class="dark:text-white">{{ __('orders/orders.order-products') }}: (<span
                                 id="productCount">{{ $prices->amount }}</span>)</p>
 
                         <div class="order-total">
                             <div>
-                                <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
+                                <p class="dark:text-white">{{ __('orders/orders.order-total') }}:</p>
                                 <p class="dark:text-white">{{ __('common.symbol') }}<span
                                         id="shoppingCartTotal">
                                         {{ number_format($prices->total, 2, __('common.seperator'), '.') }}
@@ -131,7 +131,7 @@
 
                         <a dusk="shoppingcart-next-button" href="{{ route('orders.checkout.order') }}">
                             <button type="button" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                {{ __('orders.order-to-order') }}
+                                {{ __('orders/orders.order-to-order') }}
                             </button>
                         </a>
                     </div>

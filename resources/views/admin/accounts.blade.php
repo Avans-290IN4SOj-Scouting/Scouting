@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('accounts.page_title');
+    $title = __('manage-accounts/accounts.page_title');
 @endphp
 
 @push('scripts')
@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-    <h1 class="text-4xl m-8 dark:text-white">{{__('accounts.page_title')}}</h1>
+    <h1 class="text-4xl m-8 dark:text-white">{{__('manage-accounts/accounts.page_title')}}</h1>
 
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
@@ -18,11 +18,11 @@
                 <tr>
                     <th scope="col"
                         class="w-4/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                        @sortablelink('email', __('accounts.email'))
+                        @sortablelink('email', __('manage-accounts/accounts.email'))
                     </th>
                     <th scope="col"
                         class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                        {{ __('accounts.role') }}
+                        {{ __('manage-accounts/accounts.role') }}
                     </th>
                 </tr>
                 </thead>
@@ -37,10 +37,10 @@
                                  data-account-email="{{ $account->email }}"
                                  data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
                                  style="width: 250px;">
-                                <label for="selectRole" hidden>{{ __('accounts.role')  }}</label>
+                                <label for="selectRole" hidden>{{ __('manage-accounts/accounts.role')  }}</label>
                                 <select id="selectRole" multiple
                                         data-hs-select='{
-                                                  "placeholder": "{{ __('accounts.multiple_select_placeholder') }}",
+                                                  "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
                                                   "toggleTag": "<button type=\"button\"></button>",
                                                   "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
                                                   "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
@@ -49,8 +49,8 @@
                                                 }' class="hidden">
                                     @foreach($roles as $role)
                                         <option value="{{ $role->name }}"
-                                                data-translated-name="{{ __('roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                            {{ __('roles.' . $role->name) }}
+                                                data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                            {{ __('manage-accounts/roles.' . $role->name) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -68,26 +68,26 @@
     <div class="fixed bottom-0 right-0 m-4">
         <button id="saveBtn" name="saveBtn" type="button"
                 class="saveBtn p-4 sm:p-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            {{__('accounts.save_button')}}
+            {{__('manage-accounts/accounts.save_button')}}
         </button>
     </div>
 
     <div id="confirmModal" name="confirmModal"
          class="confirmModal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-4 rounded shadow-lg dark:bg-gray-800">
-            <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2 dark:text-white dark:border-gray-600">{{__('accounts.modal_warning_title')}}
+            <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2 dark:text-white dark:border-gray-600">{{__('manage-accounts/accounts.modal_warning_title')}}
             </h3>
             <div id="changedAccountsInfo" name="changedAccountsInfo"
                  class="text-gray-800 mb-4 dark:text-gray-400"></div>
             <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-600">
                 <button id="closeModalBtn" name="closeModalBtn"
-                        class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('accounts.close_button')}}</button>
+                        class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('manage-accounts/accounts.close_button')}}</button>
                 <form id="updateRoleForm" action="{{ route('manage.accounts.update.roles') }}" method="post">
                     @csrf
                     <input type="hidden" id="userRoles" name="userRoles" value="">
                     <button type="button" id="confirmModalBtn" name="confirmModalBtn"
                             class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        {{__('accounts.confirm_button')}}
+                        {{__('manage-accounts/accounts.confirm_button')}}
                     </button>
                 </form>
             </div>
