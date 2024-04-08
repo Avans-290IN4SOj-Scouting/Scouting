@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (!hasChanges) {
-            window.location.href = "/warning-toast-accounts";
+            window.location.href = "/manage/accounts/warning-toast-accounts";
             return;
         }
 

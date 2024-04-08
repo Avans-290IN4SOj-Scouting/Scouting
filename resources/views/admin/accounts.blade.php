@@ -4,6 +4,10 @@
     $title = __('accounts.page_title');
 @endphp
 
+@push('scripts')
+    @vite('resources/js/accounts.js')
+@endpush
+
 @section('content')
     <h1 class="text-4xl m-8 dark:text-white">{{__('accounts.page_title')}}</h1>
 
@@ -78,7 +82,7 @@
             <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-600">
                 <button id="closeModalBtn" name="closeModalBtn"
                         class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('accounts.close_button')}}</button>
-                <form id="updateRoleForm" action="{{ route('manage-accounts.updateRoles') }}" method="post">
+                <form id="updateRoleForm" action="{{ route('manage.accounts.update.roles') }}" method="post">
                     @csrf
                     <input type="hidden" id="userRoles" name="userRoles" value="">
                     <button type="button" id="confirmModalBtn" name="confirmModalBtn"

@@ -14,7 +14,7 @@ class ManageAccountsTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('manage-accounts'))
                 ->screenshot('manage-accounts')
-                ->assertUrlIs(env('APP_URL') . __('route.manage_accounts'));
+                ->assertUrlIs(config('APP_URL') . __('route.manage_accounts'));
         });
     }
 

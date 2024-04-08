@@ -1,6 +1,6 @@
 <?php
 return [
-    'company' => env('COMPANY_NAME', 'Home'),
+    'company' => config('COMPANY_NAME', 'Home'),
     'account' => 'Mijn account',
     'manage_accounts' => 'Beheer accounts',
     'manage_products' => 'Beheer producten',

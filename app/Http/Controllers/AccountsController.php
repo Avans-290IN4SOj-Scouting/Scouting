@@ -55,12 +55,12 @@ class AccountsController extends Controller
                 }
             }
 
-            return redirect()->route('manage-accounts')->with([
+            return redirect()->route('manage.accounts.index')->with([
                 'toast-type' => 'success',
                 'toast-message' => __('toast.success-role-update'),
             ]);
         } catch (\Exception $e) {
-            return redirect()->route('manage-accounts')->with([
+            return redirect()->route('manage.accounts.index')->with([
                 'toast-type' => 'error',
                 'toast-message' => __('toast.error-account-saving'),
             ]);
