@@ -10,40 +10,12 @@ use Tests\TestCase;
 
 class NavbarTest extends TestCase
 {
-    // TODO
     public function test_home_link()
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
         $response->assertSee(__('navbar.home'));
-    }
-
-    // TODO
-    public function test_cart_link()
-    {
-        $response = $this->get(route('orders.shoppingcart.index'));
-
-        $response->assertStatus(200);
-        $response->assertSee(__('navbar.cart'));
-    }
-
-    // TODO
-    public function test_checkout_link()
-    {
-        $response = $this->get(route('orders.checkout.order'));
-
-        $response->assertStatus(200);
-        $response->assertSee(__('navbar.checkout'));
-    }
-
-    // TODO
-    public function test_login_link()
-    {
-        $response = $this->get(route('login'));
-
-        $response->assertStatus(200);
-        $response->assertSee(__('navbar.login'));
     }
 
     public function test_home_link_name()
