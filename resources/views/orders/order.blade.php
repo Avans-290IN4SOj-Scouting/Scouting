@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('orders.complete-order');
+    $title = __('orders/orders.complete-order');
 @endphp
 
 @push('styles')
@@ -14,13 +14,13 @@
 <div id="wrapper">
     <div id="header">
         <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
-            {{ __('orders.order') }}
+            {{ __('orders/orders.order') }}
         </h1>
     </div>
 
     <div id="main">
         @if (auth()->check() && count($products) > 0)
-            <form name="completeOrder" method="POST" action="{{ route('orders.complete-order') }}">
+            <form name="completeOrder" method="POST" action="{{ route('orders.checkout.complete-order') }}">
         @endif
 
             @csrf
@@ -31,10 +31,10 @@
                         <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                             <div class="mb-8">
                                 <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                                    {{ __('orders.order-data')}}
+                                    {{ __('orders/orders.order-data')}}
                                 </h2>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                                    {{ __('orders.fill-information')}}
+                                    {{ __('orders/orders.fill-information')}}
                                 </p>
                             </div>
 
@@ -44,19 +44,19 @@
                                     <div class="inline-block">
                                         <label for="lid-name"
                                             class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
-                                            {{ __('orders.lid-name') }}
+                                            {{ __('orders/orders.lid-name') }}
                                         </label>
                                     </div>
                                 </div>
                                 <div class="sm:col-span-9">
                                     <div class="sm:flex">
                                         <div class="w-full">
-                                            <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders.lid-name') }}"
+                                            <input id="lid-name" name="lid-name" type="text" value="{{ old('lid-name') }}" placeholder="{{ __('orders/orders.lid-name') }}"
                                                 class="{{ $errors->has('lid-name') ? 'form-error-input' : '' }} py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px rounded-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
                                         </div>
                                     </div>
                                     @error('lid-name')
-                                        <p class="form-error-text">{{ __('orders.form-lid-name-error') }}</p>
+                                        <p class="form-error-text">{{ __('orders/orders.form-lid-name-error') }}</p>
                                     @enderror
                                 </div>
 
@@ -64,7 +64,7 @@
                                     <div class="inline-block">
                                         <label for="scouting-group"
                                             class="inline-block text-sm text-gray-800 mt-2.5 dark:text-gray-200">
-                                            {{ __('orders.select-group') }}
+                                            {{ __('orders/orders.select-group') }}
                                         </label>
                                     </div>
                                 </div>
@@ -87,11 +87,11 @@
                                         peer-focus:text-gray-500
                                         peer-[:not(:placeholder-shown)]:text-xs
                                         peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                                        peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('orders.group') }}</label>
+                                        peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('orders/orders.group') }}</label>
                                     </div>
                                 </div>
                                 @error('scouting-group')
-                                    <p class="form-error-text">{{ __('orders.form-group-error') }}</p>
+                                    <p class="form-error-text">{{ __('orders/orders.form-group-error') }}</p>
                                 @enderror
                             </div>
                             <!-- End Grid -->
@@ -102,17 +102,17 @@
 
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                     <div class="order-data">
-                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.shoppingcart-order') }}</h2>
-                        <p class="dark:text-white">{{ __('orders.order-products') }}: (<span
+                        <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders/orders.shoppingcart-order') }}</h2>
+                        <p class="dark:text-white">{{ __('orders/orders.order-products') }}: (<span
                             id="productCount">{{ $prices->amount }}</span>)
                         </p>
 
                         <ul>
                             @foreach ($products as $product)
                             <li class="dark:text-white">
-                                {{ $product->amount }}x {{ $product->name }}, {{ __('orders.size') }} {{ $product->size }},
-                                <span class="dark:text-white">{{ __('currency.symbol') }}
-                                    {{ number_format($product->price, 2, __('currency.seperator'), '.') }}
+                                {{ $product->amount }}x {{ $product->name }}, {{ __('orders/orders.size') }} {{ $product->size }},
+                                <span class="dark:text-white">{{ __('common.currency_symbol') }}
+                                    {{ number_format($product->price, 2, __('common.seperator'), '.') }}
                                 </span>
                             </li>
                             @endforeach
@@ -124,10 +124,10 @@
 
                         <div class="order-total">
                             <div>
-                                <p class="dark:text-white">{{ __('orders.order-total') }}:</p>
-                                <p class="dark:text-white">{{ __('currency.symbol') }}<span
+                                <p class="dark:text-white">{{ __('orders/orders.order-total') }}:</p>
+                                <p class="dark:text-white">{{ __('common.currency_symbol') }}<span
                                         id="shoppingCartTotal">
-                                        {{ number_format($prices->total, 2, __('currency.seperator'), '.') }}
+                                        {{ number_format($prices->total, 2, __('common.seperator'), '.') }}
                                     </span></p>
                             </div>
                         </div>
@@ -138,14 +138,14 @@
 
                         @if (auth()->check() && count($products) > 0)
                             <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                {{ __('orders.complete-order') }}
+                                {{ __('orders/orders.complete-order') }}
                               </button>
                         @elseif (count($products) == 0)
-                            <p class="dark:text-white">{{ __('orders.empty-shoppingcart') }}</p>
+                            <p class="dark:text-white">{{ __('orders/orders.empty-shoppingcart') }}</p>
                         @else
                             <a href="{{ route('login') }}"
                             class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                <p>{{ __('orders.log-in') }}</p>
+                                <p>{{ __('orders/orders.log-in') }}</p>
                             </a>
                         @endif
                     </div>

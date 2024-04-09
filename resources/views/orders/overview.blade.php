@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @php
-    $title = __('orders.products');
+    $title = __('orders/orders.products');
 @endphp
 
 @push('styles')
@@ -32,7 +32,7 @@
 <div id="wrapper">
 
     <div id="header">
-        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">{{ $group->name }} - {{ __('orders.products') }}</h1>
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">{{ $group->name }} - {{ __('orders/orders.products') }}</h1>
     </div>
 
     <div id="main">
@@ -53,9 +53,9 @@
                                             </h4>
                                             <p class="dark:text-white">
                                                 <span class="dark:text-white">
-                                                    {{ __('currency.symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('currency.seperator'), '.') }}
-                                                    {{ __('orders.till') }}
-                                                    {{ __('currency.symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('currency.seperator'), '.') }}
+                                                    {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('common.seperator'), '.') }}
+                                                    {{ __('orders/orders.till') }}
+                                                    {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('common.seperator'), '.') }}
                                                 </span>
                                             </p>
                                         </div>
@@ -81,7 +81,7 @@
                     </div>
                 @endforeach
                 @if (count($products) == 0)
-                    <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders.no-products-to-show') }}</h2>
+                    <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders/orders.no-products-to-show') }}</h2>
                 @endif
             </div>
         </div>
