@@ -66,12 +66,7 @@
                     </div>
                 @endif
 
-                @if (Auth::user()){
-                    <a class="{{ request()->routeIs('track_orders.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                        href="{{ route('track_orders.index') }}">{{__('navbar.track_orders')}}</a>
-                }
-
-                @elseif (Auth::guest())
+                @if (Auth::guest())
                     <a class="flex items-center gap-x-2 {{ request()->routeIs('login') ? 'active-nav-link' : 'inactive-nav-link' }}"
                        href="{{route('login')}}">
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -83,6 +78,8 @@
                         {{__('navbar.login')}}
                     </a>
                 @else
+                <a class="{{ request()->routeIs('track_orders.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                    href="{{ route('track_orders.index') }}">{{__('navbar.track_orders')}}</a>
                     {{--This is the other link for when user is logged in--}}
                     <a class="flex items-center gap-x-2 {{ request()->routeIs('profile.edit') ? 'active-nav-link' : 'inactive-nav-link' }}"
                        href="{{route('profile.update')}}">

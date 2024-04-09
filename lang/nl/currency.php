@@ -2,4 +2,5 @@
 return [
     'symbol' => '€',
     'seperator' => ',',
+    'thousands_serperator' => '.',
 ];

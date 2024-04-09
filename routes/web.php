@@ -113,16 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
         ->name('track_orders.index');
 
-    Route::get('bestellingen-volgen/{id}', [OrderTrackingController::class, 'details'])
+    Route::get('bestellingen-volgen/{order}', [OrderTrackingController::class, 'details'])
         ->name('track_orders.details');
 });
-
-    // Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
-    // ->name('track_orders.index');
-
-// Route::get(__('route.track_orders'), function () {
-//     return view('track_orders.trackOrders');
-// })->name('track_orders.index');
-
-
 

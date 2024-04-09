@@ -31,8 +31,6 @@ class DatabaseSeeder extends Seeder
             StockSeeder::class,
             OrderStatusSeeder::class,
             UserSeeder::class,
-            OrderSeeder::class,
-            OrderLineSeeder::class,
           
 
             // Below are unordered
@@ -47,6 +45,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserWithRoleSeeder::class);
+        $this->call(OrderSeeder::class);
+        $this->call(OrderLineSeeder::class);
 
         foreach ($users as $user) {
             $user->assignRole('user');

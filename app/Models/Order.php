@@ -12,6 +12,12 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['id', 'order_date', 'email', 'lid_name', 'order_status_id', 'user_id', 'group_id'];
+
+    public function getRouteKeyName(){
+        return "id";
+    }
+
     public function orderLine(): HasMany
     {
         return $this->hasMany(OrderLine::class);
