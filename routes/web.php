@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -102,3 +103,9 @@ Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert
     ->name('shoppingcart.insert');
 Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
     ->name('shoppingcart.update');
+
+// Testing
+Route::get('/test', [TestController::class, 'index'])
+    ->name('test.index');
+Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail'])
+    ->name('test.send-test-mail');
