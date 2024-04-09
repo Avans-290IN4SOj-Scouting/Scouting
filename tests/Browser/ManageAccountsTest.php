@@ -13,7 +13,7 @@ class ManageAccountsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('manage.accounts.index'))
-                ->assertUrlIs(config('APP_URL') . __('route.manage_accounts'));
+                ->assertRouteIs('manage.accounts.index');
         });
     }
 
