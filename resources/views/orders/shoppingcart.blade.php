@@ -44,7 +44,7 @@
                                         </h4>
                                         <p class="dark:text-white">
                                             <span
-                                                class="dark:text-white">{{ __('common.symbol') }}
+                                                class="dark:text-white">{{ __('common.currency_symbol') }}
                                                 {{ number_format($product->price, 2, __('common.seperator'), '.') }}
                                             </span>
                                         </p>
@@ -119,7 +119,7 @@
                         <div class="order-total">
                             <div>
                                 <p class="dark:text-white">{{ __('orders/orders.order-total') }}:</p>
-                                <p class="dark:text-white">{{ __('common.symbol') }}<span
+                                <p class="dark:text-white">{{ __('common.currency_symbol') }}<span
                                         id="shoppingCartTotal">
                                         {{ number_format($prices->total, 2, __('common.seperator'), '.') }}
                                     </span></p>

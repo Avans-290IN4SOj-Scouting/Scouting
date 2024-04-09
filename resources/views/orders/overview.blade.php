@@ -53,9 +53,9 @@
                                             </h4>
                                             <p class="dark:text-white">
                                                 <span class="dark:text-white">
-                                                    {{ __('common.symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('common.seperator'), '.') }}
+                                                    {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('common.seperator'), '.') }}
                                                     {{ __('orders/orders.till') }}
-                                                    {{ __('common.symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('common.seperator'), '.') }}
+                                                    {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('common.seperator'), '.') }}
                                                 </span>
                                             </p>
                                         </div>

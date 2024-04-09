@@ -3,6 +3,6 @@
 return [
     "next" => "Volgende",
     "previous" => "Vorige",
-    "symbol" => "€",
+    "currency_symbol" => "€",
     "seperator" => ",",
 ];
