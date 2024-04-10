@@ -11,4 +11,6 @@ return [
     "confirm_button"=> "Bevestigen",
     "saved_confirmation"=> "Gegevens zijn succesvol opgeslagen!",
     "multiple_select_placeholder" => "Selecteer rol(len)",
+    "search_placeholder" => "Zoek op emailadres",
+    "empty_table" => "Geen accounts gevonden",
 ];

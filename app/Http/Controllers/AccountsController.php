@@ -21,13 +21,30 @@ class AccountsController extends Controller
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
-            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles]);
+            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => null]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
                 'toast-message' => __('toast/messages.error-account-loading'),
             ]);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('q');
+
+        $accounts = User::whereNot('email', Auth::user()->email)
+            ->with(["roles" => function ($query) {
+                $query->whereNot('name', 'teamleader');
+            }])
+            ->where('email', 'like', "%$search%")
+            ->sortable()
+            ->paginate(10);
+
+        $roles = Role::whereNot('name', 'teamleader')->get();
+
+        return view('admin.accounts', ['accounts' => $accounts, 'roles' => $roles, 'search' => $search]);
     }
 
     public function updateRoles(Request $request)
