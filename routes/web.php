@@ -47,6 +47,9 @@ Route::middleware('role:admin')->group(function () {
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
+            Route::get(__('route.search'), [AccountsController::class, 'search'])
+                ->name('search');
+
             Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
                 ->name('update.roles');
 

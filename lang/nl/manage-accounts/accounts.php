@@ -12,4 +12,6 @@ return [
     "saved_confirmation"=> "Gegevens zijn succesvol opgeslagen!",
     "multiple_select_placeholder" => "Selecteer rol(len)",
     "filter_placeholder" => "Filter op rol",
+    "search_placeholder" => "Zoek op emailadres",
+    "empty_table" => "Geen accounts gevonden",
 ];

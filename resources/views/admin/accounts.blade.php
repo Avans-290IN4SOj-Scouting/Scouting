@@ -16,6 +16,9 @@
             <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
                       :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
                       name="filter-roles"/>
+            <x-search-bar search="{{ $search }}"
+                          placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
+
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                 <tr>
@@ -30,7 +33,7 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                @foreach($accounts as $account)
+                @forelse($accounts as $account)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                             {{ $account['email'] }}
@@ -60,7 +63,14 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            colspan="2">
+                            {{ __('manage-accounts/accounts.empty_table') }}
+                        </td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>
