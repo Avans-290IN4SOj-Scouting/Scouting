@@ -4,14 +4,18 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Route;
 use Illuminate\View\Component;
 
-class search-bar extends Component
+class SearchBar extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(
+        public string $placeholder,
+        public string $search,
+    )
     {
         //
     }

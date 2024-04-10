@@ -21,17 +21,7 @@ class AccountsController extends Controller
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
-            $allRoles = Role::all()->pluck('name');
-
-            $localisedRoles = $allRoles->reduce(function ($carry, $role) {
-                if ($role !== 'teamleader') {
-                    $carry[] = __('manage-accounts/roles.' . $role);
-                }
-
-                return $carry;
-            }, []);
-
-            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => null, "allroles" => $localisedRoles]);
+            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => null, "allroles" => $this->getAllRoles()]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
@@ -40,21 +30,41 @@ class AccountsController extends Controller
         }
     }
 
-    public function search(Request $request)
+    public function filter(Request $request)
     {
         $search = $request->input('q');
-
-        $accounts = User::whereNot('email', Auth::user()->email)
-            ->with(["roles" => function ($query) {
-                $query->whereNot('name', 'teamleader');
-            }])
+        $accounts = $this->getAllUsers()
             ->where('email', 'like', "%$search%")
             ->sortable()
             ->paginate(10);
 
-        $roles = Role::whereNot('name', 'teamleader')->get();
+        $filter = $request->input('filter');
+        if ($filter) {
+            dd($filter);
+        }
 
-        return view('admin.accounts', ['accounts' => $accounts, 'roles' => $roles, 'search' => $search]);
+        return view("admin.accounts", ["accounts" => $accounts, "roles" => Role::all(), "search" => $search, "allroles" => $this->getAllRoles()]);
+    }
+
+    private function getAllUsers()
+    {
+        return User::whereNot('email', Auth::user()->email)
+            ->with(["roles" => function ($query) {
+                $query->whereNot('name', 'teamleader');
+            }]);
+    }
+
+    private function getAllRoles()
+    {
+        $allRoles = Role::all()->pluck('name');
+
+        return $allRoles->reduce(function ($carry, $role) {
+            if ($role !== 'teamleader') {
+                $carry[] = __('manage-accounts/roles.' . $role);
+            }
+
+            return $carry;
+        }, []);
     }
 
     public function updateRoles(Request $request)
