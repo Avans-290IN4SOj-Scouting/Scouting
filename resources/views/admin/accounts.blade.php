@@ -14,7 +14,7 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             {{--Search filter--}}
-            <x-search-bar placeholder="{{ __('common.search', ['attribute' => __('manage-accounts/accounts.email')]) }}" />
+            <x-search-bar search="{{ $search }}" placeholder="{{ __('common.search', ['attribute' => __('manage-accounts/accounts.email')]) }}" />
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                 <tr>
