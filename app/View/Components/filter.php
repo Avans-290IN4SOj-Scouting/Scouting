@@ -13,8 +13,10 @@ class filter extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string     $placeholder,
-        public Collection $options,
+        public string $placeholder,
+        public array  $options,
+        public string $name,
+        public string $label,
     )
     {
         //

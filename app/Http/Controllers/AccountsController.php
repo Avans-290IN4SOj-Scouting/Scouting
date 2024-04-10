@@ -22,12 +22,14 @@ class AccountsController extends Controller
             $roles = Role::whereNot('name', 'teamleader')->get();
 
             $allRoles = Role::all()->pluck('name');
-            $localisedRoles = $allRoles->map(function ($role) {
+
+            $localisedRoles = $allRoles->reduce(function ($carry, $role) {
                 if ($role !== 'teamleader') {
-                    return __('manage-accounts/roles.' . $role);
+                    $carry[] = __('manage-accounts/roles.' . $role);
                 }
-                return null;
-            });
+
+                return $carry;
+            }, []);
 
             return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "allroles" => $localisedRoles]);
         } catch (\Exception $e) {

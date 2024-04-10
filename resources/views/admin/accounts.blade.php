@@ -14,7 +14,8 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                      :options="$allroles" />
+                      :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
+                      name="filter-roles"/>
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                 <tr>
