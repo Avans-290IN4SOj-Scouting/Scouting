@@ -21,7 +21,15 @@ class AccountsController extends Controller
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
-            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles]);
+            $allRoles = Role::all()->pluck('name');
+            $localisedRoles = $allRoles->map(function ($role) {
+                if ($role !== 'teamleader') {
+                    return __('manage-accounts/roles.' . $role);
+                }
+                return null;
+            });
+
+            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "allroles" => $localisedRoles]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
