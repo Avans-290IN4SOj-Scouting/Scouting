@@ -15,4 +15,5 @@ return [
     "search_placeholder" => "Zoek op emailadres",
     "empty_table" => "Geen accounts gevonden",
     "remove_filters_button" => "Filters verwijderen",
+    "filter_error" => "Filteren van accounts mislukt!",
 ];

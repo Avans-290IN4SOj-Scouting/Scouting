@@ -3,29 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserRoleEnum;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Lang;
 
 class AccountsController extends Controller
 {
+    private const TEAM_LEADER = 'teamleader';
+
     public function index()
     {
-        try {
-            $accounts = $this->getAllUsers()->sortable()->paginate(10);
+        $accounts = $this->getAllUsers()->sortable()->paginate(10);
+        $roles = $this->getRoles();
 
-            $roles = Role::whereNot('name', 'teamleader')->get();
-
-            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => null, "allroles" => $this->getAllRoles(), "selected" => null]);
-        } catch (\Exception $e) {
-            return redirect()->route('home')->with([
-                'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-account-loading'),
+        return view("admin.accounts",
+            [
+                "accounts" => $accounts,
+                "roles" => $roles,
+                "search" => null,
+                "allroles" => $this->getAllRoles(),
+                "selected" => null
             ]);
-        }
     }
 
     public function filter(Request $request)
@@ -36,23 +34,43 @@ class AccountsController extends Controller
 
         $filter = $request->input('filter');
         if ($filter) {
-            $accounts = $accounts->whereHas('roles', function ($query) use ($filter) {
-                $query->where('name', UserRoleEnum::delocalised($filter));
-            });
+            try {
+                $accounts = $accounts->whereHas('roles', function ($query) use ($filter) {
+                    $filter = UserRoleEnum::delocalised($filter);
+                    return $query->where('name', $filter);
+                });
+            } catch (\UnhandledMatchError $e) {
+                return redirect()->route('manage.accounts.index')->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-accounts/accounts.filter_error'),
+                ]);
+            }
         }
 
         $accounts = $accounts->sortable()->paginate(10);
-        $roles = Role::whereNot('name', 'teamleader')->get();
+        $roles = $this->getRoles();
 
-        return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => $search, "allroles" => $this->getAllRoles(), "selected" => $filter]);
+        return view("admin.accounts",
+            [
+                "accounts" => $accounts,
+                "roles" => $roles,
+                "search" => $search,
+                "allroles" => $this->getAllRoles(),
+                "selected" => $filter
+            ]);
     }
 
     private function getAllUsers()
     {
-        return User::whereNot('email', Auth::user()->email)
+        return User::whereNot('email', auth()->user()->email)
             ->with(["roles" => function ($query) {
-                $query->whereNot('name', 'teamleader');
+                $query->whereNot('name', self::TEAM_LEADER);
             }]);
+    }
+
+    private function getRoles()
+    {
+        return Role::where('name', '!=', self::TEAM_LEADER)->get();
     }
 
     private function getAllRoles()
@@ -60,7 +78,7 @@ class AccountsController extends Controller
         $allRoles = Role::all()->pluck('name');
 
         return $allRoles->reduce(function ($carry, $role) {
-            if ($role !== 'teamleader') {
+            if ($role !== self::TEAM_LEADER) {
                 $carry[] = __('manage-accounts/roles.' . $role);
             }
 
@@ -70,38 +88,31 @@ class AccountsController extends Controller
 
     public function updateRoles(Request $request)
     {
-        try {
-            $accounts = json_decode($request->input("userRoles"), true);
+        $accounts = json_decode($request->input("userRoles"), true);
 
-            $teamRoles = Role::where("name", "LIKE", "team_%")->pluck("name")->toArray();
+        $teamRoles = Role::where("name", "LIKE", "team_%")->pluck("name")->toArray();
 
-            foreach ($accounts as $account) {
-                $user = User::where("email", $account["email"])->first();
+        foreach ($accounts as $account) {
+            $user = User::where("email", $account["email"])->first();
 
-                if ($user && isset($account["newRoles"])) {
-                    $user->roles()->detach();
+            if ($user && isset($account["newRoles"])) {
+                $user->roles()->detach();
 
-                    foreach ($account["newRoles"] as $newRole) {
-                        if (in_array($newRole, $teamRoles)) {
-                            $teamleaderRole = Role::where("name", "teamleader")->first();
-                            $user->assignRole($teamleaderRole);
-                        }
-
-                        $role = Role::firstOrCreate(["name" => $newRole]);
-                        $user->assignRole($role);
+                foreach ($account["newRoles"] as $newRole) {
+                    if (in_array($newRole, $teamRoles)) {
+                        $teamleaderRole = Role::where("name", self::TEAM_LEADER)->first();
+                        $user->assignRole($teamleaderRole);
                     }
+
+                    $role = Role::firstOrCreate(["name" => $newRole]);
+                    $user->assignRole($role);
                 }
             }
-
-            return redirect()->route('manage.accounts.index')->with([
-                'toast-type' => 'success',
-                'toast-message' => __('toast/messages.success-role-update'),
-            ]);
-        } catch (\Exception $e) {
-            return redirect()->route('manage.accounts.index')->with([
-                'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-account-saving'),
-            ]);
         }
+
+        return redirect()->route('manage.accounts.index')->with([
+            'toast-type' => 'success',
+            'toast-message' => __('toast/messages.success-role-update'),
+        ]);
     }
 }

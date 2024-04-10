@@ -5,9 +5,8 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Illuminate\Support\Collection;
 
-class filter extends Component
+class Filter extends Component
 {
     /**
      * Create a new component instance.
