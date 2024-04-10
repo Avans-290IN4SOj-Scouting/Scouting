@@ -13,8 +13,9 @@
 
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
-            {{--Search filter--}}
-            <x-search-bar search="{{ $search }}" placeholder="{{ __('common.search', ['attribute' => __('manage-accounts/accounts.email')]) }}" />
+            <x-search-bar search="{{ $search }}"
+                          placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
+
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                 <tr>
@@ -29,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                @foreach($accounts as $account)
+                @forelse($accounts as $account)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                             {{ $account['email'] }}
@@ -59,7 +60,14 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
+                            colspan="2">
+                            {{ __('manage-accounts/accounts.empty_table') }}
+                        </td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>
