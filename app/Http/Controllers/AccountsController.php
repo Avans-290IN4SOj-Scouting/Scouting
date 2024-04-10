@@ -15,10 +15,7 @@ class AccountsController extends Controller
     public function index()
     {
         try {
-            $accounts = User::whereNot('email', Auth::user()->email)
-                ->with(["roles" => function ($query) {
-                    $query->whereNot('name', 'teamleader');
-                }])->sortable()->paginate(10);
+            $accounts = $this->getAllUsers()->sortable()->paginate(10);
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
@@ -45,8 +42,9 @@ class AccountsController extends Controller
         }
 
         $accounts = $accounts->sortable()->paginate(10);
+        $roles = Role::whereNot('name', 'teamleader')->get();
 
-        return view("admin.accounts", ["accounts" => $accounts, "roles" => Role::all(), "search" => $search, "allroles" => $this->getAllRoles(), "selected" => $filter]);
+        return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => $search, "allroles" => $this->getAllRoles(), "selected" => $filter]);
     }
 
     private function getAllUsers()
