@@ -1,7 +1,7 @@
 <script src="{{ asset('js/search-bar.js') }}" defer></script>
 
 <form action="{{ route('manage.accounts.search') }}" method="GET">
-    <div class="relative" style="width: fit-content; border: 1px solid gainsboro; border-radius: 0.5rem;">
+    <div class="relative w-fit border border-gray-200 rounded-lg">
         <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
             <svg class="flex-shrink-0 size-4 text-gray-400 dark:text-white/60" xmlns="http://www.w3.org/2000/svg"
                  width="24"
