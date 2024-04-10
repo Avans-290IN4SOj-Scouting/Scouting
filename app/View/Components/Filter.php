@@ -17,6 +17,7 @@ class filter extends Component
         public array  $options,
         public string $name,
         public string $label,
+        public string $selected,
     )
     {
         //

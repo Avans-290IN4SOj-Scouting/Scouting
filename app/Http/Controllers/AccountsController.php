@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -21,7 +22,7 @@ class AccountsController extends Controller
 
             $roles = Role::whereNot('name', 'teamleader')->get();
 
-            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => null, "allroles" => $this->getAllRoles()]);
+            return view("admin.accounts", ["accounts" => $accounts, "roles" => $roles, "search" => null, "allroles" => $this->getAllRoles(), "selected" => null]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
@@ -34,16 +35,18 @@ class AccountsController extends Controller
     {
         $search = $request->input('q');
         $accounts = $this->getAllUsers()
-            ->where('email', 'like', "%$search%")
-            ->sortable()
-            ->paginate(10);
+            ->where('email', 'like', "%$search%");
 
         $filter = $request->input('filter');
         if ($filter) {
-            dd($filter);
+            $accounts = $accounts->whereHas('roles', function ($query) use ($filter) {
+                $query->where('name', UserRoleEnum::delocalised($filter));
+            });
         }
 
-        return view("admin.accounts", ["accounts" => $accounts, "roles" => Role::all(), "search" => $search, "allroles" => $this->getAllRoles()]);
+        $accounts = $accounts->sortable()->paginate(10);
+
+        return view("admin.accounts", ["accounts" => $accounts, "roles" => Role::all(), "search" => $search, "allroles" => $this->getAllRoles(), "selected" => $filter]);
     }
 
     private function getAllUsers()

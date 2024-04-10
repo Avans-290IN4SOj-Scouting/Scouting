@@ -21,7 +21,7 @@
 
                     <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
                               :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              name="filter"/>
+                              name="filter" selected="{{ $selected }}"/>
                 </div>
             </form>
 
