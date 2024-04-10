@@ -14,4 +14,5 @@ return [
     "filter_placeholder" => "Filter op rol",
     "search_placeholder" => "Zoek op emailadres",
     "empty_table" => "Geen accounts gevonden",
+    "remove_filters_button" => "Filters verwijderen",
 ];

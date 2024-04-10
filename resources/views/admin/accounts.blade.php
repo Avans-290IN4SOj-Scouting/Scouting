@@ -15,13 +15,18 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.accounts.filter') }}" method="GET">
-                <div class="flex space-x-4">
+                <div class="flex space-x-4 items-center">
                     <x-search-bar search="{{ $search }}"
                                   placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
 
                     <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
                               :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
                               name="filter" selected="{{ $selected }}"/>
+
+                    <a href="{{ route('manage.accounts.index') }}"
+                       class="text-blue-600 hover:underline hover:decoration-blue-600">
+                        {{__('manage-accounts/accounts.remove_filters_button')}}
+                    </a>
                 </div>
             </form>
 
