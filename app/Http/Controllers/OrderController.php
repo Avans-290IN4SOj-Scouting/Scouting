@@ -29,7 +29,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function overview(string $category)
+    public function overview(string $category = null)
     {
         // Check if URL has matching Group
         $group = Group::where('name', $category)->first();
@@ -56,7 +56,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function product(string $name, string $groupName)
+    public function product(string $name = null, string $groupName = null)
     {
         // Check if URL contains a valid Product and Group
         $productFromName = Product::where('name', $name)->first();
@@ -125,10 +125,10 @@ class OrderController extends Controller
         {
             DB::rollBack();
 
-            return redirect()->route('orders.order')->with([
+            return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',
-                'toast-message' => __('orders.completed-error'),
+                'toast-message' => __('orders/orders.completed-error'),
             ]);
         }
 
@@ -139,10 +139,10 @@ class OrderController extends Controller
                 DB::rollBack();
                 $this->shoppingCartService->clearShoppingCart();
 
-                return redirect()->route('orders.order')->with([
+                return redirect()->route('orders.checkout.order')->with([
                     'error', '__(\'orders.completed-error\')',
                     'toast-type' => 'error',
-                    'toast-message' => __('toast.order-no-products'),
+                    'toast-message' => __('toast/messages.order-no-products'),
                 ]);
             }
 
@@ -166,20 +166,19 @@ class OrderController extends Controller
         {
             DB::rollBack();
 
-            return redirect()->route('orders.order')->with([
+            return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',
-                'toast-message' => __('toast.order-no-products'),
+                'toast-message' => __('toast/messages.order-no-products'),
             ]);
         }
 
         $this->shoppingCartService->clearShoppingCart();
-        return redirect()->route('orders.completed')->with('success', '__(\'orders.completed-success\')');
+        return redirect()->route('orders.checkout.completed')
+            ->with('success', '__(\'orders.completed-success\')');
     }
 
     public function completedOrder() {
-        return view('orders.complete', [
-
-        ]);
+        return view('orders.complete');
     }
 }

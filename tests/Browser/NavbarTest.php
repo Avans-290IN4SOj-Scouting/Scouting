@@ -19,23 +19,23 @@ class NavbarTest extends DuskTestCase
     public function test_cart_link()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('route.shopping-cart'))
-                ->assertSee(__('orders.shoppingcart'));
+            $browser->visit(route('orders.shoppingcart.index'))
+                ->assertSee(__('orders/orders.shoppingcart'));
         });
     }
 
     public function test_checkout_link()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('route.checkout'))
-                ->assertSee(__('orders.order'));
+            $browser->visit(route('orders.checkout.order'))
+                ->assertSee(__('orders/orders.order'));
         });
     }
 
     public function test_login_link()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.login'))
+            $browser->visit(route('login'))
                 ->assertSee(__('navbar.login'));
         });
     }
@@ -43,17 +43,17 @@ class NavbarTest extends DuskTestCase
     public function test_responsiveness_screenshots()
     {
         $this->browse(function (Browser $browser) {
-            $browser->responsiveScreenshots('navbar');
+            $browser->responsiveScreenshots('navbar/navbar');
         });
     }
 
     public function test_admin_navlink_visible()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('navbar.login'))
+            $browser->visit(route('login'))
                 ->type('email', 'admin@admin')
                 ->type('password', 'password')
-                ->press(__('auth.sign-in'))
+                ->press(__('auth/auth.sign-in'))
                 ->assertRouteIs('home')
                 ->assertSee(__('navbar.admin'));
         });

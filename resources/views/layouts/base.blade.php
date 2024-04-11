@@ -17,9 +17,8 @@
     @stack('styles')
 
     @vite('resources/js/app.js')
-    @stack('scripts')
-
     <script src="{{ asset('js/toast.js') }}"></script>
+    @stack('scripts')
 </head>
 
 
