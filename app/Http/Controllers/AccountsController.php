@@ -70,7 +70,7 @@ class AccountsController extends Controller
 
     private function getRoles()
     {
-        return Role::where('name', '!=', self::TEAM_LEADER)->get();
+        return Role::whereNot('name', self::TEAM_LEADER)->get();
     }
 
     private function getAllRoles()
