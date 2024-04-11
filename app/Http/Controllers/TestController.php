@@ -27,30 +27,17 @@ class TestController extends Controller
     public function gmailAuthCallback(Request $request)
     {
         if ($request->filled('error')) {
-            // return redirect()->route('test.index')->with([
-            //     'error', 'gmail auth error',
-            //     'toast-type' => 'error',
-            //     'toast-message' => 'Gmail API auth error: ' . $request->input('error_description'),
-            // ]);
-            dd($request->input('error_description'));
+            return redirect()->route('test.index')->with([
+                'toast-type' => 'error',
+                'toast-message' => __('gmail.general-auth-error'),
+            ]);
         }
 
-        if ($this->gmailService->authenticate_callback($request) === null)
-        {
-            return redirect()->route('test.index')->with([
-                'success', 'gmail auth success',
-                'toast-type' => 'success',
-                'toast-message' => 'Successfully authenticated with Gmail API',
-            ]);
-        }
-        else
-        {
-            return redirect()->route('test.index')->with([
-                'error', 'gmail auth error',
-                'toast-type' => 'error',
-                'toast-message' => 'Failed to authenticate with Gmail API',
-            ]);
-        }
+        $callbackResult = $this->gmailService->authenticate_callback($request);
+        return redirect()->route('test.index')->with([
+            'toast-type' => $callbackResult['type'],
+            'toast-message' => $callbackResult['message'],
+        ]);
     }
 
     // POST

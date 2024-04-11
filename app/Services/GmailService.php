@@ -7,70 +7,89 @@ use Exception;
 use Google\Client;
 use Google\Service\Gmail;
 use Google\Service\Gmail\Message;
+use Illuminate\Support\Facades\Storage;
 
 class GmailService
 {
-    protected $client;
+    // TODO: remove
     private $email = 'jrnjdeveloper@gmail.com';
-    private $accessToken = 'ya29.a0Ad52N39W8E966xwe2Yc3dZxahpvqmjikxWeyX5LkTqpfgl8ikNGfBAFOPXnmmGmSJH8QwpFi19snTC13X3yh_9qQm3NJ8TnetKjhiNHo50gMIpHljzfPCQOHNRdg_suajrv4bYrlFBbeE7fKfpHmT3YXraBGFMMREjjdaCgYKAe4SARMSFQHGX2MiNlIeJnxdr2BZu-ZhLhd5Fg0171';
-    private $refreshToken = '1//09otmqi4NF5lMCgYIARAAGAkSNwF-L9Ir6bzZFY-SvfdfHMnvofC4rJVe6oL6VGgLvf6lLbtlCX16HcQwC5AgiPVrKrIRPFy1cJs';
+
+    protected $client;
+    private $accessToken;
+    private $refreshToken;
 
     public function __construct()
     {
-        $this->client = new Client();
-
-        // Credentials
-        $this->client->setAuthConfig(storage_path('sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
-        $this->client->setSubject($this->email);
-
-        // Authentication URI
-        $this->client->setRedirectUri(route('test.gmail-auth-callback'));
-
-        // Offline access means the gmail api will only have to authenticate once / refresh token
-        $this->client->setAccessType('offline');
-        $this->client->setPrompt('select_account consent');
-        $this->client->setApprovalPrompt('force');
-
-        // https://developers.google.com/gmail/api/auth/scopes
-        $this->client->setScopes([
-            'https://www.googleapis.com/auth/gmail.send',
-        ]);
-
-        //
-        $this->client->setAccessToken($this->accessToken);
-        if ($this->client->isAccessTokenExpired())
+        // Working with files
+        try
         {
-            $this->client->refreshToken($this->refreshToken);
-            $this->client->setAccessToken($this->client->getAccessToken());
-            // $this->client->fetchAccessTokenWithRefreshToken($this->refreshToken);
+            // Create Client
+            $this->client = new Client();
+
+            // Authentication URI
+            $this->client->setRedirectUri(route('test.gmail-auth-callback'));
+
+            // Credentials
+            $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
+            $this->client->setSubject($this->email);
+
+            // Offline access means the gmail api will only have to authenticate once / refresh token
+            $this->client->setAccessType('offline');
+            $this->client->setPrompt('select_account consent');
+            $this->client->setApprovalPrompt('force');
+
+            // https://developers.google.com/gmail/api/auth/scopes
+            $this->client->setScopes([
+                'https://www.googleapis.com/auth/gmail.send',
+            ]);
+
+            // Get stored Tokens
+            $this->accessToken = $this->getAccessToken();
+            $this->refreshToken = $this->getRefreshToken();
+            if (empty($this->accessToken) || empty($this->refreshToken))
+            {
+                return redirect()->route('test.index')->with([
+                    'error', 'gmail auth error',
+                    'toast-type' => 'error',
+                    'toast-message' => 'Melding dat GMAIL niet authenticated is',
+                ]);
+            }
+
+            // Ensure access token is set
+            $this->client->setAccessToken($this->accessToken);
+            if ($this->client->isAccessTokenExpired())
+            {
+                $this->client->refreshToken($this->refreshToken);
+                $this->client->setAccessToken($this->client->getAccessToken());
+            }
+        }
+        catch (Exception $exception)
+        {
+            return redirect()->route('test.index')->with([
+                'error', 'gmail auth error',
+                'toast-type' => 'error',
+                'toast-message' => 'Contacteer een developer aub',
+            ]);
         }
     }
 
     public function sendMail($receiver, $subject, $message)
     {
-        $service = new Gmail($this->client);
-        $email = new Message();
-        // $email->setRaw(
-        //     "From: $this->email\r\n" .
-        //     "To: $receiver\r\n" .
-        //     "Subject: =?utf-8?B?" . base64_encode($subject) . "?=\r\n" .
-        //     "MIME-Version: 1.0\r\n" .
-        //     "Content-Type: text/html; charset=utf-8\r\n" .
-        //     "Content-Transfer-Encoding: quoted-printable" . "\r\n\r\n" .
-        //     "$message\r\n"
-        // );
-        $email->setRaw(base64_encode(
-            "From: $this->email\r\n" .
-            "To: $receiver\r\n" .
-            "Subject: =?utf-8?B?" . $subject . "?=\r\n" .
-            "MIME-Version: 1.0\r\n" .
-            "Content-Type: text/html; charset=utf-8\r\n" .
-            "Content-Transfer-Encoding: quoted-printable" . "\r\n\r\n" .
-            "$message\r\n"
-        ));
-
+        // base64_encode can cause issues if mail is invalid
         try
         {
+            $service = new Gmail($this->client);
+            $email = new Message();
+            $email->setRaw(base64_encode(
+                "From: $this->email\r\n" .
+                "To: $receiver\r\n" .
+                "Subject: =?utf-8?B?" . $subject . "?=\r\n" .
+                "MIME-Version: 1.0\r\n" .
+                "Content-Type: text/html; charset=utf-8\r\n" .
+                "Content-Transfer-Encoding: quoted-printable" . "\r\n\r\n" .
+                "$message\r\n"
+            ));
+
             $service->users_messages->send("me", $email);
         }
         catch (Exception $exception)
@@ -83,26 +102,113 @@ class GmailService
 
     public function authenticate()
     {
-        session(['code_verifier' => $this->client->getOAuth2Service()->generateCodeVerifier()]);
-        $authUrl = $this->client->createAuthUrl();
-        return $authUrl;
+        // If AuthURL does not match the one in the google cloud console, it will not work and throw an error
+        try
+        {
+            session(['code_verifier' => $this->client->getOAuth2Service()->generateCodeVerifier()]);
+            $authUrl = $this->client->createAuthUrl();
+            return $authUrl;
+        }
+        catch (Exception $exception)
+        {
+            return null;
+        }
     }
 
     public function authenticate_callback(Request $request)
     {
-        $code = $request->input('code');
-        $codeVerifier = session('code_verifier');
-        $accessToken = $this->client->fetchAccessTokenWithAuthCode($code, $codeVerifier);
-
-        if (!isset($accessToken['error']))
+        // If callback url is called directly by a user without calling the
+        // breeze authenticated route first, the process will throw an error
+        //
+        // It's impossible to authorize this route as Gmail has to view it as
+        // an unauthorized user
+        try
         {
+            $code = $request->input('code');
+            $codeVerifier = session('code_verifier');
+            $accessToken = $this->client->fetchAccessTokenWithAuthCode($code, $codeVerifier);
+
+            if (!isset($accessToken['error']))
+            {
+                $this->setAccessToken($accessToken['access_token']);
+                $this->setRefreshToken($accessToken['refresh_token']);
+                return ['type' => 'success', 'message' => __('gmail.auth-success')];
+            }
+            else
+            {
+                return ['type' => 'error', 'message' => __('gmail.general-auth-error')];
+            }
+        }
+        catch (Exception $exception)
+        {
+            return ['type' => 'error', 'message' => __('gmail.user-not-allowed')];
+        }
+    }
+
+    // Safer handling for accessing tokens
+    // Tokens are stored in files
+    // a database is suitable, but with each re-seed, the proces has to be done again.
+    // Preferably don't call these methods unless its in the constructor of this Service
+    private function setAccessToken($accessToken)
+    {
+        // Working with files
+        try
+        {
+            Storage::disk('local')->put('sensitive/gmail/access_token.txt', $accessToken);
             $this->client->setAccessToken($accessToken);
-            dd($accessToken);
+        }
+        catch (Exception $exception)
+        { }
+    }
+    private function getAccessToken()
+    {
+        // Working with files
+        try
+        {
+            if (Storage::disk('local')->exists('sensitive/gmail/access_token.txt'))
+            {
+                return Storage::disk('local')->get('sensitive/gmail/access_token.txt');
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (Exception $exception)
+        {
             return null;
         }
-        else
+    }
+
+    private function setRefreshToken($refreshToken)
+    {
+        // Working with files
+        try
         {
-            return $accessToken;
+            Storage::disk('local')->put('sensitive/gmail/refresh_token.txt', $refreshToken);
+            $this->client->refreshToken($refreshToken);
+        }
+        catch (Exception $exception)
+        { }
+    }
+    private function getRefreshToken()
+    {
+
+        // Working with files
+        try
+        {
+            if (Storage::disk('local')->exists('sensitive/gmail/refresh_token.txt'))
+            {
+                return Storage::disk('local')->get('sensitive/gmail/refresh_token.txt');
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (Exception $exception)
+        {
+            return null;
         }
     }
 }
