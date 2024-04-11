@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Services\GmailService;
 use Illuminate\Http\Request;
 
+// TODO: this class should be removed before the PR is accepted
+// However without this class, the PR can't be tested
+// So when tested, please request changes with a message its approved, ty :)
 class TestController extends Controller
 {
     public function __construct(
@@ -15,29 +18,6 @@ class TestController extends Controller
     public function index()
     {
         return view('test.index');
-    }
-
-    public function authenticate()
-    {
-        $authResult = $this->gmailService->authenticate();
-        return redirect()->away($authResult);
-    }
-
-    // Gmail Auth Callback
-    public function gmailAuthCallback(Request $request)
-    {
-        if ($request->filled('error')) {
-            return redirect()->route('test.index')->with([
-                'toast-type' => 'error',
-                'toast-message' => __('gmail.general-auth-error'),
-            ]);
-        }
-
-        $callbackResult = $this->gmailService->authenticate_callback($request);
-        return redirect()->route('test.index')->with([
-            'toast-type' => $callbackResult['type'],
-            'toast-message' => $callbackResult['message'],
-        ]);
     }
 
     // POST

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\GmailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -104,12 +105,14 @@ Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert
 Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
     ->name('shoppingcart.update');
 
-// Testing
+// Gmail Testing
 Route::get('/test', [TestController::class, 'index'])
     ->name('test.index');
 Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail'])
     ->name('test.send-test-mail');
-Route::get('/test/authenticate', [TestController::class, 'authenticate'])
-    ->name('test.authenticate');
-Route::get("/auth/google/callback", [TestController::class, 'gmailAuthCallback'])
-->name('test.gmail-auth-callback');
+
+// Gmail
+Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
+    ->name('gmail.authenticate');
+Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
+->name('gmail.auth-callback');

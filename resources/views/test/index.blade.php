@@ -6,11 +6,11 @@
 
 @section('content')
 
-<a href="{{ route('test.authenticate') }}"class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-    Authenticate GMAIL API (test.authenticate)
+<a href="{{ route('gmail.authenticate') }}"class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+    Authenticate GMAIL API (gmail.authenticate)
 </a>
-<a href="{{ route('test.gmail-auth-callback') }}"class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-    Authenticate GMAIL API (test.gmail-auth-callback) You shouldn't click this button
+<a href="{{ route('gmail.auth-callback') }}"class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+    Authenticate GMAIL API (gmail.auth-callback) You shouldn't click this button
 </a>
 
 <form name="testForm" method="POST" action="{{ route('test.send-test-mail') }}">

@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Storage;
 class GmailService
 {
     // TODO: remove
-    private $email = 'jrnjdeveloper@gmail.com';
-
     protected $client;
     private $accessToken;
     private $refreshToken;
+    private $email;
 
     public function __construct()
     {
@@ -25,9 +24,10 @@ class GmailService
         {
             // Create Client
             $this->client = new Client();
+            $this->email = env('GMAIL_FROM_ADDRESS');
 
             // Authentication URI
-            $this->client->setRedirectUri(route('test.gmail-auth-callback'));
+            $this->client->setRedirectUri(route('gmail.auth-callback'));
 
             // Credentials
             $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
