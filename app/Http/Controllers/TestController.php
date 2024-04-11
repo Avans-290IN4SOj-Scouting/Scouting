@@ -17,6 +17,18 @@ class TestController extends Controller
         return view('test.index');
     }
 
+    public function authenticate()
+    {
+        $authResult = $this->gmailService->authenticate();
+        return redirect()->away($authResult);
+    }
+
+    public function gmailAuthCallback()
+    {
+        $authResult = $this->gmailService->authenticate();
+        return redirect()->away($authResult);
+    }
+
     // POST
     public function test_send_test_mail(Request $request)
     {

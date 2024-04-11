@@ -109,3 +109,7 @@ Route::get('/test', [TestController::class, 'index'])
     ->name('test.index');
 Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail'])
     ->name('test.send-test-mail');
+Route::get('/test/authenticate', [TestController::class, 'authenticate'])
+    ->name('test.authenticate');
+Route::get("/auth/google/callback", [TestController::class, 'gmailAuthCallback'])
+->name('test.gmail-auth-callback');

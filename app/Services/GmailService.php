@@ -17,6 +17,7 @@ class GmailService
 
         // JSON credentials
         $this->client->setAuthConfig(storage_path('sensitive\\gmail\\scoutingazg-gmail-api-oauth-credentials.json'));
+        $this->client->setRedirectUri(route('test.gmail-auth-callback'));
 
         // Offline access means the gmail api will only have to authenticate once
         $this->client->setAccessType('offline');
@@ -29,7 +30,7 @@ class GmailService
 
         $accessToken = $this->client->getAccessToken();
         $accessTokenExpired = $this->client->isAccessTokenExpired();
-        $this->client->createAuthUrl();
+
         return redirect()->route('test.index')->with([
             'error', 'gmail auth error',
             'toast-type' => 'error',
@@ -75,5 +76,12 @@ class GmailService
         }
 
         return null;
+    }
+
+    public function authenticate()
+    {
+        $_SESSION['code_verifier'] = $this->client->getOAuth2Service()->generateCodeVerifier();
+        $authUrl = $this->client->createAuthUrl();
+        return $authUrl;
     }
 }
