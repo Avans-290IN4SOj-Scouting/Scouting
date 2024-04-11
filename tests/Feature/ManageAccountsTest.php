@@ -41,7 +41,7 @@ class ManageAccountsTest extends TestCase
         ];
 
         $response = $this->actingAs($admin)
-            ->post(route('manage-accounts.updateRoles'), [
+            ->post(route('manage.accounts.update.roles'), [
                 'userRoles' => json_encode($userRolesData),
             ]);
 

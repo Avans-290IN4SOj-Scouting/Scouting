@@ -1,7 +1,6 @@
 <?php
 
 return [
-    //"title"=> "",
     "page_title"=> "Account management",
     "email"=> "Emailadres",
     "role"=> "Rol",

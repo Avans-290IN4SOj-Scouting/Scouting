@@ -77,11 +77,7 @@ function updateShoppingCartPrices() {
         totalText.textContent = formatPrice(priceChange.total);
 
         const noProductsText = document.querySelector('#empty-shopping-cart-text');
-        if (priceChange.amount == 0) {
-            noProductsText.hidden = false;
-        } else {
-            noProductsText.hidden = true;
-        }
+        noProductsText.hidden = priceChange.amount !== 0;
     })
     .catch(error => {
         console.error('Error updating text field:', error);
@@ -102,7 +98,7 @@ function DOM_addProductFromProductPage(productId) {
     }
     catch (e)
     {
-        return;
+        console.error('Error adding product to shopping cart:', e);
     }
 }
 

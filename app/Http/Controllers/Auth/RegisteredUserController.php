@@ -35,8 +35,8 @@ class RegisteredUserController extends Controller
             $request->authorize();
         } catch (AuthenticationException $e) {
             return redirect()->back()->withErrors(
-                ['email' => __('auth.email')],
-                ['password' => __('auth.password')],
+                ['email' => __('auth/auth.email')],
+                ['password' => __('auth/auth.password')],
             );
         }
 

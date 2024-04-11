@@ -25,7 +25,7 @@ class AccountsController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('home')->with([
                 'toast-type' => 'error',
-                'toast-message' => __('toast.error-account-loading'),
+                'toast-message' => __('toast/messages.error-account-loading'),
             ]);
         }
     }
@@ -55,14 +55,14 @@ class AccountsController extends Controller
                 }
             }
 
-            return redirect()->route('manage-accounts')->with([
+            return redirect()->route('manage.accounts.index')->with([
                 'toast-type' => 'success',
-                'toast-message' => __('toast.success-role-update'),
+                'toast-message' => __('toast/messages.success-role-update'),
             ]);
         } catch (\Exception $e) {
-            return redirect()->route('manage-accounts')->with([
+            return redirect()->route('manage.accounts.index')->with([
                 'toast-type' => 'error',
-                'toast-message' => __('toast.error-account-saving'),
+                'toast-message' => __('toast/messages.error-account-saving'),
             ]);
         }
     }
