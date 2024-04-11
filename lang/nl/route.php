@@ -12,5 +12,5 @@ return [
     "checkout" => "afrekenen",
     "complete_order" => "voltooien",
     "cart" => "winkelwagen",
-    "search" => "zoeken",
+    "filter" => "filteren",
 ];

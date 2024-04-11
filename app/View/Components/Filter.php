@@ -6,12 +6,18 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class search-bar extends Component
+class Filter extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(
+        public string $placeholder,
+        public array  $options,
+        public string $name,
+        public string $label,
+        public string $selected,
+    )
     {
         //
     }
@@ -21,6 +27,6 @@ class search-bar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.search-bar');
+        return view('components.filter');
     }
 }

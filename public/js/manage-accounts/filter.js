@@ -4,3 +4,7 @@ document.getElementById('search').addEventListener('keypress', function (e) {
         this.form.submit();
     }
 });
+
+document.getElementById('filter').addEventListener('change', function () {
+    this.form.submit();
+});
