@@ -50,7 +50,12 @@ Route::middleware('role:admin')->group(function () {
 
     Route::get(__('navbar.manage_addProduct'), [ProductController::class, 'goToAddProduct'])->name('manage-addProduct');
 
-    Route::get('/product/{id}/edit', [ProductController::class, 'editProduct'])->name('product.EditProduct');
+
+
+    // Edit Product page Routes
+    Route::get('/product/{id}/edit', [ProductController::class, 'goToEditProduct'])->name('product.EditProduct');
+    Route::put('/product/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
+
 
     Route::get('warning-toast-accounts', function () {
         return redirect()

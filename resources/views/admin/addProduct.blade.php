@@ -77,11 +77,12 @@
                             'name' => 'groups',
                         ])
                         @include('partials._single-select', [
-                            'label' => 'Scouting categorie',
-                            'placeholder' => 'Select scouting categorie',
-                            'options' => $baseCategories->pluck('type'),
-                            'name' => 'category',
-                        ])
+            'label' => 'Scouting categorie',
+         'placeholder' => 'Select scouting categorie',
+         'options' => $baseCategories->pluck('type'),
+         'name' => 'category',
+         'value' => $baseChosenCategorie->type ?? null
+     ])
 
                         <!-- Product Description Field -->
                         <label for="product-description" class="block text-gray-700 font-semibold">Product
@@ -135,54 +136,5 @@
                 </div>
             </form>
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var checkbox = document.getElementById("same-price-all");
-                var inputField = document.getElementById("product-price");
-                checkbox.addEventListener("change", function() {
-                    if (checkbox.checked) {
-                        inputField.disabled = true;
-                    } else {
-                        inputField.disabled = false;
-                    }
-                });
-            });
-
-            function addCustomSizeInput() {
-                var newDiv = document.createElement('div');
-                newDiv.classList.add('flex', 'items-center', 'space-x-4');
-                var sizeInput = document.createElement('input');
-                sizeInput.type = 'text';
-                sizeInput.name = 'custom_sizes[]';
-                sizeInput.placeholder = 'Maat';
-                sizeInput.classList.add('w-full', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md',
-                    'specific-size-price');
-                var priceInput = document.createElement('input');
-                priceInput.type = 'number';
-                priceInput.name = 'custom_prices[]';
-                priceInput.placeholder = 'Prijs';
-                priceInput.classList.add('w-full', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md',
-                    'specific-size-price');
-                newDiv.appendChild(sizeInput);
-                newDiv.appendChild(priceInput);
-                document.getElementById('custom-size-inputs').appendChild(newDiv);
-            }
-
-            function toggleButtons() {
-                const screenWidth = window.innerWidth; // Get the current screen width
-                const smallBtn = document.getElementById('small-screen');
-                const bigBtn = document.getElementById('big-screen');
-
-                if (screenWidth <= 768) {
-                    smallBtn.classList.remove('hidden');
-                    bigBtn.classList.add('hidden');
-                } else {
-                    smallBtn.classList.add('hidden');
-                    bigBtn.classList.remove('hidden');
-                }
-            }
-            toggleButtons();
-            window.addEventListener('resize', toggleButtons);
-        </script>
     </body>
 @endsection

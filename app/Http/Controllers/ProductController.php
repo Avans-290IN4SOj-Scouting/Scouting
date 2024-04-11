@@ -28,23 +28,20 @@ class ProductController extends Controller
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
-
-    public function editProduct($productId)
+    public function updateProduct(Request $request, $productId)
     {
-        $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
-
-        if (!$product) {
-            return redirect('/products');
-        }
-
-        $productViewModel = new ProductViewmodel();
-        $this->populateProductViewModel($product, $productViewModel);
-
-        return view('admin.EditProduct', [
-            'product' => $product,
-            'productViewModel' => $productViewModel,
-
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            // Add validation rules for other fields as needed
         ]);
+        $product = Product::find($productId);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+        $product->name = $validatedData['name'];
+        $product->save();
+        return redirect()->route('product.EditProduct', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
 
     private function populateProductViewModel($product, $productViewmodel)
@@ -126,6 +123,62 @@ class ProductController extends Controller
         ]);
     }
 
+    public function goToEditProduct($productId, $failure = null)
+    {
+        $categories = ProductType::all();
+        $groups = Group::all();
+        $productSizes = ProductSize::where('size', '!=', 'Default')->get();
+        $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
+
+        $chosenCategorie = $product->productType;
+        $chosenGroups = $product->groups;
+
+        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
+        $sizes = [];
+        foreach ($sizesWithPrices as $sizeWithPrice) {
+            $size = ProductSize::find($sizeWithPrice->product_size_id);
+            if ($size) {
+                $sizeData = [
+                    'size' => $size->size,
+                    'price' => $sizeWithPrice->price,
+                ];
+                $sizes[] = $sizeData;
+            }
+        }
+        if ($failure == null)
+            return view('admin.editProduct', [
+                'product' => $product,
+                'baseCategories' => $categories,
+                'baseGroups' => $groups,
+                'baseProductSizes' => $productSizes,
+                'baseChosenCategorie' => $chosenCategorie,
+                'chosenGroups' => $chosenGroups,
+                'sizesWithPrices' => $sizes,
+            ]);
+        if (is_string($failure)) {
+            return view('admin.editProduct', [
+                'product' => $product,
+                'baseCategories' => $categories,
+                'baseGroups' => $groups,
+                'baseProductSizes' => $productSizes,
+                'sizesWithPrices' => $sizes,
+                'chosenGroups' => $chosenGroups,
+                'baseChosenCategorie' => $chosenCategorie,
+                'errors' => [$failure],
+            ]);
+        }
+        // validator
+        return view('admin.editProduct', [
+            'product' => $product,
+            'baseCategories' => $categories,
+            'baseGroups' => $groups,
+            'baseProductSizes' => $productSizes,
+            'sizesWithPrices' => $sizes,
+            'chosenGroups' => $chosenGroups,
+            'baseChosenCategorie' => $chosenCategorie,
+            'errors' => $failure->errors(),
+        ]);
+    }
     public function createProduct(Request $request)
     {
         $categories = ProductType::all()->select('id', 'type');
@@ -251,10 +304,6 @@ class ProductController extends Controller
         return $this->productOverview();
     }
 
-    public function updateProduct()
-    {
-
-    }
 
     private function catagoryToId($category)
     {
