@@ -18,7 +18,8 @@ class OrderLineSeeder extends Seeder
             'product_id' => 1,
             'amount' => 1,
             'product_price' => 12.34,
-            'product_size' => 'S'
+            'product_size' => 'S',
+            'product_image_path' => 'image/products/placeholder.png'
         ]);
 
         OrderLine::create([
@@ -26,7 +27,8 @@ class OrderLineSeeder extends Seeder
             'product_id' => 2,
             'amount' => 2,
             'product_price' => 23.45,
-            'product_size' => 'S'
+            'product_size' => 'S',
+            'product_image_path' => 'image/products/placeholder.png'
         ]);
     }
 }
