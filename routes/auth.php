@@ -11,10 +11,10 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store'])
         ->name('registerpost');
 
-    Route::get(__('navbar.login'), [AuthenticatedSessionController::class, 'create'])
+    Route::get(__('route.login'), [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::post(__('navbar.login'), [AuthenticatedSessionController::class, 'store'])
+    Route::post(__('route.login'), [AuthenticatedSessionController::class, 'store'])
         ->name('loginpost');
 });
 
