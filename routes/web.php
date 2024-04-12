@@ -5,6 +5,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GmailController;
+
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,3 +103,15 @@ Route::prefix(__('route.order'))->name('orders.')->group(function () {
             ->name('update');
     });
 });
+
+// Gmail Testing
+Route::get('/test', [TestController::class, 'index'])
+    ->name('test.index');
+Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail'])
+    ->name('test.send-test-mail');
+
+// Gmail
+Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
+    ->name('gmail.authenticate');
+Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
+->name('gmail.auth-callback');
