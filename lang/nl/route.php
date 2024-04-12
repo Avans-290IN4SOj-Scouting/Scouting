@@ -2,6 +2,7 @@
 
 return [
     "logout" => "uitloggen",
+    "login" => "inloggen",
     "manage" => "beheren",
     "accounts" => "accounts",
     "update_roles" => "rollen-bijwerken",
