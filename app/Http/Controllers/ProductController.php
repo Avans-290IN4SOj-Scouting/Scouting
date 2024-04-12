@@ -40,6 +40,11 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
         $product->name = $validatedData['name'];
+
+        $isInactive = $request->has('inactive') ? 1 : 0;
+
+        $product->inactive = $isInactive;
+
         $product->save();
         return redirect()->route('product.EditProduct', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
