@@ -76,13 +76,13 @@
                             'options' => $baseGroups->pluck('name'),
                             'name' => 'groups',
                         ])
-                        @include('partials._single-select', [
-            'label' => 'Scouting categorie',
-         'placeholder' => 'Select scouting categorie',
-         'options' => $baseCategories->pluck('type'),
-         'name' => 'category',
-         'value' => $baseChosenCategorie->type ?? null
-     ])
+                        @include('partials._input', [
+                            'label' => 'Kleur categorie',
+                            'placeholder' => 'Kleur',
+                            'id' => 'product-category',
+                            'type' => 'text',
+                            'name' => 'category',
+                        ])
 
                         <!-- Product Description Field -->
                         <label for="product-description" class="block text-gray-700 font-semibold">Product

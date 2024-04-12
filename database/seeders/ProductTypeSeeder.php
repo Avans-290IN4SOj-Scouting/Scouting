@@ -13,13 +13,13 @@ class ProductTypeSeeder extends Seeder
     public function run(): void
     {
         ProductType::create([
-            'type' => 'dames'
+            'type' => 'rood'
         ]);
         ProductType::create([
-            'type' => 'unisex'
+            'type' => 'groen'
         ]);
         ProductType::create([
-            'type' => 'heren'
+            'type' => 'blauw'
         ]);
     }
 }

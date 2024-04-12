@@ -202,18 +202,7 @@ class ProductController extends Controller
             'custom_prices.*' => ['nullable', 'numeric',],
             'custom_sizes.*' => ['nullable', 'string'],
             'groups' => ['required', 'array'],
-            'category' => [
-                'required',
-                'array',
-                'max:1',
-                function ($attribute, $value, $fail) use ($categories) {
-                    if ($value[0] == null) {
-                        $fail("Het categorie veld moet ingevuld worden.");
-                    } else if ($categories->where('type', $value[0])->first() == null) {
-                        $fail("$value[0] is geen geldige categorie.");
-                    }
-                }
-            ],
+            'category' => ['required', 'string'],
             'af-submit-app-upload-images' => [
                 'required',
                 'file',
@@ -223,9 +212,8 @@ class ProductController extends Controller
         ], [
             'name.required' => 'Het naam veld moet ingevuld worden.',
             'name.string' => 'Het naam veld moet een tekst zijn.',
-            'category.required' => 'Het categorie veld moet ingevuld worden.',
-            'category.array' => 'Het categorie veld moet een lijst zijn.',
-            'category.max:1' => 'Het categorie veld mag maar 1 category bevatten.',
+            'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
+            'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
             'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
             'af-submit-app-upload-images.file' => 'Je probeert iets te uploaden dat geen bestand is.',
             'af-submit-app-upload-images.image' => 'Het geüploade bestand moet een afbeelding zijn.',
@@ -241,7 +229,7 @@ class ProductController extends Controller
 
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
-        $product->setCategory($request->input('category')[0]);
+        $product->setCategory($request->input('category'));
         $product->setPicture($request->file('af-submit-app-upload-images'));
         $product->setPriceForSize($request->input('priceForSize'));
         $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
@@ -310,7 +298,8 @@ class ProductController extends Controller
         $category = strtolower($category);
         $categories = ProductType::all()->select('id', 'type');
         if ($categories->where('type', $category)->first() == null) {
-            dd($category);
+            ProductType::create(['type' => $category]);
+            $categories = ProductType::all()->select('id', 'type');
         }
         return $categories->where('type', $category)->first()['id'];
     }
