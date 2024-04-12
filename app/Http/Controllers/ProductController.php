@@ -41,7 +41,7 @@ class ProductController extends Controller
         }
         $product->name = $validatedData['name'];
 
-        $isInactive = $request->has('inactive') ? 1 : 0;
+        $isInactive = $request->has('inactive-checkbox') ? 1 : 0;
 
         $product->inactive = $isInactive;
 
