@@ -15,7 +15,7 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.accounts.filter') }}" method="GET">
-                <div class="flex space-x-4 items-center pb-4">
+                <div class="flex space-y-2 items-start pb-4 flex-col  sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
                     <x-search-bar search="{{ $search }}"
                                   placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
 
