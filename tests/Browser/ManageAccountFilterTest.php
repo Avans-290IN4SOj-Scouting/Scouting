@@ -5,40 +5,50 @@ namespace Tests\Browser;
 use App\Enum\UserRoleEnum;
 use App\Models\User;
 use Facebook\WebDriver\WebDriverKeys;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class ManageAccountFilterTest extends DuskTestCase
 {
+    private $admin;
+
+    private function createUsers()
+    {
+        $this->admin = User::factory()->create([
+            'email' => 'admin',
+            'password' => 'password',
+        ])->assignRole('admin');
+
+        User::factory()->create([
+            'email' => 'aaa',
+            'password' => 'password',
+        ])->assignRole('user');
+
+        User::factory()->create([
+            'email' => 'zzz',
+            'password' => 'password',
+        ])->assignRole('user');
+
+        User::factory()->create([
+            'email' => 'aab',
+            'password' => 'password',
+        ])->assignRole('admin');
+
+        User::factory()->create([
+            'email' => 'abzzza',
+            'password' => 'password',
+        ]);
+    }
+
     /**
      * @group manage
      * @return void
      */
     public function test_sorting_by_email()
     {
-        $admin = User::factory()->create([
-            'email' => 'admin',
-            'password' => 'password',
-        ]);
-
-        $first_user = User::factory()->create([
-            'email' => 'aaa',
-            'password' => 'password',
-        ]);
-
-        $last_user = User::factory()->create([
-            'email' => 'zzz',
-            'password' => 'password',
-        ]);
-
-        $first_user->assignRole('user');
-        $last_user->assignRole('user');
-
-        $admin->assignRole('admin');
-
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->loginAs($admin)
+        $this->createUsers();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin)
                 ->visit(route('manage.accounts.index'))
                 ->clickLink(__('manage-accounts/accounts.email'))
                 ->assertSee('aaa')
@@ -53,33 +63,9 @@ class ManageAccountFilterTest extends DuskTestCase
      */
     public function test_searching_by_email()
     {
-        $admin = User::factory()->create([
-            'email' => 'admin',
-            'password' => 'password',
-        ]);
-
-        $first_user = User::factory()->create([
-            'email' => 'aaa',
-            'password' => 'password',
-        ]);
-
-        $last_user = User::factory()->create([
-            'email' => 'zzz',
-            'password' => 'password',
-        ]);
-
-        $user = User::factory()->create([
-            'email' => 'abzzza',
-            'password' => 'password',
-        ]);
-
-        $first_user->assignRole('user');
-        $last_user->assignRole('user');
-
-        $admin->assignRole('admin');
-
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->loginAs($admin)
+        $this->createUsers();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin)
                 ->visit(route('manage.accounts.index'))
                 ->type('q', 'zzz')
                 ->keys('input[name=q]', WebDriverKeys::ENTER)
@@ -95,28 +81,9 @@ class ManageAccountFilterTest extends DuskTestCase
      */
     public function test_filtering_by_role()
     {
-        $admin = User::factory()->create([
-            'email' => 'admin',
-            'password' => 'password',
-        ]);
-
-        $first_user = User::factory()->create([
-            'email' => 'aaa',
-            'password' => 'password',
-        ]);
-
-        $last_user = User::factory()->create([
-            'email' => 'aab',
-            'password' => 'password',
-        ]);
-
-        $first_user->assignRole('user');
-        $last_user->assignRole('admin');
-
-        $admin->assignRole('admin');
-
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->loginAs($admin)
+        $this->createUsers();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin)
                 ->visit(route('manage.accounts.index'))
                 ->select('filter', UserRoleEnum::localisedValue(UserRoleEnum::Admin->value))
                 ->assertDontSee('aaa')
