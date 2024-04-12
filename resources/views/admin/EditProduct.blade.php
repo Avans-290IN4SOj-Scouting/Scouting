@@ -95,20 +95,19 @@
                     </div>
                     <!-- Select -->
                     @include('partials._select', [
-     'label' => 'Scouting groepen',
-     'placeholder' => 'Select scouting groepen',
-     'options' => $baseGroups->pluck('name'),
-     'name' => 'groups',
-     'selectedGroups' => $chosenGroups->pluck('name')->toArray(), // Pass the selected groups
- ])
-
-
-                    @include('partials._single-select', [
-                        'label' => 'Scouting categorie',
-                        'placeholder' => 'Select scouting categorie',
-                        'options' => $baseCategories->pluck('type'),
+                        'label' => 'Scouting groepen',
+                        'placeholder' => 'Select scouting groepen',
+                        'options' => $baseGroups->pluck('name'),
+                        'name' => 'groups',
+                        'selectedGroups' => $chosenGroups->pluck('name')->toArray(), // Pass the selected groups
+                    ])
+                    @include('partials._input', [
+                        'label' => 'Kleur categorie',
+                        'placeholder' => 'Kleur',
+                        'id' => 'product-category',
+                        'type' => 'text',
                         'name' => 'category',
-                        'value' => $baseChosenCategorie->type
+                        'value' => $baseChosenCategorie->type,
                     ])
 
                     <!-- Product Description Field -->
