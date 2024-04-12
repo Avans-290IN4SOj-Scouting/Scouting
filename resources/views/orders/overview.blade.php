@@ -42,7 +42,7 @@
                     <div class="product">
                             <div class="flex flex-col bg-white border rounded-xl dark:bg-slate-900">
                                 <a dusk="{{ $product->name }}" href="{{ route('orders.product', [ 'name' => $product->name, 'groupName' => $group->name]) }}">
-                                    <img class="rounded-t-xl" src="{{ $product->image_path }}" alt="{{ $product->name }}">
+                                    <img class="rounded-t-xl" src="{{ asset($product->image_path) }}" alt="{{ $product->name }}">
                                 </a>
 
                                 <div class="p-2">
@@ -54,8 +54,10 @@
                                             <p class="dark:text-white">
                                                 <span class="dark:text-white">
                                                     {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('common.seperator'), '.') }}
-                                                    {{ __('orders/orders.till') }}
-                                                    {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('common.seperator'), '.') }}
+                                                    @if (count($product->productSizes) > 1)
+                                                        {{ __('orders.till') }}
+                                                        {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('common.seperator'), '.') }}
+                                                    @endif
                                                 </span>
                                             </p>
                                         </div>
