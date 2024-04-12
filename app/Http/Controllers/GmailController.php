@@ -29,7 +29,7 @@ class GmailController extends Controller
         }
 
         $callbackResult = $this->gmailService->authenticate_callback($request);
-        return redirect()->route('test.index')->with([
+        return redirect()->back()->with([
             'toast-type' => $callbackResult['type'],
             'toast-message' => $callbackResult['message'],
         ]);

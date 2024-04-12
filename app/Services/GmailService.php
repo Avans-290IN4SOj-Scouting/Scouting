@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class GmailService
 {
-    // TODO: remove
     protected $client;
     private $accessToken;
     private $refreshToken;
@@ -48,10 +47,10 @@ class GmailService
             $this->refreshToken = $this->getRefreshToken();
             if (empty($this->accessToken) || empty($this->refreshToken))
             {
-                return redirect()->route('test.index')->with([
+                return redirect()->back()->with([
                     'error', 'gmail auth error',
                     'toast-type' => 'error',
-                    'toast-message' => 'Melding dat GMAIL niet authenticated is',
+                    'toast-message' => __('gmail.auth-not-set'),
                 ]);
             }
 
@@ -68,7 +67,7 @@ class GmailService
             return redirect()->route('test.index')->with([
                 'error', 'gmail auth error',
                 'toast-type' => 'error',
-                'toast-message' => 'Contacteer een developer aub',
+                'toast-message' => __('gmail.general-auth-error'),
             ]);
         }
     }
