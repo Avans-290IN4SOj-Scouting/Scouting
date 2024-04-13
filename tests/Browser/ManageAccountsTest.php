@@ -19,8 +19,10 @@ class ManageAccountsTest extends DuskTestCase
 
     public function test_responsiveness_screenshots()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(route('manage.accounts.index'))
+        $admin = User::factory()->create(['email' => 'res@ponsive'])->assignRole('admin');
+        $this->browse(function (Browser $browser) use ($admin) {
+            $browser->loginAs($admin)
+                ->visit(route('manage.accounts.index'))
                 ->responsiveScreenshots('manage-accounts/manage-accounts');
         });
     }
@@ -38,10 +40,14 @@ class ManageAccountsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group manage
+     * @return void
+     */
     public function testModalAppearsAfterRoleChange()
     {
         $admin = User::factory()->create(['email' => 'admin@test.com']);
-        $testUser = User::factory()->create(['email' => 'ABC@test.com']);
+        $testUser = User::get()->first();
         $admin->assignRole('admin');
         $testUser->assignRole('user');
 
@@ -51,6 +57,8 @@ class ManageAccountsTest extends DuskTestCase
                 ->click('[data-account-email="' . $testUser->email . '"]')
                 ->waitFor('#selectRole-div')
                 ->click(__('[data-value="admin"]'))
+                ->click('[data-account-email="' . $testUser->email . '"]')
+                ->screenshot('test')
                 ->click('#saveBtn')
                 ->waitFor('.confirmModal', 10)
                 ->assertVisible('.confirmModal')
