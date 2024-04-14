@@ -44,6 +44,8 @@ Route::middleware('role:admin')->group(function () {
     Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
         ->name('manage-accounts.updateRoles');
 
+    // Manage Products routes
+
     Route::get(__('navbar.manage_products'), [ProductController::class, 'productOverview'])->name('manage-products');
 
     Route::post('/products/create', [ProductController::class, 'createProduct'])->name('product.createProduct');
