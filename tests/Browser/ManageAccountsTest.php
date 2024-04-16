@@ -48,20 +48,16 @@ class ManageAccountsTest extends DuskTestCase
     {
         $admin = User::factory()->create(['email' => 'admin@test.com'])->assignRole('admin');
 
-        $firstUser = User::get()->first();
-        if($firstUser !== $admin)
-            $testUser = $firstUser;
-        else
-            $testUser = User::get()->skip(1)->first();
+        $testUser = User::factory()->create(['email' => 'aaa@a.a'])->assignRole('user');
 
         $this->browse(function (Browser $browser) use ($admin, $testUser) {
             $browser->loginAs($admin)
                 ->visit(route('manage.accounts.index'))
+                ->clickLink(__('manage-accounts/accounts.email'))
                 ->click('[data-account-email="' . $testUser->email . '"]')
                 ->waitFor('#selectRole-div')
                 ->click(__('[data-value="admin"]'))
                 ->click('[data-account-email="' . $testUser->email . '"]')
-                ->screenshot('test')
                 ->click('#saveBtn')
                 ->waitFor('.confirmModal', 10)
                 ->assertVisible('.confirmModal')
