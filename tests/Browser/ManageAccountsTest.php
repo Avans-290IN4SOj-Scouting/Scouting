@@ -46,10 +46,13 @@ class ManageAccountsTest extends DuskTestCase
      */
     public function testModalAppearsAfterRoleChange()
     {
-        $admin = User::factory()->create(['email' => 'admin@test.com']);
-        $testUser = User::get()->first();
-        $admin->assignRole('admin');
-        $testUser->assignRole('user');
+        $admin = User::factory()->create(['email' => 'admin@test.com'])->assignRole('admin');
+
+        $firstUser = User::get()->first();
+        if($firstUser !== $admin)
+            $testUser = $firstUser;
+        else
+            $testUser = User::get()->skip(1)->first();
 
         $this->browse(function (Browser $browser) use ($admin, $testUser) {
             $browser->loginAs($admin)
