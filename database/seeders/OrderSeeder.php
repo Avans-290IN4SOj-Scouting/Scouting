@@ -16,7 +16,25 @@ class OrderSeeder extends Seeder
         Order::create([
             'order_date' => '2024-02-25',
             'lid_name' => 'jantje',
-            'group_id' => 1
+            'group_id' => 1,
+            'user_id' => 1,
+            'order_status_id' => 1,
+        ]);
+
+        Order::create([
+            'order_date' => '2024-02-25',
+            'lid_name' => 'pietje',
+            'group_id' => 1,
+            'user_id' => 2,
+            'order_status_id' => 2,
+        ]);
+
+        Order::create([
+            'order_date' => '2024-02-25',
+            'lid_name' => 'broodje',
+            'group_id' => 1,
+            'user_id' => 3,
+            'order_status_id' => 3,
         ]);
     }
 }

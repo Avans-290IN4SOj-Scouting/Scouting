@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('lid_name');
 
             $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('order_status_id');
 
             $table->timestamps();
         });

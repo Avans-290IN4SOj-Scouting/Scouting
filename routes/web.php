@@ -6,7 +6,7 @@ use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
-
+use App\Http\Controllers\ManageOrdersController;
 use App\Http\Controllers\TestController;
 
 /*
@@ -70,6 +70,20 @@ Route::middleware('role:admin')->group(function () {
                         'toast-message' => __('toast/messages.warning-no-admins')
                     ]);
             });
+        });
+
+        Route::prefix(__('route.manage-orders'))->name('orders.')->group(function () {
+            Route::get('/', [ManageOrdersController::class, 'index'])
+                ->name('index');
+
+            Route::get('/{id}', [ManageOrdersController::class, 'order'])
+                ->name('order');
+
+            Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
+                ->name('filter');
+
+            Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+                ->name('cancel-order');
         });
 
         Route::get(__('navbar.manage_products'), function () {

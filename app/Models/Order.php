@@ -20,4 +20,14 @@ class Order extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    function orderStatus(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class);
+    }
 }
