@@ -11,4 +11,9 @@ return [
     "confirm_button"=> "Bevestigen",
     "saved_confirmation"=> "Gegevens zijn succesvol opgeslagen!",
     "multiple_select_placeholder" => "Selecteer rol(len)",
+    "filter_placeholder" => "Filter op rol",
+    "search_placeholder" => "Zoek op emailadres",
+    "empty_table" => "Geen accounts gevonden",
+    "remove_filters_button" => "Filters verwijderen",
+    "filter_error" => "Filteren van accounts mislukt!",
 ];

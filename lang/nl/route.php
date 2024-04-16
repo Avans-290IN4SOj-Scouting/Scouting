@@ -14,4 +14,5 @@ return [
     "complete_order" => "voltooien",
     "cart" => "winkelwagen",
     "manage-orders" => 'beheer-bestellingen',
+    "filter" => "filteren",
 ];

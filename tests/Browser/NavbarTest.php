@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -40,22 +41,26 @@ class NavbarTest extends DuskTestCase
         });
     }
 
-    public function test_responsiveness_screenshots()
+    public function test_admin_navlink_visible()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->responsiveScreenshots('navbar/navbar');
+        $admin = User::factory()->create(['email' => 'test@email.nl'])->assignRole('admin');
+        $this->browse(function (Browser $browser) use ($admin) {
+            $browser->visit(route('login'))
+                ->type('email', $admin->email)
+                ->type('password', 'password')
+                ->press(__('auth/auth.sign-in'))
+                ->screenshot('admin-navbar')
+                ->assertRouteIs('home')
+                ->assertSee(__('navbar.admin'));
         });
     }
 
-    public function test_admin_navlink_visible()
+    public function test_active_link()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('login'))
-                ->type('email', 'admin@admin')
-                ->type('password', 'password')
-                ->press(__('auth/auth.sign-in'))
-                ->assertRouteIs('home')
-                ->assertSee(__('navbar.admin'));
+            $browser->clickLink(__('navbar.checkout'))
+                ->screenshot('test')
+                ->assertSeeIn('.active-nav-link', __('navbar.checkout'));
         });
     }
 
@@ -63,9 +68,9 @@ class NavbarTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->resize(400, 700)
-                ->screenshot('navbar-mobile')
+                ->screenshot('navbar/navbar-mobile')
                 ->click('.hs-collapse-toggle')
-                ->waitForText(__('navbar.account'))
+                ->waitForLink(__('navbar.login'))
                 ->assertSee(__('navbar.home'))
                 ->assertSee(__('navbar.cart'))
                 ->assertSee(__('navbar.checkout'))
@@ -74,11 +79,10 @@ class NavbarTest extends DuskTestCase
         });
     }
 
-    public function test_active_link()
+    public function test_responsiveness_screenshots()
     {
         $this->browse(function (Browser $browser) {
-            $browser->clickLink(__('navbar.checkout'));
-            $browser->assertSeeIn('.active-nav-link', __('navbar.checkout'));
+            $browser->responsiveScreenshots('navbar/navbar');
         });
     }
 }
