@@ -4,6 +4,7 @@ return [
     'page_title' => 'Bestelling',
     'cancel-order' => 'Annuleer bestelling',
     'back' => 'Terug',
+    'order-data' => 'Bestellingsgegevens',
 
     'order-doesnt-exist' => 'Deze bestelling bestaat niet.',
     'cancel-order-success' => 'Bestelling succesvol geannuleerd.',

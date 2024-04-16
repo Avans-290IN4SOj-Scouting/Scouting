@@ -25,11 +25,11 @@
         <div class="flex justify-center items-top gap-10">
             <!-- Gegevens -->
             <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
-                <h2 class="text-3xl dark:text-white">Bestelling gegevens</h2>
+                <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.order-data') }}</h2>
 
                 <div class="flex gap-4 flex-col">
                     <div class="max-w-sm">
-                        <label for="email" class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.email') }}</label>
+                        <label for="email" class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/order.customer') }}</label>
                         <input type="text" id="email" value="{{ $order->user->email }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
                     </div>
 

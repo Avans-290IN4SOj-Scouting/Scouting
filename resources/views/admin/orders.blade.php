@@ -11,7 +11,7 @@
 @endpush
 
 @section('content')
-    <h1 class="text-4xl m-8 dark:text-white">{{__('manage-orders/orders.page_title')}}</h1>
+    <h1 class="text-4xl dark:text-white">{{__('manage-orders/orders.page_title')}}</h1>
 
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
