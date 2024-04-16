@@ -11,8 +11,7 @@ class ManageOrdersController extends Controller
 {
     public function index()
     {
-        // $orders = $this->getAllOrders()->sortable()->paginate(10);
-        $orders = $this->getAllOrders();
+        $orders = Order::query()->sortable()->paginate(10);
 
         return view('admin.orders', [
             'orders' => $orders,

@@ -6,10 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Kyslik\ColumnSortable\Sortable;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, Sortable;
+
+    /**
+     * The attributes that are sortable.
+     *
+     * @var array<int, string>
+     */
+    public $sortable = [
+        'id',
+    ];
 
     public function orderLines(): HasMany
     {

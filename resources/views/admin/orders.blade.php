@@ -20,7 +20,13 @@
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-row gap-4">
                             <x-search-bar search="{{ $search }}" placeholder="{{ __('manage-orders/orders.search_placeholder') }}" class="flex-grow"/>
-                            {{-- <x-select-filter class="flex-grow"/> --}}
+
+                            <select
+                                class="py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
+                                @foreach ($allstatusses as $status)
+                                <option @if($selected && $status->id === $selected->id) selected @endif>{{ __('orders/orderstatus.'.$status->status) }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="flex flex-row gap-4">
@@ -46,7 +52,7 @@
                 <tr>
                     <th scope="col"
                         class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase flex items-left gap-0.5">
-                        @sortablelink('email', __('manage-orders/orders.email'))
+                        @sortablelink('user.email', __('manage-orders/orders.email'))
                         @if (Request::get('sort') == 'email')
                             @if (Request::get('direction') == 'desc')
                                 <span>
