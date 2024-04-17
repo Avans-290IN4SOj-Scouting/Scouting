@@ -5,9 +5,8 @@
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-gray-700 font-semibold mb-4">Wijzig product</h1>
         <!-- Product Form and Image Section -->
-        <form action="{{ route('product.update', ['id' => $product->id]) }}" method="POST">
+        <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Product Form -->
                 <div class="space-y-4">

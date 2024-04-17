@@ -76,9 +76,26 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        Route::get(__('navbar.manage_products'), function () {
-            return view('admin.products');
-        })->name('products');
+        Route::prefix(__('route.products'))->name('products.')->group(function () {
+            Route::get('/', [ProductController::class, 'productOverview'])
+                ->name('index');
+
+            Route::prefix(__('route.create'))->name('create.')->group(function () {
+                Route::get('/', [ProductController::class, 'goToAddProduct'])
+                    ->name('index');
+
+                Route::post('store', [ProductController::class, 'createProduct'])
+                    ->name('store');
+            });
+
+            Route::prefix(__('route.edit'))->name('edit.')->group(function () {
+                Route::get('/{id}', [ProductController::class, 'goToEditProduct'])
+                    ->name('index');
+
+                Route::post('store/{id}', [ProductController::class, 'updateProduct'])
+                    ->name('store');
+            });
+        });
     });
 });
 
@@ -118,4 +135,4 @@ Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail
 Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
-->name('gmail.auth-callback');
+    ->name('gmail.auth-callback');

@@ -41,7 +41,7 @@ class ProductController extends Controller
         }
         $product->name = $validatedData['name'];
         $product->save();
-        return redirect()->route('product.EditProduct', ['id' => $product->id])->with('success', 'Product updated successfully.');
+        return redirect()->route('manage.products.edit.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
 
     private function populateProductViewModel($product, $productViewmodel)
