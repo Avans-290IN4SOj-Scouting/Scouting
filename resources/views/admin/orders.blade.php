@@ -7,6 +7,7 @@
 @push('scripts')
     {{-- <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script> --}}
     <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
+    <script src="{{ asset('js/manage-orders/filter.js') }}" defer></script>
     <script src="{{ asset('js/table/clickabletable.js') }}" defer></script>
 @endpush
 
@@ -39,9 +40,6 @@
                     <div class="flex flex-col justify-end">
                         <a href="{{ route('manage.orders.index') }}" class="text-red-500 underline decoration-red-500 hover:opacity-80">
                             {{__('manage-orders/orders.remove_filters_button')}}
-                        </a>
-                        <a href="{{ route('manage.orders.index') }}" class="text-blue-600 hover:underline hover:decoration-blue-600">
-                            {{__('manage-orders/orders.apply_filters')}}
                         </a>
                     </div>
                 </div>

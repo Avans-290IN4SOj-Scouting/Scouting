@@ -92,8 +92,34 @@ class ManageOrdersController extends Controller
         $dateTillString = $request->input('date-till-filter');
         try
         {
-            $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFromString)->toDateTimeString();
-            $dateTill = Carbon::createFromFormat('Y-m-d', $dateTillString)->toDateTimeString();
+            // Check is from is empty ...
+            if (!empty($dateFromString))
+            {
+                /// ... if not set it
+                $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFromString)->toDateTimeString();
+
+                // if till is empty set it to the next day
+                if (empty($dateTillString))
+                {
+                    $dateTill = Carbon::now()->addDay(1);
+                    $dateTillString = $dateTill->format('Y-m-d');
+                }
+                else
+                {
+                    $dateTill = Carbon::createFromFormat('Y-m-d', $dateTillString)->toDateTimeString();
+                }
+            }
+            else
+            {
+                // If it is empty and till is empty, do nothing because both are empty
+                if (!empty($dateTillString))
+                {
+                    // if till is not empty, set from to ???
+                    $dateTill = Carbon::createFromFormat('Y-m-d', $dateTillString)->toDateTimeString();
+                    $dateFrom = Carbon::createFromTimestamp(0);
+                    $dateFromString = $dateFrom->format('Y-m-d');
+                }
+            }
 
             $orders = $orders->whereBetween('created_at', [$dateFrom, $dateTill]);
         }
