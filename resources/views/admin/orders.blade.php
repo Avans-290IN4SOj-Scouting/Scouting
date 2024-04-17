@@ -5,8 +5,8 @@
 @endphp
 
 @push('scripts')
-    {{-- <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script>
-    <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script> --}}
+    {{-- <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script> --}}
+    <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
     <script src="{{ asset('js/table/clickabletable.js') }}" defer></script>
 @endpush
 
@@ -21,23 +21,27 @@
                         <div class="flex flex-row gap-4">
                             <x-search-bar search="{{ $search }}" placeholder="{{ __('manage-orders/orders.search_placeholder') }}" class="flex-grow"/>
 
-                            <select
+                            <select id="filter" name="filter"
                                 class="py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
+                                <option value="0">Filter op status</option>
                                 @foreach ($allstatusses as $status)
-                                <option @if($selected && $status->id === $selected->id) selected @endif>{{ __('orders/orderstatus.'.$status->status) }}</option>
+                                <option value="{{ $status->id }}" @if($selected && $status->id === $selected->id) selected @endif>{{ __('orders/orderstatus.'.$status->status) }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="flex flex-row gap-4">
-                            <x-date-filter name="date-from-filter" class="flex-grow" />
-                            <x-date-filter name="date-till-filter" class="flex-grow" />
+                            <x-date-filter name="date-from-filter" defaultValue="{{ $dateFrom }}" class="flex-grow" />
+                            <x-date-filter name="date-till-filter" defaultValue="{{ $dateTill }}" class="flex-grow" />
                         </div>
                     </div>
 
                     <div class="flex flex-col justify-end">
-                        <a href="{{ route('manage.orders.index') }}" class="text-blue-600 hover:underline hover:decoration-blue-600">
+                        <a href="{{ route('manage.orders.index') }}" class="text-red-500 underline decoration-red-500 hover:opacity-80">
                             {{__('manage-orders/orders.remove_filters_button')}}
+                        </a>
+                        <a href="{{ route('manage.orders.index') }}" class="text-blue-600 hover:underline hover:decoration-blue-600">
+                            {{__('manage-orders/orders.apply_filters')}}
                         </a>
                     </div>
                 </div>

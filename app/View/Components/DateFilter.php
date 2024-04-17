@@ -13,6 +13,7 @@ class DateFilter extends Component
      */
     public function __construct(
         public string $name,
+        public $defaultValue,
     )
     {
         //
