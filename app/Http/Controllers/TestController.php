@@ -49,32 +49,39 @@ class TestController extends Controller
     // currently hardcoded
     public function cancelOrder(Request $request)
     {
-        $currentUser = auth()->user();
+        try {
+            $currentUser = auth()->user();
 
-        $order = Order::where('user_id', $currentUser->id)->first();
+            $order = Order::where('user_id', $currentUser->id)->first();
 
-        if (!$order) {
+            if (!$order) {
+                return redirect()->back()->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast/messages.error-order-not-found')
+                ]);
+            }
+
+            $orderStatus = OrderStatus::where('id', $order->id)->first();
+
+            if ($orderStatus->status !== ('cancelled')) {
+                $orderStatus->status = 'cancelled';
+                $orderStatus->save();
+            } else {
+                return redirect()->back()->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast/messages.error-order-not-cancelled'),
+                ]);
+            }
+
             return redirect()->back()->with([
-               'toast-type' => 'error',
-               'toast-message' => __('toast/messages.error-order-not-found')
+                'toast-type' => 'success',
+                'toast-message' => __('toast/messages.success-order-cancelled')
             ]);
-        }
-
-        $orderStatus = OrderStatus::where('id', $order->id)->first();
-
-        if ($orderStatus->status !== ('cancelled')) {
-            $orderStatus->status = 'cancelled';
-            $orderStatus->save();
-        } else {
+        } catch (\Exception $e) {
             return redirect()->back()->with([
                 'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-order-not-cancelled'),
+                'toast-message' => __('toast/messages.error-general')
             ]);
         }
-
-        return redirect()->back()->with([
-            'toast-type' => 'success',
-            'toast-message' => __('toast/messages.success-order-cancelled')
-        ]);
     }
 }
