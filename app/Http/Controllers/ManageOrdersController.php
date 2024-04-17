@@ -123,7 +123,7 @@ class ManageOrdersController extends Controller
 
             $orders = $orders->whereBetween('created_at', [$dateFrom, $dateTill]);
         }
-        catch (InvalidFormatException $e) { }
+        catch (Exception $e) { }
 
         return view('admin.orders', [
             'orders' => $orders,

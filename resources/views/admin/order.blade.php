@@ -10,7 +10,7 @@
 
 <div class="flex justify-center">
     <div class="flex flex-col w-max">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center flex-wrap">
             <h1 class="text-4xl font-bold dark:text-white">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
             @if ($order->orderStatus->status != 'cancelled')
@@ -22,7 +22,7 @@
         </div>
         <br>
 
-        <div class="flex justify-center items-top gap-10">
+        <div class="flex justify-center items-top gap-10 flex-wrap">
             <!-- Gegevens -->
             <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                 <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.order-data') }}</h2>
