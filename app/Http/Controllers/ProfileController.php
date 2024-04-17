@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $test_orders = Order::factory()->count(3)->create([
+//            'user_id' => $request->user()->id,
+        ])->each(function ($order) {
+            $order->load(['orderLines' => function ($query) {
+                $query->orderByDesc('product_price');
+            }]);
+        });
+
         return view('profile.edit', [
             'user' => $request->user(),
+            'orders' => $test_orders,
         ]);
     }
 
