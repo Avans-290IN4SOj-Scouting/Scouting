@@ -36,4 +36,12 @@ class TestController extends Controller
             'toast-message' => 'Mail sent sucessfully!',
         ]);
     }
+
+    public function cancelOrderTest() {
+        return view('test.cancelOrderTest');
+    }
+
+    public function cancelOrder(Request $request) {
+        return redirect()->route('home');
+    }
 }
