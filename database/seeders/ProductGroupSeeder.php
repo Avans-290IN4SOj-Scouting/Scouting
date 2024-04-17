@@ -17,12 +17,14 @@ class ProductGroupSeeder extends Seeder
         $test1Product = Product::where('name', 'TestHeren')->first();
         $test2Product = Product::where('name', 'TestDames')->first();
         $test3Product = Product::where('name', 'TestUnisex')->first();
+        $test4Product = Product::where('name', 'TestSingleSize')->first();
 
         $kabouterGroup = Group::where('name', 'Kabouters')->first();
         $welpenGroup = Group::where('name', 'Welpen')->first();
         $scoutsGroup = Group::where('name', 'Scouts')->first();
 
         $kabouterGroup->products()->attach($test3Product);
+        $kabouterGroup->products()->attach($test4Product);
         $welpenGroup->products()->attach($test1Product);
         $welpenGroup->products()->attach($test2Product);
         $scoutsGroup->products()->attach($test2Product);

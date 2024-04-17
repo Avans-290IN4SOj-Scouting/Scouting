@@ -13,9 +13,13 @@ class UserWithRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory(1)->create([
-            'email' => 'admin@admin',
+        $admin = User::factory(1)->create([
+            'email' => 'admin@admin.nl',
         ])->first();
-        $user->assignRole('admin');
+        $admin->assignRole('admin');
+
+        $user = User::factory(1)->create()->first();
+        $user->assignRole('team_bevers');
+        $user->assignRole('team_gidsen');
     }
 }

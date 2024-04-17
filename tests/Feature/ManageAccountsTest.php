@@ -21,9 +21,13 @@ class ManageAccountsTest extends TestCase
         $admin = User::factory()->create(['email' => 'admin@test.com']);
         $userToBeModified = User::factory()->create(['email' => 'user@test.com']);
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
-        Role::create(['name' => 'teamleader']);
+        $rolesToCheck = ['admin', 'user', 'teamleader'];
+
+        foreach ($rolesToCheck as $roleName) {
+            if (!Role::where('name', $roleName)->exists()) {
+                Role::create(['name' => $roleName]);
+            }
+        }
 
         $admin->assignRole('admin');
         $userToBeModified->assignRole('user');
@@ -31,13 +35,13 @@ class ManageAccountsTest extends TestCase
         $userRolesData = [
             [
                 'email' => $userToBeModified->email,
-                'oldRole' => $userToBeModified->roles()->first()->name,
-                'newRole' => 'admin'
+                'oldRoles' => $userToBeModified->roles()->first()->name,
+                'newRoles' => ['admin'],
             ]
         ];
 
         $response = $this->actingAs($admin)
-            ->post(route('manage-accounts.updateRoles'), [
+            ->post(route('manage.accounts.update.roles'), [
                 'userRoles' => json_encode($userRolesData),
             ]);
 

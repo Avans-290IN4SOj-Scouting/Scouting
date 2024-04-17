@@ -30,10 +30,10 @@
                 {{--This are all links--}}
                 <a class="{{ request()->routeIs('home') ? 'active-nav-link' : 'inactive-nav-link' }}"
                    href="{{ route('home') }}">{{__('navbar.home')}}</a>
-                <a class="{{ request()->routeIs('shoppingcart.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                   href="{{ route('shoppingcart.index') }}">{{__('navbar.cart')}}</a>
-                <a class="{{ request()->routeIs('orders.order') ? 'active-nav-link' : 'inactive-nav-link' }}"
-                   href="{{ route('orders.order') }}">{{__('navbar.checkout')}}</a>
+                <a class="{{ request()->routeIs('orders.shoppingcart.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                   href="{{ route('orders.shoppingcart.index') }}">{{__('navbar.cart')}}</a>
+                <a class="{{ request()->routeIs('orders.checkout.order') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                   href="{{ route('orders.checkout.order') }}">{{__('navbar.checkout')}}</a>
 
                 {{--This is the dropdown for Admin--}}
                 {{--TODO: Based on the user role, show the dropdown--}}
@@ -41,7 +41,7 @@
                     <div
                         class="hs-dropdown [--strategy:static] sm:[--strategy:fixed] [--adaptive:none] sm:[--trigger:hover] sm:py-4">
                         <button type="button"
-                                class="{{ request()->routeIs('manage-products') || request()->routeIs('manage-accounts') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
+                                class="{{ request()->routeIs('manage.products') || request()->routeIs('manage.accounts.index') || request()->routeIs('manage.accounts.filter') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
                             {{__('navbar.admin')}}
                             <svg class="ms-2 size-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16"
                                  fill="none"
@@ -54,12 +54,12 @@
                         <div
                             class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] sm:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 sm:w-48 hidden z-10 bg-white sm:shadow-md rounded-lg p-2 dark:bg-gray-800 sm:dark:border dark:border-gray-700 dark:divide-gray-700 before:absolute top-full sm:border before:-top-5 before:start-0 before:w-full before:h-5">
                             {{--These are all links in the dropdown--}}
-                            <a class="{{ request()->routeIs('manage-accounts') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                               href="{{route('manage-accounts')}}">
+                            <a class="{{ request()->routeIs('manage.accounts.index') || request()->routeIs('manage.accounts.filter') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                               href="{{route('manage.accounts.index')}}">
                                 {{__('navbar.manage_accounts')}}
                             </a>
-                            <a class="{{ request()->routeIs('manage-products') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                               href="{{route('manage-products')}}">
+                            <a class="{{ request()->routeIs('manage.products') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                               href="{{route('manage.products')}}">
                                 {{__('navbar.manage_products')}}
                             </a>
                         </div>

@@ -14,17 +14,17 @@ class OrderTest extends DuskTestCase
             $browser->visit('/')
                     ->click('@Bevers')
                     ->click('@TestAll')
-                    ->press(__('orders.add-to-shoppingcart'))
-                    ->assertSee(__('orders.product-added'));
+                    ->press(__('orders/orders.add-to-shoppingcart'))
+                    ->assertSee(__('orders/orders.product-added'));
         });
     }
 
     public function test_order_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(__('route.shopping-cart'))
+            $browser->visit(route('orders.shoppingcart.index'))
                     ->click('@shoppingcart-next-button')
-                    ->assertSee(__('orders.order'));
+                    ->assertSee(__('orders/orders.order'));
         });
     }
 
@@ -34,16 +34,16 @@ class OrderTest extends DuskTestCase
             $browser->visit('/')
                     ->responsiveScreenshots('orders/home')
 
-                    ->visit(__('route.overview') . '/Welpen')
+                    ->visit(route('orders.overview', 'welpen'))
                     ->responsiveScreenshots('orders/product-overview')
 
-                    ->visit(__('route.product') . '/TestAll/Welpen')
+                    ->visit(route('orders.product', '/TestAll/Welpen'))
                     ->responsiveScreenshots('orders/product')
 
-                    ->visit(__('route.shopping-cart'))
+                    ->visit(route('orders.shoppingcart.index'))
                     ->responsiveScreenshots('orders/shopping-cart')
 
-                    ->visit(__('route.checkout'))
+                    ->visit(route('orders.checkout.order'))
                     ->responsiveScreenshots('orders/order');
         });
     }
