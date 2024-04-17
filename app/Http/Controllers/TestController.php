@@ -56,7 +56,7 @@ class TestController extends Controller
         if (!$order) {
             return redirect()->back()->with([
                'toast-type' => 'error',
-               'toast-message' => 'Could not find order'
+               'toast-message' => __('toast/messages.error-order-not-found')
             ]);
         }
 
@@ -68,13 +68,13 @@ class TestController extends Controller
         } else {
             return redirect()->back()->with([
                 'toast-type' => 'error',
-                'toast-message' => __('Order is already paid for'),
+                'toast-message' => __('toast/messages.error-order-not-cancelled'),
             ]);
         }
 
         return redirect()->back()->with([
             'toast-type' => 'success',
-            'toast-message' => 'Order successfully cancelled'
+            'toast-message' => __('toast/messages.success-order-cancelled')
         ]);
     }
 }
