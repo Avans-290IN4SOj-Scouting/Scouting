@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderStatus;
+use App\Models\User;
 use App\Services\GmailService;
 use Illuminate\Http\Request;
 
@@ -12,7 +15,9 @@ class TestController extends Controller
 {
     public function __construct(
         protected GmailService $gmailService
-    ) { }
+    )
+    {
+    }
 
     // GET
     public function index()
@@ -25,8 +30,7 @@ class TestController extends Controller
     {
         $email = $request->input('email');
         $message = $this->gmailService->sendMail($email, 'Test Subject', 'Test Email Content');
-        if ($message !== null)
-        {
+        if ($message !== null) {
             dd($message);
         }
 
@@ -37,11 +41,40 @@ class TestController extends Controller
         ]);
     }
 
-    public function cancelOrderTest() {
+    public function cancelOrderTest()
+    {
         return view('test.cancelOrderTest');
     }
 
-    public function cancelOrder(Request $request) {
-        return redirect()->route('home');
+    // currently hardcoded
+    public function cancelOrder(Request $request)
+    {
+        $currentUser = auth()->user();
+
+        $order = Order::where('user_id', $currentUser->id)->first();
+
+        if (!$order) {
+            return redirect()->back()->with([
+               'toast-type' => 'error',
+               'toast-message' => 'Could not find order'
+            ]);
+        }
+
+        $orderStatus = OrderStatus::where('id', $order->id)->first();
+
+        if ($orderStatus->status !== ('cancelled')) {
+            $orderStatus->status = 'cancelled';
+            $orderStatus->save();
+        } else {
+            return redirect()->back()->with([
+                'toast-type' => 'error',
+                'toast-message' => __('Order is already paid for'),
+            ]);
+        }
+
+        return redirect()->back()->with([
+            'toast-type' => 'success',
+            'toast-message' => 'Order successfully cancelled'
+        ]);
     }
 }
