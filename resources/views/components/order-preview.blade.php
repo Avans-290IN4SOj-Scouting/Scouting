@@ -7,7 +7,10 @@
         class="w-full p-10 flex md:flex-row justify-between leading-normal">
         <div class="flex flex-col text-base align-middle">
             <p>{{ App\Helpers\DateFormatter::format($order->order_date) }}</p>
-            <p>{{--TODO: Tijdelijk--}} Geplaatst</p>
+            <p class="text-orange-300">
+                {{--TODO: Tijdelijk--}}
+                {{ \App\Enum\DeliveryStatus::localisedValue(\App\Enum\DeliveryStatus::Processing->value) }}
+            </p>
         </div>
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
