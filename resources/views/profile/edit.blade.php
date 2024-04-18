@@ -84,13 +84,15 @@
                     </a>
                 </p>
 
-                @forelse($orders as $order)
-                    <x-order-preview :order="$order"/>
-                @empty
-                    <p class="dark:text-white">
-                        {{ __('auth/profile.no_orders') }}
-                    </p>
-                @endforelse
+                <div class="flex flex-col pt-4 gap-4">
+                    @forelse($orders as $order)
+                        <x-order-preview :order="$order"/>
+                    @empty
+                        <p class="dark:text-white">
+                            {{ __('auth/profile.no_orders') }}
+                        </p>
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>
