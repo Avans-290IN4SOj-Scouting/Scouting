@@ -5,5 +5,5 @@
 @endphp
 
 @section('content')
-    {{--TODO: put content home page here--}}
+    <h1 class="text-4xl m-8 dark:text-white">Plain header text</h1>
 @endsection

@@ -75,9 +75,9 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        Route::get(__('navbar.manage_products'), function () {
-            return view('admin.products');
-        })->name('products');
+        //TODO: Move to be better suited controller
+        Route::get(__('navbar.manage_products'), [AccountsController::class, 'manageProducts'])
+            ->name('products');
     });
 });
 
@@ -117,4 +117,4 @@ Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail
 Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
-->name('gmail.auth-callback');
+    ->name('gmail.auth-callback');
