@@ -1,10 +1,10 @@
-<div class="w-full md:flex max-w-sm md:max-w-none border border-gray-300 rounded-xl overflow-hidden">
+<div class="w-full sm:flex max-w-sm sm:max-w-none border border-gray-300 rounded-xl overflow-hidden">
     <div
-        class="h-48 md:h-auto md:w-48 flex-none bg-cover text-center overflow-hidden"
+        class="h-48 sm:h-auto sm:w-48 flex-none bg-cover text-center overflow-hidden"
         style="background-image: url({{ $order->orderLines->first()->product_image_path }})" title="{{--TODO!--}}">
     </div>
     <div
-        class="w-full p-10 flex md:flex-row justify-between leading-normal">
+        class="w-full p-10 flex sm:flex-row justify-between leading-normal">
         <div class="flex flex-col text-base align-middle">
             <p>{{ App\Helpers\DateFormatter::format($order->order_date) }}</p>
             <p class="text-orange-300">

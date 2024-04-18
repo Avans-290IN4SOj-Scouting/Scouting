@@ -23,8 +23,8 @@
             </div>
         </div>
 
-        <div class="flex flex-col space-y-2 sm:flex-row sm:justify-start sm:items-start sm:space-y-0 sm:space-x-10">
-            <div class="grid gap-4 w-full sm:w-1/3">
+        <div class="flex flex-col space-y-2 md:flex-row md:justify-start md:items-start md:space-y-0 md:space-x-10">
+            <div class="grid gap-4 w-full md:w-1/3">
                 <div>
                     <label for="email"
                            class="block text-sm mb-2 dark:text-white">{{__('auth/auth.email')}}</label>
@@ -72,7 +72,7 @@
                     </div>
                 </form>
             </div>
-            <div class="w-full sm:w-2/3">
+            <div class="w-full md:w-2/3">
                 <p class="dark:text-white">
                     <strong>{{ __('auth/profile.recent_orders') }}</strong>
                 </p>
