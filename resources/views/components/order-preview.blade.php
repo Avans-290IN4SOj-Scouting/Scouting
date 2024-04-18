@@ -1,4 +1,4 @@
-<div class="w-full md:flex border border-gray-300 rounded-xl overflow-hidden">
+<div class="w-full md:flex max-w-sm md:max-w-none border border-gray-300 rounded-xl overflow-hidden">
     <div
         class="h-48 md:h-auto md:w-48 flex-none bg-cover text-center overflow-hidden"
         style="background-image: url({{ $order->orderLines->first()->product_image_path }})" title="{{--TODO!--}}">
