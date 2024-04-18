@@ -43,7 +43,7 @@ class OrderTest extends DuskTestCase
                     ->visit(route('orders.shoppingcart.index'))
                     ->responsiveScreenshots('orders/shopping-cart')
 
-                    ->visit(__('route.checkout'))
+                    ->visit(route('orders.checkout.order'))
                     ->responsiveScreenshots('orders/order');
         });
     }
