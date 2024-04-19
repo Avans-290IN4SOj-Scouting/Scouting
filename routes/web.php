@@ -30,11 +30,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])
             ->name('index');
 
-        Route::patch('/', [ProfileController::class, 'update'])
+        Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
-
-        Route::post(__('route.update_password'), [ProfileController::class, ''])
-            ->name('update.password');
     });
 });
 
