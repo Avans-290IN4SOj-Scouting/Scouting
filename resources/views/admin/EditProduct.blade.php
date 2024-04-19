@@ -42,7 +42,7 @@
                             'id' => 'product-price',
                             'placeholder' => 'Prijs',
                             'name' => 'defaultSizeWithPrice[Default]',
-                            'value' => 'defaultSizeWithPrice[Default]',
+                            'value' => $defaultSizeWithPrice['price']
                         ])
 
                         <!-- Product Size and Price Field -->
