@@ -33,7 +33,7 @@
                             'placeholder' => 'Product Naam',
                             'name' => 'name',
                             'value' => $product->name,
-                            'disabled' => true, // Set this to true to disable the input
+                            'disabled' => $nameDisabled, // Set this to true to disable the input
                         ])
 
                         @php

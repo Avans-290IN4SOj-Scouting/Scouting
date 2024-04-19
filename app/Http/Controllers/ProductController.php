@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductProductSize;
 use App\Models\ProductSize;
 use App\Models\ProductType;
+use App\Models\OrderLine;
 use App\Viewmodels\ProductViewmodel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -191,7 +192,6 @@ class ProductController extends Controller
 
     public function goToEditProduct($productId, $failure = null)
     {
-        // TODO:: OrderLine toevoegen
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::where('size', '!=', 'Default')->get();
@@ -210,7 +210,15 @@ class ProductController extends Controller
                 $sizes[] = $sizeData;
             }
         }
-        if ($failure == null)
+
+        // Check if the product has any associated order lines
+        $hasOrderLine = OrderLine::where('product_id', $productId)->exists();
+
+        // Determine if name editing should be disabled based on the presence of order lines
+        $nameDisabled = $hasOrderLine ? true : false;
+
+        // Return the view with the appropriate data
+        if ($failure == null) {
             return view('admin.editProduct', [
                 'product' => $product,
                 'baseCategories' => $categories,
@@ -219,7 +227,10 @@ class ProductController extends Controller
                 'baseChosenCategorie' => $chosenCategorie,
                 'chosenGroups' => $chosenGroups,
                 'sizesWithPrices' => $sizes,
+                'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
             ]);
+        }
+
         if (is_string($failure)) {
             return view('admin.editProduct', [
                 'product' => $product,
@@ -230,9 +241,11 @@ class ProductController extends Controller
                 'chosenGroups' => $chosenGroups,
                 'baseChosenCategorie' => $chosenCategorie,
                 'errors' => [$failure],
+                'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
             ]);
         }
-        // validator
+
+        // Validator
         return view('admin.editProduct', [
             'product' => $product,
             'baseCategories' => $categories,
@@ -242,6 +255,7 @@ class ProductController extends Controller
             'chosenGroups' => $chosenGroups,
             'baseChosenCategorie' => $chosenCategorie,
             'errors' => $failure->errors(),
+            'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
         ]);
     }
     public function createProduct(Request $request)
