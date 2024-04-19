@@ -4,8 +4,18 @@
     $title = 'TODO: put title here';
 @endphp
 
+@push('scripts')
+    <script src="{{ asset('js/manage-products/products.js') }}" defer></script>
+@endpush
+
 @section('content')
-    <h1 class="text-4xl m-8 dark:text-white">Hardcoded header</h1>
+    <div class="flex items-center justify-between">
+        <h1 class="text-4xl m-8 dark:text-white">Hardcoded header</h1>
+        <button type="button"
+                class="me-6 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
+            Hardcoded button
+        </button>
+    </div>
 
     <div class="flex flex-col rounded-lg border-gray-500 border">
         <div class="min-w-full inline-block align-middle">
