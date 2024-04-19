@@ -11,6 +11,7 @@ use App\Viewmodels\ProductViewmodel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -54,14 +55,14 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
 
-// Update product attributes
+        // Update product attributes
         $product->description = $validatedData['description']; // Update description if provided
 
-// Update category if changed
+        // Update category if changed
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
-// Update product price for sizes
+        // Update product price for sizes
         foreach ($validatedData['priceForSize'] as $size => $price) {
             if ($price !== null) {
                 // Find or create the corresponding ProductSize
@@ -134,7 +135,7 @@ class ProductController extends Controller
         return $productViewmodel;
     }
 
-//    public function viewProduct($productId)
+    //    public function viewProduct($productId)
 //    {
 //        $product = Product::findOrFail($productId);
 //        $categories = ProductType::all();
@@ -245,8 +246,6 @@ class ProductController extends Controller
     }
     public function createProduct(Request $request)
     {
-
-        $categories = ProductType::all()->select('id', 'type');
         $validator = Validator::make($request->all(), [
             'name' => [
                 'required',
@@ -295,11 +294,10 @@ class ProductController extends Controller
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
-        $product->setPicture($request->file('af-submit-app-upload-images'));
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         $product->setPriceForSize($request->input('priceForSize'));
         $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
         $product->setGroups($request->input('products_group-multiselect'));
-        $product->description = $request->input('description');
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
         }));
@@ -321,8 +319,7 @@ class ProductController extends Controller
                 'name' => $product->getName(),
                 'discount' => 0,
                 'product_type_id' => $category,
-                'image_path' => $product->getPicture(),
-                'description' => $product->description,
+                'image_path' => $product->image_path,
             ]);
 
             $sizes = ProductSize::all();
@@ -333,8 +330,11 @@ class ProductController extends Controller
             }
 
             foreach ($product->priceForSize as $size => $price) {
-                Product::where('name', $product->getName())->first()->productSizes()
-                    ->attach(ProductSize::where('size', $size)->first(), ['price' => $price]);
+                $databaseProduct = Product::where('name', $product->getName())->first();
+                $databaseProduct->productSizes()->attach(
+                    $databaseProduct->id,
+                    ['product_size_id' => ProductSize::where('size', $size)->first()->id, 'price' => $price]
+                );
             }
 
             $groups = Group::all();
@@ -357,6 +357,13 @@ class ProductController extends Controller
         return $this->productOverview();
     }
 
+    private function savePicture($picture, $name)
+    {
+        if (!Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
+            return "/images/products/placeholder.png";
+        }
+        return '/images/products/' . $name . '.png';
+    }
 
     private function categoryToId($category)
     {

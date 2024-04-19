@@ -9,7 +9,6 @@ class ProductViewmodel
     public array $groups; // value = group
     public string $category; // productType (Heren, Dames, Unisex)
     public ?string $description;
-
     public string $image_path;
 
     public function setName($name)
@@ -30,19 +29,6 @@ class ProductViewmodel
     public function getCategory()
     {
         return $this->category;
-    }
-
-    public function setPicture($image_path)
-    {
-        if ($image_path) {
-            $this->image_path = $image_path->getPathname(); // Save the path of the uploaded file
-        } else {
-            $this->image_path = '';
-        }
-    }
-    public function getPicture()
-    {
-        return $this->image_path;
     }
 
     public function setPriceForSize(mixed $priceForSize)
