@@ -37,18 +37,23 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update the user's password.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if (!Auth::attempt(['email' => Auth::user()->email, 'password' => $validated['old-password']])) {
+            return Redirect::back()->withErrors(['old-password' => __('auth/profile.incorrect_password')]);
         }
 
-        $request->user()->save();
+        Auth::user()->update([
+            'password' => bcrypt($validated['new-password']),
+        ]);
 
-        return Redirect::route('profile.index')->with('status', 'profile-updated');
+        return Redirect::back()->with([
+            'toast-type' => 'success',
+            'toast-message' => __('auth/profile.password_updated'),
+        ]);
     }
 }
