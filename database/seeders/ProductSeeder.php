@@ -48,8 +48,7 @@ class ProductSeeder extends Seeder
             ]);
             $product->productSizes()->attach($product->id, ['product_size_id' => 1, 'price' => 12.34]);
             $product->productSizes()->attach($product->id, ['product_size_id' => 2, 'price' => 23.45]);
-        }
-        {
+        } {
             $product = Product::create([
                 'name' => 'TestSingleSize',
                 'image_path' => '/images/products/placeholder.png',
