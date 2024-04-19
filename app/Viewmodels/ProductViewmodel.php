@@ -8,7 +8,6 @@ class ProductViewmodel
     public array $priceForSize; // key = size, value = price
     public array $groups; // value = group
     public string $category; // productType (Heren, Dames, Unisex)
-    public ?string $description;
     public string $image_path;
 
     public function setName($name)

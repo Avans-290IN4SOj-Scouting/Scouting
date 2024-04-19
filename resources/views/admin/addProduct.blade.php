@@ -90,13 +90,6 @@
                             'disabled' => false,
                         ])
 
-                        <!-- Product Description Field -->
-                        <label for="product-description" class="block text-gray-700 font-semibold">Product
-                            Beschrijving</label>
-                        <div>
-                            <textarea id="product-description" name="description" rows="4"
-                                class="w-full px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring focus:border-blue-500 transition duration-300">{{ request('description') }}</textarea>
-                        </div>
                         <!-- Add Product Button -->
                         <div>
                             <button id="big-screen" type="submit"

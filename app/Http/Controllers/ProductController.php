@@ -40,7 +40,6 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'category' => 'required|string',
             'groups' => 'required|array',
-            'description' => 'nullable|string',
             'priceForSize' => 'required|array',
             'priceForSize.*' => 'nullable|numeric',
             'custom_prices' => 'nullable|array',
@@ -56,9 +55,6 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
 
-        // Update product attributes
-        $product->description = $validatedData['description']; // Update description if provided
-
         // Update category if changed
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
@@ -73,7 +69,6 @@ class ProductController extends Controller
                 $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
             }
         }
-
 
         // Handle custom prices and sizes
         if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
@@ -103,13 +98,6 @@ class ProductController extends Controller
 
         return redirect()->route('manage.products.edit.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
-
-
-
-
-
-
-
 
     private function populateProductViewModel($product, $productViewmodel)
     {
@@ -286,7 +274,6 @@ class ProductController extends Controller
                 'file',
                 'image',
             ],
-            'description' => ['nullable', 'string'],
         ], [
             'name.required' => 'Het naam veld moet ingevuld worden.',
             'name.string' => 'Het naam veld moet een tekst zijn.',

@@ -118,14 +118,6 @@
                         'disabled' => false,
                     ])
 
-                    <!-- Product Description Field -->
-                    <label for="product-description" class="block text-gray-700 font-semibold">Product
-                        Beschrijving</label>
-                    <div>
-                        <textarea name="description" id="product-description" class="form-control" rows="4">{{ $product->description }}</textarea>
-
-                    </div>
-
                     <div class="flex">
                         @if ($product->inactive === 1)
                             <input name="inactive-checkbox" type="checkbox"
