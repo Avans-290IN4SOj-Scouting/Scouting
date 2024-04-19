@@ -295,6 +295,8 @@ class ProductController extends Controller
             'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
             'af-submit-app-upload-images.file' => 'Je probeert iets te uploaden dat geen bestand is.',
             'af-submit-app-upload-images.image' => 'Het geüploade bestand moet een afbeelding zijn.',
+            'products_group-multiselect.required' => 'Geef aan bij welke groepen dit product hoort',
+            'products_group-multiselect.array' => 'Het groepen veld heeft een array object nodig.',
             'priceForSize.required' => 'Vul minimaal 1 prijs in voor de maat.',
             'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
             'custom_prices.*.numeric' => 'Het aangepaste prijzen veld moet numeriek zijn.',
