@@ -18,7 +18,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $test_orders = Order::factory()->count(3)->create([
-//            'user_id' => $request->user()->id,
+            'user_id' => $request->user()->id,
         ])->each(function ($order) {
             $order->load(['orderLines' => function ($query) {
                 $query->orderByDesc('product_price');
