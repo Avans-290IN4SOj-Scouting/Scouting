@@ -189,7 +189,7 @@ class ProductController extends Controller
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
-            $size = ProductSize::find($sizeWithPrice->product_size_id);
+            $size = ProductSize::where('size', '!=', 'Default')->find($sizeWithPrice->product_size_id);
             if ($size) {
                 $sizeData = [
                     'size' => $size->size,
