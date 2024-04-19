@@ -28,6 +28,7 @@ return [
     'order-products' => 'Artikelen',
     'order-total' => 'Totaal',
     'order-to-order' => 'Naar bestellen',
+    'order-details' => 'Order details',
 
     'order-data' => 'Uw gegevens',
     'fill-information' => 'Vul hier je gegevens in.',
