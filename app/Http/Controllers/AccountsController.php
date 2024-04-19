@@ -27,18 +27,6 @@ class AccountsController extends Controller
             ]);
     }
 
-    public function manageProducts()
-    {
-        $products = Product::paginate(10);
-
-        return view("admin.products",
-            [
-                'products' => $products,
-                'search' => null,
-                'selected' => null
-            ]);
-    }
-
     public function filter(Request $request)
     {
         $search = $request->input('q');

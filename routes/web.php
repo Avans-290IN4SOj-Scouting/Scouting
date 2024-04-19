@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ManageProductsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -76,7 +77,7 @@ Route::middleware('role:admin')->group(function () {
         });
 
         //TODO: Move to be better suited controller
-        Route::get(__('navbar.manage_products'), [AccountsController::class, 'manageProducts'])
+        Route::get(__('navbar.manage_products'), [ManageProductsController::class, 'index'])
             ->name('products');
     });
 });
