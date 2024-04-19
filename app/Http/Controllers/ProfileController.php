@@ -43,10 +43,6 @@ class ProfileController extends Controller
     {
         $validated = $request->validated();
 
-        if (!Auth::attempt(['email' => Auth::user()->email, 'password' => $validated['old-password']])) {
-            return Redirect::back()->withErrors(['old-password' => __('auth/profile.incorrect_password')]);
-        }
-
         Auth::user()->update([
             'password' => bcrypt($validated['new-password']),
         ]);
