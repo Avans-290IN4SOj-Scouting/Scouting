@@ -17,13 +17,14 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.orders.filter') }}" method="GET">
+                <!-- Filters -->
                 <div class="flex flex-row gap-4">
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-row gap-4">
-                            <x-search-bar search="{{ $search }}" placeholder="{{ __('manage-orders/orders.search_placeholder') }}" class="flex-grow"/>
+                            <x-search-bar search="{{ $search }}" placeholder="{{ __('manage-orders/orders.search_placeholder') }}" />
 
                             <select id="filter" name="filter"
-                                class="py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
+                                class="py-3 px-4 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
                                 <option value="0">Filter op status</option>
                                 @foreach ($allstatusses as $status)
                                 <option value="{{ $status->id }}" @if($selected && $status->id === $selected->id) selected @endif>{{ __('orders/orderstatus.'.$status->status) }}</option>
@@ -32,8 +33,8 @@
                         </div>
 
                         <div class="flex flex-row gap-4">
-                            <x-date-filter name="date-from-filter" defaultValue="{{ $dateFrom }}" class="flex-grow" />
-                            <x-date-filter name="date-till-filter" defaultValue="{{ $dateTill }}" class="flex-grow" />
+                            <x-date-filter name="date-from-filter" defaultValue="{{ $dateFrom }}" />
+                            <x-date-filter name="date-till-filter" defaultValue="{{ $dateTill }}" />
                         </div>
                     </div>
 
@@ -43,6 +44,7 @@
                         </a>
                     </div>
                 </div>
+                <!-- /Filters -->
 
                 <!-- Add these hidden fields to remember the sort direction and column -->
                 <input type="hidden" name="sort" value="{{ Request::get('sort') }}">
