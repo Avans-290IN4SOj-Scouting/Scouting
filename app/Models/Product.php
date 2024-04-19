@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Product extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'product_type_id', 'image_path', 'description'];
 
     public function productType(): BelongsTo
     {
@@ -20,6 +21,17 @@ class Product extends Model
     public function productSizes(): BelongsToMany
     {
         return $this->belongsToMany(ProductSize::class, 'product_product_size', 'product_id', 'product_size_id')
+            ->withPivot('price');
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(ProductSize::class, 'product_size_id');
+    }
+
+    public function sizes(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSize::class)
             ->withPivot('price');
     }
 

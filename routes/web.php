@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 
@@ -46,7 +47,9 @@ Route::get(__('route.logout'), function () {
 
 Route::middleware('role:admin')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
+
         Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
@@ -75,9 +78,31 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        Route::get(__('navbar.manage_products'), function () {
-            return view('admin.products');
-        })->name('products');
+
+
+        Route::prefix(__('route.products'))->name('products.')->group(function () {
+
+            Route::get('/', [ProductController::class, 'productOverview'])
+                ->name('index');
+
+            Route::prefix(__('route.create'))->name('create.')->group(function () {
+                Route::get('/', [ProductController::class, 'goToAddProduct'])
+                    ->name('index');
+
+                Route::post('store', [ProductController::class, 'createProduct'])
+                    ->name('store');
+            });
+
+            Route::prefix(__('route.edit'))->name('edit.')->group(function () {
+                Route::get('/{id}', [ProductController::class, 'goToEditProduct'])
+                    ->name('index');
+
+                Route::put('store/{id}', [ProductController::class, 'updateProduct'])
+                    ->name('store');
+            });
+
+
+        });
     });
 });
 
