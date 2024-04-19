@@ -186,6 +186,7 @@ class ProductController extends Controller
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
+
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
@@ -198,6 +199,11 @@ class ProductController extends Controller
                 $sizes[] = $sizeData;
             }
         }
+
+        $defaultSize = [
+            'size' => 'Default',
+            'price' => ProductProductSize::where('product_id', $product->id)->where('product_size_id', ProductSize::where('size', 'Default')->first()->id)->first()->price,
+        ];
 
         // Check if the product has any associated order lines
         $hasOrderLine = OrderLine::where('product_id', $productId)->exists();
@@ -215,6 +221,7 @@ class ProductController extends Controller
                 'baseChosenCategorie' => $chosenCategorie,
                 'chosenGroups' => $chosenGroups,
                 'sizesWithPrices' => $sizes,
+                'defaultSizeWithPrice' => $defaultSize,
                 'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
             ]);
         }
@@ -226,6 +233,7 @@ class ProductController extends Controller
                 'baseGroups' => $groups,
                 'baseProductSizes' => $productSizes,
                 'sizesWithPrices' => $sizes,
+                'defaultSizeWithPrice' => $defaultSize,
                 'chosenGroups' => $chosenGroups,
                 'baseChosenCategorie' => $chosenCategorie,
                 'errors' => [$failure],
@@ -240,6 +248,7 @@ class ProductController extends Controller
             'baseGroups' => $groups,
             'baseProductSizes' => $productSizes,
             'sizesWithPrices' => $sizes,
+            'defaultSizeWithPrice' => $defaultSize,
             'chosenGroups' => $chosenGroups,
             'baseChosenCategorie' => $chosenCategorie,
             'errors' => $failure->errors(),
