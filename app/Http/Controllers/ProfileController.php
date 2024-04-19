@@ -18,11 +18,16 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $orders = Order::where('user_id', $request->user()->id)
+            ->orderBy('order_date', 'desc')
+            ->take(3)
             ->get()
             ->each(function ($order) {
                 $order->load(['orderLines' => function ($query) {
                     $query->orderByDesc('product_price');
                 }]);
+            })
+            ->each(function ($order) {
+                $order->order_date = new \DateTime($order->order_date);
             });
 
         return view('profile.edit', [

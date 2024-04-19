@@ -17,10 +17,6 @@ class Order extends Model
         'group_id',
     ];
 
-    protected $dates = [
-        'order_date',
-    ];
-
     public function orderLines(): HasMany
     {
         return $this->hasMany(OrderLine::class);
