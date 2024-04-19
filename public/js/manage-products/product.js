@@ -32,10 +32,10 @@ function removeImage(event) {
     uploadInput.value = '';
 }
 document.getElementById('remove-image').addEventListener('click', removeImage);
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     var checkbox = document.getElementById("same-price-all");
     var inputField = document.getElementById("product-price");
-    checkbox.addEventListener("change", function() {
+    checkbox.addEventListener("change", function () {
         if (checkbox.checked) {
             inputField.disabled = true;
         } else {
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function addCustomSizeInput() {
     var newDiv = document.createElement('div');
     newDiv.classList.add('flex', 'items-center', 'space-x-4');
+    newDiv.style.marginTop = '16px';
     var sizeInput = document.createElement('input');
     sizeInput.type = 'text';
     sizeInput.name = 'custom_sizes[]';
