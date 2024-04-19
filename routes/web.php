@@ -27,13 +27,13 @@ Route::get('/', [OrderController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])
-            ->name('edit');
+        Route::get('/', [ProfileController::class, 'index'])
+            ->name('index');
 
         Route::patch('/', [ProfileController::class, 'update'])
             ->name('update');
 
-        Route::post(__('route.update_password'), [ProfileController::class, 'updatePassword'])
+        Route::post(__('route.update_password'), [ProfileController::class, ''])
             ->name('update.password');
     });
 });

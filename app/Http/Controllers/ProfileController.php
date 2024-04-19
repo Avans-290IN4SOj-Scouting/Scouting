@@ -16,9 +16,9 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function index(): View
     {
-        $orders = Order::where('user_id', $request->user()->id)
+        $orders = Order::where('user_id', auth()->user()->id)
             ->orderBy('order_date', 'desc')
             ->take(3)
             ->get()
@@ -31,7 +31,7 @@ class ProfileController extends Controller
             });
 
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => auth()->user(),
             'orders' => $orders,
         ]);
     }
@@ -49,27 +49,6 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::route('profile.index')->with('status', 'profile-updated');
     }
 }
