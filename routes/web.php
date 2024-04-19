@@ -142,4 +142,4 @@ Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail
 Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
-    ->name('gmail.auth-callback');
+->name('gmail.auth-callback');

@@ -8,12 +8,12 @@
 
 .single-product-view > .image {
     width: 400px;
-    height: 400px;
+    max-width: 400px;
 }
 
 .single-product-view > .image > img {
     width: 400px;
-    height: 400px;
+    max-width: 400px;
 }
 
 .single-product-view > .info {
