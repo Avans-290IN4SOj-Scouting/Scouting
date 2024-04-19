@@ -58,7 +58,7 @@
                                href="{{route('manage-accounts')}}">
                                 {{__('navbar.manage_accounts')}}
                             </a>
-                            <a class="{{ request()->routeIs('trackOrders') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                            <a class="{{ request()->routeIs('manage-products') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
                                href="{{route('manage-products')}}">
                                 {{__('navbar.manage_products')}}
                             </a>

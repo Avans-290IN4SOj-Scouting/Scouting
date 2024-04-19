@@ -25,6 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //order tracking
+    Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
+        ->name('track_orders.index');
+    Route::get('bestellingen-volgen/{order}', [OrderTrackingController::class, 'details'])
+        ->name('track_orders.details');
 });
 
 require __DIR__.'/auth.php';
@@ -78,7 +84,7 @@ Route::get(__('navbar.logout'), function () {
 
 // Orders
 Route::get('orders/{category?}/{size?}', [OrderController::class, 'overview'])
-    ->name('home')
+    ->name('orders.filter')
     ->defaults('category', 'bevers')
     ->defaults('size', 'S');
 /// Orders
@@ -108,12 +114,4 @@ Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert
 Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
     ->name('shoppingcart.update');
 
-// track orders
-Route::middleware('auth')->group(function () {
-    Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
-        ->name('track_orders.index');
-
-    Route::get('bestellingen-volgen/{order}', [OrderTrackingController::class, 'details'])
-        ->name('track_orders.details');
-});
 

@@ -7,9 +7,9 @@ return [
     'home' => 'Home',
     'cart' => 'Winkelwagen',
     'checkout' => 'Afrekenen',
-    'login' => 'login',
-    'logout' => 'logout',
+    'login' => 'Log in',
+    'logout' => 'Log out',
     'admin' => 'Admin',
     'register' => 'Registreren',
-    'track_orders' => 'Bestellingen'
+    'track_orders' => 'Mijn bestellingen'
 ];
