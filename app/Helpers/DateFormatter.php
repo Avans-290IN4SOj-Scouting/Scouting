@@ -18,18 +18,18 @@ class DateFormatter
     private static function monthToText($month)
     {
         return [
-            1 => 'januari',
-            2 => 'februari',
-            3 => 'maart',
-            4 => 'april',
-            5 => 'mei',
-            6 => 'juni',
-            7 => 'juli',
-            8 => 'augustus',
-            9 => 'september',
-            10 => 'oktober',
-            11 => 'november',
-            12 => 'december',
+            1 => __('months.january'),
+            2 => __('months.february'),
+            3 => __('months.march'),
+            4 => __('months.april'),
+            5 => __('months.may'),
+            6 => __('months.june'),
+            7 => __('months.july'),
+            8 => __('months.august'),
+            9 => __('months.september'),
+            10 => __('months.october'),
+            11 => __('months.november'),
+            12 => __('months.december'),
         ][$month];
     }
 }

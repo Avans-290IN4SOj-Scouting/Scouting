@@ -9,4 +9,5 @@ return [
     "all_orders" => "Bekijk al je bestellingen",
     "here" => "hier",
     "no_orders" => "Je hebt nog geen bestellingen geplaatst.",
+    "welcome" => "Welkom",
 ];

@@ -11,7 +11,9 @@
 @section('content')
     <div class="grid gap-4">
         <div class="flex flex-row justify-between items-center">
-            <h1 class="text-4xl dark:text-white">Welkom!</h1>
+            <h1 class="text-4xl dark:text-white">
+                {{ __('auth/profile.welcome') }}!
+            </h1>
             <div>
                 <form action="{{ route('logoutpost') }}" method="POST">
                     @csrf
