@@ -39,29 +39,47 @@ class ProductController extends Controller
             'category' => 'required|string',
             'groups' => 'required|array',
             'description' => 'nullable|string',
-            'priceForSize' => 'required|array', // Ensure priceForSize is present and is an array
-            'priceForSize.*' => 'nullable|numeric', // Validate each price in priceForSize array
+            'priceForSize' => 'required|array',
+            'priceForSize.*' => 'nullable|numeric',
+            'custom_prices' => 'nullable|array',
+            'custom_prices.*' => 'nullable|numeric',
+            'custom_sizes' => 'nullable|array',
+            'custom_sizes.*' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], $customMessages);
 
         $product = Product::find($productId);
+
         if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
 
-        // Update product attributes
+// Update product attributes
         $product->description = $validatedData['description']; // Update description if provided
 
-        // Update category if changed
+// Update category if changed
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
-        // Update product price for sizes
-        if ($validatedData['priceForSize']) {
-            foreach ($validatedData['priceForSize'] as $size => $price) {
-                // Check if price is provided and not null
-                if ($price !== null) {
-                    $product->productSizes()->syncWithoutDetaching([$size => ['price' => $price]]);
+// Update product price for sizes
+        foreach ($validatedData['priceForSize'] as $size => $price) {
+            if ($price !== null) {
+                // Find or create the corresponding ProductSize
+                $productSize = ProductSize::firstOrCreate(['size' => $size]);
+
+                // Update the product price for the size
+                $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
+            }
+        }
+
+
+        // Handle custom prices and sizes
+        if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
+            foreach ($validatedData['custom_prices'] as $index => $customPrice) {
+                $customSize = $validatedData['custom_sizes'][$index];
+                if ($customPrice !== null && $customSize !== null) {
+                    $productSize = ProductSize::firstOrCreate(['size' => $customSize]);
+                    $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $customPrice]]);
                 }
             }
         }
@@ -80,8 +98,10 @@ class ProductController extends Controller
         }
 
         $product->save();
+
         return redirect()->route('manage.products.edit.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
+
 
 
 
