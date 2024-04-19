@@ -26,6 +26,30 @@
     .toast-error {
         @apply max-w-xs bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg dark:bg-red-800/10 dark:border-red-900 dark:text-red-500;
     }
+
+    .cancelled {
+        @apply text-red-500;
+    }
+
+    .payment_refunded {
+        @apply text-green-500;
+    }
+
+    .awaiting_payment {
+        @apply text-yellow-500;
+    }
+
+    .processing {
+        @apply text-blue-500;
+    }
+
+    .delivered {
+        @apply text-green-500;
+    }
+
+    .finalized {
+        @apply text-green-500;
+    }
 }
 
 header {

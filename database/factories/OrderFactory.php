@@ -29,7 +29,7 @@ class OrderFactory extends Factory
             'lid_name' => $this->faker->name(),
             'group_id' => $this->faker->numberBetween(1, 4),
             'user_id' => User::factory()->create()->id,
-            'status' => DeliveryStatus::Processing->value,
+            'status' => array_rand(DeliveryStatus::localised()),
         ];
     }
 

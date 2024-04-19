@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DeliveryStatus;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
@@ -25,9 +26,8 @@ class ProfileController extends Controller
                 $order->load(['orderLines' => function ($query) {
                     $query->orderByDesc('product_price');
                 }]);
-            })
-            ->each(function ($order) {
                 $order->order_date = new \DateTime($order->order_date);
+                $order->status = DeliveryStatus::localisedValue($order->status);
             });
 
         return view('profile.edit', [
