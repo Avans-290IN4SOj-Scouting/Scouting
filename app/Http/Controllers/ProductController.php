@@ -330,8 +330,11 @@ class ProductController extends Controller
             }
 
             foreach ($product->priceForSize as $size => $price) {
-                Product::where('name', $product->getName())->first()->productSizes()
-                    ->attach(ProductSize::where('size', $size)->first(), ['price' => $price]);
+                $databaseProduct = Product::where('name', $product->getName())->first();
+                $databaseProduct->productSizes()->attach(
+                    $databaseProduct->id,
+                    ['product_size_id' => ProductSize::where('size', $size)->first()->id, 'price' => $price]
+                );
             }
 
             $groups = Group::all();
