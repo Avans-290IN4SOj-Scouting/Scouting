@@ -16,7 +16,7 @@
                 <form action="{{ route('logoutpost') }}" method="POST">
                     @csrf
                     <button type="submit"
-                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-red-900 dark:text-red-500 dark:hover:text-red-400">
+                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-950 dark:hover:text-red-400">
                         {{ __('auth/auth.logout') }}
                     </button>
                 </form>
