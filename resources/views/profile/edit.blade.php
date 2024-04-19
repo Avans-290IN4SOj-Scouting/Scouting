@@ -31,7 +31,7 @@
                     <label for="email"
                            class="block text-sm mb-2 dark:text-white">{{__('auth/auth.email')}}</label>
                     <div class="max-w space-y-3">
-                        <input type="text"
+                        <input type="text" id="email"
                                class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                placeholder="{{ $user->email }}" readonly="">
                     </div>
@@ -68,7 +68,7 @@
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                         </div>
                         <button type="submit"
-                                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                class="w-full mt-3 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                             {{ __('auth/profile.edit_password') }}
                         </button>
                     </div>
@@ -78,13 +78,14 @@
                 <p class="dark:text-white">
                     <strong>{{ __('auth/profile.recent_orders') }}</strong>
                 </p>
-                <p class="dark:text-white">
-                    {{ __('auth/profile.all_orders') }}
-                    <a href="#"
-                       class="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
-                        {{ __('auth/profile.here') }}
-                    </a>
-                </p>
+                <a href="#">
+                    <div class="dark:text-white flex flex-row">
+                        {{ __('auth/profile.all_orders') }}&nbsp;
+                        <div class="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
+                            {{ __('auth/profile.here') }}
+                        </div>
+                    </div>
+                </a>
 
                 <div class="flex flex-col pt-4 gap-4">
                     @forelse($orders as $order)
