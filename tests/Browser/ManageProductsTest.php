@@ -45,7 +45,7 @@ class ManageProductsTest extends DuskTestCase
                 ->check('#same-price-all')
                 ->assertSee('Specifieke Maten')
 
-                ->click('@multiple-select-'.trans('products.group-multiselect').' + *')
+                ->click('@multiple-select-' . trans('products.group-multiselect') . ' + *')
                 ->click(__('[data-value="Bevers"]'))
                 ->click(__('[data-value="Kabouters"]'))
 
@@ -53,7 +53,7 @@ class ManageProductsTest extends DuskTestCase
         });
     }
 
-    /*    public function test_editProduct_flow(): void
+    /*    public function test_editProduct_flow(): void //OLD
         {
             $this->browse(function (Browser $browser) {
                 $browser->loginAs($this->admin);
@@ -70,4 +70,27 @@ class ManageProductsTest extends DuskTestCase
             });
         }*/
 
+    /* public function test_editProduct_flow(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin);
+            $browser->visit(route('manage-products'))
+                ->click('.edit-product-button')
+                ->assertSeeIn('#edit-product-heading', 'Bewerken')
+                ->type('name', 'Test Product')
+                ->type('priceForSize[Default]', '50')
+                ->type('description', 'New Test Description')
+                ->select('#groups', ['scouts', 'kabouters'])
+                ->press('submit-product')
+                ->pause(5000)
+                ->assertPathIs('/admin.products');
+        });
+    } */
+
+    protected function tearDown(): void
+    {
+        $this->admin->delete();
+
+        parent::tearDown();
+    }
 }
