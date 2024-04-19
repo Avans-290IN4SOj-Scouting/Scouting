@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use App\Rules\CheckOldPassword;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -18,7 +19,7 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'old-password' => ['required'],
+            'old-password' => ['required', new CheckOldPassword],
             'new-password' => ['required', Password::defaults()],
             'repeat-password' => ['required', 'same:new-password'],
         ];
@@ -34,6 +35,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'old-password' => [
                 'required' => __('common.required', ['attribute' => __('auth/profile.current_password')]),
+                CheckOldPassword::class => __('auth/profile.incorrect_password'),
             ],
             'new-password' => [
                 'required' => __('common.required', ['attribute' => __('auth/profile.new_password')]),

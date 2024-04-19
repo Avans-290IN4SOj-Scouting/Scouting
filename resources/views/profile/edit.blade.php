@@ -36,10 +36,6 @@
                                placeholder="{{ $user->email }}" readonly="">
                     </div>
                 </div>
-                <button type="button" id="edit-password-button"
-                        class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                    {{ __('auth/profile.edit_password') }}
-                </button>
 
                 <form action="{{ route('profile.update') }}" method="post">
                     @csrf
@@ -50,6 +46,7 @@
                                 {{ __('auth/profile.current_password') }}
                             </label>
                             <input type="password" id="old-password" value="{{ old('old-password') }}"
+                                   name="old-password"
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                             <x-error id="old-password" :error="$errors->first('old-password')"/>
                         </div>
@@ -58,6 +55,7 @@
                                 {{ __('auth/profile.new_password') }}
                             </label>
                             <input type="password" id="new-password" value="{{ old('new-password') }}"
+                                   name="new-password"
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                             <x-error id="new-password" :error="$errors->first('new-password')"/>
                         </div>
@@ -67,6 +65,7 @@
                                 {{ __('auth/profile.repeat_password') }}
                             </label>
                             <input type="password" id="repeat-password" value="{{ old('repeat-password') }}"
+                                   name="repeat-password"
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                             <x-error id="repeat-password" :error="$errors->first('repeat-password')"/>
                         </div>
