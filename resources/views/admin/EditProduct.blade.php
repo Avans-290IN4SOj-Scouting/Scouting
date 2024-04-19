@@ -1,4 +1,7 @@
 @extends('layouts.base')
+@push('scripts')
+    <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
+@endpush
 @section('title', 'Product Toevoegen')
 @section('content')
     <body class="bg-gray-100">
@@ -7,6 +10,7 @@
         <!-- Product Form and Image Section -->
         <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST">
             @csrf
+            @method('PUT')
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Product Form -->
                 <div class="space-y-4">
@@ -22,13 +26,15 @@
                     @endif
                     <!-- Product Name Field -->
                     @include('partials._input', [
-                        'label' => 'Product Naam',
-                        'id' => 'product-name',
-                        'type' => 'text',
-                        'placeholder' => 'Product Naam',
-                        'name' => 'name',
-                        'value' => $product->name
-                    ])
+         'label' => 'Product Naam',
+         'id' => 'product-name',
+         'type' => 'text',
+         'placeholder' => 'Product Naam',
+         'name' => 'name',
+         'value' => $product->name,
+         'disabled' => true // Set this to true to disable the input
+     ])
+
                     @php
                         $defaultFound = false;
                     @endphp
@@ -94,20 +100,21 @@
                     </div>
                     <!-- Select -->
                     @include('partials._select', [
-     'label' => 'Scouting groepen',
-     'placeholder' => 'Select scouting groepen',
-     'options' => $baseGroups->pluck('name'),
-     'name' => 'groups',
-     'selectedGroups' => $chosenGroups->pluck('name')->toArray(), // Pass the selected groups
- ])
-
-
-                    @include('partials._single-select', [
-                        'label' => 'Scouting categorie',
-                        'placeholder' => 'Select scouting categorie',
-                        'options' => $baseCategories->pluck('type'),
+                        'label' => 'Scouting groepen',
+                        'placeholder' => 'Select scouting groepen',
+                        'options' => $baseGroups->pluck('name'),
+                        'name' => 'groups',
+                        'selectedGroups' => $chosenGroups->pluck('name')->toArray(),
+                         'class' => 'scouting-groups-select'
+                    ])
+                    @include('partials._input', [
+                        'label' => 'Kleur categorie',
+                        'placeholder' => 'Kleur',
+                        'id' => 'product-category',
+                        'type' => 'text',
                         'name' => 'category',
-                        'value' => $baseChosenCategorie->type
+                        'value' => $baseChosenCategorie->type,
+                        'disabled' => false
                     ])
 
                     <!-- Product Description Field -->
@@ -117,6 +124,17 @@
                         <textarea name="description" id="product-description" class="form-control" rows="4">{{ $product->description }}</textarea>
 
                     </div>
+
+                    <div class="flex">
+                        @if($product->inactive === 1)
+                            <input name="inactive-checkbox" type="checkbox" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-default-checkbox" checked>
+                            <label for="hs-default-checkbox" class="text-sm text-gray-500 ms-3 dark:text-gray-400">{{ __('products.active-product') }}</label>
+                        @else
+                            <input name="inactive-checkbox" type="checkbox" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-default-checkbox">
+                            <label for="hs-default-checkbox" class="text-sm text-gray-500 ms-3 dark:text-gray-400">{{ __('products.inactive-product') }}</label>
+                        @endif
+                    </div>
+
                     <!-- Add Product Button -->
                     <div>
                         <button id="big-screen" type="submit"

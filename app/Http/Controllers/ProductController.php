@@ -30,19 +30,51 @@ class ProductController extends Controller
     }
     public function updateProduct(Request $request, $productId)
     {
-        // Validate the incoming request data
+        $customMessages = [
+            'category.required' => __('validation.category.required'),
+            'groups.required' => __('validation.groups.required'),
+        ];
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            // Add validation rules for other fields as needed
-        ]);
+            'category' => 'required|string',
+            'groups' => 'required|array',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], $customMessages);
+
+        dd($validatedData);
+
         $product = Product::find($productId);
         if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
-        $product->name = $validatedData['name'];
+
+        // Update product attributes
+        $product->description = $validatedData['description']; // Update description if provided
+
+        // Update category if changed
+        $categoryId = $this->categoryToId($validatedData['category']);
+        $product->product_type_id = $categoryId;
+
+        // Update groups
+        $product->groups()->detach(); // Remove existing groups
+        foreach ($validatedData['groups'] as $groupName) {
+            $group = Group::firstOrCreate(['name' => $groupName]);
+            $product->groups()->attach($group);
+        }
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('product_images', 'public');
+            $product->image_path = $imagePath;
+        }
+dd($product);
         $product->save();
         return redirect()->route('manage.products.edit.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
+
+
+
+
 
     private function populateProductViewModel($product, $productViewmodel)
     {
@@ -125,14 +157,13 @@ class ProductController extends Controller
 
     public function goToEditProduct($productId, $failure = null)
     {
+        // TODO:: OrderLine toevoegen
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::where('size', '!=', 'Default')->get();
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
-
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
-
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
@@ -181,6 +212,7 @@ class ProductController extends Controller
     }
     public function createProduct(Request $request)
     {
+
         $categories = ProductType::all()->select('id', 'type');
         $validator = Validator::make($request->all(), [
             'name' => [
@@ -201,19 +233,8 @@ class ProductController extends Controller
             ],
             'custom_prices.*' => ['nullable', 'numeric',],
             'custom_sizes.*' => ['nullable', 'string'],
-            'groups' => ['required', 'array'],
-            'category' => [
-                'required',
-                'array',
-                'max:1',
-                function ($attribute, $value, $fail) use ($categories) {
-                    if ($value[0] == null) {
-                        $fail("Het categorie veld moet ingevuld worden.");
-                    } else if ($categories->where('type', $value[0])->first() == null) {
-                        $fail("$value[0] is geen geldige categorie.");
-                    }
-                }
-            ],
+            'products_group-multiselect' => ['required', 'array'],
+            'category' => ['required', 'string'],
             'af-submit-app-upload-images' => [
                 'required',
                 'file',
@@ -223,9 +244,8 @@ class ProductController extends Controller
         ], [
             'name.required' => 'Het naam veld moet ingevuld worden.',
             'name.string' => 'Het naam veld moet een tekst zijn.',
-            'category.required' => 'Het categorie veld moet ingevuld worden.',
-            'category.array' => 'Het categorie veld moet een lijst zijn.',
-            'category.max:1' => 'Het categorie veld mag maar 1 category bevatten.',
+            'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
+            'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
             'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
             'af-submit-app-upload-images.file' => 'Je probeert iets te uploaden dat geen bestand is.',
             'af-submit-app-upload-images.image' => 'Het geüploade bestand moet een afbeelding zijn.',
@@ -241,11 +261,11 @@ class ProductController extends Controller
 
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
-        $product->setCategory($request->input('category')[0]);
+        $product->setCategory($request->input('category'));
         $product->setPicture($request->file('af-submit-app-upload-images'));
         $product->setPriceForSize($request->input('priceForSize'));
         $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
-        $product->setGroups($request->input('groups'));
+        $product->setGroups($request->input('products_group-multiselect'));
         $product->description = $request->input('description');
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
@@ -261,7 +281,7 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
-            $category = $this->catagoryToId($product->getCategory());
+            $category = $this->categoryToId($product->getCategory());
 
             // Create the product with all attributes including image_path
             Product::create([
@@ -305,12 +325,13 @@ class ProductController extends Controller
     }
 
 
-    private function catagoryToId($category)
+    private function categoryToId($category)
     {
         $category = strtolower($category);
         $categories = ProductType::all()->select('id', 'type');
         if ($categories->where('type', $category)->first() == null) {
-            dd($category);
+            ProductType::create(['type' => $category]);
+            $categories = ProductType::all()->select('id', 'type');
         }
         return $categories->where('type', $category)->first()['id'];
     }
