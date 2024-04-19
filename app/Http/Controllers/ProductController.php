@@ -34,14 +34,15 @@ class ProductController extends Controller
             'category.required' => __('validation.category.required'),
             'groups.required' => __('validation.groups.required'),
         ];
+
         $validatedData = $request->validate([
             'category' => 'required|string',
             'groups' => 'required|array',
             'description' => 'nullable|string',
+            'priceForSize' => 'required|array', // Ensure priceForSize is present and is an array
+            'priceForSize.*' => 'nullable|numeric', // Validate each price in priceForSize array
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], $customMessages);
-
-        dd($validatedData);
 
         $product = Product::find($productId);
         if (!$product) {
@@ -55,6 +56,16 @@ class ProductController extends Controller
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
+        // Update product price for sizes
+        if ($validatedData['priceForSize']) {
+            foreach ($validatedData['priceForSize'] as $size => $price) {
+                // Check if price is provided and not null
+                if ($price !== null) {
+                    $product->productSizes()->syncWithoutDetaching([$size => ['price' => $price]]);
+                }
+            }
+        }
+
         // Update groups
         $product->groups()->detach(); // Remove existing groups
         foreach ($validatedData['groups'] as $groupName) {
@@ -67,10 +78,12 @@ class ProductController extends Controller
             $imagePath = $request->file('image')->store('product_images', 'public');
             $product->image_path = $imagePath;
         }
-dd($product);
+
         $product->save();
         return redirect()->route('manage.products.edit.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
+
+
 
 
 
@@ -101,31 +114,31 @@ dd($product);
         return $productViewmodel;
     }
 
-    public function viewProduct($productId)
-    {
-        $product = Product::findOrFail($productId);
-        $categories = ProductType::all();
-
-        $productViewModel = new ProductViewmodel();
-        $productViewModel->name = $product->name;
-        $productViewModel->category = $product->type->type;
-
-        $groups = $product->groups()->pluck('name')->toArray();
-        $productViewModel->groups = $groups;
-
-        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
-        $sizes = [];
-        foreach ($sizesWithPrices as $sizeWithPrice) {
-            $sizeData = [
-                'size' => ProductSize::find($sizeWithPrice->product_size_id)->size,
-                'price' => $sizeWithPrice->price,
-            ];
-            $sizes[] = $sizeData;
-        }
-        $productViewModel->sizesWithPrices = $sizes;
-
-        return view('admin.product', ['product' => $productViewModel, 'categories' => $categories]);
-    }
+//    public function viewProduct($productId)
+//    {
+//        $product = Product::findOrFail($productId);
+//        $categories = ProductType::all();
+//
+//        $productViewModel = new ProductViewmodel();
+//        $productViewModel->name = $product->name;
+//        $productViewModel->category = $product->type->type;
+//
+//        $groups = $product->groups()->pluck('name')->toArray();
+//        $productViewModel->groups = $groups;
+//
+//        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
+//        $sizes = [];
+//        foreach ($sizesWithPrices as $sizeWithPrice) {
+//            $sizeData = [
+//                'size' => ProductSize::find($sizeWithPrice->product_size_id)->size,
+//                'price' => $sizeWithPrice->price,
+//            ];
+//            $sizes[] = $sizeData;
+//        }
+//        $productViewModel->sizesWithPrices = $sizes;
+//
+//        return view('admin.product', ['product' => $productViewModel, 'categories' => $categories]);
+//    }
 
     public function goToAddProduct($failure = null)
     {

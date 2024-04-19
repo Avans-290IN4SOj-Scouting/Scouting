@@ -97,9 +97,11 @@ Route::middleware('role:admin')->group(function () {
                 Route::get('/{id}', [ProductController::class, 'goToEditProduct'])
                     ->name('index');
 
-                Route::post('store/{id}', [ProductController::class, 'updateProduct'])
+                Route::put('store/{id}', [ProductController::class, 'updateProduct'])
                     ->name('store');
             });
+
+
         });
     });
 });
