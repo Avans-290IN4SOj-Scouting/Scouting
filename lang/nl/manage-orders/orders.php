@@ -7,6 +7,8 @@ return [
     'remove_filters_button' => 'Verwijder filters',
     'apply_filters' => 'Filters toepassen',
     'filter_placeholder' => 'Filter op status',
+    'filter-from' => 'Vanaf datum',
+    'filter-till' => 'Tot datum',
 
     'email' => 'Email',
     'order-number' => 'Ordernummer',

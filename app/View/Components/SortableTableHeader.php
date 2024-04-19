@@ -6,15 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class DateFilter extends Component
+class SortableTableHeader extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $name,
-        public $defaultValue,
-        public $label,
+        public $sortOn,
+        public $textKey,
     )
     {
         //
@@ -25,6 +24,6 @@ class DateFilter extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.date-filter');
+        return view('components.sortable-table-header');
     }
 }
