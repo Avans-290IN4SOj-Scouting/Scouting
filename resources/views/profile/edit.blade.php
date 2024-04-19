@@ -41,7 +41,7 @@
                     {{ __('auth/profile.edit_password') }}
                 </button>
 
-                <form action="#" method="post">
+                <form action="{{ route('profile.update.password') }}" method="post">
                     @csrf
 
                     <div id="password-fields" class="hidden grid gap-2">
@@ -91,7 +91,7 @@
                     @forelse($orders as $order)
                         <x-order-preview :order="$order"/>
                     @empty
-                        <p class="dark:text-white">
+                        <p class="italic dark:text-white">
                             {{ __('auth/profile.no_orders') }}
                         </p>
                     @endforelse

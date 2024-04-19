@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
 
         Route::patch('/', [ProfileController::class, 'update'])
             ->name('update');
+
+        Route::post(__('route.update_password'), [ProfileController::class, 'updatePassword'])
+            ->name('update.password');
     });
 });
 

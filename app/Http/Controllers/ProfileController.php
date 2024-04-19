@@ -17,17 +17,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $test_orders = Order::factory()->count(3)->create([
-            'user_id' => $request->user()->id,
-        ])->each(function ($order) {
-            $order->load(['orderLines' => function ($query) {
-                $query->orderByDesc('product_price');
-            }]);
-        });
+        $orders = Order::where('user_id', $request->user()->id)
+            ->get()
+            ->each(function ($order) {
+                $order->load(['orderLines' => function ($query) {
+                    $query->orderByDesc('product_price');
+                }]);
+            });
 
         return view('profile.edit', [
             'user' => $request->user(),
-            'orders' => $test_orders,
+            'orders' => $orders,
         ]);
     }
 
