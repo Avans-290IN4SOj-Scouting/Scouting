@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\DeliveryStatus;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,6 +29,7 @@ class OrderFactory extends Factory
             'lid_name' => $this->faker->name(),
             'group_id' => $this->faker->numberBetween(1, 4),
             'user_id' => User::factory()->create()->id,
+            'status' => DeliveryStatus::Processing->value,
         ];
     }
 

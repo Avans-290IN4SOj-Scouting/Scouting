@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,11 +14,10 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Order::create([
-            'order_date' => '2024-02-25',
-            'lid_name' => 'jantje',
-            'group_id' => 1,
-            'user_id' => 1,
-        ]);
+        foreach (User::all() as $user) {
+            Order::factory()->count(random_int(1, 5))->create([
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }
