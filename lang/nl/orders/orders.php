@@ -43,6 +43,12 @@ return [
     'streetname' => 'Straatnaam',
     'cityName' => 'Plaatsnaam',
 
+    'back-to-orders' => 'Terug naar bestellingen',
+    'cancel-order' => 'Annuleer bestelling',
+    'order-date' => 'Besteldatum',
+    'total-price' => 'Totaalbedrag',
+    'amount-items' => 'stuk(s)',
+
     'form-lid-name-error' => 'Uw lid naam is niet ingevuld.',
     'form-group-error' => 'Deze groep bestaat niet (meer).',
 ];
