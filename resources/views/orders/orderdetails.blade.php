@@ -44,10 +44,8 @@
 
             <div class="m-4">
                 <div
-                    class="flex flex-row justify-between items-center w-full p-6 rounded-xl border dark:text-white dark:border-gray-700">
-                    <div>
-                        <img src="https://placehold.co/200" alt="product image">
-                    </div>
+                    class="flex flex-row justify-between items-center w-full pr-6 rounded-xl border dark:text-white dark:border-gray-700">
+                    <img src="https://placehold.co/200" alt="product image" class="rounded-l-xl">
                     <div>
                         <a href="#" class="font-bold">
                             Product titel
