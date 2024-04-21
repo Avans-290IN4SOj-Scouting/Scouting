@@ -14,12 +14,10 @@ class ManageProductsController extends Controller
     {
         $products = Product::paginate(10);
 
-        return view("admin.products",
-            [
-                'products' => $products,
-                'search' => null,
-                'selected' => null
-            ]);
+        //only for frontend
+        $total = 3;
+
+        return view("admin.products", ['products' => $products, 'total' => $total]);
     }
 
 }
