@@ -16,8 +16,10 @@ class ManageProductsController extends Controller
 
         //only for frontend
         $total = 3;
+        $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+        $colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'];
 
-        return view("admin.products", ['products' => $products, 'total' => $total]);
+        return view("admin.products", ['products' => $products, 'total' => $total, 'sizes' => $sizes, 'colors' => $colors]);
     }
 
 }
