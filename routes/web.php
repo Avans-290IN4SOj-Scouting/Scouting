@@ -5,7 +5,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderTrackingController;
+use App\Http\Controllers\UserOrdersController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GmailController;
+
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,100 +22,114 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+require __DIR__ . '/auth.php';
+
 Route::get('/', [OrderController::class, 'index'])
     ->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+   
 
     //order tracking
     Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
         ->name('track_orders.index');
     Route::get('bestellingen-volgen/{order}', [OrderTrackingController::class, 'details'])
         ->name('track_orders.details');
-});
 
-require __DIR__.'/auth.php';
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])
+            ->name('edit');
 
-Route::get(__('navbar.cart'), function () {
-    return view('customer.cart');
-})->name('cart');
 
-Route::get(__('navbar.checkout'), function () {
-    return view('customer.checkout');
-})->name('checkout');
-
-Route::middleware('role:admin')->group(function () {
-    Route::get(__('navbar.manage_accounts'), [AccountsController::class, 'index'])
-        ->name('manage-accounts');
-
-    Route::get(__('navbar.manage_products'), function () {
-        return view('admin.products');
-    })->name('manage-products');
-
-    Route::post(__('navbar.manage_accounts'), [AccountsController::class, 'updateRoles'])
-        ->name('manage-accounts.updateRoles');
-
-    Route::get('warning-toast-accounts', function () {
-        return redirect()
-            ->route('manage-accounts')
-            ->with([
-                'toast-type' => 'warning',
-                'toast-message' => __('toast.warning-accounts')
-            ]);
-    });
-
-    Route::get('warning-toast-no-admins', function () {
-        return redirect()
-            ->route('manage-accounts')
-            ->with([
-                'toast-type' => 'warning',
-                'toast-message' => __('toast.warning-no-admins')
-            ]);
+        Route::patch('/', [ProfileController::class, 'update'])
+            ->name('update');
     });
 });
 
-Route::get(__('navbar.logout'), function () {
+Route::get(__('route.logout'), function () {
     return redirect()
         ->route('home')
         ->with([
             'toast-type' => 'success',
-            'toast-message' => __('auth.logout-success')
+            'toast-message' => __('auth/auth.logout-success')
         ]);
 })->name('logout');
 
-// Orders
-Route::get('orders/{category?}/{size?}', [OrderController::class, 'overview'])
-    ->name('orders.filter')
-    ->defaults('category', 'bevers')
-    ->defaults('size', 'S');
-/// Orders
-Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
-    ->name('orders.overview')
-    ->defaults('category', '');
+Route::middleware('role:admin')->group(function () {
+    Route::prefix(__('route.manage'))->name('manage.')->group(function () {
+        Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+            Route::get('/', [AccountsController::class, 'index'])
+                ->name('index');
 
-Route::get(__('route.product') . '/{name}/{groupName?}', [OrderController::class, 'product'])
-    ->name('orders.product')
-    ->defaults('groupName', '');
+            Route::get(__('route.filter'), [AccountsController::class, 'filter'])
+                ->name('filter');
 
-// Shopping Cart
-Route::get(__('route.shopping-cart'), [ShoppingCartController::class, 'index'])
-    ->name('shoppingcart.index');
+            Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
+                ->name('update.roles');
 
-// Checkout
-Route::get(__('route.checkout'), [OrderController::class, 'order'])
-    ->name('orders.order');
-Route::post('/complete-order', [OrderController::class, 'completeOrder'])
-    ->name('orders.complete-order');
-Route::get(__('route.completed-order'), [OrderController::class, 'completedOrder'])
-    ->name('orders.completed');
+            Route::get('warning-toast-accounts', function () {
+                return redirect()
+                    ->route('manage.accounts.index')
+                    ->with([
+                        'toast-type' => 'warning',
+                        'toast-message' => __('toast/messages.warning-accounts')
+                    ]);
+            });
 
-// Shopping Cart
-Route::post('/shoppingcart/insert/{id}', [ShoppingCartController::class, 'insert'])
-    ->name('shoppingcart.insert');
-Route::post('/shoppingcart/update', [ShoppingCartController::class, 'update'])
-    ->name('shoppingcart.update');
+            Route::get('warning-toast-no-admins', function () {
+                return redirect()
+                    ->route('manage.accounts.index')
+                    ->with([
+                        'toast-type' => 'warning',
+                        'toast-message' => __('toast/messages.warning-no-admins')
+                    ]);
+            });
+        });
 
+        Route::get(__('navbar.manage_products'), function () {
+            return view('admin.products');
+        })->name('products');
+    });
+});
 
+Route::prefix(__('route.products'))->name('orders.')->group(function () {
+    Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
+        ->name('overview');
+
+    Route::get('/{name}/{groupName?}', [OrderController::class, 'product'])
+        ->name('product');
+});
+
+Route::prefix(__('route.order'))->name('orders.')->group(function () {
+    Route::prefix(__('route.checkout'))->name('checkout.')->group(function () {
+        Route::get('/', [OrderController::class, 'order'])
+            ->name('order');
+        Route::post(__('route.complete_order'), [OrderController::class, 'completeOrder'])
+            ->name('complete-order');
+        Route::get(__('route.complete_order'), [OrderController::class, 'completedOrder'])
+            ->name('completed');
+    });
+
+    Route::prefix(__('route.cart'))->name('shoppingcart.')->group(function () {
+        Route::get('/', [ShoppingCartController::class, 'index'])
+            ->name('index');
+        Route::post(__('route.update'), [ShoppingCartController::class, 'update'])
+            ->name('update');
+    });
+});
+
+// Gmail Testing
+Route::get('/test', [TestController::class, 'index'])
+    ->name('test.index');
+Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail'])
+    ->name('test.send-test-mail');
+
+// Gmail
+Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
+    ->name('gmail.authenticate');
+Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
+->name('gmail.auth-callback');
+
+// Order cancelling testing page (remove when orderDetails is made)
+Route::get('/orderDetails', [UserOrdersController::class, 'orderDetails'])
+    ->name('orders-user.details-order');

@@ -13,24 +13,10 @@ class OrderStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        // hardcoded status, remove when enum is added
         OrderStatus::create([
-            "status"=> "Cancelled",
-        ]);
-        OrderStatus::create([
-            "status"=> "PayedBack",
-        ]);
-        OrderStatus::create([
-            "status"=> "AwaitingPayment",
-        ]);
-        OrderStatus::create([
-            "status"=> "InProgress",
-        ]);
-        OrderStatus::create([
-            "status"=> "Delivered",
-        ]);
-        OrderStatus::create([
-            "status"=> "Completed",
+            'id' => 1,
+            'status' => 'not-cancelled',
         ]);
     }
 }
