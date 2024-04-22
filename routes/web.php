@@ -128,7 +128,3 @@ Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
 ->name('gmail.auth-callback');
-
-// Order cancelling testing page (remove when orderDetails is made)
-Route::get('/orderDetails', [UserOrdersController::class, 'orderDetails'])
-    ->name('orders-user.details-order');
