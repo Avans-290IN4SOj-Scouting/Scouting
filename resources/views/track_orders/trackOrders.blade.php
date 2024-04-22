@@ -6,12 +6,12 @@
 @endphp
 
 @section('content')
-    <main class="flex flex-col w-full items-center space-y-5">
+    <div class="shadow p-4 m-4 rounded-xl">
         @foreach ($orders as $order)
             <x-order 
             :order="$order"
             :product="$mostExpensiveProductsByOrder[$order->id]"
             />
         @endforeach
-    </main>
+    </div>
 @endsection

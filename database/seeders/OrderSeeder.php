@@ -21,7 +21,7 @@ class OrderSeeder extends Seeder
             'order_date' => '2024-02-25',
             'email'=> 'admin@mail.com',
             'lid_name' => 'jantje',
-            'order_status_id' => 4,
+            'order_status_id' => 1,
             'user_id' => 13,
             'group_id' => 1
         ]);
@@ -36,12 +36,12 @@ class OrderSeeder extends Seeder
             array_push($orders, Order::factory()
             ->has(OrderLine::factory())
             ->has(DeliveryState::factory())
-            ->count(1)->create(['user_id' => 14, 'order_status_id' => Order::where('id', 1)->first()->id]));
+            ->count(1)->create(['user_id' => 14, 'order_status_id' => 1]));
 
         array_push($orders, Order::factory()
             ->has(OrderLine::factory())
             ->has(DeliveryState::factory())
-            ->count(3)->create(['user_id' => 13]));
+            ->count(3)->create(['user_id' => 13, 'order_status_id' => 1]));
 
         foreach($orders as $order) {
             $order->status = OrderStatus::inRandomOrder()->first();

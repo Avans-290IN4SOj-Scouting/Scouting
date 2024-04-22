@@ -33,14 +33,13 @@ Route::middleware('auth')->group(function () {
     //order tracking
     Route::get(__('route.track_orders'), [OrderTrackingController::class, 'index'])
         ->name('track_orders.index');
-    Route::get('bestellingen-volgen/{order}', [OrderTrackingController::class, 'details'])
+    Route::get(__('route.track_orders') . '/{order}' , [OrderTrackingController::class, 'details'])
         ->name('track_orders.details');
 
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])
             ->name('edit');
-
-
+             
         Route::patch('/', [ProfileController::class, 'update'])
             ->name('update');
     });
