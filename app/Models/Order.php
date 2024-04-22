@@ -14,7 +14,8 @@ class Order extends Model
 
     protected $fillable = ['id', 'order_date', 'email', 'lid_name', 'order_status_id', 'user_id', 'group_id'];
 
-    public function getRouteKeyName(){
+    public function getRouteKeyName()
+    {
         return "id";
     }
 
@@ -23,11 +24,13 @@ class Order extends Model
         return $this->hasMany(OrderLine::class);
     }
 
-    public function user(): BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function orderStatus(): BelongsTo{
+    public function orderStatus(): BelongsTo
+    {
         return $this->belongsTo(OrderStatus::class);
     }
 
@@ -36,7 +39,8 @@ class Order extends Model
         return $this->belongsTo(Group::class);
     }
 
-    public function deliveryState(): HasOne{
+    public function deliveryState(): HasOne
+    {
         return $this->hasOne(DeliveryState::class);
     }
 
@@ -45,7 +49,8 @@ class Order extends Model
         return $this->orderLine->sortByDesc('amount')->first();
     }
 
-    public function getTotalOrderCost(){
+    public function getTotalOrderCost()
+    {
         return $this->orderLine->sum(function ($orderLine) {
             return $orderLine->product_price * $orderLine->amount;
         });

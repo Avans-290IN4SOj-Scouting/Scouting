@@ -66,11 +66,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Permission::class);
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function order(): HasMany{
+    public function order(): HasMany
+    {
         return $this->hasMany(Order::class);
     }
 }

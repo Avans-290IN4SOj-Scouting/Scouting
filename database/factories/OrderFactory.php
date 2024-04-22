@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,8 +25,8 @@ class OrderFactory extends Factory
             'email' => $this->faker->safeEmail(),
             'lid_name' => $this->faker->name(),
             'user_id' => User::inRandomOrder()->first()->id,
-            'order_status_id' => $this->faker->numberBetween(1, 6),
-            'group_id' =>  $this->faker->numberBetween(1, 4)
+            'order_status_id' => OrderStatus::inRandomOrder()->first()->id,
+            'group_id' =>  Group::inRandomOrder()->first()->id
         ];
     }
 }
