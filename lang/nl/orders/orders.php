@@ -28,7 +28,6 @@ return [
     'order-products' => 'Artikelen',
     'order-total' => 'Totaal',
     'order-to-order' => 'Naar bestellen',
-    'order-details' => 'Order details',
 
     'order-data' => 'Uw gegevens',
     'fill-information' => 'Vul hier je gegevens in.',
@@ -42,12 +41,6 @@ return [
     'housenumber-addition' => 'Toevoeging',
     'streetname' => 'Straatnaam',
     'cityName' => 'Plaatsnaam',
-
-    'back-to-orders' => 'Terug naar bestellingen',
-    'cancel-order' => 'Annuleer bestelling',
-    'order-date' => 'Besteldatum',
-    'total-price' => 'Totaalbedrag',
-    'amount-items' => 'stuk(s)',
 
     'form-lid-name-error' => 'Uw lid naam is niet ingevuld.',
     'form-group-error' => 'Deze groep bestaat niet (meer).',
