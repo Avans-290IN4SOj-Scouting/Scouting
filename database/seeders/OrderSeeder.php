@@ -36,12 +36,12 @@ class OrderSeeder extends Seeder
             array_push($orders, Order::factory()
             ->has(OrderLine::factory())
             ->has(DeliveryState::factory())
-            ->count(1)->create(['user_id' => 14, 'order_status_id' => 1]));
+            ->count(1)->create(['user_id' => 14]));
 
         array_push($orders, Order::factory()
             ->has(OrderLine::factory())
             ->has(DeliveryState::factory())
-            ->count(3)->create(['user_id' => 13, 'order_status_id' => 1]));
+            ->count(3)->create(['user_id' => 13]));
 
         foreach($orders as $order) {
             $order->status = OrderStatus::inRandomOrder()->first();

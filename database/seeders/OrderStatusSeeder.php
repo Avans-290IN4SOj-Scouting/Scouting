@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderStatus;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OrderStatusSeeder extends Seeder
@@ -14,9 +12,24 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         // hardcoded status, remove when enum is added
-        OrderStatus::create([
-            'id' => 1,
-            'status' => 'not-cancelled',
+       
+        \App\Models\OrderStatus::create([
+            "status" => \App\Enum\OrderStatus::AwaitingPayment
+        ]);
+        \App\Models\OrderStatus::create([
+            "status" => \App\Enum\OrderStatus::Cancelled
+        ]);
+        \App\Models\OrderStatus::create([
+            "status" => \App\Enum\OrderStatus::Delivered
+        ]);
+        \App\Models\OrderStatus::create([
+            "status" => \App\Enum\OrderStatus::Finalized
+        ]);
+        \App\Models\OrderStatus::create([
+            "status" => \App\Enum\OrderStatus::PaymentRefunded
+        ]);
+        \App\Models\OrderStatus::create([
+            "status" => \App\Enum\OrderStatus::Processing
         ]);
     }
 }

@@ -1,27 +1,23 @@
 <?php
 
 namespace Database\Seeders;
-
-use App\Models\DeliveryState;
 use App\Models\DeliveryStatus;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DeliveryStatusSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+
+    public function run()
     {
         DeliveryStatus::create([
-            "status"=> "Pending"
+            "status" => \App\Enum\DeliveryStatus::Pending
         ]);
         DeliveryStatus::create([
-            "status"=> "Completed"
+            "status" => \App\Enum\DeliveryStatus::Completed
         ]);
         DeliveryStatus::create([
-            "status"=> "Canceled"
+            "status" => \App\Enum\DeliveryStatus::Cancelled
         ]);
     }
 }
+

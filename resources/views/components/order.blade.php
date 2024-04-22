@@ -1,5 +1,9 @@
 @props(['order' , 'product'])
 
+<?php 
+    use App\Enum\OrderStatus;
+?>
+
 <div class="m-4">
     <div class="flex flex-col gap-1 test:gap-0 pb-1 test:pb-0 test:flex-row justify-left items-center test:pr-6 rounded-xl border dark:text-white dark:border-gray-700">
         <img  src="{{ asset($product->image_path) }}" alt="{{$product->name}}" class="rounded-t-xl test:rounded-tr-none test:rounded-l-xl sm:w-fit w-full  h-auto">
@@ -7,9 +11,17 @@
             <div>
                 <time> {{substr($order->order_date, 0, 11)}} </time> | {{$order->id}}
             </div>
-            <div> 
-                {{$order->orderStatus->status}}
+            @if(($order->orderStatus->status) == 'cancelled')
+            <div class="text-red-500"> 
+            @elseif(($order->orderStatus->status) == 'awaiting_payment' || ($order->orderStatus->status) == 'payment_refunded')
+            <div class="text-yellow-400">   
+            @else
+            <div class="text-green-600">
+            @endif
+
+                {{OrderStatus::localisedValue($order->orderStatus->status)}}
             </div>
+            
         </div>
        
         <div class="grow flex justify-end items-center"> 

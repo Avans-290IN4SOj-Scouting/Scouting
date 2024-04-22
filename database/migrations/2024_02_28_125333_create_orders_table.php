@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamp('order_date')->nullable();
             $table->string('email');
             $table->string('lid_name');
-            $table->foreignId('order_status_id')->constrained(table: 'order_statuses', indexName:'order_status_id');
+            $table->foreignId('order_status_id')->constrained(table:'order_statuses', indexName:'order_status_id');
             $table->foreignId('user_id')->constrained(table: 'users', indexName:'user_id');
             $table->unsignedBigInteger('group_id');
 

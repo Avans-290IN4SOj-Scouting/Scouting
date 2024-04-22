@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->enum('status', ['cancelled', 'payment_refunded', 'awaiting_payment', 'processing', 'delivered', 'finalized'])->default('awaiting_payment');
+        Schema::table('order_statuses', function (Blueprint $table) {
+            //
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_statuses');
+        Schema::table('order_statuses', function (Blueprint $table) {
+            //
+        });
     }
 };

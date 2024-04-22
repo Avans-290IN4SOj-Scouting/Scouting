@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('delivery_statuses', function (Blueprint $table) {
             $table->id();
-
-            $table->string('status');
-
-            $table->timestamps();
+            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
         });
     }
 

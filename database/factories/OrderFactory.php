@@ -23,7 +23,7 @@ class OrderFactory extends Factory
             'email' => $this->faker->safeEmail(),
             'lid_name' => $this->faker->name(),
             'user_id' => User::inRandomOrder()->first()->id,
-            'order_status_id' => 1,
+            'order_status_id' => $this->faker->numberBetween(1, 6),
             'group_id' =>  $this->faker->numberBetween(1, 4)
         ];
     }
