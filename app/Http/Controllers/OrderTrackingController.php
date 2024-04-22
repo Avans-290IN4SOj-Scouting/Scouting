@@ -18,13 +18,8 @@ class OrderTrackingController extends Controller
     }
 
     public function details(Order $order){
-
-
         //calculate total cost of the order
-        $total = 0;
-        foreach ($order->orderLine as $orderLine) {
-            $total += $orderLine->product_price * $orderLine->amount;
-        }
+        $total = $order->getTotalOrderCost();
 
         return view('track_orders.orderDetails', ['order' => $order, 'total' => $total]);
     }
