@@ -42,21 +42,12 @@ class Order extends Model
 
     public function getMostExpensiveOrderLine()
     {
-       $orderLines = $this->orderLine;
-       
-       $highestAmount = 0;
-       $mostExpensiveOrderLine = null;
-
-
-       foreach($orderLines as $orderLine){
-        if($orderLine->amount > $highestAmount){
-            $mostExpensiveOrderLine = $orderLine;
-            $highestAmount = $orderLine->amount;
-       }
-
-       return $mostExpensiveOrderLine;
+        return $this->orderLine->sortByDesc('amount')->first();
     }
 
-        
+    public function getTotalOrderCost(){
+        return $this->orderLine->sum(function ($orderLine) {
+            return $orderLine->product_price * $orderLine->amount;
+        });
     }
 }
