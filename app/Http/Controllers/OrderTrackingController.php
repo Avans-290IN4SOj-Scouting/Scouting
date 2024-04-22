@@ -9,24 +9,12 @@ class OrderTrackingController extends Controller
     public function index(){
         $orders = Order::with('orderLine', 'orderStatus')->where('user_id', auth()->id())->get();
 
-        //Calculate most expensive product for each order and add to Associative array
-        $mostExpensiveProductsByOrder = [];
-
-        foreach ($orders as $order) {
-            $mostExpensiveProduct = null;
-
-            foreach ($order->orderLine as $orderLine) {
-                // If no product is set or the current product's price is higher than the one stored
-                if ($mostExpensiveProduct === null || $mostExpensiveProduct->price < $orderLine->product->price) {
-                    $mostExpensiveProduct = $orderLine->product;
-                }
-            }
-            // Only add to the result if there's a product (in case there are orders with no order lines)
-            if ($mostExpensiveProduct !== null) {
-                $mostExpensiveProductsByOrder[$order->id] = $mostExpensiveProduct;
-            }
-        }
-        return view('track_orders.trackOrders', ['orders' => $orders, 'mostExpensiveProductsByOrder' => $mostExpensiveProductsByOrder]);
+        //Get most expensive orderline for each order and add associated product to Associative array
+        $mostExpensiveProductByOrder = $orders->mapWithKeys(function ($order) {
+            return [$order->id => $order->getMostExpensiveOrderLine()->product];
+        });
+        
+        return view('track_orders.trackOrders', ['orders' => $orders, 'mostExpensiveProductsByOrder' => $mostExpensiveProductByOrder]);
     }
 
     public function details(Order $order){

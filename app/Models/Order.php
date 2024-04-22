@@ -39,4 +39,24 @@ class Order extends Model
     public function deliveryState(): HasOne{
         return $this->hasOne(DeliveryState::class);
     }
+
+    public function getMostExpensiveOrderLine()
+    {
+       $orderLines = $this->orderLine;
+       
+       $highestAmount = 0;
+       $mostExpensiveOrderLine = null;
+
+
+       foreach($orderLines as $orderLine){
+        if($orderLine->amount > $highestAmount){
+            $mostExpensiveOrderLine = $orderLine;
+            $highestAmount = $orderLine->amount;
+       }
+
+       return $mostExpensiveOrderLine;
+    }
+
+        
+    }
 }
