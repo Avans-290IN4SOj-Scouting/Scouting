@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -118,3 +119,5 @@ Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
 ->name('gmail.auth-callback');
+
+Route::get(__('route.feedback'), [FeedbackController::class, 'index']);
