@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserOrdersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 
@@ -120,8 +121,6 @@ Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'
 ->name('gmail.auth-callback');
 
 // Order cancelling testing page (remove when orderDetails is made)
-Route::get('/testOrders', [TestController::class, 'cancelOrderTest'])
-    ->name('test.cancelOrderTest');
-Route::post('/testOrders', [TestController::class, 'cancelOrder'])
-    ->name('test.cancel-order');
+Route::get('/orderDetails', [UserOrdersController::class, 'orderDetails'])
+    ->name('orders-user.details-order');
 
