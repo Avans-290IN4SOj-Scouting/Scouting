@@ -11,6 +11,12 @@ export default {
         'toast-success',
         'toast-warning',
         'toast-error',
+        'cancelled',
+        'payment_refunded',
+        'awaiting_payment',
+        'processing',
+        'delivered',
+        'finalized',
     ],
     theme: {
         extend: {},
