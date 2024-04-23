@@ -4,10 +4,6 @@
     $title = __('navbar.account');
 @endphp
 
-@push('scripts')
-    <script src="{{ @asset('js/auth/profile.js') }}" defer></script>
-@endpush
-
 @section('content')
     <div class="grid gap-4">
         <div class="flex flex-row justify-between items-center">
