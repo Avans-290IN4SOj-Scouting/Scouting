@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::dropIfExists('order_statuses');
+        Schema::dropIfExists('delivery_statuses');
+        Schema::dropIfExists('delivery_states');
     }
 
     /**
