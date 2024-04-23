@@ -14,4 +14,6 @@ return [
     "incorrect_password" => "Het ingevoerde wachtwoord is onjuist.",
     "password_mismatch" => "De wachtwoorden komen niet overeen.",
     "password_requirements" => "Het wachtwoord moet minimaal 8 tekens lang zijn.",
+    "password_different" => "Het nieuwe wachtwoord mag niet hetzelfde zijn als het huidige wachtwoord.",
+    "password_updated" => "Je wachtwoord is succesvol bijgewerkt!",
 ];
