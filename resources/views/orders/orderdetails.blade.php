@@ -37,7 +37,7 @@
                         <div class="p-2 rounded shadow h-11 dark:border dark:border-gray-700">€60,00</div>
                     </div>
                     <!-- Added to test colors, currently hardcoded -->
-                    <div class="mt-2.5">
+                    <div class="md:mt-2.5">
                         <p class="{{ \App\Enum\DeliveryStatus::delocalised('Geannuleerd') }}">
                             Geannuleerd
                         </p>
