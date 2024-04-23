@@ -31,7 +31,7 @@
         @apply text-red-500;
     }
 
-    .payment_refunded {
+    .payment_refunded, .delivered .finalized {
         @apply text-green-500;
     }
 
@@ -41,14 +41,6 @@
 
     .processing {
         @apply text-blue-500;
-    }
-
-    .delivered {
-        @apply text-green-500;
-    }
-
-    .finalized {
-        @apply text-green-500;
     }
 }
 
