@@ -75,7 +75,7 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        Route::prefix(__('route.manage-orders'))->name('orders.')->group(function () {
+        Route::prefix(__('route.orders'))->name('orders.')->group(function () {
             Route::get('/', [ManageOrdersController::class, 'index'])
                 ->name('index');
 
