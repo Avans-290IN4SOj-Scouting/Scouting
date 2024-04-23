@@ -79,7 +79,7 @@ Route::middleware('role:admin')->group(function () {
             Route::get('/', [ManageOrdersController::class, 'index'])
                 ->name('index');
 
-            Route::get('/bestelling/{id}', [ManageOrdersController::class, 'order'])
+            Route::get(__('route.order-details') . '/{id}', [ManageOrdersController::class, 'orderDetails'])
                 ->name('order');
 
             Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])

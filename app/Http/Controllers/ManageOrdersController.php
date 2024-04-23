@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DeliveryStatus;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use Exception;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Carbon\Exceptions\InvalidFormatException;
 
 class ManageOrdersController extends Controller
 {
@@ -25,7 +25,7 @@ class ManageOrdersController extends Controller
         ]);
     }
 
-    public function order(string $id)
+    public function orderDetails(string $id)
     {
         $order = Order::find($id);
         if ($order === null)
@@ -37,7 +37,7 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
-        return view('admin.order', [
+        return view('admin.order-details', [
             'order' => $order,
         ]);
     }
@@ -54,7 +54,7 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
-        $order->order_status_id = OrderStatus::where('status', 'cancelled')->first()->id;
+        $order->order_status_id = OrderStatus::where('status', DeliveryStatus::Cancelled)->first()->id;
         $order->save();
 
         return redirect()->route('manage.orders.index')
