@@ -85,7 +85,7 @@
                     </div>
                 </a>
 
-                <div class="flex flex-col pt-4 gap-4">
+                <div class="flex flex-col max-sm:items-center pt-4 gap-4">
                     @forelse($orders as $order)
                         <a href="#">
                             <x-order-preview :order="$order"/>
