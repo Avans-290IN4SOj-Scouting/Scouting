@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DeliveryStatus;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
@@ -15,56 +16,40 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function index(): View
     {
-        $test_orders = Order::factory()->count(3)->create([
-//            'user_id' => $request->user()->id,
-        ])->each(function ($order) {
-            $order->load(['orderLines' => function ($query) {
-                $query->orderByDesc('product_price');
-            }]);
-        });
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->orderBy('order_date', 'desc')
+            ->take(3)
+            ->get()
+            ->each(function ($order) {
+                $order->load(['orderLines' => function ($query) {
+                    $query->orderByDesc('product_price');
+                }]);
+                $order->order_date = new \DateTime($order->order_date);
+                $order->status = DeliveryStatus::localisedValue($order->status);
+            });
 
         return view('profile.edit', [
-            'user' => $request->user(),
-            'orders' => $test_orders,
+            'user' => auth()->user(),
+            'orders' => $orders,
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Update the user's password.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        Auth::user()->update([
+            'password' => bcrypt($validated['new-password']),
         ]);
 
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::back()->with([
+            'toast-type' => 'success',
+            'toast-message' => __('auth/profile.password_updated'),
+        ]);
     }
 }

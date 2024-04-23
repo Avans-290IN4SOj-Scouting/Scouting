@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enum\DeliveryStatus;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\OrderLine;
 
@@ -26,6 +28,8 @@ class OrderFactory extends Factory
             'order_date' => $this->faker->dateTime(),
             'lid_name' => $this->faker->name(),
             'group_id' => $this->faker->numberBetween(1, 4),
+            'user_id' => User::factory()->create()->id,
+            'status' => array_rand(DeliveryStatus::localised()),
         ];
     }
 

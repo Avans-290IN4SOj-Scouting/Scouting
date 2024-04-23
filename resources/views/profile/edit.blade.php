@@ -4,10 +4,6 @@
     $title = __('navbar.account');
 @endphp
 
-@push('scripts')
-    <script src="{{ @asset('js/auth/profile.js') }}" defer></script>
-@endpush
-
 @section('content')
     <div class="grid gap-4">
         <div class="flex flex-row justify-between items-center">
@@ -32,40 +28,42 @@
                            class="block text-sm mb-2 dark:text-white">{{__('auth/auth.email')}}</label>
                     <div class="max-w space-y-3">
                         <input type="text" id="email"
-                               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                               class="py-3 px-4 block w-full border-gray-200 rounded-lg placeholder-black text-black text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-50 dark:focus:ring-neutral-600"
                                placeholder="{{ $user->email }}" readonly="">
                     </div>
                 </div>
-                <button type="button" id="edit-password-button"
-                        class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                    {{ __('auth/profile.edit_password') }}
-                </button>
 
-                <form action="#" method="post">
+                <form action="{{ route('profile.update') }}" method="post">
                     @csrf
 
-                    <div id="password-fields" class="hidden grid gap-2">
+                    <div id="password-fields" class="grid gap-2">
                         <div>
                             <label for="old-password" class="block text-sm mb-2 dark:text-white">
                                 {{ __('auth/profile.current_password') }}
                             </label>
-                            <input type="password" id="old-password"
+                            <input type="password" id="old-password" value="{{ old('old-password') }}"
+                                   name="old-password"
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                            <x-error id="old-password" :error="$errors->first('old-password')"/>
                         </div>
                         <div>
                             <label for="new-password" class="block text-sm mb-2 dark:text-white">
                                 {{ __('auth/profile.new_password') }}
                             </label>
-                            <input type="password" id="new-password"
+                            <input type="password" id="new-password" value="{{ old('new-password') }}"
+                                   name="new-password"
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                            <x-error id="new-password" :error="$errors->first('new-password')"/>
                         </div>
                         <div>
                             <label for="repeat-password"
                                    class="block text-sm mb-2 dark:text-white">
                                 {{ __('auth/profile.repeat_password') }}
                             </label>
-                            <input type="password" id="repeat-password"
+                            <input type="password" id="repeat-password" value="{{ old('repeat-password') }}"
+                                   name="repeat-password"
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                            <x-error id="repeat-password" :error="$errors->first('repeat-password')"/>
                         </div>
                         <button type="submit"
                                 class="w-full mt-3 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
@@ -89,9 +87,11 @@
 
                 <div class="flex flex-col pt-4 gap-4">
                     @forelse($orders as $order)
-                        <x-order-preview :order="$order"/>
+                        <a href="#">
+                            <x-order-preview :order="$order"/>
+                        </a>
                     @empty
-                        <p class="dark:text-white">
+                        <p class="italic dark:text-white">
                             {{ __('auth/profile.no_orders') }}
                         </p>
                     @endforelse

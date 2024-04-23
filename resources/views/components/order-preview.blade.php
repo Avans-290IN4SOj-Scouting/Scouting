@@ -7,9 +7,8 @@
         class="w-full p-10 flex sm:flex-row justify-between leading-normal dark:text-white">
         <div class="flex flex-col text-base align-middle">
             <p>{{ App\Helpers\DateFormatter::format($order->order_date) }}</p>
-            <p class="text-orange-300">
-                {{--TODO: Tijdelijk--}}
-                {{ \App\Enum\DeliveryStatus::localisedValue(\App\Enum\DeliveryStatus::Processing->value) }}
+            <p class="{{ \App\Enum\DeliveryStatus::delocalised($order->status) }}">
+                {{ $order->status }}
             </p>
         </div>
         <div class="dark:text-white">

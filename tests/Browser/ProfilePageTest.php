@@ -20,7 +20,7 @@ class ProfilePageTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user->id)
-                ->visit(route('profile.edit'))
+                ->visit(route('profile.index'))
                 ->responsiveScreenshots('/profile/profile');
         });
     }

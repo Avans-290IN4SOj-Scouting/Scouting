@@ -15,6 +15,7 @@ class Order extends Model
         'order_date',
         'lid_name',
         'group_id',
+        'status',
     ];
 
     public function orderLines(): HasMany
