@@ -18,7 +18,7 @@ class OrderSeeder extends Seeder
             'lid_name' => 'jantje',
             'group_id' => 1,
             'user_id' => 1,
-            'order_status_id' => 1,
+            'order_status_id' => 4,
         ]);
 
         Order::create([
@@ -26,7 +26,7 @@ class OrderSeeder extends Seeder
             'lid_name' => 'pietje',
             'group_id' => 1,
             'user_id' => 2,
-            'order_status_id' => 2,
+            'order_status_id' => 1,
         ]);
 
         Order::create([
@@ -34,7 +34,7 @@ class OrderSeeder extends Seeder
             'lid_name' => 'broodje',
             'group_id' => 1,
             'user_id' => 3,
-            'order_status_id' => 3,
+            'order_status_id' => 6,
         ]);
     }
 }

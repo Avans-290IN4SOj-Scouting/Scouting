@@ -14,15 +14,27 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         OrderStatus::create([
-            'status' => 'placed',
-        ]);
-
-        OrderStatus::create([
             'status' => 'cancelled',
         ]);
 
         OrderStatus::create([
-            'status' => 'payed',
+            'status' => 'payment_refunded',
+        ]);
+
+        OrderStatus::create([
+            'status' => 'awaiting_payment',
+        ]);
+
+        OrderStatus::create([
+            'status' => 'processing',
+        ]);
+
+        OrderStatus::create([
+            'status' => 'delivered',
+        ]);
+
+        OrderStatus::create([
+            'status' => 'finalized',
         ]);
     }
 }

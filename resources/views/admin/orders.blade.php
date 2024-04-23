@@ -28,7 +28,7 @@ $title = __('manage-orders/orders.page_title');
                         <select id="filter" name="filter" class="py-3 px-4 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
                             <option value="0">Filter op status</option>
                             @foreach ($allstatusses as $status)
-                            <option value="{{ $status->id }}" @if($selected && $status->id === $selected->id) selected @endif>{{ __('orders/orderstatus.'.$status->status) }}</option>
+                            <option value="{{ $status->id }}" @if($selected && $status->id === $selected->id) selected @endif>{{ __('delivery_status.'.$status->status) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -91,7 +91,7 @@ $title = __('manage-orders/orders.page_title');
                         {{ $order['order_date'] }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {{ __('orders/orderstatus.'.$order->orderStatus['status']) }}
+                        {{ __('delivery_status.'.$order->orderStatus['status']) }}
                     </td>
                 </tr>
                 @empty
