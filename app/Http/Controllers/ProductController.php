@@ -202,7 +202,7 @@ class ProductController extends Controller
 
         $defaultSize = [
             'size' => 'Default',
-            'price' => ProductProductSize::where('product_id', $product->id)->where('product_size_id', ProductSize::where('size', 'Default')->first()->id)->first()->price,
+            'price' => ProductProductSize::where('product_id', $product->id)->where('product_size_id', ProductSize::where('size', 'Default')->first()->id)->first()->price ?? null,
         ];
 
         // Check if the product has any associated order lines
