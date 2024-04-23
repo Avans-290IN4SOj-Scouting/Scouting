@@ -25,7 +25,7 @@ class ManageOrdersController extends Controller
         ]);
     }
 
-    public function order(string $id)
+    public function orderDetails(string $id)
     {
         $order = Order::find($id);
         if ($order === null)
@@ -37,7 +37,7 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
-        return view('admin.order', [
+        return view('admin.order-details', [
             'order' => $order,
         ]);
     }

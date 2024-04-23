@@ -6,12 +6,12 @@
 
 @section('content')
 
-<p><a class="text-gray-500 underline decoration-gray-500 hover:opacity-80" href="{{ route('manage.orders.index')}}">{{ __('manage-orders/order.back') }}</a></p>
+<p><a class="text-blue-600 underline decoration-blue-600 hover:opacity-80" href="{{ route('manage.orders.index')}}">{{ __('manage-orders/order.back') }}</a></p>
 
 <div class="flex justify-around">
     <div class="flex flex-col w-max">
-        <div class="flex justify-between items-center flex-wrap">
-            <h1 class="text-4xl font-bold dark:text-white">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
+        <div class="flex flex-row justify-between items-center">
+            <h1 class="text-4xl font-bold dark:text-white mb-4 lg:mb-0">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
             @if ($order->orderStatus->status != 'cancelled')
             <form name="cancelOrderForm" method="POST" action="{{ route('manage.orders.cancel-order', ['id' => $order->id]) }}">
@@ -55,42 +55,36 @@
             <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                 <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
-                <div class="flex flex-col">
-                    <div class="-m-1.5 overflow-x-auto">
-                        <div class="p-1.5 min-w-full inline-block align-middle">
-                            <div class="overflow-hidden">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.name') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.size') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.price-per') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.amount') }}
-                                    </th>
-                                </tr>
-                                </thead>
+                <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.name') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.size') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.price-per') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.amount') }}
+                                </th>
+                            </tr>
+                        </thead>
 
-                                <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
-                                    @foreach ($order->orderLines as $orderLine)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            </div>
-                        </div>
-                    </div>
+                        <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
+                            @foreach ($order->orderLines as $orderLine)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- /Producten -->
