@@ -121,7 +121,7 @@ class ManageOrdersController extends Controller
                 }
             }
 
-            $orders = $orders->whereBetween('created_at', [$dateFrom, $dateTill]);
+            $orders = $orders->whereBetween('order_date', [$dateFrom, $dateTill]);
         }
         catch (Exception $e) { }
 

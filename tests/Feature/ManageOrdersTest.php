@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enum\DeliveryStatus;
 use App\Models\Order;
 use App\Models\OrderLine;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,6 +54,6 @@ class ManageOrdersTest extends TestCase
 
         $response->assertStatus(302);
 
-        $this->assertTrue($order->fresh()->orderStatus->status == 'cancelled');
+        $this->assertTrue($order->fresh()->orderStatus->status == DeliveryStatus::Cancelled->value);
     }
 }

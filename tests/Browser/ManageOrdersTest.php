@@ -60,7 +60,7 @@ class ManageOrdersTest extends DuskTestCase
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now(),
+                'order_date' => Carbon::now()->addMonth(1),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -91,7 +91,7 @@ class ManageOrdersTest extends DuskTestCase
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now(),
+                'order_date' => Carbon::now()->addMonth(2),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -122,7 +122,7 @@ class ManageOrdersTest extends DuskTestCase
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now(),
+                'order_date' => Carbon::now()->addMonth(3),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -153,7 +153,7 @@ class ManageOrdersTest extends DuskTestCase
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now(),
+                'order_date' => Carbon::now()->addMonth(4),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -178,16 +178,13 @@ class ManageOrdersTest extends DuskTestCase
         }
     }
 
-    public function test_filters()
+    public function test_email_filter()
     {
         $this->createOrders();
         $this->browse(function (Browser $browser) {
-            $fromDate = Carbon::now()->subMonth(1);
-            $tillDate = Carbon::now()->addMonth(1);
             $browser->loginAs($this->admin)
 
                     ->visit(route('manage.orders.index'))
-                    ->responsiveScreenshots('manage-orders/index')
 
                     // Email
                     ->type('#search', '@example.net')
@@ -197,54 +194,75 @@ class ManageOrdersTest extends DuskTestCase
                     ->assertSee('two@example.net')
                     ->assertSee('three@example.net')
                     ->assertDontSee('four@example.com')
-                    ->assertDontSee('five@example.com')
+                    ->assertDontSee('five@example.com');
+        });
+    }
 
-                    // Status
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
+    public function test_status_filter()
+    {
+        $this->createOrders();
+        $this->browse(function (Browser $browser) {
+            $browser->clickLink(__('manage-orders/orders.remove_filters_button'))
                     ->select('#filter', '3')
+                    ->screenshot('test_jeroen')
 
                     ->assertDontSee('one@example.net')
                     ->assertDontSee('two@example.net')
                     ->assertDontSee('three@example.net')
                     ->assertDontSee('four@example.com')
-                    ->assertSee('five@example.com')
+                    ->assertSee('five@example.com');
+        });
+    }
 
-                    // From
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
+    public function test_from_date_filter()
+    {
+        $this->createOrders();
+        $this->browse(function (Browser $browser) {
+            $fromDate = Carbon::now()->subMonth(1);
+            $browser->clickLink(__('manage-orders/orders.remove_filters_button'))
                     ->keys('#date-from-filter', $fromDate->month)
                     ->keys('#date-from-filter', $fromDate->day)
                     ->keys('#date-from-filter', $fromDate->year)
 
                     ->assertSee('one@example.net')
-                    ->assertSee('two@example.net')
-                    ->assertSee('three@example.net')
-                    ->assertSee('four@example.com')
-                    ->assertSee('five@example.com')
-                    ->screenshot('test_jeroen')
-
-                    // Till
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
-
-                    // From & Till
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
-
-                    ;
+                    ->assertDontSee('two@example.net')
+                    ->assertDontSee('three@example.net')
+                    ->assertDontSee('four@example.com')
+                    ->assertDontSee('five@example.com');
         });
     }
 
-    // public function test_resizability() : void
-    // {
-    //     $admin = User::factory()->create(['email' => 'res@ponsive'])->assignRole('admin');
+    public function test_till_date_filter()
+    {
+        $this->createOrders();
+        $this->browse(function (Browser $browser) {
+            $tillDate = Carbon::now()->addMonth(1)->addDay(1);
+            $browser->clickLink(__('manage-orders/orders.remove_filters_button'))
+                    ->keys('#date-till-filter', $tillDate->month)
+                    ->keys('#date-till-filter', $tillDate->day)
+                    ->keys('#date-till-filter', $tillDate->year)
 
-    //     $this->browse(function (Browser $browser) use ($admin) {
-    //         $browser->loginAs($admin)
+                    ->assertSee('one@example.net')
+                    ->assertSee('two@example.net')
+                    ->assertDontSee('three@example.net')
+                    ->assertDontSee('four@example.com')
+                    ->assertDontSee('five@example.com');
+        });
+    }
 
-    //                 ->visit(route('manage.orders.index'))
-    //                 ->responsiveScreenshots('manage-orders/index')
+    public function test_resizability() : void
+    {
+        $admin = User::factory()->create(['email' => 'res@ponsive'])->assignRole('admin');
 
-    //                 ->visit(route('manage.orders.order', ['id' => 1]))
-    //                 ->responsiveScreenshots('manage-orders/order');
-    //     });
-    // }
+        $this->browse(function (Browser $browser) use ($admin) {
+            $browser->loginAs($admin)
+
+                    ->visit(route('manage.orders.index'))
+                    ->responsiveScreenshots('manage-orders/index')
+
+                    ->visit(route('manage.orders.order', ['id' => 1]))
+                    ->responsiveScreenshots('manage-orders/order');
+        });
+    }
 }
 
