@@ -20,9 +20,9 @@
     <div class="shadow p-4 rounded-xl">
         <div class="m-4">
             <div class="flex flex-col gap-4 justify-between md:flex-row w-full dark:text-white">
-                <div class="mb-2 sm:mb-0">
+                <div class="flex flex-row md:flex-col justify-between md:justify-normal items-center md:items-baseline mb-2 sm:mb-0">
                     <div class="text-4xl">{{ __('orders/orders.order') }} 123234</div>
-                    <div class="mt-4 flex flex-row lg:justify-normal items-center">
+                    <div class="md:mt-4">
                         <button
                             class="bg-red-600 text-white rounded p-2 hover:bg-red-900">{{ __('orders/orders.cancel-order') }}</button>
                     </div>
