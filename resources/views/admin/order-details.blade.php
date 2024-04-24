@@ -13,7 +13,7 @@
         <div class="flex flex-row justify-between items-center">
             <h1 class="text-4xl font-bold dark:text-white mb-4 lg:mb-0">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
-            @if ($order->orderStatus->status != 'cancelled')
+            @if ($order->orderStatus->status == 'awaiting_payment')
             <form name="cancelOrderForm" method="POST" action="{{ route('manage.orders.cancel-order', ['id' => $order->id]) }}">
                 @csrf
                 <input type="submit" value="{{ __('manage-orders/order.cancel-order') }}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 dark:bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
@@ -22,7 +22,7 @@
         </div>
         <br>
 
-        <div class="flex justify-center items-top gap-10 flex-wrap">
+        <div class="flex items-start gap-3 justify-start sm:justify-center sm:items-top sm:gap-10 flex-wrap">
             <!-- Gegevens -->
             <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                 <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.order-data') }}</h2>
@@ -52,7 +52,7 @@
             <!-- /Gegevens -->
 
             <!-- Producten -->
-            <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
+            <div class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                 <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
                 <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">

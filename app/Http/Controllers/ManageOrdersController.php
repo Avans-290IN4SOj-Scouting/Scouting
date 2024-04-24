@@ -54,7 +54,7 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
-        $order->order_status_id = OrderStatus::where('status', DeliveryStatus::Cancelled)->first()->id;
+        $order->order_status_id = OrderStatus::where('status', DeliveryStatus::Cancelled->value)->first()->id;
         $order->save();
 
         return redirect()->route('manage.orders.index')
@@ -121,7 +121,7 @@ class ManageOrdersController extends Controller
                 }
             }
 
-            $orders = $orders->whereBetween('created_at', [$dateFrom, $dateTill]);
+            $orders = $orders->whereBetween('order_date', [$dateFrom, $dateTill]);
         }
         catch (Exception $e) { }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\DeliveryStatus;
 use App\Models\OrderStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,27 +15,27 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         OrderStatus::create([
-            'status' => 'cancelled',
+            'status' => DeliveryStatus::Cancelled->value,
         ]);
 
         OrderStatus::create([
-            'status' => 'payment_refunded',
+            'status' => DeliveryStatus::PaymentRefunded->value,
         ]);
 
         OrderStatus::create([
-            'status' => 'awaiting_payment',
+            'status' => DeliveryStatus::AwaitingPayment->value,
         ]);
 
         OrderStatus::create([
-            'status' => 'processing',
+            'status' => DeliveryStatus::Processing->value,
         ]);
 
         OrderStatus::create([
-            'status' => 'delivered',
+            'status' => DeliveryStatus::Delivered->value,
         ]);
 
         OrderStatus::create([
-            'status' => 'finalized',
+            'status' => DeliveryStatus::Finalized->value,
         ]);
     }
 }

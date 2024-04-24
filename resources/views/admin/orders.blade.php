@@ -33,13 +33,13 @@ $title = __('manage-orders/orders.page_title');
                         </select>
                     </div>
 
-                    <div class="flex flex-row flex-wrap gap-4">
+                    <div class="flex gap-4 flex-col sm:flex-row">
                         <x-date-filter name="date-from-filter" label="{{ __('manage-orders/orders.filter-from') }}" defaultValue="{{ $dateFrom }}" />
                         <x-date-filter name="date-till-filter" label="{{ __('manage-orders/orders.filter-till') }}" defaultValue="{{ $dateTill }}" />
                     </div>
                 </div>
 
-                <div class="flex flex-col justify-center">
+                <div class="flex flex-col justify-end">
                     <a href="{{ route('manage.orders.index') }}" class="text-red-600 underline decoration-red-500 hover:opacity-80 dark:text-red-500">
                         {{__('manage-orders/orders.remove_filters_button')}}
                     </a>

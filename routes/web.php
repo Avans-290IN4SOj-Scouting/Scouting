@@ -85,7 +85,10 @@ Route::middleware('role:admin')->group(function () {
             Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
                 ->name('filter');
 
-            Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
+            // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            //     ->name('cancel-order');
+            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
                 ->name('cancel-order');
         });
 
