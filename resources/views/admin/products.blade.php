@@ -1,7 +1,5 @@
 @extends('layouts.base')
-
 @section('title', 'Producten')
-
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-4">
@@ -23,20 +21,16 @@
                         <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
-                                    Name
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">{{__('manage-products/products.name_label')}}
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
-                                    Maten en Prijzen
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">{{__('manage-products/products.heading_custom_sizes')}}
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
-                                    Voor groepen
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">{{__('manage-products/products.groups_heading')}}
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
-                                    Actions
+                                    class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-gray-400">{{__('manage-products/products.actions_heading')}}
                                 </th>
                             </tr>
                         </thead>
@@ -62,21 +56,19 @@
                                         @endforeach
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <a href="{{ route('manage.products.edit.index', ['id' => $product->id]) }}">Edit
-                                            Product</a>
-                                        <button type="button"
-                                            class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                            Delete
+                                        <button type="button" onclick="window.location.href='{{ route('manage.products.edit.index', ['id' => $product->id]) }}'" class="{{__('manage-products/products.action_edit_class')}} inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:hover:text-white">
+                                            {{ __('manage-products/products.action_edit_label') }}
+                                        </button>
+                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400">
+                                            {{ __('manage-products/products.action_delete_label') }}
                                         </button>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
-
                     </table>
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
     </div>
 @endsection

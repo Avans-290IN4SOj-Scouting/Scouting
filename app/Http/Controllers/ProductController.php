@@ -96,7 +96,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('manage.products.edit.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
+        return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
 
     private function populateProductViewModel($product, $productViewmodel)
@@ -186,6 +186,8 @@ class ProductController extends Controller
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
+
+
 
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
@@ -335,7 +337,7 @@ class ProductController extends Controller
             $category = $this->categoryToId($product->getCategory());
 
             // Create the product with all attributes including image_path
-            Product::create([
+            $newProduct = Product::create([
                 'name' => $product->getName(),
                 'discount' => 0,
                 'product_type_id' => $category,
@@ -351,10 +353,15 @@ class ProductController extends Controller
 
             foreach ($product->priceForSize as $size => $price) {
                 $databaseProduct = Product::where('name', $product->getName())->first();
-                $databaseProduct->productSizes()->attach(
-                    $databaseProduct->id,
-                    ['product_size_id' => ProductSize::where('size', $size)->first()->id, 'price' => $price]
-                );
+                $productSizeId = ProductSize::where('size', $size)->first()->id;
+                // Check if the combination of product_id and product_size_id already exists
+                if (!$databaseProduct->productSizes()->where('product_size_id', $productSizeId)->exists()) {
+                    // If it doesn't exist, insert the new entry
+                    $databaseProduct->productSizes()->attach(
+                        $databaseProduct->id,
+                        ['product_size_id' => $productSizeId, 'price' => $price]
+                    );
+                }
             }
 
             $groups = Group::all();
@@ -365,19 +372,24 @@ class ProductController extends Controller
             }
 
             foreach ($product->groups as $group) {
-                Product::where('name', $product->getName())->first()->groups()
-                    ->attach(Group::where('name', $group)->first());
+                $newProduct->groups()->attach(Group::where('name', $group)->first());
             }
 
             DB::commit();
+
+            $request->session()->flash('toast-type', 'success');
+            $request->session()->flash('toast-message', __('toast/messages.success-product-add'));
+
+            // Add a success toast message only if new entries were added
+            return redirect()->route('manage.products.index');
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
-        return $this->productOverview();
     }
 
-    private function savePicture($picture, $name)
+
+        private function savePicture($picture, $name)
     {
         if (!Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
             return "/images/products/placeholder.png";
