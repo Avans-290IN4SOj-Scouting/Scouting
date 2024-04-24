@@ -1,4 +1,4 @@
-@
+
 
 <div class="mb-4 sm:mb-8">
     <label for="name" class="block mb-2 text-sm font-medium dark:text-white">Full name</label>
