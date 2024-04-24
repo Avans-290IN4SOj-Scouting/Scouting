@@ -27,4 +27,10 @@ class Order extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function getMostExpensiveOrderLine()
+    {
+        return $this->orderLine->sortByDesc('amount')->first();
+    }
+
 }
