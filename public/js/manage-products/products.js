@@ -27,7 +27,19 @@ function hideHr() {
 
 function toggleAccordion(button) {
     const isOpen = button.getAttribute('data-open') === 'true';
-    button.setAttribute('data-open', !isOpen);
+    const allButtons = document.querySelectorAll('.hs-accordion-toggle');
+
+    allButtons.forEach(otherButton => {
+        if (otherButton !== button) {
+            otherButton.setAttribute('data-open', 'false');
+            const firstSvg = otherButton.querySelector('svg:first-child');
+            const secondSvg = otherButton.querySelector('svg:last-child');
+            firstSvg.classList.remove('hidden');
+            secondSvg.classList.add('hidden');
+        }
+    });
+
+    button.setAttribute('data-open', String(!isOpen));
     const firstSvg = button.querySelector('svg:first-child');
     const secondSvg = button.querySelector('svg:last-child');
 
@@ -39,4 +51,3 @@ function toggleAccordion(button) {
         secondSvg.classList.remove('hidden');
     }
 }
-
