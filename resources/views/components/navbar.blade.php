@@ -34,6 +34,8 @@
                    href="{{ route('orders.shoppingcart.index') }}">{{__('navbar.cart')}}</a>
                 <a class="{{ request()->routeIs('orders.checkout.order') ? 'active-nav-link' : 'inactive-nav-link' }}"
                    href="{{ route('orders.checkout.order') }}">{{__('navbar.checkout')}}</a>
+                   <a class="{{ request()->routeIs('feedback.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                    href="{{ route('feedback.index') }}">{{__('navbar.feedback')}}</a>
 
                 {{--This is the dropdown for Admin--}}
                 {{--TODO: Based on the user role, show the dropdown--}}

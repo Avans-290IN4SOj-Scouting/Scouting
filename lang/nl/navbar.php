@@ -10,4 +10,5 @@ return [
     'login' => 'Log in',
     'admin' => 'Admin',
     'register' => 'Registreren',
+    'feedback'=> 'Feedback / Contact',
 ];

@@ -120,4 +120,5 @@ Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
 ->name('gmail.auth-callback');
 
-Route::get(__('route.feedback'), [FeedbackController::class, 'index']);
+Route::get(__('route.feedback'), [FeedbackController::class, 'index'])->name('feedback.index');
+Route::post(__('route.feedback'), [FeedbackController::class, 'store'])->name('feedback.store');
