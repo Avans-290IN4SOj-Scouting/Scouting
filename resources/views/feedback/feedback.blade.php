@@ -17,7 +17,8 @@
             <!-- Card -->
             <div
                 class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
-                <form action="{{ route('feedback.index') }}" method="POSR">
+                <form action="{{ route('feedback.store') }}" method="POST">
+                  @csrf
                     <x-feedbackField :name="__('feedback/feedback.name')"></x-feedbackField>
                     <x-feedbackField :name="__('feedback/feedback.email')"></x-feedbackField>
                     <div class="mb-4 sm:mb-8 flex flex-col lg:flex-row gap-3 lg:items-center form-group">

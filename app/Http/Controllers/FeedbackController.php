@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FeedbackForm;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -11,7 +12,14 @@ class FeedbackController extends Controller
     }
 
     public function store(Request $request){
-        ddd($request->all());
-        return redirect('home');
+        //validate the form data
+
+        $validatedData = $request->validate([
+            __('feedback/feedback.name') => 'required|string|max:255',
+            __('feedback/feedback.email') => 'required|email|max:255',
+        ]);
+
+        $feedback = new FeedbackForm();
+
     }
 }
