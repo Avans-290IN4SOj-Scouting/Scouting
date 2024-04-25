@@ -238,6 +238,29 @@ class ManageOrdersTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $tillDate = Carbon::now()->addMonth(1)->addDay(1);
             $browser->clickLink(__('manage-orders/orders.remove_filters_button'))
+                    // Email
+                    ->type('#search', '@example.net')
+                    ->select('#filter', '1')
+
+                    // Date Till
+                    ->keys('#date-till-filter', $tillDate->month)
+                    ->keys('#date-till-filter', $tillDate->day)
+                    ->keys('#date-till-filter', $tillDate->year)
+
+                    ->assertSee('one@example.net')
+                    ->assertSee('two@example.net')
+                    ->assertDontSee('three@example.net')
+                    ->assertDontSee('four@example.com')
+                    ->assertDontSee('five@example.com');
+        });
+    }
+
+    public function test_combined_filter()
+    {
+        $this->createOrders();
+        $this->browse(function (Browser $browser) {
+            $tillDate = Carbon::now()->addMonth(1)->addDay(1);
+            $browser->clickLink(__('manage-orders/orders.remove_filters_button'))
                     ->keys('#date-till-filter', $tillDate->month)
                     ->keys('#date-till-filter', $tillDate->day)
                     ->keys('#date-till-filter', $tillDate->year)
