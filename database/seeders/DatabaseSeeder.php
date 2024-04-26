@@ -32,11 +32,9 @@ class DatabaseSeeder extends Seeder
 
             // Below are unordered
             DeliveryStateSeeder::class,
-            DeliveryStatusSeeder::class,
             FeedbackFormSeeder::class,
             FeedbackTypeSeeder::class,
             // GroupSeeder::class,
-            OrderStatusSeeder::class,
         ]);
 
 

@@ -20,7 +20,7 @@ class ManageOrdersController extends Controller
             'search' => null,
             'dateFrom' => null,
             'dateTill' => null,
-            'allstatusses' => $this->getAllStatusses(),
+            'allstatusses' => DeliveryStatus::localised(),
             'selected' => null,
         ]);
     }
@@ -67,11 +67,11 @@ class ManageOrdersController extends Controller
     public function filter(Request $request)
     {
         $search = $request->input('q');
-        $status = $request->input('filter');
+        $status = $request->input('filter');;
 
-        $orderStatus = OrderStatus::find($status);
+        $orders = Order::query();
 
-        $orders = $this->getAllOrders();
+        $status = DeliveryStatus::hasStatus($status) ? $status : null;
 
         // Check for Email
         if (!empty($search))
@@ -82,9 +82,9 @@ class ManageOrdersController extends Controller
         }
 
         // Check for Status
-        if ($orderStatus !== null)
+        if ($status !== null)
         {
-            $orders = $orders->where('order_status_id', $orderStatus->id);
+            $orders = $orders->where('status', $status);
         }
 
         // Check for date
@@ -125,23 +125,15 @@ class ManageOrdersController extends Controller
         }
         catch (Exception $e) { }
 
+        $orders = $orders->sortable()->paginate(10);
+
         return view('admin.orders', [
             'orders' => $orders,
             'search' => $search,
             'dateFrom' => $dateFromString,
             'dateTill' => $dateTillString,
-            'allstatusses' => $this->getAllStatusses(),
-            'selected' => $orderStatus,
+            'allstatusses' => DeliveryStatus::localised(),
+            'selected' => $status,
         ]);
-    }
-
-    private function getAllOrders()
-    {
-        return Order::all();
-    }
-
-    private function getAllStatusses()
-    {
-        return OrderStatus::all();
     }
 }

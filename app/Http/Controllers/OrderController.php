@@ -125,8 +125,6 @@ class OrderController extends Controller
         catch (Exception $e)
         {
             DB::rollBack();
-
-            dd($e);
             return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',
