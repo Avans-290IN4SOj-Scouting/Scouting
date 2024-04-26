@@ -27,10 +27,10 @@ Route::get('/', [OrderController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])
-            ->name('edit');
+        Route::get('/', [ProfileController::class, 'index'])
+            ->name('index');
 
-        Route::patch('/', [ProfileController::class, 'update'])
+        Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
 });

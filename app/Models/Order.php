@@ -21,6 +21,13 @@ class Order extends Model
         'id',
     ];
 
+    protected $fillable = [
+        'order_date',
+        'lid_name',
+        'group_id',
+        'status',
+    ];
+
     public function orderLines(): HasMany
     {
         return $this->hasMany(OrderLine::class);

@@ -11,12 +11,19 @@ export default {
         'toast-success',
         'toast-warning',
         'toast-error',
+        'cancelled',
+        'payment_refunded',
+        'awaiting_payment',
+        'processing',
+        'delivered',
+        'finalized',
     ],
     theme: {
         extend: {},
     },
     plugins: [
-        require('preline/plugin')
+        require('preline/plugin'),
+        require('@tailwindcss/forms'),
     ],
 }
 
