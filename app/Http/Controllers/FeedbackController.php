@@ -12,29 +12,21 @@ class FeedbackController extends Controller
         return view('feedback.feedback');
     }
 
-    public function store(Request $request)
-    {
-        if(!empty($request)){
-            return $request;
-        }
-       
-
-       
-        //validate the form data
-
-        $validatedData = $request->validate([
-            __('feedback/feedback.name') => 'required|string|max:255',
-            __('feedback/feedback.email') => 'required|email|max:255',
-            __('feedback/feedback.category') => 'required',
-            __('feedback/feedback.message') => 'required',
+    public function store()
+    {  
+        $validatedData = request()->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required',
+            'message' => 'required',
 
         ]);
 
         $feedback = new FeedbackForm();
-        $feedback->name = $validatedData[__('feedback/feedback.name')];
-        $feedback->email = $validatedData[__('feedback/feedback.email')];
-        $feedback->category = $validatedData[__('feedback/feedback.category')];
-        $feedback->message = $validatedData[__('feedback/feedback.message')];
+        $feedback->name = $validatedData['name'];
+        $feedback->email = $validatedData['email'];
+        $feedback->subject = $validatedData['subject'];
+        $feedback->message = $validatedData['message'];
         $feedback->save();
 
         return redirect()->back()->with([

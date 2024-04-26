@@ -19,24 +19,31 @@
                 class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
                 <form action="{{ route('feedback.store') }}" method="POST">
                     @csrf
-                    <x-feedbackField :name="__('feedback/feedback.name')"></x-feedbackField>
-                    <x-feedbackField :name="__('feedback/feedback.email')"></x-feedbackField>
+                    <x-feedbackField name="name"></x-feedbackField>
+                    <x-feedbackField name="email"></x-feedbackField>
                     <div class="mb-4 sm:mb-8 flex flex-col lg:flex-row gap-3 lg:items-center form-group">
-                        <label for="{{ __('feedback/feedback.category') }}"
-                            class="text-sm font-medium dark:text-white">{{ __('feedback/feedback.category') }}</label>
+                        <label for="subject"
+                            class="text-sm font-medium dark:text-white">{{ __('feedback/feedback.subject') }}</label>
                         <select
-                            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                            name="subject">
                             <option value="1">Vraag</option>
                             <option value="2">Suggestie</option>
                             <option value="3">Feedback</option>
                         </select>
+                        @error('subject')
+                            <p class="text-red-500 text-xs mt-0">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-4 sm:mb-8 flex flex-col lg:flex-row gap-3 lg:items-center">
-                        <label for="{{ __('feedback/feedback.message') }}"
+                        <label for="message"
                             class="text-sm font-medium dark:text-white">{{ __('feedback/feedback.message') }}</label>
                         <textarea
                             class="px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                            rows="3" placeholder="{{ __('feedback/feedback.placeholder') }}"></textarea>
+                            rows="3" name="message" placeholder="{{ __('feedback/feedback.placeholder') }}"></textarea>
+                        @error('message')
+                            <p class="text-red-500 text-xs mt-0">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mt-6 grid">
                         <button type="submit"
