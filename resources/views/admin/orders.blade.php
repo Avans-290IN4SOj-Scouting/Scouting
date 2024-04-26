@@ -74,7 +74,7 @@ $title = __('manage-orders/orders.page_title');
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                 @forelse($orders as $order)
                 <tr href="{{ route('manage.orders.order', ['id' => $order->id]) }}"
-                    class="clickable hover:bg-gray-100 dark:hover:bg-slate-800">
+                    class="clickable hover:bg-gray-100 dark:hover:bg-slate-800 cursor-default hover:cursor-pointer">
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         {{ $order->user['email'] }}
                     </td>
@@ -88,7 +88,7 @@ $title = __('manage-orders/orders.page_title');
                         @endforeach
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {{ $order['order_date'] }}
+                        {{ Carbon\Carbon::parse($order['order_date'])->format(__('common.date_time')) }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         {{ __('delivery_status.'.$order->orderStatus['status']) }}

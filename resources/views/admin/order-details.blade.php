@@ -35,7 +35,7 @@
 
                     <div class="max-w-sm">
                         <label for="datum" class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.date') }}</label>
-                        <input type="text" id="datum" value="{{ $order->order_date }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
+                        <input type="text" id="datum" value="{{ Carbon\Carbon::parse($order->order_date)->format(__('common.date_time')) }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
                     </div>
 
                     <div class="max-w-sm">
