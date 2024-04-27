@@ -6,6 +6,7 @@ return [
     "manage" => "beheren",
     "accounts" => "accounts",
     "update_roles" => "rollen-bijwerken",
+    "update_password" => "wachtwoord-bijwerken",
     "update" => "bijwerken",
     "order" => "bestelling",
     "overview" => "overzicht",
@@ -13,5 +14,7 @@ return [
     "checkout" => "afrekenen",
     "complete_order" => "voltooien",
     "cart" => "winkelwagen",
+    "orders" => "bestellingen",
+    "order-details" => "bestelling",
     "filter" => "filteren",
 ];

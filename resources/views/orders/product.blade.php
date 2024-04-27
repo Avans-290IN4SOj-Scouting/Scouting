@@ -40,19 +40,19 @@
     <div id="main">
         <div class="single-product-view">
             <div class="image">
-                <img class="product-image" src="{{ asset($product->image_path) }}" alt="{{ $product->name }}">
+                <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}">
             </div>
             <div class="info">
                 <div>
-                    <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h2>
+                    <h1 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h1>
                     <p class="dark:text-white">
                         <span>{{ __('common.currency_symbol') }}</span>
                         <span id="product-price">
-                            {{ number_format($product->productSizes->first()->pivot->price, 2, __('currency.seperator'), '.') }}
+                            {{ number_format($product->productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
                         </span>
                     </p>
                     @if (count($productSizes) === 1)
-                    <p>{{ __('orders.size') }} - {{ $product->productSizes->first()->size }}</p>
+                    <p class="dark:text-white">{{ __('orders/orders.size') }} - {{ $product->productSizes->first()->size }}</p>
                     @endif
                 </div>
                 <div class="actions">
