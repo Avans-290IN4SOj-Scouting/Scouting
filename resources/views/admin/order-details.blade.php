@@ -16,7 +16,7 @@
             @if ($order->status == App\Enum\DeliveryStatus::AwaitingPayment->value)
             <form name="cancelOrderForm" method="POST" action="{{ route('manage.orders.cancel-order', ['id' => $order->id]) }}">
                 @csrf
-                <input type="submit" value="{{ __('manage-orders/order.cancel-order') }}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 dark:bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
+                <input type="submit" value="{{ __('manage-orders/order.cancel-order') }}" class="hover:cursor-pointer py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 dark:bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
             </form>
             @endif
         </div>

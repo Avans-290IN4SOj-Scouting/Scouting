@@ -54,7 +54,7 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
-        $order->order_status_id = OrderStatus::where('status', DeliveryStatus::Cancelled->value)->first()->id;
+        $order->status = DeliveryStatus::Cancelled;
         $order->save();
 
         return redirect()->route('manage.orders.index')
@@ -78,7 +78,7 @@ class ManageOrdersController extends Controller
         {
             $orders = Order::whereHas('user', function ($query) use ($search) {
                 $query->where('email', 'like', "%$search%");
-            })->get();
+            });
         }
 
         // Check for Status
