@@ -10,6 +10,8 @@ use App\Models\ProductType;
 use App\Models\OrderLine;
 use App\Viewmodels\ProductViewmodel;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductCreationRequest;
+use App\Http\Requests\ProductEditRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -30,27 +32,11 @@ class ProductController extends Controller
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
-    public function updateProduct(Request $request, $productId)
+    public function updateProduct(ProductEditRequest $request, $productId)
     {
-        $customMessages = [
-            'category.required' => __('validation.category.required'),
-            'groups.required' => __('validation.groups.required'),
-        ];
-
-        $validatedData = $request->validate([
-            'category' => 'required|string',
-            'groups' => 'required|array',
-            'priceForSize' => 'required|array',
-            'priceForSize.*' => 'nullable|numeric',
-            'custom_prices' => 'nullable|array',
-            'custom_prices.*' => 'nullable|numeric',
-            'custom_sizes' => 'nullable|array',
-            'custom_sizes.*' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], $customMessages);
+        $validatedData = $request->validated();#
 
         $product = Product::find($productId);
-
         if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
@@ -83,7 +69,7 @@ class ProductController extends Controller
 
         // Update groups
         $product->groups()->detach(); // Remove existing groups
-        foreach ($validatedData['groups'] as $groupName) {
+        foreach ($validatedData['products-group-multiselect'] as $groupName) {
             $group = Group::firstOrCreate(['name' => $groupName]);
             $product->groups()->attach($group);
         }
@@ -155,26 +141,10 @@ class ProductController extends Controller
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::where('size', '!=', 'Default')->get();
-        if ($failure == null)
-            return view('admin.addProduct', [
-                'baseCategories' => $categories,
-                'baseGroups' => $groups,
-                'baseProductSizes' => $productSizes,
-            ]);
-        if (is_string($failure)) {
-            return view('admin.addProduct', [
-                'baseCategories' => $categories,
-                'baseGroups' => $groups,
-                'baseProductSizes' => $productSizes,
-                'errors' => [$failure],
-            ]);
-        }
-        // validator
         return view('admin.addProduct', [
             'baseCategories' => $categories,
             'baseGroups' => $groups,
             'baseProductSizes' => $productSizes,
-            'errors' => $failure->errors(),
         ]);
     }
 
@@ -186,8 +156,6 @@ class ProductController extends Controller
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
-
-
 
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
@@ -209,7 +177,7 @@ class ProductController extends Controller
         if (ProductSize::where('size', 'Default')->first() != null) {
             $defaultSize = [
                 'size' => 'Default',
-                'price' => ProductProductSize::where('product_id', $product->id)
+                'price' => ProductProductSize::where('product_id', $product->id)->first()
                     ->where('product_size_id', ProductSize::where('size', 'Default')->first()->id)
                     ->first()->price,
             ];
@@ -265,72 +233,22 @@ class ProductController extends Controller
             'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
         ]);
     }
-    public function createProduct(Request $request)
+    public function createProduct(ProductCreationRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [
-                'required',
-                'string',
-            ],
-            'priceForSize' => [
-                'required',
-                'array',
-                function ($attribute, $value, $fail) {
-                    foreach ($value as $price) {
-                        if (is_numeric($price) || $price == null) {
-                            continue;
-                        }
-                        $fail("Het $attribute mag alleen nummers bevatten.");
-                    }
-                }
-            ],
-            'custom_prices.*' => ['nullable', 'numeric',],
-            'custom_sizes.*' => ['nullable', 'string'],
-            'products_group-multiselect' => ['required', 'array'],
-            'category' => ['required', 'string'],
-            'af-submit-app-upload-images' => [
-                'required',
-                'file',
-                'image',
-            ],
-        ], [
-            'name.required' => 'Het naam veld moet ingevuld worden.',
-            'name.string' => 'Het naam veld moet een tekst zijn.',
-            'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
-            'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
-            'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
-            'af-submit-app-upload-images.file' => 'Je probeert iets te uploaden dat geen bestand is.',
-            'af-submit-app-upload-images.image' => 'Het geüploade bestand moet een afbeelding zijn.',
-            'products_group-multiselect.required' => 'Geef aan bij welke groepen dit product hoort',
-            'products_group-multiselect.array' => 'Het groepen veld heeft een array object nodig.',
-            'priceForSize.required' => 'Vul minimaal 1 prijs in voor de maat.',
-            'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
-            'custom_prices.*.numeric' => 'Het aangepaste prijzen veld moet numeriek zijn.',
-            'groups.required' => 'Geef aan bij welke groepen de functie hoort',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->goToAddProduct($validator);
-        }
+        $validData = $request->validated();
 
         $product = new ProductViewmodel();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         $product->setPriceForSize($request->input('priceForSize'));
-        $product->addPriceForSize($request->input('custom_sizes'), $request->input('custom_prices'));
-        $product->setGroups($request->input('products_group-multiselect'));
+        $product->setGroups($request->input('products-group-multiselect'));
         $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
             return $price != null;
         }));
         $product->setGroups(array_filter($product->groups, function ($group) {
             return $group != null;
         }));
-
-        if (empty($product->priceForSize) || empty($product->groups)) {
-            $validator->errors()->add('priceForSize', 'Vul een prijs van een maat in.');
-            return $this->goToAddProduct($validator);
-        }
 
         DB::beginTransaction();
         try {
@@ -367,7 +285,7 @@ class ProductController extends Controller
             $groups = Group::all();
             foreach ($product->groups as $group) {
                 if (!$groups->where('name', $group)->first()) {
-                    dd($group);
+                    throw (new \Exception('Group not found'));
                 }
             }
 
@@ -389,7 +307,7 @@ class ProductController extends Controller
     }
 
 
-        private function savePicture($picture, $name)
+    private function savePicture($picture, $name)
     {
         if (!Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
             return "/images/products/placeholder.png";

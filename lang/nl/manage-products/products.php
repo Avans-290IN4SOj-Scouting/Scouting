@@ -1,5 +1,3 @@
-
-
 <?php
 
 return [
@@ -9,7 +7,8 @@ return [
     "action_edit_label" => "Wijzig",
     "action_delete_label" => "Verwijder",
     "action_edit_class" => "edit-product-button",
-    "page_title" => "Wijzig Product",
+    "create_page_title" => "Nieuw Product",
+    "edit_page_title" => "Wijzig Product",
     "heading_custom_sizes" => "Maten en Prijzen",
     "name_label" => "Product Naam",
     "name_placeholder" => "Product naam",
