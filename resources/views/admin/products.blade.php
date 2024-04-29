@@ -4,8 +4,11 @@
     $title = __('manage-products/products.page_title');
 @endphp
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/accordion/accordion.css') }}">
+@endpush
 @push('scripts')
-    <script src="{{ asset('js/manage-products/products.js') }}" defer></script>
+    <script src="{{ asset('js/accordion/accordion.js') }}" defer></script>--}}
 @endpush
 
 @section('content')
@@ -17,95 +20,168 @@
         </button>
     </div>
 
-    <div class="flex flex-col rounded-lg border-gray-200 border">
-        <div class="min-w-full inline-block align-middle">
-            <div class="hs-accordion-group">
-                @for($i = 0; $i < $total; $i++)
-                    <div class="hs-accordion" id="hs-basic-nested-heading-one">
-                        <div>
-                            <button
-                                class="p-1.5 hs-accordion-toggle py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none focus:text-blue-500"
-                                aria-controls="hs-basic-nested-collapse-one"
-                                onclick="toggleAccordion(this)"
-                                data-open="false">
-
-                                <svg class="block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                     width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="accordion-group bg-white border rounded-xl dark:bg-slate-900 dark:border-slate-700">
+        @foreach($allproducts as $allproduct)
+            <div class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-white @endif">
+                <div class="accordion-header p-1.5 py-3">
+                    <svg class="size-3.5 inactive dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24"
+                         height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5v14"></path>
+                    </svg>
+                    <svg class="size-3.5 active dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24"
+                         height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                    </svg>
+                    <p class="dark:text-white">
+                        Product {{ $loop->index + 1 }}
+                    </p>
+                </div>
+                @foreach($colors as $color)
+                <div class="accordion-content">
+                    <div class="accordion-group bg-white dark:bg-slate-900 dark:border-slate-700">
+                        <div class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-white @endif">
+                            <div class="accordion-header ps-6 py-3">
+                                <svg class="size-3.5 inactive dark:text-white" xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
                                     <path d="M5 12h14"></path>
                                     <path d="M12 5v14"></path>
                                 </svg>
-                                <svg class="hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                     width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="size-3.5 active dark:text-white" xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
                                     <path d="M5 12h14"></path>
                                 </svg>
-                                Product {{ $i + 1 }}
-                            </button>
-                            @if($i < $total)
-                                <hr class="border-gray-200 hidden">
-                            @endif
-                        </div>
-                        <div id="hs-basic-nested-collapse-one"
-                             class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
-                             aria-labelledby="hs-basic-nested-heading-one">
-                            <div class="hs-accordion-group">
-                                @foreach($colors as $color)
-                                    <div class="hs-accordion ps-6" id="hs-basic-nested-sub-heading-one">
-                                        <button
-                                            class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-500 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none focus:text-blue-500"
-                                            aria-controls="hs-basic-nested-sub-collapse-one">
-                                            <svg class="hs-accordion-active:hidden block size-3" width="16" height="16"
-                                                 viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M2.62421 7.86L13.6242 7.85999" stroke="currentColor"
-                                                      stroke-width="2" stroke-linecap="round"></path>
-                                                <path d="M8.12421 13.36V2.35999" stroke="currentColor" stroke-width="2"
-                                                      stroke-linecap="round"></path>
-                                            </svg>
-                                            <svg class="hs-accordion-active:block hidden size-3" width="16" height="16"
-                                                 viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M2.62421 7.86L13.6242 7.85999" stroke="currentColor"
-                                                      stroke-width="2" stroke-linecap="round"></path>
-                                            </svg>
-                                            {{ $color }}
-                                        </button>
-                                        <div id="hs-basic-nested-sub-collapse-one"
-                                             class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
-                                             aria-labelledby="hs-basic-nested-sub-heading-one">
-                                            <div class="py-2.5 space-x-1">
-                                                @foreach($sizes as $size)
-                                                    <div
-                                                        class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden">
-                                                        <label for="size_xs"
-                                                               class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
-                                                            {{ $size }}
-                                                        </label>
-                                                        <div
-                                                            class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
-                                                        <input id="size_xs"
-                                                               class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:rounded-l-none focus:rounded-r-lg"
-                                                               type="text" value="0" data-hs-input-number-input="">
-                                                    </div>
-                                                @endforeach
-                                                <button type="button"
-                                                        class="ms-auto py-1 px-2.5 inline-flex items-center text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:pointer-events-none">
-                                                    Opslaan
-                                                </button>
-                                            </div>
-                                        </div>
+                                <p class="dark:text-white">
+                                    {{ $color }}
+                                </p>
+                            </div>
+                            <div class="accordion-content ps-6 py-2.5 space-x-1">
+                                @foreach($sizes as $size)
+                                    <div
+                                        class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden">
+                                        <label for="size_{{ strtolower($size) }}"
+                                               class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
+                                            {{ $size }}
+                                        </label>
+                                        <div
+                                            class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
+                                        <input id="size_{{ $size }}"
+                                               class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
+                                               type="text" value="0" data-hs-input-number-input="">
                                     </div>
-                                    @if($loop->index < $loop->count - 1)
-                                        <hr class="border-gray-200">
-                                    @endif
                                 @endforeach
+                                <button type="button"
+                                        class="ms-auto py-1 px-2.5 inline-flex items-center text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:pointer-events-none">
+                                    Opslaan
+                                </button>
                             </div>
                         </div>
                     </div>
-                    @if($i < $total - 1)
-                        <hr class="border-gray-200">
-                    @endif
-                @endfor
+                </div>
+                @endforeach
             </div>
-        </div>
+        @endforeach
     </div>
+
+    {{--    <div class="flex flex-col rounded-lg border-gray-200 border">--}}
+    {{--        <div class="min-w-full inline-block align-middle">--}}
+    {{--            <div class="hs-accordion-group">--}}
+    {{--                @for($i = 0; $i < $total; $i++)--}}
+    {{--                    <div class="hs-accordion" id="hs-basic-nested-heading-one">--}}
+    {{--                        <div>--}}
+    {{--                            <button--}}
+    {{--                                class="p-1.5 hs-accordion-toggle py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none focus:text-blue-500"--}}
+    {{--                                aria-controls="hs-basic-nested-collapse-one"--}}
+    {{--                                onclick="toggleAccordion(this)"--}}
+    {{--                                data-open="false">--}}
+
+    {{--                                <svg class="block size-3.5" xmlns="http://www.w3.org/2000/svg"--}}
+    {{--                                     width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"--}}
+    {{--                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">--}}
+    {{--                                    <path d="M5 12h14"></path>--}}
+    {{--                                    <path d="M12 5v14"></path>--}}
+    {{--                                </svg>--}}
+    {{--                                <svg class="hidden size-3.5" xmlns="http://www.w3.org/2000/svg"--}}
+    {{--                                     width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"--}}
+    {{--                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">--}}
+    {{--                                    <path d="M5 12h14"></path>--}}
+    {{--                                </svg>--}}
+    {{--                                Product {{ $i + 1 }}--}}
+    {{--                            </button>--}}
+    {{--                            @if($i < $total)--}}
+    {{--                                <hr class="border-gray-200 hidden">--}}
+    {{--                            @endif--}}
+    {{--                        </div>--}}
+    {{--                        <div id="hs-basic-nested-collapse-one"--}}
+    {{--                             class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"--}}
+    {{--                             aria-labelledby="hs-basic-nested-heading-one">--}}
+    {{--                            <div class="hs-accordion-group">--}}
+    {{--                                @foreach($colors as $color)--}}
+    {{--                                    <div class="hs-accordion ps-6" id="hs-basic-nested-sub-heading-one">--}}
+    {{--                                        <button--}}
+    {{--                                            class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-500 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none focus:text-blue-500"--}}
+    {{--                                            aria-controls="hs-basic-nested-sub-collapse-one">--}}
+    {{--                                            <svg class="hs-accordion-active:hidden block size-3" width="16" height="16"--}}
+    {{--                                                 viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+    {{--                                                <path d="M2.62421 7.86L13.6242 7.85999" stroke="currentColor"--}}
+    {{--                                                      stroke-width="2" stroke-linecap="round"></path>--}}
+    {{--                                                <path d="M8.12421 13.36V2.35999" stroke="currentColor" stroke-width="2"--}}
+    {{--                                                      stroke-linecap="round"></path>--}}
+    {{--                                            </svg>--}}
+    {{--                                            <svg class="hs-accordion-active:block hidden size-3" width="16" height="16"--}}
+    {{--                                                 viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+    {{--                                                <path d="M2.62421 7.86L13.6242 7.85999" stroke="currentColor"--}}
+    {{--                                                      stroke-width="2" stroke-linecap="round"></path>--}}
+    {{--                                            </svg>--}}
+    {{--                                            {{ $color }}--}}
+    {{--                                        </button>--}}
+    {{--                                        <div id="hs-basic-nested-sub-collapse-one"--}}
+    {{--                                             class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"--}}
+    {{--                                             aria-labelledby="hs-basic-nested-sub-heading-one">--}}
+    {{--                                            <div class="py-2.5 space-x-1">--}}
+    {{--                                                @foreach($sizes as $size)--}}
+    {{--                                                    <div--}}
+    {{--                                                        class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden">--}}
+    {{--                                                        <label for="size_xs"--}}
+    {{--                                                               class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">--}}
+    {{--                                                            {{ $size }}--}}
+    {{--                                                        </label>--}}
+    {{--                                                        <div--}}
+    {{--                                                            class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>--}}
+    {{--                                                        <input id="size_xs"--}}
+    {{--                                                               class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:rounded-l-none focus:rounded-r-lg"--}}
+    {{--                                                               type="text" value="0" data-hs-input-number-input="">--}}
+    {{--                                                    </div>--}}
+    {{--                                                @endforeach--}}
+    {{--                                                <button type="button"--}}
+    {{--                                                        class="ms-auto py-1 px-2.5 inline-flex items-center text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:pointer-events-none">--}}
+    {{--                                                    Opslaan--}}
+    {{--                                                </button>--}}
+    {{--                                            </div>--}}
+    {{--                                        </div>--}}
+    {{--                                    </div>--}}
+    {{--                                    @if($loop->index < $loop->count - 1)--}}
+    {{--                                        <hr class="border-gray-200">--}}
+    {{--                                    @endif--}}
+    {{--                                @endforeach--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                    @if($i < $total - 1)--}}
+    {{--                        <hr class="border-gray-200">--}}
+    {{--                    @endif--}}
+    {{--                @endfor--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 @endsection
