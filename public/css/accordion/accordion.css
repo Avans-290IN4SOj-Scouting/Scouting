@@ -1,9 +1,11 @@
+/* Empty Classes */
 .accordion-group {
-
 }
 
 .accordion-content {
+}
 
+.accordion-item {
 }
 
 /* Toggle Content */
@@ -13,9 +15,6 @@
 
 .accordion-item .accordion-content {
     display: none;
-}
-
-.accordion-item {
 }
 
 /* Icons */
@@ -32,8 +31,8 @@
 }
 
 .accordion-header.active {
-    border-bottom: 1px solid ;
-    @media (prefers-color-scheme: dark){
+    border-bottom: 1px solid;
+    @media (prefers-color-scheme: dark) {
         border-bottom-color: rgb(51 65 85);
     }
     border-bottom-color: rgb(255 255 255);
