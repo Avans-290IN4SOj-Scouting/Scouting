@@ -6,4 +6,5 @@ return [
     "currency_symbol" => "€",
     "seperator" => ",",
     "search" => "Zoek op :attribute",
+    "required" => ":attribute is verplicht",
 ];
