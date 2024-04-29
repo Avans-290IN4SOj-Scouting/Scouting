@@ -1,6 +1,6 @@
 <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
     <div class="flex gap-1">
-        <div>
+        <div id="link-{{$dusk}}">
             @sortablelink($sortOn, __($textKey))
         </div>
 

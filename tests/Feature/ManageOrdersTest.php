@@ -30,7 +30,7 @@ class ManageOrdersTest extends TestCase
             'lid_name' => 'test',
             'group_id' => 1,
             'user_id' => $user->id,
-            'order_status_id' => 1,
+            'status' => DeliveryStatus::AwaitingPayment->value,
         ]);
         OrderLine::create([
             'order_id' => $order->id,
@@ -54,6 +54,6 @@ class ManageOrdersTest extends TestCase
 
         $response->assertStatus(302);
 
-        $this->assertTrue($order->fresh()->orderStatus->status == DeliveryStatus::Cancelled->value);
+        $this->assertTrue($order->fresh()->status == DeliveryStatus::Cancelled->value);
     }
 }

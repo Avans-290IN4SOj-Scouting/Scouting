@@ -39,7 +39,7 @@ $title = __('manage-orders/orders.page_title');
                 </div>
 
                 <div class="flex flex-col justify-end">
-                    <a href="{{ route('manage.orders.index') }}" class="text-red-600 underline decoration-red-500 hover:opacity-80 dark:text-red-500">
+                    <a dusk="remove-filters-link" href="{{ route('manage.orders.index') }}" class="text-red-600 underline decoration-red-500 hover:opacity-80 dark:text-red-500">
                         {{__('manage-orders/orders.remove_filters_button')}}
                     </a>
                 </div>
@@ -56,8 +56,8 @@ $title = __('manage-orders/orders.page_title');
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
                 <tr>
-                    <x-sortable-table-header sortOn="user.email" textKey="manage-orders/orders.email" />
-                    <x-sortable-table-header sortOn="id" textKey="manage-orders/orders.order-number" />
+                    <x-sortable-table-header sortOn="user.email" textKey="manage-orders/orders.email" dusk="email" />
+                    <x-sortable-table-header sortOn="id" textKey="manage-orders/orders.order-number" dusk="id" />
 
                     <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
                         {{ __('manage-orders/orders.products') }}
@@ -70,7 +70,7 @@ $title = __('manage-orders/orders.page_title');
                     </th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody id="table-body" class="divide-y divide-gray-200 dark:divide-gray-700">
                 @forelse($orders as $order)
                 <tr href="{{ route('manage.orders.order', ['id' => $order->id]) }}"
                     class="clickable hover:bg-gray-100 dark:hover:bg-slate-800 cursor-default hover:cursor-pointer">
