@@ -31,7 +31,7 @@
         @apply text-red-500;
     }
 
-    .payment_refunded, .delivered .finalized {
+    .payment_refunded, .delivered, .finalized {
         @apply text-green-500;
     }
 
