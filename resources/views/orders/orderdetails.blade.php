@@ -53,13 +53,13 @@
                     class="flex flex-col gap-1 sm:gap-0 pb-1 sm:pb-0 sm:flex-row justify-between items-center sm:pr-6 rounded-xl border dark:text-white dark:border-gray-700">
                     <img src="{{ $orderLine->product_image_path }}" alt="Image of {{ $orderLine->product->name }}"
                          class="rounded-t-xl sm:rounded-tr-none sm:rounded-l-xl w-full sm:w-48 h-auto">
-                    <div class="">
+                    <div class="w-28 text-center">
                         <a href="#" class="font-bold">
                             {{ $orderLine->product->name }}
                         </a>
                     </div>
-                    <div>{{ $orderLine->product_size }}</div>
-                    <div>{{ $orderLine->product_price }}</div>
+                    <div class="w-28 text-center">{{ $orderLine->product_size }}</div>
+                    <div class="w-28 text-center">{{ $orderLine->product_price }}</div>
                     <div>{{ $orderLine->amount }} {{ __('orders/orders.amount-items') }}</div>
                 </div>
             </div>
