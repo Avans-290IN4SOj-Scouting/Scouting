@@ -40,48 +40,4 @@ class TestController extends Controller
             'toast-message' => 'Mail sent sucessfully!',
         ]);
     }
-
-    public function cancelOrderTest()
-    {
-        return view('test.cancelOrderTest');
-    }
-
-    // currently hardcoded
-    public function cancelOrder(Request $request)
-    {
-        try {
-            $currentUser = auth()->user();
-
-            $order = Order::where('user_id', $currentUser->id)->first();
-
-            if (!$order) {
-                return redirect()->back()->with([
-                    'toast-type' => 'error',
-                    'toast-message' => __('toast/messages.error-order-not-found')
-                ]);
-            }
-
-            $orderStatus = OrderStatus::where('id', $order->id)->first();
-
-            if ($orderStatus->status !== ('cancelled')) {
-                $orderStatus->status = 'cancelled';
-                $orderStatus->save();
-            } else {
-                return redirect()->back()->with([
-                    'toast-type' => 'error',
-                    'toast-message' => __('toast/messages.error-order-not-cancelled'),
-                ]);
-            }
-
-            return redirect()->back()->with([
-                'toast-type' => 'success',
-                'toast-message' => __('toast/messages.success-order-cancelled')
-            ]);
-        } catch (\Exception $e) {
-            return redirect()->back()->with([
-                'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-general')
-            ]);
-        }
-    }
 }

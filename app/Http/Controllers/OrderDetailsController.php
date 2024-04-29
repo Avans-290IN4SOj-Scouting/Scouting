@@ -6,6 +6,7 @@ use App\Enum\DeliveryStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderLine;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 
 class OrderDetailsController extends Controller
@@ -28,5 +29,43 @@ class OrderDetailsController extends Controller
         }
 
         return view('orders.orderdetails', ['order' => $order, 'orderLines' => $orderLines, 'totalPrice' => $totalPrice]);
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        try {
+            $orderId = $request->input('orderId');
+
+            $order = Order::where('id', $orderId)->first();
+
+            if (!$order) {
+                return redirect()->back()->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast/messages.error-order-not-found')
+                ]);
+            }
+
+            $ableToCancelStatus = ['awaiting_payment', 'processing'];
+
+            if (in_array($order->status, $ableToCancelStatus)) {
+                $order->status = 'cancelled';
+                $order->save();
+            } else {
+                return redirect()->back()->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast/messages.error-order-not-cancelled'),
+                ]);
+            }
+
+            return redirect()->back()->with([
+                'toast-type' => 'success',
+                'toast-message' => __('toast/messages.success-order-cancelled')
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast/messages.error-general')
+            ]);
+        }
     }
 }

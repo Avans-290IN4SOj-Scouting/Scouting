@@ -123,4 +123,5 @@ Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'
 // Order cancelling testing page (remove when orderDetails is made)
 Route::get('/orderDetails', [OrderDetailsController::class, 'orderDetails'])
     ->name('orders-user.details-order');
-
+Route::post('/orderDetails/cancelOrder', [OrderDetailsController::class, 'cancelOrder'])
+    ->name('orders-user.cancel-order');

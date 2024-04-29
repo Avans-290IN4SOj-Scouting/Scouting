@@ -23,14 +23,19 @@
                 <div class="flex flex-col justify-normal mb-2 sm:mb-0">
                     <div class="text-4xl">{{ __('orders/orders.order') }} {{ $order->id }}</div>
                     <div class="mt-4">
-                        <button
-                            class="bg-red-600 text-white rounded p-2 hover:bg-red-900">{{ __('orders/orders.cancel-order') }}</button>
+                        <form action="{{ route('orders-user.cancel-order') }}" method="POST">
+                            @csrf
+                            <input id="orderId" name="orderId" type="hidden" value="{{ $order->id }}">
+                            <button
+                                class="bg-red-600 text-white rounded p-2 hover:bg-red-900">{{ __('orders/orders.cancel-order') }}</button>
+                        </form>
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row justify-between gap-10 lg:w-3/5">
                     <div class="flex flex-row gap-2 items-baseline">
                         <div>{{ __('orders/orders.order-date') }}</div>
-                        <div class="p-2 rounded shadow h-11 dark:border dark:border-gray-700">{{ App\Helpers\DateFormatter::format($order->order_date) }}</div>
+                        <div
+                            class="p-2 rounded shadow h-11 dark:border dark:border-gray-700">{{ App\Helpers\DateFormatter::format($order->order_date) }}</div>
                     </div>
                     <div class="flex flex-row gap-2 items-baseline">
                         <div>{{ __('orders/orders.total-price') }}</div>
