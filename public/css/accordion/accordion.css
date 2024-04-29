@@ -33,12 +33,15 @@
 .accordion-header.active {
     border-bottom: 1px solid;
     @media (prefers-color-scheme: dark) {
+        /*dark:border-slate-700*/
         border-bottom-color: rgb(51 65 85);
     }
+    /* border-white */
     border-bottom-color: rgb(255 255 255);
 }
 
 .accordion-header.active > svg, .accordion-header.active > p {
+    /* text-blue-500 */
     color: rgb(59 130 246) !important;
 }
 

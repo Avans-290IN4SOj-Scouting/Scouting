@@ -21,7 +21,7 @@
     </div>
 
     <div class="accordion-group bg-white border rounded-xl dark:bg-slate-900 dark:border-slate-700">
-        @foreach($allproducts as $allproduct)
+        @foreach($all_products as $all_product)
             <div id="accordion-item-{{$loop->index + 1}}"
                  class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-white @endif">
                 <div class="accordion-header p-1.5 py-3">
