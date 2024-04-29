@@ -10,19 +10,19 @@
 
 <div class="flex justify-around">
     <div class="flex flex-col w-max">
-        <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-col sm:flex-row sm:items-center items-left justify-between">
             <h1 class="text-4xl font-bold dark:text-white mb-4 lg:mb-0">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
-            @if ($order->orderStatus->status != 'cancelled')
+            @if ($order->status == App\Enum\DeliveryStatus::AwaitingPayment->value)
             <form name="cancelOrderForm" method="POST" action="{{ route('manage.orders.cancel-order', ['id' => $order->id]) }}">
                 @csrf
-                <input type="submit" value="{{ __('manage-orders/order.cancel-order') }}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 dark:bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
+                <input type="submit" value="{{ __('manage-orders/order.cancel-order') }}" class="hover:cursor-pointer py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-700 dark:bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
             </form>
             @endif
         </div>
         <br>
 
-        <div class="flex justify-center items-top gap-10 flex-wrap">
+        <div class="flex items-start gap-3 justify-start sm:justify-center sm:items-top sm:gap-10 flex-wrap">
             <!-- Gegevens -->
             <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                 <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.order-data') }}</h2>
@@ -35,7 +35,7 @@
 
                     <div class="max-w-sm">
                         <label for="datum" class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.date') }}</label>
-                        <input type="text" id="datum" value="{{ $order->order_date }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
+                        <input type="text" id="datum" value="{{ Carbon\Carbon::parse($order->order_date)->format(__('common.date_time')) }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
                     </div>
 
                     <div class="max-w-sm">
@@ -45,14 +45,14 @@
 
                     <div class="max-w-sm">
                         <label for="status" class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.status') }}</label>
-                        <input type="text" id="status" value="{{ __('orders/orderstatus.'.$order->orderStatus->status) }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
+                        <input type="text" id="status" value="{{ App\Enum\DeliveryStatus::localisedValue($order->status) }}" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
                     </div>
                 </div>
             </div>
             <!-- /Gegevens -->
 
             <!-- Producten -->
-            <div class="flex flex-col gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
+            <div class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                 <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
                 <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">

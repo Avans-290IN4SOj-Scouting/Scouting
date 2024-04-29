@@ -11,6 +11,21 @@ enum DeliveryStatus: string
     case Delivered = 'delivered';
     case Finalized = 'finalized';
 
+    public static function hasStatus(string $status): bool
+    {
+        switch ($status) {
+            case self::Cancelled->value:
+            case self::PaymentRefunded->value:
+            case self::AwaitingPayment->value:
+            case self::Processing->value:
+            case self::Delivered->value:
+            case self::Finalized->value:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public static function localised(): array
     {
         return [

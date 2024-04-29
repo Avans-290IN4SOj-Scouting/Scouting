@@ -29,22 +29,21 @@ class DatabaseSeeder extends Seeder
             GroupSeeder::class,
             ProductGroupSeeder::class,
             StockSeeder::class,
-            OrderSeeder::class,
-            OrderLineSeeder::class,
 
             // Below are unordered
             DeliveryStateSeeder::class,
-            DeliveryStatusSeeder::class,
             FeedbackFormSeeder::class,
             FeedbackTypeSeeder::class,
             // GroupSeeder::class,
-            OrderStatusSeeder::class,
         ]);
 
 
-        $this->call(PermissionSeeder::class);
-        $this->call(RoleSeeder::class);
-        $this->call(UserWithRoleSeeder::class);
+        $this->call([
+            PermissionSeeder::class,
+            RoleSeeder::class, UserWithRoleSeeder::class,
+            OrderSeeder::class,
+            OrderLineSeeder::class
+        ]);
 
         foreach ($users as $user) {
             $user->assignRole('user');

@@ -2,7 +2,6 @@
 
 namespace Tests\Browser;
 
-use App\Enum\UserRoleEnum;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\User;

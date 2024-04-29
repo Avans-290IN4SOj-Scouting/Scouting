@@ -86,7 +86,7 @@
                     </a>
                 @else
                     {{--This is the other link for when user is logged in--}}
-                    <a class="flex items-center gap-x-2 {{ request()->routeIs('profile.edit') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                    <a class="flex items-center gap-x-2 {{ request()->routeIs('profile.index') ? 'active-nav-link' : 'inactive-nav-link' }}"
                        href="{{route('profile.update')}}">
                         {{__('navbar.account')}}
                     </a>

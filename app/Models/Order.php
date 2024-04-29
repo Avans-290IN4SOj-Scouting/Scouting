@@ -32,6 +32,7 @@ class Order extends Model
         'group_id',
         'user_id',
         'order_status_id',
+        'status',
     ];
 
     public function orderLines(): HasMany

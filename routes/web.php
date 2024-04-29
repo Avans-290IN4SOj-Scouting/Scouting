@@ -27,10 +27,10 @@ Route::get('/', [OrderController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])
-            ->name('edit');
+        Route::get('/', [ProfileController::class, 'index'])
+            ->name('index');
 
-        Route::patch('/', [ProfileController::class, 'update'])
+        Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
 });
@@ -85,7 +85,10 @@ Route::middleware('role:admin')->group(function () {
             Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
                 ->name('filter');
 
-            Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
+            // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            //     ->name('cancel-order');
+            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
                 ->name('cancel-order');
         });
 

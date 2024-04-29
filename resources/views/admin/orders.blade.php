@@ -22,24 +22,23 @@ $title = __('manage-orders/orders.page_title');
 
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-row flex-wrap gap-4">
-
                         <x-search-bar search="{{ $search }}" placeholder="{{ __('manage-orders/orders.search_placeholder') }}" />
 
-                        <select id="filter" name="filter" class="py-3 px-4 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
+                        <select id="filter" name="filter" class="py-3 max-sm:w-full px-4 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
                             <option value="0">Filter op status</option>
                             @foreach ($allstatusses as $status)
-                            <option value="{{ $status->id }}" @if($selected && $status->id === $selected->id) selected @endif>{{ __('orders/orderstatus.'.$status->status) }}</option>
+                            <option value="{{ App\Enum\DeliveryStatus::delocalised($status)->value }}" @if($selected && App\Enum\DeliveryStatus::delocalised($status)->value == $selected) selected @endif>{{ $status }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="flex flex-row flex-wrap gap-4">
+                    <div class="flex gap-4 flex-col sm:flex-row">
                         <x-date-filter name="date-from-filter" label="{{ __('manage-orders/orders.filter-from') }}" defaultValue="{{ $dateFrom }}" />
                         <x-date-filter name="date-till-filter" label="{{ __('manage-orders/orders.filter-till') }}" defaultValue="{{ $dateTill }}" />
                     </div>
                 </div>
 
-                <div class="flex flex-col justify-center">
+                <div class="flex flex-col justify-end">
                     <a href="{{ route('manage.orders.index') }}" class="text-red-600 underline decoration-red-500 hover:opacity-80 dark:text-red-500">
                         {{__('manage-orders/orders.remove_filters_button')}}
                     </a>
@@ -74,7 +73,7 @@ $title = __('manage-orders/orders.page_title');
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                 @forelse($orders as $order)
                 <tr href="{{ route('manage.orders.order', ['id' => $order->id]) }}"
-                    class="clickable hover:bg-gray-100 dark:hover:bg-slate-800">
+                    class="clickable hover:bg-gray-100 dark:hover:bg-slate-800 cursor-default hover:cursor-pointer">
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         {{ $order->user['email'] }}
                     </td>
@@ -88,10 +87,10 @@ $title = __('manage-orders/orders.page_title');
                         @endforeach
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {{ $order['order_date'] }}
+                        {{ Carbon\Carbon::parse($order['order_date'])->format(__('common.date_time')) }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {{ __('orders/orderstatus.'.$order->orderStatus['status']) }}
+                        {{ __('delivery_status.'.$order['status']) }}
                     </td>
                 </tr>
                 @empty
@@ -106,4 +105,7 @@ $title = __('manage-orders/orders.page_title');
         </table>
     </div>
 </div>
+
+{{ $orders->appends(\Request::except('page'))->links('components.pagination') }}
+
 @endsection
