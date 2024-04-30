@@ -10,7 +10,7 @@
             <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 font-semibold mb-4">
                 {{ __('manage-products/products.edit_page_title') }}</h1>
             <!-- Product Form and Image Section -->
-            <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST">
+            <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
