@@ -8,7 +8,7 @@ use App\Models\ProductProductSize;
 use App\Models\ProductSize;
 use App\Models\ProductType;
 use App\Models\OrderLine;
-use App\Viewmodels\ProductViewmodel;
+use Illuminate\Http\Request;
 use App\Http\Requests\ProductCreationRequest;
 use App\Http\Requests\ProductEditRequest;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +23,36 @@ class ProductController extends Controller
         $productsModel = [];
 
         foreach ($products as $product) {
-            $productViewmodel = new ProductViewmodel();
-            $this->populateProductViewModel($product, $productViewmodel);
-            $productsModel[] = $productViewmodel;
+            $productDetails = [
+                'name' => $product->name,
+                'category' => $product->productType->type,
+                'groups' => $product->groups()->pluck('name')->toArray(),
+                'sizesWithPrices' => $this->getSizesWithPrices($product),
+                'id' => $product->id,
+            ];
+            $productsModel[] = $productDetails;
         }
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
+
+    private function getSizesWithPrices($product)
+    {
+        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
+        $sizes = [];
+        foreach ($sizesWithPrices as $sizeWithPrice) {
+            $size = ProductSize::find($sizeWithPrice->product_size_id);
+            if ($size) {
+                $sizeData = [
+                    'size' => $size->size,
+                    'price' => $sizeWithPrice->price,
+                ];
+                $sizes[] = $sizeData;
+            }
+        }
+        return $sizes;
+    }
+
     public function update(ProductEditRequest $request, $productId)
     {
         $validatedData = $request->validated();#
@@ -83,30 +106,6 @@ class ProductController extends Controller
         return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
 
-    private function populateProductViewModel($product, $productViewmodel)
-    {
-        $productViewmodel->name = $product->name;
-        $productViewmodel->category = $product->productType->type;
-        $productViewmodel->groups = $product->groups()->pluck('name')->toArray();
-
-        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
-        $sizes = [];
-        foreach ($sizesWithPrices as $sizeWithPrice) {
-            $size = ProductSize::find($sizeWithPrice->product_size_id);
-            if ($size) {
-                $sizeData = [
-                    'size' => $size->size,
-                    'price' => $sizeWithPrice->price,
-                ];
-                $sizes[] = $sizeData;
-            }
-        }
-        $productViewmodel->sizesWithPrices = $sizes;
-
-        $productViewmodel->id = $product->id;
-
-        return $productViewmodel;
-    }
 
     public function add()
     {
@@ -177,8 +176,7 @@ class ProductController extends Controller
     public function store(ProductCreationRequest $request)
     {
         $validData = $request->validated();
-
-        $product = new ProductViewmodel();
+        $product = new Product();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
