@@ -47,9 +47,7 @@ Route::get(__('route.logout'), function () {
 
 Route::middleware('role:admin')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
-
         Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
-
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
@@ -79,7 +77,6 @@ Route::middleware('role:admin')->group(function () {
         });
 
         Route::prefix(__('route.products'))->name('products.')->group(function () {
-
             Route::get('/', [ProductController::class, 'index'])
                 ->name('index');
 

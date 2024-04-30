@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ProductType extends Model
 {
     use HasFactory;
+
     protected $fillable = ['type'];
 
     public function products(): HasMany

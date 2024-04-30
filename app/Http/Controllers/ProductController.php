@@ -155,10 +155,7 @@ class ProductController extends Controller
         }
 
         // Check if the product has any associated order lines
-        $hasOrderLine = OrderLine::where('product_id', $productId)->exists();
-
-        // Determine if name editing should be disabled based on the presence of order lines
-        $nameDisabled = $hasOrderLine ? true : false;
+        $nameDisabled = OrderLine::where('product_id', $productId)->exists();
 
         // Return the view with the appropriate data
         return view('admin.editProduct', [
@@ -256,11 +253,7 @@ class ProductController extends Controller
     private function categoryToId($category)
     {
         $category = strtolower($category);
-        $categories = ProductType::all()->select('id', 'type');
-        if ($categories->where('type', $category)->first() == null) {
-            ProductType::create(['type' => $category]);
-            $categories = ProductType::all()->select('id', 'type');
-        }
-        return $categories->where('type', $category)->first()['id'];
+        $productType = ProductType::firstOrCreate(['type' => $category]);
+        return $productType->id;
     }
 }
