@@ -111,7 +111,7 @@ class ProductController extends Controller
     {
         $categories = ProductType::all();
         $groups = Group::all();
-        $productSizes = ProductSize::where('size', '!=', 'Default')->get();
+        $productSizes = ProductSize::whereNot('size', 'Default')->get();
         return view('admin.addProduct', [
             'baseCategories' => $categories,
             'baseGroups' => $groups,
@@ -123,7 +123,7 @@ class ProductController extends Controller
     {
         $categories = ProductType::all();
         $groups = Group::all();
-        $productSizes = ProductSize::where('size', '!=', 'Default')->get();
+        $productSizes = ProductSize::whereNot('size', 'Default')->get();
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
@@ -131,7 +131,7 @@ class ProductController extends Controller
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
-            $size = ProductSize::where('size', '!=', 'Default')->find($sizeWithPrice->product_size_id);
+            $size = ProductSize::whereNot('size', 'Default')->find($sizeWithPrice->product_size_id);
             if ($size) {
                 $sizeData = [
                     'size' => $size->size,
@@ -155,10 +155,7 @@ class ProductController extends Controller
         }
 
         // Check if the product has any associated order lines
-        $hasOrderLine = OrderLine::where('product_id', $productId)->exists();
-
-        // Determine if name editing should be disabled based on the presence of order lines
-        $nameDisabled = $hasOrderLine ? true : false;
+        $nameDisabled = OrderLine::where('product_id', $productId)->exists();
 
         // Return the view with the appropriate data
         return view('admin.editProduct', [
@@ -256,11 +253,7 @@ class ProductController extends Controller
     private function categoryToId($category)
     {
         $category = strtolower($category);
-        $categories = ProductType::all()->select('id', 'type');
-        if ($categories->where('type', $category)->first() == null) {
-            ProductType::create(['type' => $category]);
-            $categories = ProductType::all()->select('id', 'type');
-        }
-        return $categories->where('type', $category)->first()['id'];
+        $productType = ProductType::firstOrCreate(['type' => $category]);
+        return $productType->id;
     }
 }
