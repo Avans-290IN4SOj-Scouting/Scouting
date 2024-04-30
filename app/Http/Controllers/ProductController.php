@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function productOverview()
+    public function index()
     {
         $products = Product::all();
         $categories = ProductType::all();
@@ -32,7 +32,7 @@ class ProductController extends Controller
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
-    public function updateProduct(ProductEditRequest $request, $productId)
+    public function update(ProductEditRequest $request, $productId)
     {
         $validatedData = $request->validated();#
 
@@ -110,33 +110,7 @@ class ProductController extends Controller
         return $productViewmodel;
     }
 
-    //    public function viewProduct($productId)
-//    {
-//        $product = Product::findOrFail($productId);
-//        $categories = ProductType::all();
-//
-//        $productViewModel = new ProductViewmodel();
-//        $productViewModel->name = $product->name;
-//        $productViewModel->category = $product->type->type;
-//
-//        $groups = $product->groups()->pluck('name')->toArray();
-//        $productViewModel->groups = $groups;
-//
-//        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
-//        $sizes = [];
-//        foreach ($sizesWithPrices as $sizeWithPrice) {
-//            $sizeData = [
-//                'size' => ProductSize::find($sizeWithPrice->product_size_id)->size,
-//                'price' => $sizeWithPrice->price,
-//            ];
-//            $sizes[] = $sizeData;
-//        }
-//        $productViewModel->sizesWithPrices = $sizes;
-//
-//        return view('admin.product', ['product' => $productViewModel, 'categories' => $categories]);
-//    }
-
-    public function goToAddProduct($failure = null)
+    public function add($failure = null)
     {
         $categories = ProductType::all();
         $groups = Group::all();
@@ -148,7 +122,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function goToEditProduct($productId, $failure = null)
+    public function edit($productId, $failure = null)
     {
         $categories = ProductType::all();
         $groups = Group::all();
@@ -233,7 +207,7 @@ class ProductController extends Controller
             'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
         ]);
     }
-    public function createProduct(ProductCreationRequest $request)
+    public function store(ProductCreationRequest $request)
     {
         $validData = $request->validated();
 
@@ -305,7 +279,6 @@ class ProductController extends Controller
             throw $e;
         }
     }
-
 
     private function savePicture($picture, $name)
     {
