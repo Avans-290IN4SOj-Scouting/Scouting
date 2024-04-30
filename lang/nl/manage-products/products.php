@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     "groups_heading" => "Scouting groepen",
     "actions_heading" => "Actions",
     "action_edit_label" => "Wijzig",
@@ -26,8 +25,5 @@ return [
     "product_add_button" => "Product toevoegen",
     "product_image_span" => "Selecteer of sleep een afbeelding voor het product",
     "product_image_delete_button" => "Verwijder afbeelding"
-
-
-
 ];
 
