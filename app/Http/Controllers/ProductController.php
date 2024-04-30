@@ -9,11 +9,9 @@ use App\Models\ProductSize;
 use App\Models\ProductType;
 use App\Models\OrderLine;
 use App\Viewmodels\ProductViewmodel;
-use Illuminate\Http\Request;
 use App\Http\Requests\ProductCreationRequest;
 use App\Http\Requests\ProductEditRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -110,7 +108,7 @@ class ProductController extends Controller
         return $productViewmodel;
     }
 
-    public function add($failure = null)
+    public function add()
     {
         $categories = ProductType::all();
         $groups = Group::all();
@@ -122,7 +120,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function edit($productId, $failure = null)
+    public function edit($productId)
     {
         $categories = ProductType::all();
         $groups = Group::all();
@@ -164,46 +162,15 @@ class ProductController extends Controller
         $nameDisabled = $hasOrderLine ? true : false;
 
         // Return the view with the appropriate data
-        if ($failure == null) {
-            return view('admin.editProduct', [
-                'product' => $product,
-                'baseCategories' => $categories,
-                'baseGroups' => $groups,
-                'baseProductSizes' => $productSizes,
-                'baseChosenCategorie' => $chosenCategorie,
-                'chosenGroups' => $chosenGroups,
-                'sizesWithPrices' => $sizes,
-                'defaultSizeWithPrice' => $defaultSize,
-                'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
-            ]);
-        }
-
-        if (is_string($failure)) {
-            return view('admin.editProduct', [
-                'product' => $product,
-                'baseCategories' => $categories,
-                'baseGroups' => $groups,
-                'baseProductSizes' => $productSizes,
-                'sizesWithPrices' => $sizes,
-                'defaultSizeWithPrice' => $defaultSize,
-                'chosenGroups' => $chosenGroups,
-                'baseChosenCategorie' => $chosenCategorie,
-                'errors' => [$failure],
-                'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
-            ]);
-        }
-
-        // Validator
         return view('admin.editProduct', [
             'product' => $product,
             'baseCategories' => $categories,
             'baseGroups' => $groups,
             'baseProductSizes' => $productSizes,
+            'baseChosenCategorie' => $chosenCategorie,
+            'chosenGroups' => $chosenGroups,
             'sizesWithPrices' => $sizes,
             'defaultSizeWithPrice' => $defaultSize,
-            'chosenGroups' => $chosenGroups,
-            'baseChosenCategorie' => $chosenCategorie,
-            'errors' => $failure->errors(),
             'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
         ]);
     }

@@ -78,8 +78,6 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-
-
         Route::prefix(__('route.products'))->name('products.')->group(function () {
 
             Route::get('/', [ProductController::class, 'index'])
@@ -100,8 +98,6 @@ Route::middleware('role:admin')->group(function () {
                 Route::put('store/{id}', [ProductController::class, 'update'])
                     ->name('store');
             });
-
-
         });
     });
 });
