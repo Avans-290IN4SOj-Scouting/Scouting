@@ -22,7 +22,7 @@ class ProductCreationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:products',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => 'required|array|has_at_least_one_value',
@@ -40,6 +40,7 @@ class ProductCreationRequest extends FormRequest
         return [
             'name.required' => 'Het naam veld moet ingevuld worden.',
             'name.string' => 'Het naam veld moet een tekst zijn.',
+            'name.unique' => 'Een product met deze naam bestaat al.',
             'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
             'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
             'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
