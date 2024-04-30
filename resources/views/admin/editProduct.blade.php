@@ -76,7 +76,7 @@
                             'options' => $baseGroups->pluck('name'),
                             'name' => 'products-group-multiselect',
                             'selectedGroups' => $chosenGroups->pluck('name')->toArray(),
-                            'class' => 'scouting-groups-select',
+                            'class' =>  __('manage-products/products.groups-multiselect'),
                         ])
                         @include('partials._input', [
                             'label' => __('manage-products/products.category_input_label'),

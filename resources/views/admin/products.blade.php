@@ -50,9 +50,13 @@
                                     @endforeach
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                    <button type="button" onclick="window.location.href='{{ route('manage.products.edit.index', ['id' => $product['id']]) }}'" class="{{__('manage-products/products.action_edit_class')}} inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:hover:text-white">
-                                        {{ __('manage-products/products.action_edit_label') }}
+                                    <button type="button" onclick="window.location.href='{{ route('manage.products.edit.index', ['id' => $product['id']]) }}'"
+                                            dusk="{{__('manage-products/products.action_edit_class')}}"
+                                    class=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:hover:text-white">
+                                    {{ __('manage-products/products.action_edit_label') }}
                                     </button>
+
+
                                     <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400">
                                         {{ __('manage-products/products.action_delete_label') }}
                                     </button>
