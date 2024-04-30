@@ -38,7 +38,7 @@
                          stroke-linejoin="round">
                         <path d="M5 12h14"></path>
                     </svg>
-                    <p class="dark:text-white">
+                    <p class="font-semibold text-lg dark:text-white">
                         Product {{ $loop->index + 1 }}
                     </p>
                 </div>
@@ -63,7 +63,7 @@
                                          stroke-linejoin="round">
                                         <path d="M5 12h14"></path>
                                     </svg>
-                                    <p class="dark:text-white">
+                                    <p class="font-semibold text-base dark:text-white">
                                         {{ $color }}
                                     </p>
                                 </div>
