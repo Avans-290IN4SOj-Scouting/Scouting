@@ -111,7 +111,7 @@ class ProductController extends Controller
     {
         $categories = ProductType::all();
         $groups = Group::all();
-        $productSizes = ProductSize::where('size', '!=', 'Default')->get();
+        $productSizes = ProductSize::whereNot('size', 'Default')->get();
         return view('admin.addProduct', [
             'baseCategories' => $categories,
             'baseGroups' => $groups,
@@ -123,7 +123,7 @@ class ProductController extends Controller
     {
         $categories = ProductType::all();
         $groups = Group::all();
-        $productSizes = ProductSize::where('size', '!=', 'Default')->get();
+        $productSizes = ProductSize::whereNot('size', 'Default')->get();
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
@@ -131,7 +131,7 @@ class ProductController extends Controller
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
-            $size = ProductSize::where('size', '!=', 'Default')->find($sizeWithPrice->product_size_id);
+            $size = ProductSize::whereNot('size', 'Default')->find($sizeWithPrice->product_size_id);
             if ($size) {
                 $sizeData = [
                     'size' => $size->size,
