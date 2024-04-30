@@ -8,7 +8,6 @@ use App\Models\ProductProductSize;
 use App\Models\ProductSize;
 use App\Models\ProductType;
 use App\Models\OrderLine;
-use Illuminate\Http\Request;
 use App\Http\Requests\ProductCreationRequest;
 use App\Http\Requests\ProductEditRequest;
 use Illuminate\Support\Facades\DB;
@@ -62,22 +61,16 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
 
-        // Update category if changed
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
-        // Update product price for sizes
         foreach ($validatedData['priceForSize'] as $size => $price) {
             if ($price !== null) {
-                // Find or create the corresponding ProductSize
                 $productSize = ProductSize::firstOrCreate(['size' => $size]);
-
-                // Update the product price for the size
                 $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
             }
         }
 
-        // Handle custom prices and sizes
         if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
             foreach ($validatedData['custom_prices'] as $index => $customPrice) {
                 $customSize = $validatedData['custom_sizes'][$index];
@@ -88,19 +81,15 @@ class ProductController extends Controller
             }
         }
 
-        // Update groups
-        $product->groups()->detach(); // Remove existing groups
+        $product->groups()->detach();
         foreach ($validatedData['products-group-multiselect'] as $groupName) {
             $group = Group::firstOrCreate(['name' => $groupName]);
             $product->groups()->attach($group);
         }
-
-        // Handle image upload if provided
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('product_images', 'public');
             $product->image_path = $imagePath;
         }
-
         $product->save();
 
         return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
@@ -154,10 +143,7 @@ class ProductController extends Controller
             ];
         }
 
-        // Check if the product has any associated order lines
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
-
-        // Return the view with the appropriate data
         return view('admin.editProduct', [
             'product' => $product,
             'baseCategories' => $categories,
@@ -167,12 +153,11 @@ class ProductController extends Controller
             'chosenGroups' => $chosenGroups,
             'sizesWithPrices' => $sizes,
             'defaultSizeWithPrice' => $defaultSize,
-            'nameDisabled' => $nameDisabled, // Pass the name disabled flag to the view
+            'nameDisabled' => $nameDisabled,
         ]);
     }
     public function store(ProductCreationRequest $request)
     {
-        $validData = $request->validated();
         $product = new Product();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
@@ -189,8 +174,6 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             $category = $this->categoryToId($product->getCategory());
-
-            // Create the product with all attributes including image_path
             $newProduct = Product::create([
                 'name' => $product->getName(),
                 'discount' => 0,
@@ -208,9 +191,7 @@ class ProductController extends Controller
             foreach ($product->priceForSize as $size => $price) {
                 $databaseProduct = Product::where('name', $product->getName())->first();
                 $productSizeId = ProductSize::where('size', $size)->first()->id;
-                // Check if the combination of product_id and product_size_id already exists
                 if (!$databaseProduct->productSizes()->where('product_size_id', $productSizeId)->exists()) {
-                    // If it doesn't exist, insert the new entry
                     $databaseProduct->productSizes()->attach(
                         $databaseProduct->id,
                         ['product_size_id' => $productSizeId, 'price' => $price]
@@ -233,8 +214,6 @@ class ProductController extends Controller
 
             $request->session()->flash('toast-type', 'success');
             $request->session()->flash('toast-message', __('toast/messages.success-product-add'));
-
-            // Add a success toast message only if new entries were added
             return redirect()->route('manage.products.index');
         } catch (\Exception $e) {
             DB::rollback();
@@ -244,10 +223,10 @@ class ProductController extends Controller
 
     private function savePicture($picture, $name)
     {
-        if (!Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
-            return "/images/products/placeholder.png";
+        if (Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
+            return '/images/products/' . $name . '.png';
         }
-        return '/images/products/' . $name . '.png';
+        return "/images/products/placeholder.png";
     }
 
     private function categoryToId($category)

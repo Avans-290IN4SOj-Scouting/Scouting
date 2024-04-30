@@ -10,7 +10,8 @@
             <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 font-semibold mb-4">
                 {{ __('manage-products/products.edit_page_title') }}</h1>
             <!-- Product Form and Image Section -->
-            <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -24,8 +25,9 @@
                             'placeholder' => __('manage-products/products.name_placeholder'),
                             'name' => 'name',
                             'value' => $product->name,
-                            'disabled' => $nameDisabled, // Set this to true to disable the input
+                            'disabled' => $nameDisabled,
                         ])
+                        <!-- Product Size and Price Fields -->
                         @include('partials._price-input', [
                             'label' => __('manage-products/products.price_label'),
                             'id' => 'product-price',
@@ -50,7 +52,7 @@
                                         @foreach ($sizesWithPrices as $sizeWithPrice)
                                             @include('partials._price-input', [
                                                 'label' => $sizeWithPrice['size'],
-                                                'id' => 'product-size-price-' . $loop->index, // Add loop index to make IDs unique
+                                                'id' => 'product-size-price-' . $loop->index,
                                                 'placeholder' =>
                                                     __('manage-products/products.custom_size_placeholder') .
                                                     ' ' .
@@ -69,15 +71,16 @@
                             </div>
                             <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
                         </div>
-                        <!-- Select -->
+                        <!-- Select Groups Field -->
                         @include('partials._select', [
                             'label' => __('manage-products/products.groups_multi_select_label'),
                             'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                             'options' => $baseGroups->pluck('name'),
                             'name' => 'products-group-multiselect',
                             'selectedGroups' => $chosenGroups->pluck('name')->toArray(),
-                            'class' =>  __('manage-products/products.groups-multiselect'),
+                            'class' => __('manage-products/products.groups-multiselect'),
                         ])
+                        <!-- Product Category Field -->
                         @include('partials._input', [
                             'label' => __('manage-products/products.category_input_label'),
                             'placeholder' => __('manage-products/products.category_input_placeholder'),
@@ -87,6 +90,7 @@
                             'value' => $baseChosenCategorie->type,
                             'disabled' => false,
                         ])
+                        <!-- Disable Product Checkbox -->
                         <div class="flex">
                             @if ($product->inactive === 1)
                                 <input name="inactive-checkbox" type="checkbox"
@@ -111,16 +115,14 @@
                         </div>
                     </div>
                     <div class="container mx-auto">
-                        <!-- Upload Form -->
+                        <!-- Upload Image -->
                         <div id="file-upload-form" class="relative overflow-hidden bg-white rounded-lg shadow-md">
                             <input id="file-upload" type="file" name="picture" accept="image/*" class="hidden" />
-                            <!-- File Drop Area -->
                             <label for="af-submit-app-upload-images" id="drop-area"
                                 class="group p-6 sm:p-7 block cursor-pointer text-center border-2 border-dashed border-gray-200 rounded-lg focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 dark:border-gray-700">
                                 <input id="af-submit-app-upload-images" name="af-submit-app-upload-images" type="file"
                                     class="sr-only">
                                 <div class="flex justify-center items-center containerMaxH">
-                                    <!-- Set max-height as required -->
                                     <img id="file-image" src="#" alt="Preview" class="hidden containerMaxH">
                                 </div>
                                 <svg class="size-10 mx-auto text-gray-400 dark:text-gray-600"

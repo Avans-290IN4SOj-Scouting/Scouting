@@ -29,7 +29,7 @@
                             'placeholder' => __('manage-products/products.price_placeholder'),
                             'name' => 'priceForSize[Default]',
                         ])
-                        <!-- Product Size and Price Field -->
+                        <!-- Product Size and Price Fields -->
                         <label class="block text-gray-700 font-semibold">
                             {{ __('manage-products/products.heading_custom_sizes') }} </label>
                         <div>
@@ -40,8 +40,6 @@
                                         class="ml-2 text-gray-700">{{ __('manage-products/products.custom_sizes_prices_label') }}</label>
                                 </div>
                                 <div id="size-price-inputs" class="hidden">
-                                    <!-- Prijs voor alle maten -->
-                                    <!-- Extra invoervelden voor specifieke maten -->
                                     <div id="specific-size-prices">
                                         <label class="block text-gray-700 font-semibold">
                                             {{ __('manage-products/products.custom_sizes_label') }} </label>
@@ -55,11 +53,9 @@
                                                 'name' => 'priceForSize[' . $productSize->size . ']',
                                             ])
                                         @endforeach
-                                        <!-- Nieuwe invoervelden voor aangepaste maten -->
                                         <div id="custom-size-inputs">
                                             <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
                                         </div>
-                                        <!-- Knop om een nieuwe maat toe te voegen -->
                                         <button onclick="addCustomSizeInput()" type="button"
                                             class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.custom_size_button') }}</button>
                                     </div>
@@ -67,7 +63,7 @@
                             </div>
                             <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
                         </div>
-                        <!-- Select -->
+                        <!-- Select Groups Field -->
                         @include('partials._select', [
                             'label' => __('manage-products/products.groups_multi_select_label'),
                             'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
@@ -75,6 +71,7 @@
                             'name' => 'products-group-multiselect',
                             'class' => 'scouting-groups-select',
                         ])
+                        <!-- Product Category Field -->
                         @include('partials._input', [
                             'label' => __('manage-products/products.category_input_label'),
                             'placeholder' => __('manage-products/products.category_input_placeholder'),
@@ -94,16 +91,14 @@
                     </div>
 
                     <div class="container mx-auto">
-                        <!-- Upload Form -->
+                        <!-- Upload image -->
                         <div id="file-upload-form" class="relative overflow-hidden bg-white rounded-lg shadow-md">
                             <input id="file-upload" type="file" name="picture" accept="image/*" class="hidden" />
-                            <!-- File Drop Area -->
                             <label for="af-submit-app-upload-images" id="drop-area"
                                 class="group p-6 sm:p-7 block cursor-pointer text-center border-2 border-dashed border-gray-200 rounded-lg focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 dark:border-gray-700">
                                 <input id="af-submit-app-upload-images" name="af-submit-app-upload-images" type="file"
                                     class="sr-only">
                                 <div class="flex justify-center items-center containerMaxH">
-                                    <!-- Set max-height as required -->
                                     <img id="file-image" src="#" alt="Preview" class="hidden containerMaxH">
                                 </div>
                                 <svg class="size-10 mx-auto text-gray-400 dark:text-gray-600"
