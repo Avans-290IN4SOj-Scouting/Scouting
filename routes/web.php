@@ -100,8 +100,6 @@ Route::middleware('role:admin')->group(function () {
                 Route::put('store/{id}', [ProductController::class, 'update'])
                     ->name('store');
             });
-
-
         });
     });
 });
