@@ -59,7 +59,7 @@
                     <img src="{{ $orderLine->product_image_path }}" alt="Image of {{ $orderLine->product->name }}"
                          class="rounded-t-xl sm:rounded-tr-none sm:rounded-l-xl w-full sm:w-48 h-auto">
                     <div class="w-28 text-center">
-                        <a href="#" class="font-bold">
+                        <a href="{{ route('orders.product', [ 'name' => $orderLine->product->name, 'groupName' => $orderLine->product->group_name]) }}" class="font-bold">
                             {{ $orderLine->product->name }}
                         </a>
                     </div>

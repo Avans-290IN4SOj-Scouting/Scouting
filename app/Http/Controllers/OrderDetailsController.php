@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderStatus;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderDetailsController extends Controller
@@ -22,10 +23,18 @@ class OrderDetailsController extends Controller
 
         $orderLines = OrderLine::with('product')->where('order_id', $orderId)->get();
 
+        $productIds = $orderLines->pluck('product_id')->toArray();
+
+        $productsWithGroups = Product::with('groups')->whereIn('id', $productIds)->get();
+
         $totalPrice = 0;
 
         foreach ($orderLines as $orderLine) {
             $totalPrice += $orderLine->product_price * $orderLine->amount;
+
+            $product = $productsWithGroups->where('id', $orderLine->product_id)->first();
+
+            $orderLine->product->group_name = $product->groups->pluck('name')->first();
         }
 
         return view('orders.orderdetails', ['order' => $order, 'orderLines' => $orderLines, 'totalPrice' => $totalPrice]);
