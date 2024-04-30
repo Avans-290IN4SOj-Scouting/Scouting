@@ -16,16 +16,6 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Product Form -->
                     <div class="space-y-4">
-                        <!-- Error Messages -->
-                        @if ($errors->any())
-                            <div class="bg-red-500 text-white px-4 py-2 rounded-md">
-                                <ul>
-                                    @foreach ($errors->all() as $e)
-                                        <li>{{ $e }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                         <!-- Product Name Field -->
                         @include('partials._input', [
                             'label' => __('manage-products/products.name_label'),
@@ -147,6 +137,7 @@
                                     class="hidden mt-2 bg-red-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.product_image_delete_button') }}</button>
                             </label>
                         </div>
+                        <x-error :error="$errors->first('af-submit-app-upload-images')" id="af-submit-app-upload-images" />
                     </div>
 
                     <button id="small-screen" type="submit"

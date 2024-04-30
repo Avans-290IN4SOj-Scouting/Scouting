@@ -42,7 +42,6 @@ class ProductEditRequest extends FormRequest
             'name.string' => 'Het naam veld moet een tekst zijn.',
             'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
             'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
-            'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
             'af-submit-app-upload-images.file' => 'Je probeert iets te uploaden dat geen bestand is.',
             'af-submit-app-upload-images.image' => 'Het geüploade bestand moet een afbeelding zijn.',
             'af-submit-app-upload-images.mimes' => 'Het geüploade bestand moet een van de volgende formaten hebben: jpeg, png, jpg, gif.',
