@@ -38,22 +38,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function overview()
-    {
-        $orders = Order::where('user_id', auth()->id())->get()->sortByDesc('order_date')
-        ->each(function ($order) {
-            $order->load([
-                'orderLines' => function ($query) {
-                    $query->orderByDesc('product_price');
-                }
-            ]);
-            $order->order_date = new \DateTime($order->order_date);
-            $order->status = DeliveryStatus::localisedValue($order->status);
-        });
-        
-        return view('profile.overview', ['orders' => $orders]);
-    }
-
     /**
      * Update the user's password.
      */

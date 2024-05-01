@@ -29,8 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix(__('route.profile'))->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])
             ->name('index');
-            Route::get(__('route.overview'), [ProfileController::class, 'overview'])
-            ->name('overview');
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
@@ -85,7 +83,8 @@ Route::middleware('role:admin')->group(function () {
 Route::prefix(__('route.products'))->name('orders.')->group(function () {
     Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
         ->name('overview');
-
+        Route::get(__('route.overviewMyOrders'), [OrderController::class, 'overviewMyOrders'])
+        ->name('overviewMyOrders');
     Route::get('/{name}/{groupName?}', [OrderController::class, 'product'])
         ->name('product');
 });

@@ -1,8 +1,6 @@
 <?php
 
 return [
-    "profile"=> "profiel",
-    "overview_orders"=> "overzicht bestellingen",
     "edit_password" => "Wachtwoord wijzigen",
     "current_password" => "Huidig wachtwoord",
     "new_password" => "Nieuw wachtwoord",
