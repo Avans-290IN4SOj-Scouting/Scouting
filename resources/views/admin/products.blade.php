@@ -79,7 +79,7 @@
                                                 class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
                                             <input id="size-{{strtolower($size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                    class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
-                                                   type="text" value="0" data-hs-input-number-input="">
+                                                   type="text" value="0">
                                         </div>
                                     @endforeach
                                     <button type="button"
