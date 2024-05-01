@@ -64,13 +64,17 @@ class ProductController extends Controller
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
-        if ($request->hasFile('af-submit-app-upload-images') && $request->file('af-submit-app-upload-images')->isValid()) {
+        $validPictureAdded = ($request->hasFile('af-submit-app-upload-images') && $request->file('af-submit-app-upload-images')->isValid());
+        if ($validPictureAdded) {
             if ($product->image_path) {
                 Storage::disk('public')->delete($product->image_path);
             }
-            if ($product->name !== $validatedData['name']) {
-                $product->name = $validatedData['name'];
-            }
+        }
+
+        if ($product->name !== $validatedData['name']) {
+            $product->name = $validatedData['name'];
+        }
+        if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         }
 
