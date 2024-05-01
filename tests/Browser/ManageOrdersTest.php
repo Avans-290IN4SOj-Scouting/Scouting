@@ -20,9 +20,7 @@ class ManageOrdersTest extends DuskTestCase
         $this->admin = User::factory()->create([
             'email' => 'admin',
             'password' => 'password',
-        ])->assignRole('admin');
-
-        {
+        ])->assignRole('admin'); {
             $user = User::factory()->create([
                 'email' => '_one@example.net',
                 'password' => 'password',
@@ -51,16 +49,14 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        }
-
-        {
+        } {
             $user = User::factory()->create([
                 'email' => '_two@example.net',
                 'password' => 'password',
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now()->addMonth(1),
+                'order_date' => Carbon::now()->addMonths(1),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -82,16 +78,14 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        }
-
-        {
+        } {
             $user = User::factory()->create([
                 'email' => '_three@example.net',
                 'password' => 'password',
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now()->addMonth(2),
+                'order_date' => Carbon::now()->addMonths(2),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -113,16 +107,14 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        }
-
-        {
+        } {
             $user = User::factory()->create([
                 'email' => '_four@example.com',
                 'password' => 'password',
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now()->addMonth(3),
+                'order_date' => Carbon::now()->addMonths(3),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -144,16 +136,14 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        }
-
-        {
+        } {
             $user = User::factory()->create([
                 'email' => '_five@example.com',
                 'password' => 'password',
             ])->assignRole('user');
 
             $order = Order::create([
-                'order_date' => Carbon::now()->addMonth(4),
+                'order_date' => Carbon::now()->addMonths(4),
                 'lid_name' => 'test',
                 'group_id' => 1,
                 'user_id' => $user->id,
@@ -184,16 +174,16 @@ class ManageOrdersTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
-                    // Email
-                    ->type('#search', '@example.net')
-                    ->keys('input[name=q]', WebDriverKeys::ENTER)
-                    ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
+                // Email
+                ->type('#search', '@example.net')
+                ->keys('input[name=q]', WebDriverKeys::ENTER)
+                ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
 
-                    ->assertSee('_one@example.net')
-                    ->assertSee('_two@example.net')
-                    ->assertSee('_three@example.net')
-                    ->assertDontSee('_four@example.com')
-                    ->assertDontSee('_five@example.com');
+                ->assertSee('_one@example.net')
+                ->assertSee('_two@example.net')
+                ->assertSee('_three@example.net')
+                ->assertDontSee('_four@example.com')
+                ->assertDontSee('_five@example.com');
         });
     }
 
@@ -203,15 +193,15 @@ class ManageOrdersTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
-                    ->select('#filter', DeliveryStatus::Finalized->value)
-                    ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
+                ->clickLink(__('manage-orders/orders.remove_filters_button'))
+                ->select('#filter', DeliveryStatus::Finalized->value)
+                ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
 
-                    ->assertDontSee('_one@example.net')
-                    ->assertDontSee('_two@example.net')
-                    ->assertDontSee('_three@example.net')
-                    ->assertDontSee('_four@example.com')
-                    ->assertSee('_five@example.com');
+                ->assertDontSee('_one@example.net')
+                ->assertDontSee('_two@example.net')
+                ->assertDontSee('_three@example.net')
+                ->assertDontSee('_four@example.com')
+                ->assertSee('_five@example.com');
         });
     }
 
@@ -219,20 +209,20 @@ class ManageOrdersTest extends DuskTestCase
     {
         $this->createOrders();
         $this->browse(function (Browser $browser) {
-            $fromDate = Carbon::now()->subMonth(1);
+            $fromDate = Carbon::now()->subMonths(1);
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
-                    ->keys('#date-from-filter', $fromDate->month)
-                    ->keys('#date-from-filter', $fromDate->day)
-                    ->keys('#date-from-filter', $fromDate->year)
-                    ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
+                ->clickLink(__('manage-orders/orders.remove_filters_button'))
+                ->keys('#date-from-filter', $fromDate->month)
+                ->keys('#date-from-filter', $fromDate->day)
+                ->keys('#date-from-filter', $fromDate->year)
+                ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
 
-                    ->assertSee('_one@example.net')
-                    ->assertDontSee('_two@example.net')
-                    ->assertDontSee('_three@example.net')
-                    ->assertDontSee('_four@example.com')
-                    ->assertDontSee('_five@example.com');
+                ->assertSee('_one@example.net')
+                ->assertDontSee('_two@example.net')
+                ->assertDontSee('_three@example.net')
+                ->assertDontSee('_four@example.com')
+                ->assertDontSee('_five@example.com');
         });
     }
 
@@ -240,20 +230,18 @@ class ManageOrdersTest extends DuskTestCase
     {
         $this->createOrders();
         $this->browse(function (Browser $browser) {
-            $tillDate = Carbon::now()->addMonth(1)->addDay(1);
+            $tillDate = Carbon::now()->addMonths(1)->addDays(1);
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
-                    ->keys('#date-till-filter', $tillDate->month)
-                    ->keys('#date-till-filter', $tillDate->day)
-                    ->keys('#date-till-filter', $tillDate->year)
-                    ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
+                ->clickLink(__('manage-orders/orders.remove_filters_button'))
+                ->type('#date-till-filter', $tillDate->format('d-m-Y'))
+                ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
 
-                    ->assertSee('_one@example.net')
-                    ->assertSee('_two@example.net')
-                    ->assertDontSee('_three@example.net')
-                    ->assertDontSee('_four@example.com')
-                    ->assertDontSee('_five@example.com');
+                ->assertSee('_one@example.net')
+                ->assertSee('_two@example.net')
+                ->assertDontSee('_three@example.net')
+                ->assertDontSee('_four@example.com')
+                ->assertDontSee('_five@example.com');
         });
     }
 
@@ -261,29 +249,27 @@ class ManageOrdersTest extends DuskTestCase
     {
         $this->createOrders();
         $this->browse(function (Browser $browser) {
-            $tillDate = Carbon::now()->addMonth(1)->addDay(1);
+            $tillDate = Carbon::now()->addMonths(1)->addDays(1);
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
-                    ->clickLink(__('manage-orders/orders.remove_filters_button'))
-                    // Email
-                    ->type('#search', '@example.net')
+                ->clickLink(__('manage-orders/orders.remove_filters_button'))
+                // Email
+                ->type('#search', '@example.net')
 
-                    // Status
-                    ->select('#filter', DeliveryStatus::AwaitingPayment->value)
+                // Status
+                ->select('#filter', DeliveryStatus::AwaitingPayment->value)
 
-                    // Date Till
-                    ->keys('#date-till-filter', $tillDate->month)
-                    ->keys('#date-till-filter', $tillDate->day)
-                    ->keys('#date-till-filter', $tillDate->year)
+                // Date Till
+                ->type('#date-till-filter', $tillDate->format('d-m-Y'))
 
-                    // Ensure our subjects are first
-                    ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
+                // Ensure our subjects are first
+                ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
 
-                    ->assertSee('_one@example.net')
-                    ->assertSee('_two@example.net')
-                    ->assertDontSee('_three@example.net')
-                    ->assertDontSee('_four@example.com')
-                    ->assertDontSee('_five@example.com');
+                ->assertSee('_one@example.net')
+                ->assertSee('_two@example.net')
+                ->assertDontSee('_three@example.net')
+                ->assertDontSee('_four@example.com')
+                ->assertDontSee('_five@example.com');
         });
     }
 
@@ -293,32 +279,32 @@ class ManageOrdersTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
-                    ->type('#search', '_one@example.net')
-                    ->keys('input[name=q]', WebDriverKeys::ENTER)
-                    ->waitFor('#table-body')->click('#table-body > :first-child')
+                ->type('#search', '_one@example.net')
+                ->keys('input[name=q]', WebDriverKeys::ENTER)
+                ->waitFor('#table-body')->click('#table-body > :first-child')
 
-                    ->click('@cancel-order')
+                ->click('@cancel-order')
 
-                    ->type('#search', '_one@example.net')
-                    ->keys('input[name=q]', WebDriverKeys::ENTER)
+                ->type('#search', '_one@example.net')
+                ->keys('input[name=q]', WebDriverKeys::ENTER)
 
-                    ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::Cancelled->value));
+                ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::Cancelled->value));
 
         });
     }
 
-    public function test_resizability() : void
+    public function test_resizability(): void
     {
         $admin = User::factory()->create(['email' => 'res@ponsive'])->assignRole('admin');
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
 
-                    ->visit(route('manage.orders.index'))
-                    ->responsiveScreenshots('manage-orders/index')
+                ->visit(route('manage.orders.index'))
+                ->responsiveScreenshots('manage-orders/index')
 
-                    ->visit(route('manage.orders.order', ['id' => 1]))
-                    ->responsiveScreenshots('manage-orders/order');
+                ->visit(route('manage.orders.order', ['id' => 1]))
+                ->responsiveScreenshots('manage-orders/order');
         });
     }
 }
