@@ -21,10 +21,17 @@ class Order extends Model
         'id',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'order_date',
         'lid_name',
         'group_id',
+        'user_id',
+        'order_status_id',
         'status',
     ];
 

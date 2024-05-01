@@ -14,6 +14,7 @@ class SortableTableHeader extends Component
     public function __construct(
         public $sortOn,
         public $textKey,
+        public $dusk,
     )
     {
         //

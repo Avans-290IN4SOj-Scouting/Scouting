@@ -11,6 +11,20 @@ class OrderLine extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'amount',
+        'product_price',
+        'product_size',
+        'product_image_path',
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
