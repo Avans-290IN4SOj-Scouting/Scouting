@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserRoleEnum;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;

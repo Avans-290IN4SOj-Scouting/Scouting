@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ManageProductsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -27,10 +28,10 @@ Route::get('/', [OrderController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])
-            ->name('edit');
+        Route::get('/', [ProfileController::class, 'index'])
+            ->name('index');
 
-        Route::patch('/', [ProfileController::class, 'update'])
+        Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
 });
@@ -75,9 +76,9 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        Route::get(__('navbar.manage_products'), function () {
-            return view('admin.products');
-        })->name('products');
+        //TODO: Move to be better suited controller
+        Route::get(__('navbar.manage_products'), [ManageProductsController::class, 'index'])
+            ->name('products');
     });
 });
 
@@ -117,4 +118,4 @@ Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail
 Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
-->name('gmail.auth-callback');
+    ->name('gmail.auth-callback');
