@@ -105,7 +105,6 @@ class ProductController extends Controller
         return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
 
-
     public function add()
     {
         $categories = ProductType::all();
@@ -166,6 +165,7 @@ class ProductController extends Controller
             'nameDisabled' => $nameDisabled,
         ]);
     }
+
     public function store(ProductCreationRequest $request)
     {
         $product = new Product();

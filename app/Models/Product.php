@@ -95,5 +95,4 @@ class Product extends Model
             $this->groups = [$groups]; // Convert the string to a single-element array
         }
     }
-
 }

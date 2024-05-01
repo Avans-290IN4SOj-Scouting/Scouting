@@ -80,7 +80,6 @@
                             'name' => 'category',
                             'disabled' => false,
                         ])
-
                         <!-- Add Product Button -->
                         <div>
                             <button id="big-screen" type="submit"

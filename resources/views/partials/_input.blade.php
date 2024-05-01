@@ -2,7 +2,7 @@
 <div class="relative">
     <input type="{{ $type ?? 'text' }}" name="{{ $name }}" id="{{ $name }}"
         class="block w-full pr-4 py-2 border border-gray-300 rounded-md" placeholder="{{ $placeholder }}"
-        value="{{ isset($value) ? $value : (request()->has($name) ? request($name) : old($name)) }}"
+        value="{{ old($name) ?? ($value ?? (request()->has($name) ? request($name) : '')) }}"
         @if ($disabled) disabled @endif> <!-- Apply disabled attribute based on $disabled -->
     @if ($disabled)
         <div class="absolute inset-y-0 right-0 flex items-center pr-4">
