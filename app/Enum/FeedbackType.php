@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum DeliveryStatus: string
+enum FeedbackType: string
 {
     case Review = 'review';
     case Question = 'question';

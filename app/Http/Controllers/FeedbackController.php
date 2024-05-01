@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FeedbackType;
 use App\Models\FeedbackForm;
-use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
     public function index()
     {
-        return view('feedback.feedback');
+        return view('feedback.feedback', ['feedbacktypes' => FeedbackType::cases()]);
     }
 
     public function store()

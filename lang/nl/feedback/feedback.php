@@ -12,4 +12,5 @@ return [
     "feedback"=> "Feedback",
     "question"=> "Vraag",
     "suggestion"=> "Suggestie",
+    "review"=> "Beoordeling",
 ];
