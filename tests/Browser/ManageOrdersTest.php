@@ -49,7 +49,9 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        } {
+        }
+
+        {
             $user = User::factory()->create([
                 'email' => '_two@example.net',
                 'password' => 'password',
@@ -78,7 +80,9 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        } {
+        }
+
+        {
             $user = User::factory()->create([
                 'email' => '_three@example.net',
                 'password' => 'password',
@@ -107,7 +111,9 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        } {
+        }
+
+        {
             $user = User::factory()->create([
                 'email' => '_four@example.com',
                 'password' => 'password',
@@ -136,7 +142,9 @@ class ManageOrdersTest extends DuskTestCase
                 'product_size' => 'S',
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
-        } {
+        }
+
+        {
             $user = User::factory()->create([
                 'email' => '_five@example.com',
                 'password' => 'password',
