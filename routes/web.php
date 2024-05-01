@@ -79,6 +79,7 @@ Route::middleware('role:admin')->group(function () {
         Route::get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
+        Route::get('feedback_overview', [FeedbackController::class, 'feedback_overview'])->name('feedback_overview');
     });
 });
 

@@ -15,7 +15,6 @@ class FeedbackController extends Controller
     public function store()
     {  
         $validatedData = request()->validate([
-            'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'subject' => 'required',
             'message' => 'required',
@@ -23,7 +22,6 @@ class FeedbackController extends Controller
         ]);
 
         $feedback = new FeedbackForm();
-        $feedback->name = $validatedData['name'];
         $feedback->email = $validatedData['email'];
         $feedback->subject = $validatedData['subject'];
         $feedback->message = $validatedData['message'];
@@ -33,5 +31,11 @@ class FeedbackController extends Controller
             'toast-type' => 'success',
             'toast-message' => __('feedback/feedback.succes_message')
         ]);
+    }
+
+    public function feedback_overview(){
+        $feebackForms = FeedbackForm::all();
+
+        return view ('feedback.overview', ['feedbackForms' => $feebackForms]);
     }
 }

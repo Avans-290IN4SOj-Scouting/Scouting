@@ -11,4 +11,5 @@ return [
     'admin' => 'Admin',
     'register' => 'Registreren',
     'feedback'=> 'Feedback / Contact',
+    'feedback_overview' => 'Feedback overzicht'
 ];

@@ -64,6 +64,10 @@
                                href="{{route('manage.products')}}">
                                 {{__('navbar.manage_products')}}
                             </a>
+                            <a class="{{ request()->routeIs('manage.feedback_overview') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                href="{{route('manage.feedback_overview')}}">
+                                 {{__('navbar.feedback_overview')}}
+                             </a>
                         </div>
                     </div>
                 @endif
