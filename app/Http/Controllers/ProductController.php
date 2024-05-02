@@ -54,9 +54,11 @@ class ProductController extends Controller
 
     public function update(ProductEditRequest $request, $productId)
     {
-        $validatedData = $request->validated();#
+        $validatedData = $request->validated();
 
         $product = Product::find($productId);
+
+
         if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
@@ -64,15 +66,13 @@ class ProductController extends Controller
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
+
+
         $validPictureAdded = ($request->hasFile('af-submit-app-upload-images') && $request->file('af-submit-app-upload-images')->isValid());
         if ($validPictureAdded) {
             if ($product->image_path) {
                 Storage::disk('public')->delete($product->image_path);
             }
-        }
-
-        if ($product->name !== $validatedData['name']) {
-            $product->name = $validatedData['name'];
         }
         if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
@@ -123,13 +123,13 @@ class ProductController extends Controller
 
     public function edit($productId)
     {
+
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::whereNot('size', 'Default')->get();
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
         $chosenCategorie = $product->productType;
         $chosenGroups = $product->groups;
-
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
@@ -168,6 +168,8 @@ class ProductController extends Controller
             'defaultSizeWithPrice' => $defaultSize,
             'nameDisabled' => $nameDisabled,
         ]);
+
+
     }
 
     public function store(ProductCreationRequest $request)

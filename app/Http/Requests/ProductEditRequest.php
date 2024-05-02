@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductEditRequest extends FormRequest
 {
@@ -21,8 +23,12 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
+        $productId = $this->route('id');
+        $product = Product::find($productId);
+
+
         return [
-            'name' => 'required|string|unique:products,name,' . request()->route('product') . ',id',
+            'name' => 'required'|'string',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => 'required|array|has_at_least_one_value',
@@ -34,6 +40,8 @@ class ProductEditRequest extends FormRequest
             'af-submit-app-upload-images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
+
+
 
     public function messages(): array
     {
