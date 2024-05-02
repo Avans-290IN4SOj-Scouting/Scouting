@@ -41,6 +41,21 @@ class NavbarTest extends DuskTestCase
         });
     }
 
+    public function test_responsiveness_hamburgermenu()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->resize(425, 815)
+                ->screenshot('navbar/navbar-mobile')
+                ->click('.hs-collapse-toggle')
+                ->waitForLink(__('navbar.login'))
+                ->assertSee(__('navbar.home'))
+                ->assertSee(__('navbar.cart'))
+                ->assertSee(__('navbar.checkout'))
+                ->screenshot('navbar-mobile-expanded');
+            $browser->maximize();
+        });
+    }
+
     public function test_admin_navlink_visible()
     {
         $admin = User::factory()->create(['email' => 'test@email.nl'])->assignRole('admin');
@@ -61,21 +76,6 @@ class NavbarTest extends DuskTestCase
             $browser->clickLink(__('navbar.checkout'))
                 ->screenshot('test')
                 ->assertSeeIn('.active-nav-link', __('navbar.checkout'));
-        });
-    }
-
-    public function test_responsiveness_hamburgermenu()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->resize(400, 700)
-                ->screenshot('navbar/navbar-mobile')
-                ->click('.hs-collapse-toggle')
-                ->waitForLink(__('navbar.login'))
-                ->assertSee(__('navbar.home'))
-                ->assertSee(__('navbar.cart'))
-                ->assertSee(__('navbar.checkout'))
-                ->screenshot('navbar-mobile-expanded');
-            $browser->maximize();
         });
     }
 
