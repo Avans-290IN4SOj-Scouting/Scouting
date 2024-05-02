@@ -37,6 +37,8 @@ class ManageProductsTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->admin);
             $browser->visit(route('manage.products.index'))
+                ->pause(5000)
+                ->screenshot("redirectingCorrectlyWhenSubmitted")
                 ->click('.add-product-button')
                 ->assertSeeIn('#add-product-heading', 'Toevoegen')
                 ->type('name', 'Das')
@@ -53,7 +55,7 @@ class ManageProductsTest extends DuskTestCase
                 ->type('category', 'groen')
                 ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png')
                 ->click('.submit-add')
-                ->screenshot("redirectingCorrectlyWhenSubmitted")
+
                 ->assertSee('Product succesvol aangemaakt!');
         });
     }

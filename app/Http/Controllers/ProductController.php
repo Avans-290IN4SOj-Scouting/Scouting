@@ -82,18 +82,32 @@ class ProductController extends Controller
             if ($price !== null) {
                 $productSize = ProductSize::firstOrCreate(['size' => $size]);
                 $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
+            } else {
+                $existingProductSize = ProductSize::where('size', $size)->first();
+                if ($existingProductSize) {
+                    $product->productSizes()->detach($existingProductSize->id);
+                }
             }
         }
+
+
+
 
         if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
             foreach ($validatedData['custom_prices'] as $index => $customPrice) {
                 $customSize = $validatedData['custom_sizes'][$index];
-                if ($customPrice !== null && $customSize !== null) {
+                if ($customPrice !== null && trim($customPrice) !== '') {
                     $productSize = ProductSize::firstOrCreate(['size' => $customSize]);
                     $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $customPrice]]);
+                } else {
+                    $productSize = ProductSize::where('size', $customSize)->first();
+                    if ($productSize) {
+                        $product->productSizes()->detach($productSize->id);
+                    }
                 }
             }
         }
+
 
         $product->groups()->detach();
         foreach ($validatedData['products-group-multiselect'] as $groupName) {
@@ -147,14 +161,19 @@ class ProductController extends Controller
             'size' => 'Default',
             'price' => null,
         ];
-        if (ProductSize::where('size', 'Default')->first() != null) {
-            $defaultSize = [
-                'size' => 'Default',
-                'price' => ProductProductSize::where('product_id', $product->id)->first()
-                    ->where('product_size_id', ProductSize::where('size', 'Default')->first()->id)
-                    ->first()->price,
-            ];
+
+        $defaultProductSize = ProductSize::where('size', 'Default')->first();
+
+        if ($defaultProductSize) {
+            $defaultProductSizePrice = ProductProductSize::where('product_id', $product->id)
+                ->where('product_size_id', $defaultProductSize->id)
+                ->first();
+
+            if ($defaultProductSizePrice) {
+                $defaultSize['price'] = $defaultProductSizePrice->price;
+            }
         }
+
 
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
         return view('admin.editProduct', [
@@ -168,8 +187,6 @@ class ProductController extends Controller
             'defaultSizeWithPrice' => $defaultSize,
             'nameDisabled' => $nameDisabled,
         ]);
-
-
     }
 
     public function store(ProductCreationRequest $request)
