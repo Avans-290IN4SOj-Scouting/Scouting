@@ -44,7 +44,7 @@
             </div>
             <div class="info">
                 <div>
-                    <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h2>
+                    <h1 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h1>
                     <p class="dark:text-white">
                         <span>{{ __('common.currency_symbol') }}</span>
                         <span id="product-price">
