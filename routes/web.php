@@ -34,6 +34,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
+
+    // Order cancelling testing page (remove when orderDetails is made)
+    Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
+        ->name('orders-user.details-order');
+    Route::post('/orderDetails/cancelOrder', [OrderDetailsController::class, 'cancelOrder'])
+        ->name('orders-user.cancel-order');
 });
 
 Route::get(__('route.logout'), function () {
@@ -119,9 +125,3 @@ Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
 ->name('gmail.auth-callback');
-
-// Order cancelling testing page (remove when orderDetails is made)
-Route::get('/orderDetails', [OrderDetailsController::class, 'orderDetails'])
-    ->name('orders-user.details-order');
-Route::post('/orderDetails/cancelOrder', [OrderDetailsController::class, 'cancelOrder'])
-    ->name('orders-user.cancel-order');

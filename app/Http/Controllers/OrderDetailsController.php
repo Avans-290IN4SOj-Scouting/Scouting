@@ -20,11 +20,8 @@ class OrderDetailsController extends Controller
     {
     }
 
-    public function orderDetails()
+    public function orderDetails($orderId)
     {
-        // hardcoded value to test
-        $orderId = 1;
-
         $order = Order::where('id', $orderId)->first();
         $order->order_date = new \DateTime($order->order_date);
         $order->status = DeliveryStatus::localisedValue($order->status);

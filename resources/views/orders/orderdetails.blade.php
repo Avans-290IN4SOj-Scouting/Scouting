@@ -26,7 +26,7 @@
                         <form action="{{ route('orders-user.cancel-order') }}" method="POST">
                             @csrf
                             <input id="orderId" name="orderId" type="hidden" value="{{ $order->id }}">
-                            <button
+                            <button id="cancel-button"
                                 class="bg-red-600 text-white rounded p-2 hover:bg-red-900">{{ __('orders/orders.cancel-order') }}</button>
                         </form>
                     </div>
