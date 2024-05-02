@@ -36,4 +36,19 @@ class OrderDetailsTest extends DuskTestCase
                 ->assertSee(__('delivery_status.cancelled'));
         });
     }
+
+    public function test_cancel_order_unsuccessful(): void {
+        $user = User::factory()->create(['email' => 'test@mail.com']);
+
+        $order = Order::factory()->create(['status' => 'finalized']);
+
+        $this->browse(function (Browser $browser) use ($user, $order) {
+            $browser->loginAs($user)
+                ->visit("/orderDetails/{$order->id}")
+                ->click('#cancel-button')
+                ->waitFor('.toast-error', 10)
+                ->assertVisible('.toast-error')
+                ->assertSee(__('delivery_status.finalized'));
+        });
+    }
 }
