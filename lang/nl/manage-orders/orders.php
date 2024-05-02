@@ -15,4 +15,5 @@ return [
     'products' => 'Producten',
     'date' => 'Datum',
     'status' => 'Status',
+    'empty_table' => 'Geen geplaatste bestellingen',
 ];

@@ -97,7 +97,7 @@ $title = __('manage-orders/orders.page_title');
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"
                         colspan="2">
-                        {{ __('manage-accounts/accounts.empty_table') }}
+                        {{ __('manage-orders/orders.empty_table') }}
                     </td>
                 </tr>
                 @endforelse
