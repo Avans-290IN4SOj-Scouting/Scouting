@@ -24,7 +24,7 @@ class OrderDetailsTest extends DuskTestCase
     {
         $user = User::factory()->create(['email' => 'test@mail.com']);
 
-        $order = Order::factory()->create(['status' => 'processing']);
+        $order = Order::factory()->create(['status' => 'processing', 'user_id' => $user->id]);
 
         $this->browse(function (Browser $browser) use ($user, $order) {
             $browser->loginAs($user)
@@ -36,10 +36,11 @@ class OrderDetailsTest extends DuskTestCase
         });
     }
 
-    public function test_cancel_order_unsuccessful(): void {
+    public function test_cancel_order_unsuccessful(): void
+    {
         $user = User::factory()->create(['email' => 'test@mail.com']);
 
-        $order = Order::factory()->create(['status' => 'finalized']);
+        $order = Order::factory()->create(['status' => 'finalized', 'user_id' => $user->id]);
 
         $this->browse(function (Browser $browser) use ($user, $order) {
             $browser->loginAs($user)

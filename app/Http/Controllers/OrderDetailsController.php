@@ -22,7 +22,15 @@ class OrderDetailsController extends Controller
 
     public function orderDetails($orderId)
     {
-        $order = Order::where('id', $orderId)->first();
+        $order = Order::findOrFail($orderId);
+
+        if ($order->user_id != Auth::user()->id) {
+            return redirect()->route('home')->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast/messages.error-nonauthorized-order')
+            ]);
+        }
+
         $order->order_date = new \DateTime($order->order_date);
         $order->status = DeliveryStatus::localisedValue($order->status);
 
