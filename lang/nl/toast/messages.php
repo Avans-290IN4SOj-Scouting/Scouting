@@ -11,6 +11,7 @@ return [
     "error-order-not-cancelled" => "Order kan niet meer geannuleerd worden!",
     "success-order-cancelled" => "Bestelling succesvol geannuleerd!",
     "error-general" => "Er is iets mis gegaan!",
+    "error-mail-not-send" => "Kan geen bevestigingsmail verzenden!",
 ];
 
 

@@ -8,10 +8,18 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderStatus;
 use App\Models\Product;
+use App\Services\GmailService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderDetailsController extends Controller
 {
+    public function __construct(
+        protected GmailService $gmailService
+    )
+    {
+    }
+
     public function orderDetails()
     {
         // hardcoded value to test
@@ -57,6 +65,10 @@ class OrderDetailsController extends Controller
             $ableToCancelStatus = ['awaiting_payment', 'processing'];
 
             if (in_array($order->status, $ableToCancelStatus)) {
+                $email = Auth::user()->getEmail();
+
+                $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
+
                 $order->status = 'cancelled';
                 $order->save();
             } else {
