@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderStatus;
+use App\Models\User;
 use App\Services\GmailService;
 use Illuminate\Http\Request;
 
@@ -12,7 +15,9 @@ class TestController extends Controller
 {
     public function __construct(
         protected GmailService $gmailService
-    ) { }
+    )
+    {
+    }
 
     // GET
     public function index()
@@ -25,8 +30,7 @@ class TestController extends Controller
     {
         $email = $request->input('email');
         $message = $this->gmailService->sendMail($email, 'Test Subject', 'Test Email Content');
-        if ($message !== null)
-        {
+        if ($message !== null) {
             dd($message);
         }
 

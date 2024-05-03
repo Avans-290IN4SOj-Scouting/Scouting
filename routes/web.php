@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 use App\Http\Controllers\ManageOrdersController;
@@ -33,6 +34,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
+
+    // Order cancelling testing page (remove when orderDetails is made)
+    Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
+        ->name('orders-user.details-order');
+    Route::post('/orderDetails/cancelOrder', [OrderDetailsController::class, 'cancelOrder'])
+        ->name('orders-user.cancel-order');
 });
 
 Route::get(__('route.logout'), function () {
