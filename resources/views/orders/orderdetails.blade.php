@@ -38,9 +38,8 @@
                 </div>
                 <div class="flex flex-col sm:flex-row justify-between gap-10 lg:w-3/5">
                     <div class="flex flex-row gap-2 items-baseline">
-                        <div>{{ __('orders/orders.order-date') }}</div>
-                        <div
-                                class="p-2 rounded shadow h-11 dark:border dark:border-gray-700">{{ App\Helpers\DateFormatter::format($order->order_date) }}</div>
+                        <p>{{ __('orders/orders.order-date') }}</p>
+                        <p class="p-2 rounded shadow h-auto dark:border dark:border-gray-700 whitespace-wrap">{{ App\Helpers\DateFormatter::format($order->order_date) }}</p>
                     </div>
                     <div class="flex flex-row gap-2 items-baseline">
                         <div>{{ __('orders/orders.total-price') }}</div>
