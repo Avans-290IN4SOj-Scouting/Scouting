@@ -40,9 +40,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (checkbox.checked) {
             inputField.disabled = true;
             inputField.classList.add('bg-gray-200');
+            inputField.classList.add('cursor-not-allowed');
+
         } else {
             inputField.disabled = false;
             inputField.classList.remove('bg-gray-200');
+            inputField.classList.remove('cursor-not-allowed');
         }
     });
 });
@@ -86,18 +89,6 @@ toggleButtons();
 window.addEventListener('resize', toggleButtons);
 
 document.addEventListener("DOMContentLoaded", function () {
-    var checkbox = document.getElementById("same-price-all");
-    var defaultPriceInput = document.getElementById("priceForSize[Default]");
-    checkbox.addEventListener("change", function () {
-        if (checkbox.checked) {
-            defaultPriceInput.disabled = true;
-            defaultPriceInput.classList.add('bg-gray-200');
-        } else {
-            defaultPriceInput.disabled = false;
-            defaultPriceInput.classList.remove('bg-gray-200');
-        }
-    });
-
     document.getElementById('same-price-all').addEventListener('change', function () {
         var specificSizes = document.getElementById('specific-size-prices');
         var labels = specificSizes.getElementsByTagName('label');
@@ -110,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const priceLabel = document.querySelector('label[for="priceForSize[Default]"]');
         const defaultPriceInput = document.getElementById('priceForSize[Default]');
-
         if (this.checked) {
             defaultPriceInput.value = ''; // Clear general price input when specific sizes are chosen
         } else {

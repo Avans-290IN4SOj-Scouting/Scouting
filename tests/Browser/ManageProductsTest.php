@@ -68,7 +68,6 @@ class ManageProductsTest extends DuskTestCase
                 ->click('@edit-product-button')
                 ->assertSee(__('manage-products/products.edit_page_title'))
                 ->type('priceForSize[Default]', '10')
-
                 ->click('@multiple-select-'.__('manage-products/products.groups-multiselect').' + *')
                 ->click(__('[data-value="Bevers"]'))
                 ->click(__('[data-value="Kabouters"]'))

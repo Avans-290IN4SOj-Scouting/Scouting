@@ -110,8 +110,6 @@ class ProductController extends Controller
                 }
             }
         }
-
-
         $product->groups()->detach();
         foreach ($validatedData['products-group-multiselect'] as $groupName) {
             $group = Group::firstOrCreate(['name' => $groupName]);
@@ -122,7 +120,6 @@ class ProductController extends Controller
             $product->image_path = $imagePath;
         }
         $product->save();
-
         return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
 
@@ -179,6 +176,7 @@ class ProductController extends Controller
 
 
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
+
         return view('admin.editProduct', [
             'product' => $product,
             'baseCategories' => $categories,

@@ -4,6 +4,15 @@
 @endpush
 @section('title', 'Product Toevoegen')
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <body class="bg-gray-100">
         <div class="container mx-auto px-4 py-8">
@@ -27,6 +36,10 @@
                             'value' => $product->name,
                             'disabled' => $nameDisabled,
                         ])
+
+                        @if($nameDisabled)
+                            <input type="hidden" name="name" value="{{ $product->name }}">
+                        @endif
 
                         <!-- Product Size and Price Fields -->
                         @include('partials._price-input', [
@@ -75,9 +88,9 @@
                             'label' => __('manage-products/products.groups_multi_select_label'),
                             'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                             'options' => $baseGroups->pluck('name'),
-                            'name' => 'manage-products/products.groups-multiselect',
+                            'name' => 'products-group-multiselect',
                             'selectedGroups' => $chosenGroups->pluck('name')->toArray(),
-                            'class' => __('manage-products/products.groups-multiselect'),
+                            'class' => 'manage-products/products.groups-multiselect',
                         ])
                         <!-- Product Category Field -->
                         @include('partials._input', [

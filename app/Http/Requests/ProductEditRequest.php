@@ -24,7 +24,6 @@ class ProductEditRequest extends FormRequest
     public function rules(): array
     {
         $product = $this->route('id') ? Product::find($this->route('id')) : null;
-
         return [
             'name' => 'required|string|unique:products,name,' . $product->id . ',id',
             'category' => 'required|string',

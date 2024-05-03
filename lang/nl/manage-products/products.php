@@ -19,7 +19,7 @@ return [
     "custom_size_button" => "Voeg maat toe",
     "groups_multi_select_label" => "Scouting groepen",
     "groups_multi_select_placeholder" => "Select scouting groepen",
-    "groups-multiselect" => "groups",
+    "groups-multiselect" => "products-group-multiselect",
     "category_input_label" => "Kleur categorie",
     "category_input_placeholder" => "Kleur",
     "product_add_button" => "Product toevoegen",

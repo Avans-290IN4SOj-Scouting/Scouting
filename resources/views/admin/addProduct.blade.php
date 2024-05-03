@@ -41,16 +41,6 @@
                                     <div id="specific-size-prices">
                                         <label class="block text-gray-700 font-semibold">
                                             {{ __('manage-products/products.custom_sizes_label') }} </label>
-                                        @foreach ($baseProductSizes as $productSize)
-                                            @include('partials._price-input', [
-                                                'label' => $productSize->size,
-                                                'placeholder' =>
-                                                    __('manage-products/products.custom_size_placeholder') .
-                                                    ' ' .
-                                                    $productSize->size,
-                                                'name' => 'priceForSize[' . $productSize->size . ']',
-                                            ])
-                                        @endforeach
                                         <div id="custom-size-inputs">
                                             <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
                                         </div>
