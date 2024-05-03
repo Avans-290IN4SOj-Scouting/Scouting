@@ -24,11 +24,9 @@ class OrderDetailsController extends Controller
     {
         $order = Order::findOrFail($orderId);
 
-        if ($order->user_id != Auth::user()->id) {
-            return redirect()->route('home')->with([
-                'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-nonauthorized-order')
-            ]);
+        $redirect = $this->checkIfOrderBelongsToUser($order);
+        if ($redirect) {
+            return $redirect;
         }
 
         $order->order_date = new \DateTime($order->order_date);
@@ -59,6 +57,11 @@ class OrderDetailsController extends Controller
             $orderId = $request->input('orderId');
 
             $order = Order::where('id', $orderId)->first();
+
+            $redirect = $this->checkIfOrderBelongsToUser($order);
+            if ($redirect) {
+                return $redirect;
+            }
 
             if (!$order) {
                 return redirect()->back()->with([
@@ -93,5 +96,17 @@ class OrderDetailsController extends Controller
                 'toast-message' => __('toast/messages.error-general')
             ]);
         }
+    }
+
+    private function checkIfOrderBelongsToUser($order)
+    {
+        if ($order->user_id != Auth::user()->id) {
+            return redirect()->route('home')->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast/messages.error-nonauthorized-order')
+            ]);
+        }
+
+        return null;
     }
 }
