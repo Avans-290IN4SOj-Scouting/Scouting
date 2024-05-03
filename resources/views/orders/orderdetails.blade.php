@@ -8,14 +8,15 @@
 
     <!-- TODO: replace hardcoded string w/ attributes -->
 
-    <div class="text-sm">
+    <!-- hidden until general orderview is made -->
+    <!--<div class="text-sm">
         <a href="#" class="flex flex-row items-center hover:text-blue-600 dark:text-white dark:fill-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>{{ __('orders/orders.back-to-orders') }}</div>
         </a>
-    </div>
+    </div>-->
 
     <div class="shadow p-4 rounded-xl">
         <div class="m-4">
