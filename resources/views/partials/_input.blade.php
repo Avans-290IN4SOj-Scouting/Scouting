@@ -9,5 +9,5 @@
             <span class="text-sm text-gray-500">Aanpassen niet mogelijk (er is een bestelling voor dit product)</span>
         </div>
     @endif
+    <x-error :error="$errors->first($name)" :id="$name" />
 </div>
-<x-error :error="$errors->first($name)" :id="$name" />

@@ -26,5 +26,5 @@
             <path d="m7 9 5-5 5 5" />
         </svg>
     </div>
+    <x-error :error="$errors->first($name)" :id="$name" />
 </div>
-<x-error :error="$errors->first($name)" :id="$name" />
