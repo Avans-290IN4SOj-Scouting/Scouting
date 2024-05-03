@@ -37,8 +37,6 @@
                             'value' => $defaultSizeWithPrice['price'],
                         ])
 
-                        <label for="product-size-price"
-                            class="block text-gray-700 font-semibold">{{ __('manage-products/products.heading_custom_sizes') }}</label>
                         <div>
                             <div id="size-price-options" class="space-y-4">
                                 <div class="flex items-center space-x-4">

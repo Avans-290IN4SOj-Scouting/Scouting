@@ -30,8 +30,6 @@
                             'name' => 'priceForSize[Default]',
                         ])
                         <!-- Product Size and Price Fields -->
-                        <label class="block text-gray-700 font-semibold">
-                            {{ __('manage-products/products.heading_custom_sizes') }} </label>
                         <div>
                             <div id="size-price-options" class="space-y-4">
                                 <div class="flex items-center space-x-4">

@@ -31,18 +31,22 @@ function removeImage(event) {
     removeBtn.classList.add('hidden');
     uploadInput.value = '';
 }
+
 document.getElementById('remove-image').addEventListener('click', removeImage);
 document.addEventListener("DOMContentLoaded", function () {
     var checkbox = document.getElementById("same-price-all");
-    var inputField = document.getElementById("product-price");
+    var inputField = document.getElementById("priceForSize[Default]");
     checkbox.addEventListener("change", function () {
         if (checkbox.checked) {
             inputField.disabled = true;
+            inputField.classList.add('bg-gray-200');
         } else {
             inputField.disabled = false;
+            inputField.classList.remove('bg-gray-200');
         }
     });
 });
+
 function addCustomSizeInput() {
     var newDiv = document.createElement('div');
     newDiv.classList.add('flex', 'items-center', 'space-x-4');
@@ -63,6 +67,7 @@ function addCustomSizeInput() {
     newDiv.appendChild(priceInput);
     document.getElementById('custom-size-inputs').appendChild(newDiv);
 }
+
 function toggleButtons() {
     const screenWidth = window.innerWidth; // Get the current screen width
     const smallBtn = document.getElementById('small-screen');
@@ -76,32 +81,46 @@ function toggleButtons() {
         bigBtn.classList.remove('hidden');
     }
 }
+
 toggleButtons();
 window.addEventListener('resize', toggleButtons);
+
 document.addEventListener("DOMContentLoaded", function () {
     var checkbox = document.getElementById("same-price-all");
-    var inputField = document.getElementById("product-price");
+    var defaultPriceInput = document.getElementById("priceForSize[Default]");
     checkbox.addEventListener("change", function () {
         if (checkbox.checked) {
-            inputField.disabled = true;
+            defaultPriceInput.disabled = true;
+            defaultPriceInput.classList.add('bg-gray-200');
         } else {
-            inputField.disabled = false;
+            defaultPriceInput.disabled = false;
+            defaultPriceInput.classList.remove('bg-gray-200');
         }
     });
+
     document.getElementById('same-price-all').addEventListener('change', function () {
-        var specificSizes = document.getElementById('size-price-inputs');
-        specificSizes.classList.toggle('hidden');
-        const priceInput = document.getElementById('product-price');
-        const priceLabel = document.querySelector('label[for="product-price"]');
+        var specificSizes = document.getElementById('specific-size-prices');
+        var labels = specificSizes.getElementsByTagName('label');
+        var labelValues = [];
+        for (var i = 0; i < labels.length; i++) {
+            labelValues.push(labels[i].textContent);
+        }
+
+        document.getElementById('size-price-inputs').classList.toggle('hidden');
+
+        const priceLabel = document.querySelector('label[for="priceForSize[Default]"]');
+        const defaultPriceInput = document.getElementById('priceForSize[Default]');
 
         if (this.checked) {
-            priceInput.value = ''; // Clear general price input when specific sizes are chosen
-            specificSizePrices.forEach(input => {
-                input.value = '';
-            });
+            defaultPriceInput.value = ''; // Clear general price input when specific sizes are chosen
         } else {
-            priceInput.parentNode.parentNode.classList.remove('hidden');
+            defaultPriceInput.parentNode.parentNode.classList.remove('hidden');
             priceLabel.classList.remove('hidden');
+            for (var i = 1; i < labelValues.length; i++) {
+                var size = labelValues[i];
+                var priceInput = document.getElementById('priceForSize[' + size + ']');
+                priceInput.value = ''; // Clear specific price inputs when general price is chosen
+            }
         }
     });
 });
