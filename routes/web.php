@@ -4,7 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserOrdersController;
+use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 
@@ -34,6 +34,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
+
+    // Order cancelling testing page (remove when orderDetails is made)
+    Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
+        ->name('orders-user.details-order');
+    Route::post('/orderDetails/cancelOrder', [OrderDetailsController::class, 'cancelOrder'])
+        ->name('orders-user.cancel-order');
 });
 
 Route::get(__('route.logout'), function () {
@@ -119,8 +125,3 @@ Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
 ->name('gmail.auth-callback');
-
-// Order cancelling testing page (remove when orderDetails is made)
-Route::get('/orderDetails', [UserOrdersController::class, 'orderDetails'])
-    ->name('orders-user.details-order');
-
