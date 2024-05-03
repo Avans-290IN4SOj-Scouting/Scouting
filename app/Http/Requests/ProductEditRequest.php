@@ -23,12 +23,10 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
-        $productId = $this->route('id');
-        $product = Product::find($productId);
-
+        $product = $this->route('id') ? Product::find($this->route('id')) : null;
 
         return [
-            'name' => 'required'|'string',
+            'name' => 'required|string|unique:products,name,' . $product->id . ',id',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => 'required|array|has_at_least_one_value',
@@ -40,7 +38,6 @@ class ProductEditRequest extends FormRequest
             'af-submit-app-upload-images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
-
 
 
     public function messages(): array
