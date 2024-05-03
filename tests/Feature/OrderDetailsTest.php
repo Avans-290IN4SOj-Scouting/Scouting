@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enum\DeliveryStatus;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +18,7 @@ class OrderDetailsTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $order = Order::factory()->create(['status' => 'awaiting_payment']);
+        $order = Order::factory()->create(['status' => DeliveryStatus::AwaitingPayment, 'user_id' => $user->id]);
 
         $response = $this->post(route('orders-user.cancel-order', ['orderId' => $order->id]));
 
@@ -28,18 +29,19 @@ class OrderDetailsTest extends TestCase
         $this->assertEquals('cancelled', $order->fresh()->status);
     }
 
-    public function test_cancel_order_unsuccessful(): void
+    public function test_cancel_order_not_authorized(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $order = Order::factory()->create(['status' => 'finalized']);
+        $userToTest = User::factory()->create();
+        $order = Order::factory()->create(['status' => DeliveryStatus::Finalized, 'user_id' => $userToTest->id]);
 
         $response = $this->post(route('orders-user.cancel-order', ['orderId' => $order->id]));
 
         $response->assertRedirect();
         $response->assertSessionHas('toast-type', 'error');
-        $response->assertSessionHas('toast-message', __('toast/messages.error-order-not-cancelled'));
+        $response->assertSessionHas('toast-message', __('toast/messages.error-nonauthorized-order'));
 
         $this->assertEquals('finalized', $order->fresh()->status);
     }

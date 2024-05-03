@@ -63,16 +63,16 @@ class OrderDetailsController extends Controller
 
             $order = Order::where('id', $orderId)->first();
 
-            $redirect = $this->checkIfOrderBelongsToUser($order);
-            if ($redirect) {
-                return $redirect;
-            }
-
             if (!$order) {
                 return redirect()->back()->with([
                     'toast-type' => 'error',
                     'toast-message' => __('toast/messages.error-order-not-found')
                 ]);
+            }
+
+            $redirect = $this->checkIfOrderBelongsToUser($order);
+            if ($redirect) {
+                return $redirect;
             }
 
             if (in_array($order->status, $this->ableToCancelStatus)) {
@@ -82,11 +82,6 @@ class OrderDetailsController extends Controller
 
                 $order->status = 'cancelled';
                 $order->save();
-            } else {
-                return redirect()->back()->with([
-                    'toast-type' => 'error',
-                    'toast-message' => __('toast/messages.error-order-not-cancelled'),
-                ]);
             }
 
             return redirect()->back()->with([
