@@ -14,8 +14,12 @@ class OrderDetailsTest extends DuskTestCase
 
     public function test_responsiveness_screenshots(): void
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/orderDetails')
+        $user = User::factory()->create();
+        $order = Order::factory()->create(['status' => 'processing', 'user_id' => $user->id]);
+
+        $this->browse(function (Browser $browser) use ($user, $order) {
+            $browser->loginAs($user)
+                ->visit("/orderDetails/{$order->id}")
                 ->responsiveScreenshots('orderDetails/orderDetails');
         });
     }
@@ -45,10 +49,7 @@ class OrderDetailsTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user, $order) {
             $browser->loginAs($user)
                 ->visit("/orderDetails/{$order->id}")
-                ->click('#cancel-button')
-                ->waitFor('.toast-error', 10)
-                ->assertVisible('.toast-error')
-                ->assertSee(__('delivery_status.finalized'));
+                ->assertDontSee(__('orders/orders.cancel-order'));
         });
     }
 }
