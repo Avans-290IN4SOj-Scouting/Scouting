@@ -22,7 +22,7 @@
         <div class="m-4">
             <div class="flex flex-col gap-4 justify-between md:flex-row w-full dark:text-white">
                 <div class="flex flex-col justify-normal mb-2 sm:mb-0">
-                    <div class="text-4xl">{{ __('orders/orders.order') }} {{ $order->id }}</div>
+                    <div class="text-4xl">{{ __('orders/orders.order') . $order->id }}</div>
 
                     @if($isCancellable)
                         <div class="mt-4">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="flex flex-row gap-2 items-baseline">
                         <div>{{ __('orders/orders.total-price') }}</div>
-                        <div class="p-2 rounded shadow h-11 dark:border dark:border-gray-700">{{ __('common.currency_symbol') }}{{ number_format($totalPrice, 2, __('common.seperator'), '.') }}</div>
+                        <div class="p-2 rounded shadow h-11 dark:border dark:border-gray-700">{{ __('common.currency_symbol') . number_format($totalPrice, 2, __('common.seperator'), '.') }}</div>
                     </div>
                     <div class="sm:mt-2.5">
                         <p class="{{ \App\Enum\DeliveryStatus::delocalised($order->status) }}">
@@ -69,8 +69,8 @@
                             {{ $orderLine->product->name }}
                         </a>
                     </div>
-                    <div class="w-28 text-center">{{ $orderLine->product_size }}</div>
-                    <div class="w-28 text-center">{{ __('common.currency_symbol') }}{{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</div>
+                    <div class="w-28 text-center">{{ __('orders/orders.size') . ' ' . $orderLine->product_size }}</div>
+                    <div class="w-28 text-center">{{ __('common.currency_symbol') . number_format($orderLine->product_price, 2, __('common.seperator'), '.')  }}</div>
                     <div>{{ $orderLine->amount }} {{ __('orders/orders.amount-items') }}</div>
                 </div>
             </div>
