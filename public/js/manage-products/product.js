@@ -101,16 +101,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const priceLabel = document.querySelector('label[for="priceForSize[Default]"]');
         const defaultPriceInput = document.getElementById('priceForSize[Default]');
+        var customSizeInputs = document.querySelectorAll('#custom-size-inputs input[type="text"]');
+        var customPriceInputs = document.querySelectorAll('#custom-size-inputs input[type="number"]');
+
         if (this.checked) {
-            defaultPriceInput.value = ''; // Clear general price input when specific sizes are chosen
-        } else {
             defaultPriceInput.parentNode.parentNode.classList.remove('hidden');
             priceLabel.classList.remove('hidden');
-            for (var i = 1; i < labelValues.length; i++) {
-                var size = labelValues[i];
-                var priceInput = document.getElementById('priceForSize[' + size + ']');
-                priceInput.value = ''; // Clear specific price inputs when general price is chosen
-            }
+            customSizeInputs.forEach(function(input) {
+                input.disabled = false;
+            });
+            customPriceInputs.forEach(function(input) {
+                input.disabled = false;
+            });
+
+        } else {
+                customSizeInputs.forEach(function(input) {
+                    input.disabled = true;
+                });
+                customPriceInputs.forEach(function(input) {
+                    input.disabled = true;
+                });
         }
     });
 });
