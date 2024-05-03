@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderDetailsController extends Controller
 {
+    protected array $ableToCancelStatus;
+
     public function __construct(
         protected GmailService $gmailService
     )
     {
+        $this->ableToCancelStatus = [
+            DeliveryStatus::AwaitingPayment->value,
+            DeliveryStatus::Processing->value];
     }
 
     public function orderDetails($orderId)
@@ -29,8 +34,7 @@ class OrderDetailsController extends Controller
             return $redirect;
         }
 
-        $ableToCancelStatus = [DeliveryStatus::AwaitingPayment->value, DeliveryStatus::Processing->value];
-        $isCancellable = in_array($order->status, $ableToCancelStatus);
+        $isCancellable = in_array($order->status, $this->ableToCancelStatus);
 
         $order->order_date = new \DateTime($order->order_date);
         $order->status = DeliveryStatus::localisedValue($order->status);
@@ -71,9 +75,7 @@ class OrderDetailsController extends Controller
                 ]);
             }
 
-            $ableToCancelStatus = ['awaiting_payment', 'processing'];
-
-            if (in_array($order->status, $ableToCancelStatus)) {
+            if (in_array($order->status, $this->ableToCancelStatus)) {
                 $email = Auth::user()->getEmail();
 
                 $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
