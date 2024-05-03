@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
-
+use App\Http\Controllers\ManageOrdersController;
 use App\Http\Controllers\TestController;
 
 /*
@@ -80,6 +80,23 @@ Route::middleware('role:admin')->group(function () {
                         'toast-message' => __('toast/messages.warning-no-admins')
                     ]);
             });
+        });
+
+        Route::prefix(__('route.orders'))->name('orders.')->group(function () {
+            Route::get('/', [ManageOrdersController::class, 'index'])
+                ->name('index');
+
+            Route::get(__('route.order-details') . '/{id}', [ManageOrdersController::class, 'orderDetails'])
+                ->name('order');
+
+            Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
+                ->name('filter');
+
+            // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
+            // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            //     ->name('cancel-order');
+            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
+                ->name('cancel-order');
         });
 
         Route::get(__('navbar.manage_products'), function () {

@@ -48,9 +48,9 @@
                                 <div class="p-2">
                                     <div class="product-info-container">
                                         <div>
-                                            <h4 class="text-lg font-bold text-gray-800 dark:text-white">
+                                            <p class="text-lg font-bold text-gray-800 dark:text-white">
                                                 {{ $product->name }}
-                                            </h4>
+                                            </p>
                                             <p class="dark:text-white">
                                                 <span class="dark:text-white">
                                                     {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('common.seperator'), '.') }}
