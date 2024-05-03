@@ -23,21 +23,18 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd($this);
         $product = $this->route('id') ? Product::find($this->route('id')) : null;
         return [
             'name' => 'required|string|unique:products,name,' . $product->id . ',id',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => 'nullable|array',
-            'priceForSize.*' => 'required_without_all:custom_prices.*|nullable|numeric',
+            'priceForSize.*' => 'nullable|numeric',
             'custom_prices' => 'nullable|array',
-            'custom_prices.*' => 'required_without_all:priceForSize.*|nullable|numeric',
+            'custom_prices.*' => 'nullable|numeric',
             'custom_sizes' => 'nullable|array',
-            'custom_sizes.*' => 'required_without_all:priceForSize.*|nullable|string',
+            'custom_sizes.*' => 'nullable|string',
             'af-submit-app-upload-images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-
-            'has_prices_or_sizes' => $this->passes('priceForSize', 'custom_prices', 'custom_sizes'),
         ];
     }
 
