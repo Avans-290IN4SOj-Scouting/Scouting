@@ -23,18 +23,21 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd($this);
         $product = $this->route('id') ? Product::find($this->route('id')) : null;
         return [
             'name' => 'required|string|unique:products,name,' . $product->id . ',id',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
-            'priceForSize' => 'required|array|has_at_least_one_value',
-            'priceForSize.*' => 'nullable|numeric',
+            'priceForSize' => 'nullable|array',
+            'priceForSize.*' => 'required_without_all:custom_prices.*|nullable|numeric',
             'custom_prices' => 'nullable|array',
-            'custom_prices.*' => 'nullable|numeric',
+            'custom_prices.*' => 'required_without_all:priceForSize.*|nullable|numeric',
             'custom_sizes' => 'nullable|array',
-            'custom_sizes.*' => 'nullable|string',
+            'custom_sizes.*' => 'required_without_all:priceForSize.*|nullable|string',
             'af-submit-app-upload-images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+
+            'has_prices_or_sizes' => $this->passes('priceForSize', 'custom_prices', 'custom_sizes'),
         ];
     }
 
@@ -54,12 +57,18 @@ class ProductEditRequest extends FormRequest
             'af-submit-app-upload-images.max' => 'Het geüploade bestand mag maximaal 2048 kilobytes zijn.',
             'products-group-multiselect.required' => 'Geef aan bij welke groepen dit product hoort',
             'products-group-multiselect.array' => 'Het groepen veld heeft een array object nodig.',
-            'priceForSize.required' => 'Vul minimaal 1 prijs in voor de maat.',
-            'priceForSize.has_at_least_one_value' => 'Vul minimaal 1 prijs in voor de maat.',
+            'priceForSize.*.required_without_all' => 'Vul minimaal 1 prijs in voor de maat.',
             'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
             'priceForSize.*.numeric' => 'Het prijs per maat veld moet numeriek zijn.',
             'custom_prices.*.numeric' => 'Het aangepaste prijzen veld moet numeriek zijn.',
             'custom_sizes.*.string' => 'Het aangepaste maten veld moet een tekst zijn.',
+            'custom_prices.*.required_without_all' => 'Vul minimaal 1 prijs in voor de maat.',
         ];
+    }
+
+    private function passes($attribute, $value)
+    {
+        $arrays = request()->input([$attribute, 'custom_prices', 'custom_sizes']);
+        return !empty(array_filter($arrays));
     }
 }

@@ -37,7 +37,7 @@
                             'disabled' => $nameDisabled,
                         ])
 
-                        @if($nameDisabled)
+                        @if ($nameDisabled)
                             <input type="hidden" name="name" value="{{ $product->name }}">
                         @endif
 
@@ -82,6 +82,7 @@
                                 </div>
                             </div>
                             <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
+                            <x-error :error="$errors->first('custom_prices.0')" id="custom_prices.0" />
                         </div>
                         <!-- Select Groups Field -->
                         @include('partials._select', [

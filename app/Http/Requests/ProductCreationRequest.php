@@ -25,10 +25,10 @@ class ProductCreationRequest extends FormRequest
             'name' => 'required|string|unique:products',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
-            'priceForSize' => 'required|array|has_at_least_one_value',
-            'priceForSize.*' => 'nullable|numeric',
+            'priceForSize' => 'nullable|array',
+            'priceForSize.*' => 'required_without_all:custom_prices.*|numeric',
             'custom_prices' => 'nullable|array',
-            'custom_prices.*' => 'nullable|numeric',
+            'custom_prices.*' => 'required_without_all:priceForSize.*|numeric',
             'custom_sizes' => 'nullable|array',
             'custom_sizes.*' => 'nullable|string',
             'af-submit-app-upload-images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -50,10 +50,10 @@ class ProductCreationRequest extends FormRequest
             'af-submit-app-upload-images.max' => 'Het geüploade bestand mag maximaal 2048 kilobytes zijn.',
             'products-group-multiselect.required' => 'Geef aan bij welke groepen dit product hoort',
             'products-group-multiselect.array' => 'Het groepen veld heeft een array object nodig.',
-            'priceForSize.required' => 'Vul minimaal 1 prijs in voor de maat.',
-            'priceForSize.has_at_least_one_value' => 'Vul minimaal 1 prijs in voor de maat.',
+            'priceForSize.*.required_without_all' => 'Vul minimaal 1 prijs in voor de maat.',
             'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
             'custom_prices.*.numeric' => 'Het prijzen veld moet numeriek zijn.',
+            'custom_prices.*.required_without_all' => 'Vul minimaal 1 prijs in voor de maat.',
         ];
     }
 }

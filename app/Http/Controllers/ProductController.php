@@ -174,7 +174,6 @@ class ProductController extends Controller
             }
         }
 
-
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
 
         return view('admin.editProduct', [

@@ -85,6 +85,7 @@ function toggleButtons() {
     }
 }
 
+addCustomSizeInput();
 toggleButtons();
 window.addEventListener('resize', toggleButtons);
 
