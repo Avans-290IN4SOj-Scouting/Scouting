@@ -29,13 +29,14 @@ class OrderDetailsController extends Controller
             return $redirect;
         }
 
+        $ableToCancelStatus = [DeliveryStatus::AwaitingPayment->value, DeliveryStatus::Processing->value];
+        $isCancellable = in_array($order->status, $ableToCancelStatus);
+
         $order->order_date = new \DateTime($order->order_date);
         $order->status = DeliveryStatus::localisedValue($order->status);
 
         $orderLines = OrderLine::with('product')->where('order_id', $orderId)->get();
-
         $productIds = $orderLines->pluck('product_id')->toArray();
-
         $productsWithGroups = Product::with('groups')->whereIn('id', $productIds)->get();
 
         $totalPrice = 0;
@@ -48,7 +49,7 @@ class OrderDetailsController extends Controller
             $orderLine->product->group_name = $product->groups->pluck('name')->first();
         }
 
-        return view('orders.orderdetails', ['order' => $order, 'orderLines' => $orderLines, 'totalPrice' => $totalPrice]);
+        return view('orders.orderdetails', ['order' => $order, 'orderLines' => $orderLines, 'totalPrice' => $totalPrice, 'isCancellable' => $isCancellable]);
     }
 
     public function cancelOrder(Request $request)
