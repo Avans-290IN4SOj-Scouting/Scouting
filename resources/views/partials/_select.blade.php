@@ -1,6 +1,6 @@
 <label class="select block text-gray-700 font-semibold">{{ $label }}</label>
 <div class="relative">
-    <select dusk="multiple-select-{{ __($name) }}" class= "{{ $class }}" multiple name="{{ $name }}[]"
+    <select dusk="multiple-select-{{__($name)}}" class= "{{ $class }}" multiple name="{{ $name }}[]"
         data-hs-select='{
         "placeholder": "{{ $placeholder }}",
         "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-300 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",

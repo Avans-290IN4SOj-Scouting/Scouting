@@ -27,6 +27,7 @@
                             'value' => $product->name,
                             'disabled' => $nameDisabled,
                         ])
+
                         <!-- Product Size and Price Fields -->
                         @include('partials._price-input', [
                             'label' => __('manage-products/products.price_label'),
@@ -76,7 +77,7 @@
                             'label' => __('manage-products/products.groups_multi_select_label'),
                             'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                             'options' => $baseGroups->pluck('name'),
-                            'name' => 'products-group-multiselect',
+                            'name' => 'manage-products/products.groups-multiselect',
                             'selectedGroups' => $chosenGroups->pluck('name')->toArray(),
                             'class' => __('manage-products/products.groups-multiselect'),
                         ])

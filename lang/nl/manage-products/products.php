@@ -23,6 +23,7 @@ return [
     "category_input_label" => "Kleur categorie",
     "category_input_placeholder" => "Kleur",
     "product_add_button" => "Product toevoegen",
+    "add_product" => "add-product",
     "product_image_span" => "Selecteer of sleep een afbeelding voor het product",
     "product_image_delete_button" => "Verwijder afbeelding"
 ];

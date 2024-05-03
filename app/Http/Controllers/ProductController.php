@@ -74,6 +74,9 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image_path);
             }
         }
+        if ($product->name !== $validatedData['name']) {
+            $product->name = $validatedData['name'];
+        }
         if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         }
