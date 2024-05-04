@@ -55,10 +55,7 @@ class ProductController extends Controller
     public function update(ProductEditRequest $request, $productId)
     {
         $validatedData = $request->validated();
-
         $product = Product::find($productId);
-
-
         if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
@@ -195,14 +192,24 @@ class ProductController extends Controller
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
-        $product->setPriceForSize($request->input('priceForSize'));
+
+        // Set default price if priceForSize is not provided in the request
+        $defaultPriceForSize = ['Default' => null];
+        $priceForSize = $request->input('priceForSize', $defaultPriceForSize);
+        $product->setPriceForSize($priceForSize);
+
+        // Set custom sizes and prices
+        $customSizes = $request->input('custom_sizes', []);
+        $customPrices = $request->input('custom_prices', []);
+
+        // Merge default and custom sizes and prices
+        $sizesAndPrices = array_merge($product->priceForSize, array_combine($customSizes, $customPrices));
+
+        // Set sizes and prices on the product
+        $product->setPriceForSize($sizesAndPrices);
+
+        // Set groups
         $product->setGroups($request->input('products-group-multiselect'));
-        $product->setPriceForSize(array_filter($product->priceForSize, function ($price) {
-            return $price != null;
-        }));
-        $product->setGroups(array_filter($product->groups, function ($group) {
-            return $group != null;
-        }));
 
         DB::beginTransaction();
         try {
@@ -214,33 +221,17 @@ class ProductController extends Controller
                 'image_path' => $product->image_path,
             ]);
 
-            $sizes = ProductSize::all();
+            // Handle sizes and prices
             foreach ($product->priceForSize as $size => $price) {
-                if (!$sizes->where('size', $size)->first()) {
-                    ProductSize::create(['size' => $size]);
+                if ($price !== null) {
+                    $productSize = ProductSize::firstOrCreate(['size' => $size]);
+                    $newProduct->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
                 }
             }
 
-            foreach ($product->priceForSize as $size => $price) {
-                $databaseProduct = Product::where('name', $product->getName())->first();
-                $productSizeId = ProductSize::where('size', $size)->first()->id;
-                if (!$databaseProduct->productSizes()->where('product_size_id', $productSizeId)->exists()) {
-                    $databaseProduct->productSizes()->attach(
-                        $databaseProduct->id,
-                        ['product_size_id' => $productSizeId, 'price' => $price]
-                    );
-                }
-            }
-
-            $groups = Group::all();
+            // Handle groups
             foreach ($product->groups as $group) {
-                if (!$groups->where('name', $group)->first()) {
-                    throw (new \Exception('Group not found'));
-                }
-            }
-
-            foreach ($product->groups as $group) {
-                $newProduct->groups()->attach(Group::where('name', $group)->first());
+                $newProduct->groups()->attach(Group::firstOrCreate(['name' => $group]));
             }
 
             DB::commit();
@@ -253,6 +244,9 @@ class ProductController extends Controller
             throw $e;
         }
     }
+
+
+
 
     private function savePicture($picture, $name)
     {
