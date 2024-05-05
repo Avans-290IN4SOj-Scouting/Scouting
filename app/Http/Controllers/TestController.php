@@ -13,11 +13,10 @@ use Illuminate\Http\Request;
 // So when tested, please request changes with a message its approved, ty :)
 class TestController extends Controller
 {
-    public function __construct(
-        protected GmailService $gmailService
-    )
-    {
-    }
+    // public function __construct(
+    //     protected GmailService $gmailService
+    // )
+    // { }
 
     // GET
     public function index()
@@ -28,16 +27,16 @@ class TestController extends Controller
     // POST
     public function test_send_test_mail(Request $request)
     {
-        $email = $request->input('email');
-        $message = $this->gmailService->sendMail($email, 'Test Subject', 'Test Email Content');
-        if ($message !== null) {
-            dd($message);
-        }
+        // $email = $request->input('email');
+        // $message = $this->gmailService->sendMail($email, 'Test Subject', 'Test Email Content');
+        // if ($message !== null) {
+        //     dd($message);
+        // }
 
-        return redirect()->route('test.index')->with([
-            'success', 'Mail sent sucessfully!',
-            'toast-type' => 'success',
-            'toast-message' => 'Mail sent sucessfully!',
-        ]);
+        // return redirect()->route('test.index')->with([
+        //     'success', 'Mail sent sucessfully!',
+        //     'toast-type' => 'success',
+        //     'toast-message' => 'Mail sent sucessfully!',
+        // ]);
     }
 }
