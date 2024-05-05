@@ -30,7 +30,7 @@ class TestController extends Controller
     {
         try
         {
-            $client = new Client();
+            // $client = new Client();
         }
         catch (Exception $e)
         {
