@@ -21,7 +21,6 @@ class GmailService
         // Working with files
         try
         {
-            dd(1);
             // Create Client
             $this->client = new Client();
             $this->email = env('GMAIL_FROM_ADDRESS');
