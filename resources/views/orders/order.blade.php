@@ -5,8 +5,8 @@
 @endphp
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
-<link rel="stylesheet" href="{{ asset('css/orders/order.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/orders/main.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/orders/order.css') }}">
 @endpush
 
 @section('content')
