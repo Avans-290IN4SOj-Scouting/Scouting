@@ -7,6 +7,7 @@ use Exception;
 use Google\Client;
 use Google\Service\Gmail;
 use Google\Service\Gmail\Message;
+use Google_Client;
 use Illuminate\Support\Facades\Storage;
 
 class GmailService
@@ -22,7 +23,7 @@ class GmailService
         try
         {
             // // Create Client
-            // $this->client = new Client();
+            $this->client = new Google_Client();
             $this->email = env('GMAIL_FROM_ADDRESS');
 
             // // Authentication URI
