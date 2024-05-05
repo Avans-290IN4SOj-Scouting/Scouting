@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 // So when tested, please request changes with a message its approved, ty :)
 class TestController extends Controller
 {
-    // public function __construct(
-    //     protected GmailService $gmailService
-    // )
-    // { }
+    public function __construct(
+        protected GmailService $gmailService
+    )
+    { }
 
     // GET
     public function index()
