@@ -21,49 +21,49 @@ class GmailService
         // Working with files
         try
         {
-            // Create Client
-            $this->client = new Client();
+            // // Create Client
+            // $this->client = new Client();
             $this->email = env('GMAIL_FROM_ADDRESS');
 
-            // Authentication URI
-            $this->client->setRedirectUri(route('gmail.auth-callback'));
+            // // Authentication URI
+            // $this->client->setRedirectUri(route('gmail.auth-callback'));
 
-            // Credentials
-            $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
-            // // // // $this->client->setAuthConfig(Storage::disk('local')->get('sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
-            $this->client->setSubject($this->email);
+            // // Credentials
+            // $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
+            // // // // // $this->client->setAuthConfig(Storage::disk('local')->get('sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
+            // $this->client->setSubject($this->email);
 
-            // Offline access means the gmail api will only have to authenticate once / refresh token
-            $this->client->setAccessType('offline');
-            $this->client->setPrompt('select_account consent');
-            $this->client->setApprovalPrompt('force');
+            // // Offline access means the gmail api will only have to authenticate once / refresh token
+            // $this->client->setAccessType('offline');
+            // $this->client->setPrompt('select_account consent');
+            // $this->client->setApprovalPrompt('force');
 
-            // https://developers.google.com/gmail/api/auth/scopes
-            $this->client->setScopes([
-                'https://www.googleapis.com/auth/gmail.send',
-            ]);
+            // // https://developers.google.com/gmail/api/auth/scopes
+            // $this->client->setScopes([
+            //     'https://www.googleapis.com/auth/gmail.send',
+            // ]);
 
             // Get stored Tokens
             // $this->accessToken = $this->getAccessToken();
             // $this->refreshToken = $this->getRefreshToken();
             $this->accessToken = storage_path('app/sensitive/gmail/access_token.txt');
             $this->refreshToken = storage_path('app/sensitive/gmail/refresh_token.txt');
-            if (empty($this->accessToken) || empty($this->refreshToken))
-            {
-                return redirect()->back()->with([
-                    'error', 'gmail auth error',
-                    'toast-type' => 'error',
-                    'toast-message' => __('gmail.auth-not-set'),
-                ]);
-            }
+            // if (empty($this->accessToken) || empty($this->refreshToken))
+            // {
+            //     return redirect()->back()->with([
+            //         'error', 'gmail auth error',
+            //         'toast-type' => 'error',
+            //         'toast-message' => __('gmail.auth-not-set'),
+            //     ]);
+            // }
 
-            // Ensure access token is set
-            $this->client->setAccessToken($this->accessToken);
-            if ($this->client->isAccessTokenExpired())
-            {
-                $this->client->refreshToken($this->refreshToken);
-                $this->client->setAccessToken($this->client->getAccessToken());
-            }
+            // // Ensure access token is set
+            // $this->client->setAccessToken($this->accessToken);
+            // if ($this->client->isAccessTokenExpired())
+            // {
+            //     $this->client->refreshToken($this->refreshToken);
+            //     $this->client->setAccessToken($this->client->getAccessToken());
+            // }
         }
         catch (Exception $exception)
         {
