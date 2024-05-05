@@ -30,7 +30,7 @@ class GmailService
         //     $this->client->setRedirectUri(route('gmail.auth-callback'));
 
         //     // Credentials
-            $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
+            // $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
             // $this->client->setAuthConfig(Storage::disk('local')->get('sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
         //     $this->client->setSubject($this->email);
 
@@ -45,8 +45,10 @@ class GmailService
         //     ]);
 
         //     // Get stored Tokens
-            $this->accessToken = $this->getAccessToken();
-            $this->refreshToken = $this->getRefreshToken();
+            // $this->accessToken = $this->getAccessToken();
+            // $this->refreshToken = $this->getRefreshToken();
+            $this->accessToken = storage_path('app/sensitive/gmail/access_token.txt');
+            $this->refreshToken = storage_path('app/sensitive/gmail/refresh_token.txt');
         //     if (empty($this->accessToken) || empty($this->refreshToken))
         //     {
         //         return redirect()->back()->with([
