@@ -78,7 +78,7 @@ class OrderDetailsController extends Controller
             if (in_array($order->status, $this->ableToCancelStatus)) {
                 $email = Auth::user()->getEmail();
 
-                $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
+                // $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
 
                 $order->status = 'cancelled';
                 $order->save();
