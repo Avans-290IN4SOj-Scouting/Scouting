@@ -131,7 +131,7 @@ return [
         ],
     ],
 
-    'gmail' => [
-        'transport' => 'gmail',
+    'gmailApi' => [
+        'transport' => 'gmailApi',
     ],
 ];
