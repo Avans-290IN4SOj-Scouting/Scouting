@@ -30,7 +30,7 @@ class GmailService
 
             // Credentials
             $this->client->setAuthConfig(storage_path('app/sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
-            $this->client->setAuthConfig(Storage::disk('local')->get('sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
+            // // // // $this->client->setAuthConfig(Storage::disk('local')->get('sensitive/gmail/scoutingazg-gmail-api-oauth-credentials.json'));
             $this->client->setSubject($this->email);
 
             // Offline access means the gmail api will only have to authenticate once / refresh token
