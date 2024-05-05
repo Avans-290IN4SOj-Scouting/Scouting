@@ -131,4 +131,7 @@ return [
         ],
     ],
 
+    'gmail' => [
+        'transport' => 'gmail',
+    ],
 ];
