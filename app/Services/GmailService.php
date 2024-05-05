@@ -21,6 +21,7 @@ class GmailService
         // Working with files
         try
         {
+            dd(1);
             // Create Client
             $this->client = new Client();
             $this->email = env('GMAIL_FROM_ADDRESS');
@@ -64,6 +65,7 @@ class GmailService
         }
         catch (Exception $exception)
         {
+            dd($exception);
             return redirect()->route('test.index')->with([
                 'error', 'gmail auth error',
                 'toast-type' => 'error',
