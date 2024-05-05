@@ -79,29 +79,29 @@ class GmailService
 
     public function sendMail($receiver, $subject, $message)
     {
-        // base64_encode can cause issues if mail is invalid
-        try
-        {
-            $service = new Gmail($this->client);
-            $email = new Message();
-            $email->setRaw(base64_encode(
-                "From: $this->email\r\n" .
-                "To: $receiver\r\n" .
-                "Subject: =?utf-8?B?" . $subject . "?=\r\n" .
-                "MIME-Version: 1.0\r\n" .
-                "Content-Type: text/html; charset=utf-8\r\n" .
-                "Content-Transfer-Encoding: quoted-printable" . "\r\n\r\n" .
-                "$message\r\n"
-            ));
+        // // base64_encode can cause issues if mail is invalid
+        // try
+        // {
+        //     $service = new Gmail($this->client);
+        //     $email = new Message();
+        //     $email->setRaw(base64_encode(
+        //         "From: $this->email\r\n" .
+        //         "To: $receiver\r\n" .
+        //         "Subject: =?utf-8?B?" . $subject . "?=\r\n" .
+        //         "MIME-Version: 1.0\r\n" .
+        //         "Content-Type: text/html; charset=utf-8\r\n" .
+        //         "Content-Transfer-Encoding: quoted-printable" . "\r\n\r\n" .
+        //         "$message\r\n"
+        //     ));
 
-            $service->users_messages->send("me", $email);
-        }
-        catch (Exception $exception)
-        {
-            return $exception;
-        }
+        //     $service->users_messages->send("me", $email);
+        // }
+        // catch (Exception $exception)
+        // {
+        //     return $exception;
+        // }
 
-        return null;
+        // return null;
     }
 
     public function authenticate()
