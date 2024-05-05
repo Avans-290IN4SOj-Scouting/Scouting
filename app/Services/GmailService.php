@@ -23,8 +23,8 @@ class GmailService
         {
         //     dd(1);
         //     // Create Client
-        //     $this->client = new Client();
-        //     $this->email = env('GMAIL_FROM_ADDRESS');
+            // $this->client = new Client();
+            $this->email = env('GMAIL_FROM_ADDRESS');
 
         //     // Authentication URI
         //     $this->client->setRedirectUri(route('gmail.auth-callback'));
@@ -45,8 +45,8 @@ class GmailService
         //     ]);
 
         //     // Get stored Tokens
-        //     $this->accessToken = $this->getAccessToken();
-        //     $this->refreshToken = $this->getRefreshToken();
+            $this->accessToken = $this->getAccessToken();
+            $this->refreshToken = $this->getRefreshToken();
         //     if (empty($this->accessToken) || empty($this->refreshToken))
         //     {
         //         return redirect()->back()->with([
