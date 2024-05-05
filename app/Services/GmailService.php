@@ -18,9 +18,9 @@ class GmailService
 
     public function __construct()
     {
-        // // Working with files
-        // try
-        // {
+        // Working with files
+        try
+        {
         //     dd(1);
         //     // Create Client
         //     $this->client = new Client();
@@ -62,16 +62,16 @@ class GmailService
         //         $this->client->refreshToken($this->refreshToken);
         //         $this->client->setAccessToken($this->client->getAccessToken());
         //     }
-        // }
-        // catch (Exception $exception)
-        // {
-        //     dd($exception);
-        //     return redirect()->route('test.index')->with([
-        //         'error', 'gmail auth error',
-        //         'toast-type' => 'error',
-        //         'toast-message' => __('gmail.general-auth-error'),
-        //     ]);
-        // }
+        }
+        catch (Exception $exception)
+        {
+            dd($exception);
+            return redirect()->route('test.index')->with([
+                'error', 'gmail auth error',
+                'toast-type' => 'error',
+                'toast-message' => __('gmail.general-auth-error'),
+            ]);
+        }
     }
 
     public function sendMail($receiver, $subject, $message)
