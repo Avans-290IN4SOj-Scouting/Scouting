@@ -22,7 +22,7 @@ class GmailService
         try
         {
             // // Create Client
-            $this->client = new Client();
+            // $this->client = new Client();
             $this->email = env('GMAIL_FROM_ADDRESS');
 
             // // Authentication URI
