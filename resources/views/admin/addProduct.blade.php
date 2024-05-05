@@ -27,7 +27,8 @@
                         @include('partials._price-input', [
                             'label' => __('manage-products/products.price_label'),
                             'placeholder' => __('manage-products/products.price_placeholder'),
-                            'name' => 'priceForSize[Default]'
+                            'name' => 'priceForSize[Default]',
+                            'value' => old('priceForSize.Default'),
                         ])
                         <!-- Product Size and Price Fields -->
                         <div>
