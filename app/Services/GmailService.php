@@ -24,7 +24,7 @@ class GmailService
         //     dd(1);
         //     // Create Client
             // $this->client = new Client();
-            $this->email = env('GMAIL_FROM_ADDRESS');
+            // $this->email = env('GMAIL_FROM_ADDRESS');
 
         //     // Authentication URI
         //     $this->client->setRedirectUri(route('gmail.auth-callback'));
@@ -167,14 +167,15 @@ class GmailService
         // Working with files
         try
         {
-            if (Storage::disk('local')->exists('sensitive/gmail/access_token.txt'))
-            {
-                return Storage::disk('local')->get('sensitive/gmail/access_token.txt');
-            }
-            else
-            {
-                return null;
-            }
+            // if (Storage::disk('local')->exists('sensitive/gmail/access_token.txt'))
+            // {
+            //     return Storage::disk('local')->get('sensitive/gmail/access_token.txt');
+            // }
+            // else
+            // {
+            //     return null;
+            // }
+            return storage_path('app/sensitive/gmail/access_token.txt');
         }
         catch (Exception $exception)
         {
@@ -199,14 +200,15 @@ class GmailService
         // Working with files
         try
         {
-            if (Storage::disk('local')->exists('sensitive/gmail/refresh_token.txt'))
-            {
-                return Storage::disk('local')->get('sensitive/gmail/refresh_token.txt');
-            }
-            else
-            {
-                return null;
-            }
+            // if (Storage::disk('local')->exists('sensitive/gmail/refresh_token.txt'))
+            // {
+            //     return Storage::disk('local')->get('sensitive/gmail/refresh_token.txt');
+            // }
+            // else
+            // {
+            //     return null;
+            // }
+            return storage_path('app/sensitive/gmail/refresh_token.txt');
         }
         catch (Exception $exception)
         {
