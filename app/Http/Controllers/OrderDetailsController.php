@@ -8,7 +8,7 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderStatus;
 use App\Models\Product;
-use App\Services\GmailService;
+// use App\Services\GmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +17,7 @@ class OrderDetailsController extends Controller
     protected array $ableToCancelStatus;
 
     public function __construct(
-        protected GmailService $gmailService
+        // protected GmailService $gmailService
     )
     {
         $this->ableToCancelStatus = [
