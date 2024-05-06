@@ -83,7 +83,6 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        //TODO: Move to be better suited controller
         Route::get(__('navbar.manage_products'), [ManageProductsController::class, 'index'])
             ->name('products');
 
@@ -104,9 +103,6 @@ Route::middleware('role:admin')->group(function () {
                 ->name('cancel-order');
         });
 
-        Route::get(__('navbar.manage_products'), function () {
-            return view('admin.products');
-        })->name('products');
     });
 });
 
