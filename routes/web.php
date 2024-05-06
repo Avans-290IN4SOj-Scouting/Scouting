@@ -81,16 +81,18 @@ Route::middleware('role:admin')->group(function () {
 });
 
 Route::prefix(__('route.products'))->name('orders.')->group(function () {
-    Route::get(__('route.overview') . '/{category?}', [OrderController::class, 'overview'])
-        ->name('overview');
-        Route::get(__('route.overviewMyOrders'), [OrderController::class, 'overviewMyOrders'])
-        ->name('overviewMyOrders');
+    Route::get(__('route.overview_admin') . '/{category?}', [OrderController::class, 'overviewAdmin'])
+        ->name('overview.admin');
+
     Route::get('/{name}/{groupName?}', [OrderController::class, 'product'])
         ->name('product');
 });
 
 Route::prefix(__('route.order'))->name('orders.')->group(function () {
+    Route::get(__('route.overview_user'), [OrderController::class, 'overviewUser'])
+        ->name('overview.user');
     Route::prefix(__('route.checkout'))->name('checkout.')->group(function () {
+
         Route::get('/', [OrderController::class, 'order'])
             ->name('order');
         Route::post(__('route.complete_order'), [OrderController::class, 'completeOrder'])
@@ -117,4 +119,4 @@ Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail
 Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
-->name('gmail.auth-callback');
+    ->name('gmail.auth-callback');

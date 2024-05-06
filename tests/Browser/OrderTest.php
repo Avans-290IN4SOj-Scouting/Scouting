@@ -34,7 +34,7 @@ class OrderTest extends DuskTestCase
             $browser->visit('/')
                     ->responsiveScreenshots('orders/home')
 
-                    ->visit(route('orders.overview', 'welpen'))
+                    ->visit(route('orders.overview.admin', 'welpen'))
                     ->responsiveScreenshots('orders/product-overview')
 
                     ->visit(route('orders.product', '/TestAll/Welpen'))

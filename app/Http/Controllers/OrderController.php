@@ -30,7 +30,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function overview(string $category = null)
+    public function overviewAdmin(string $category = null)
     {
         // Check if URL has matching Group
         $group = Group::where('name', $category)->first();
@@ -51,7 +51,7 @@ class OrderController extends Controller
             ->select('products.*', 'product_product_size.*')
             ->get();
 
-        return view('orders.overview', [
+        return view('orders.overview-admin', [
             'products' => $products,
             'group' => $group
         ]);
@@ -64,7 +64,7 @@ class OrderController extends Controller
         $groupFromName = Group::where('name', $groupName)->first();
         if ($productFromName === null || $groupFromName === null)
         {
-            return redirect()->route('orders.overview');
+            return redirect()->route('orders.overview.admin');
         }
 
         // Get product from obtained Product, and get default size
@@ -75,7 +75,7 @@ class OrderController extends Controller
             ->first();
 
         if ($product === null) {
-            return redirect()->route('orders.overview');
+            return redirect()->route('orders.overview_admin');
         }
 
         // Get Pivot table values
@@ -183,7 +183,7 @@ class OrderController extends Controller
         return view('orders.complete');
     }
 
-    public function overviewMyOrders()
+    public function overviewUser()
     {
         $orders = Order::where('user_id', auth()->id())->get()->sortByDesc('order_date')
         ->each(function ($order) {
@@ -196,6 +196,6 @@ class OrderController extends Controller
             $order->status = DeliveryStatus::localisedValue($order->status);
         });
         
-        return view('orders.overviewMyOrders', ['orders' => $orders]);
+        return view('orders.overview-user', ['orders' => $orders]);
     }
 }

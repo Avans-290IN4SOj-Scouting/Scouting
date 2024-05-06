@@ -2,7 +2,7 @@
 @props(['orders'])
 
 @php
-    $title = __('orders/orders.overviewMyOrdersTitle');
+    $title = __('orders/orders.overview_user_title');
 @endphp
 
 @section('content')

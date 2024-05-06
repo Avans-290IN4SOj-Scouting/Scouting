@@ -19,7 +19,7 @@
     <div id="main">
         <div class="group-container">
             @foreach ($groups as $group)
-            <a dusk="{{ $group->name }}" class="group-item" href="{{ route('orders.overview', ['category' => $group->name]) }}">
+            <a dusk="{{ $group->name }}" class="group-item" href="{{ route('orders.overview.admin', ['category' => $group->name]) }}">
                 <div class="image">
                     <img src="{{ asset($group->image_url) }}" alt="{{ __('orders/orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders/orders.group') }}">
                 </div>

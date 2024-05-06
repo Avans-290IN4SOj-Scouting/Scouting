@@ -72,7 +72,7 @@
                 <p class="dark:text-white">
                     <strong>{{ __('auth/profile.recent_orders') }}</strong>
                 </p>
-                <a href="{{ route('orders.overviewMyOrders') }}">
+                <a href="{{ route('orders.overview.user') }}">
                     <div class="dark:text-white flex flex-row">
                         {{ __('auth/profile.all_orders') }}&nbsp;
                         <div class="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300">

@@ -45,7 +45,7 @@ return [
     'form-lid-name-error' => 'Uw lid naam is niet ingevuld.',
     'form-group-error' => 'Deze groep bestaat niet (meer).',
 
-    "overviewMyOrdersTitle" => "Overzicht bestellingen",
+    "overview_user_title" => "Overzicht bestellingen",
     "profile" => "profiel",
-    "overview_orders" => "overzicht bestellingen",
+    "overview_orders" => "Overzicht bestellingen",
 ];
