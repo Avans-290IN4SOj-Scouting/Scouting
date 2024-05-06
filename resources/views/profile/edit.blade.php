@@ -76,14 +76,14 @@
                 <p class="dark:text-white">
                     <strong>{{ __('auth/profile.recent_orders') }}</strong>
                 </p>
-                <a href="#">
+                {{-- <a href="#">
                     <div class="dark:text-white flex flex-row">
                         {{ __('auth/profile.all_orders') }}&nbsp;
                         <div class="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                             {{ __('auth/profile.here') }}
                         </div>
                     </div>
-                </a>
+                </a> --}}
 
                 <div class="flex flex-col pt-4 gap-4">
                     @forelse($orders as $order)
