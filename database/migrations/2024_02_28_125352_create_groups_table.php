@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('image_url');
 
             $table->unsignedBigInteger('size_id');
-
             $table->timestamps();
         });
     }

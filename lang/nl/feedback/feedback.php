@@ -4,7 +4,7 @@ return [
     "title"=> "Feedback",
     "name"=> "Naam",
     "email"=> "Email",
-    "subject"=> "Onderwerp",
+    "type"=> "Type",
     "message"=> "Bericht",
     "placeholder"=> "Laat hier je boodschap achter",
     "submit"=> "Indienen",
