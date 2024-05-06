@@ -1,9 +1,5 @@
 @extends('layouts.base')
 
-@php
-    $title = __('manage-products/products.page_title');
-@endphp
-
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/accordion/accordion.css') }}">
 @endpush
@@ -21,7 +17,7 @@
     </div>
 
     <div class="accordion-group bg-white border rounded-xl dark:bg-slate-900 dark:border-slate-700 border-gray-500">
-        @foreach($all_products as $all_product)
+        @foreach($products as $product)
             <div id="accordion-item-{{$loop->index + 1}}"
                  class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
                 <div class="accordion-header p-1.5 py-3">
@@ -39,13 +35,13 @@
                         <path d="M5 12h14"></path>
                     </svg>
                     <p class="font-semibold text-lg dark:text-white">
-                        Product {{ $loop->index + 1 }}
+                        {{ $product->name }}
                     </p>
                 </div>
-                @foreach($colors as $color)
+{{--                @foreach ($product->productTypes as $type)--}}
                     <div class="accordion-content">
                         <div class="accordion-group bg-white dark:bg-slate-900 dark:border-slate-700 border-gray-500">
-                            <div id="accordion-item-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                            <div id="accordion-item-{{$loop->index + 1}}-{{$loop->index + 1}}"
                                  class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
                                 <div class="accordion-header ps-6 py-3">
                                     <svg class="size-3.5 inactive dark:text-white" xmlns="http://www.w3.org/2000/svg"
@@ -64,20 +60,20 @@
                                         <path d="M5 12h14"></path>
                                     </svg>
                                     <p class="font-semibold text-base dark:text-white">
-                                        {{ $color }}
+                                        {{ $product->productType->type }}
                                     </p>
                                 </div>
                                 <div class="accordion-content ps-6 py-2.5 space-x-1">
-                                    @foreach($sizes as $size)
+                                    @foreach ($product->productSizes as $size)
                                         <div
                                             class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden">
-                                            <label for="size-{{strtolower($size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                            <label for="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                    class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
-                                                {{ $size }}
+                                                {{ $size->size }}
                                             </label>
                                             <div
                                                 class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
-                                            <input id="size-{{strtolower($size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                            <input id="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                    class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
                                                    type="text" value="0">
                                         </div>
@@ -90,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+{{--                @endforeach--}}
             </div>
         @endforeach
     </div>

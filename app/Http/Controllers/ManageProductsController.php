@@ -8,7 +8,7 @@ class ManageProductsController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::with(['productType', 'productSizes'])->get();
 
         //only for frontend
         $all_products = ['Product 1', 'Product 2', 'Product 3'];
