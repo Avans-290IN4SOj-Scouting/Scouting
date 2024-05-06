@@ -11,6 +11,13 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'order_date',
+        'lid_name',
+        'group_id',
+        'status',
+    ];
+
     public function orderLines(): HasMany
     {
         return $this->hasMany(OrderLine::class);
