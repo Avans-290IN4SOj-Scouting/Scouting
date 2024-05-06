@@ -8,36 +8,19 @@ use App\Models\User;
 use App\Services\GmailService;
 use Illuminate\Http\Request;
 
-use Exception;
-use Google\Client;
-use Google\Service\Gmail;
-use Google\Service\Gmail\Message;
-use Google_Client;
-use Illuminate\Support\Facades\Storage;
-
 // TODO: this class should be removed before the PR is accepted
 // However without this class, the PR can't be tested
 // So when tested, please request changes with a message its approved, ty :)
 class TestController extends Controller
 {
-    // public function __construct(
-    //     protected GmailService $gmailService
-    // )
-    // { }
+    public function __construct(
+        protected GmailService $gmailService
+    )
+    { }
 
     // GET
     public function index()
     {
-        try
-        {
-            $client = new Client();
-            dd(12);
-        }
-        catch (Exception $e)
-        {
-            dd(10);
-        }
-
         return view('test.index');
     }
 
