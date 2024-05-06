@@ -120,12 +120,12 @@ class OrderController extends Controller
             $order->order_date = now();
             $order->lid_name = $request->input('lid-name');
             $order->group_id = $request->input('scouting-group');
+            $order->user_id = auth()->id();
             $order->save();
         }
         catch (Exception $e)
         {
             DB::rollBack();
-
             return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',

@@ -83,8 +83,8 @@
 
                 <div class="flex flex-col pt-4 gap-4">
                     @forelse($orders as $order)
-                        <a href="#">
-                            <x-order-preview :order="$order" />
+                        <a href="{{ route('orders-user.details-order', ['orderId' => $order->id]) }}">
+                            <x-order-preview :order="$order"/>
                         </a>
                     @empty
                         <p class="italic dark:text-white">

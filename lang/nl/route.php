@@ -16,5 +16,7 @@ return [
     "checkout" => "afrekenen",
     "complete_order" => "voltooien",
     "cart" => "winkelwagen",
+    "orders" => "bestellingen",
+    "order-details" => "bestelling",
     "filter" => "filteren",
 ];
