@@ -23,12 +23,27 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
-        $product = $this->route('id') ? Product::find($this->route('id')) : null;
         return [
-            'name' => 'required|string|unique:products,name,' . $product->id . ',id',
+            'name' => 'required|string',
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
-            'priceForSize' => 'nullable|array',
+            'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
+                $priceForSize = $this->input('priceForSize');
+                $custom_prices = $this->input('custom_prices');
+                if (is_array($priceForSize) && is_array($custom_prices)) {
+                    foreach ($priceForSize as $price) {
+                        if (!is_null($price)) {
+                            return;
+                        }
+                    }
+                    foreach ($custom_prices as $price) {
+                        if (!is_null($price)) {
+                            return;
+                        }
+                    }
+                }
+                $fail('Vul minimaal 1 prijs in voor de maat.');
+            },],
             'priceForSize.*' => 'nullable|numeric',
             'custom_prices' => 'nullable|array',
             'custom_prices.*' => 'nullable|numeric',
@@ -44,7 +59,6 @@ class ProductEditRequest extends FormRequest
         return [
             'name.required' => 'Het naam veld moet ingevuld worden.',
             'name.string' => 'Het naam veld moet een tekst zijn.',
-            'name.unique' => 'Een product met deze naam bestaat al.',
             'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
             'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
             'af-submit-app-upload-images.required' => 'Voeg een afbeelding toe.',
@@ -54,18 +68,10 @@ class ProductEditRequest extends FormRequest
             'af-submit-app-upload-images.max' => 'Het geüploade bestand mag maximaal 2048 kilobytes zijn.',
             'products-group-multiselect.required' => 'Geef aan bij welke groepen dit product hoort',
             'products-group-multiselect.array' => 'Het groepen veld heeft een array object nodig.',
-            'priceForSize.*.required_without_all' => 'Vul minimaal 1 prijs in voor de maat.',
             'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
             'priceForSize.*.numeric' => 'Het prijs per maat veld moet numeriek zijn.',
             'custom_prices.*.numeric' => 'Het aangepaste prijzen veld moet numeriek zijn.',
             'custom_sizes.*.string' => 'Het aangepaste maten veld moet een tekst zijn.',
-            'custom_prices.*.required_without_all' => 'Vul minimaal 1 prijs in voor de maat.',
         ];
-    }
-
-    private function passes($attribute, $value)
-    {
-        $arrays = request()->input([$attribute, 'custom_prices', 'custom_sizes']);
-        return !empty(array_filter($arrays));
     }
 }

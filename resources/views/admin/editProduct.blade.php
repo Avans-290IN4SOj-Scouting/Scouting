@@ -4,19 +4,10 @@
 @endpush
 @section('title', 'Product Toevoegen')
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
-        <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 font-semibold mb-4">
+        <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
             {{ __('manage-products/products.edit_page_title') }}</h1>
         <!-- Product Form and Image Section -->
         <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST"
@@ -82,8 +73,9 @@
                                 </div>
                             </div>
                         </div>
-                        <x-error :error="$errors->first('priceForSize')" id="priceForSize"/>
-                        <x-error :error="$errors->first('custom_prices.0')" id="custom_prices.0"/>
+                        <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
+                        <x-error :error="$errors->first('priceForSize.*')" id="priceForSize.*" />
+                        <x-error :error="$errors->first('custom_prices.*')" id="custom_prices.*" />
                     </div>
                     <!-- Select Groups Field -->
                     @include('partials._select', [
