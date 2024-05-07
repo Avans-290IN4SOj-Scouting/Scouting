@@ -77,21 +77,19 @@ class ProductController extends Controller
         if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         }
-
-        foreach ($validatedData['priceForSize'] as $size => $price) {
-            if ($price !== null) {
-                $productSize = ProductSize::firstOrCreate(['size' => $size]);
-                $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
-            } else {
-                $existingProductSize = ProductSize::where('size', $size)->first();
-                if ($existingProductSize) {
-                    $product->productSizes()->detach($existingProductSize->id);
+        if ($request->has('priceForSize')) {
+            foreach ($validatedData['priceForSize'] as $size => $price) {
+                if ($price !== null) {
+                    $productSize = ProductSize::firstOrCreate(['size' => $size]);
+                    $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
+                } else {
+                    $existingProductSize = ProductSize::where('size', $size)->first();
+                    if ($existingProductSize) {
+                        $product->productSizes()->detach($existingProductSize->id);
+                    }
                 }
             }
         }
-
-
-
 
         if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
             foreach ($validatedData['custom_prices'] as $index => $customPrice) {

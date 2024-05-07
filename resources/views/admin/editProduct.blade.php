@@ -54,7 +54,7 @@
                     <div>
                         <div id="size-price-options" class="space-y-4">
                             <div class="flex items-center space-x-4">
-                                <input type="checkbox" id="same-price-all" class="form-checkbox text-blue-500 h-5 w-5">
+                                <input type="checkbox" id="same-price-all" class="form-checkbox text-blue-500 h-5 w-5" {{ $defaultSizeWithPrice['price'] == null ? 'checked' : '' }}>
                                 <label for="same-price-all"
                                        class="ml-2 text-gray-700">{{ __('manage-products/products.custom_sizes_prices_label') }}</label>
                             </div>

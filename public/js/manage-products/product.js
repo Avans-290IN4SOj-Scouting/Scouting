@@ -85,9 +85,34 @@ function toggleButtons() {
     }
 }
 
-addCustomSizeInput();
-toggleButtons();
+function checkExistingProduct() {
+    var checkbox = document.getElementById("same-price-all");
+    var inputField = document.getElementById("priceForSize[Default]");
+    var sizePriceInputs = document.getElementById("size-price-inputs");
+
+    // Check if the checkbox for "same-price-all" is checked by default
+    if (checkbox.checked) {
+        inputField.disabled = true;
+        inputField.classList.add('bg-gray-200');
+        inputField.classList.add('cursor-not-allowed');
+        sizePriceInputs.classList.remove('hidden'); // Show custom size and price inputs
+    } else {
+        inputField.disabled = false;
+        inputField.classList.remove('bg-gray-200');
+        inputField.classList.remove('cursor-not-allowed');
+        sizePriceInputs.classList.add('hidden'); // Hide custom size and price inputs
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    toggleButtons();
+    checkExistingProduct();
+    addCustomSizeInput();
+});
+
 window.addEventListener('resize', toggleButtons);
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('same-price-all').addEventListener('change', function () {
