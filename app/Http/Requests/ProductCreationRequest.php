@@ -45,7 +45,16 @@ class ProductCreationRequest extends FormRequest
             'priceForSize.*' => 'nullable|numeric',
             'custom_prices' => 'nullable|array',
             'custom_prices.*' => 'nullable|numeric',
-            'custom_sizes' => 'nullable|array',
+            'custom_sizes' => ['nullable', 'array', function ($attribute, $value, $fail) {
+                $custom_sizes = $this->input('custom_sizes');
+                $custom_prices = $this->input('custom_prices');
+                for($i = 0; $i < count($custom_sizes); $i + 1) {
+                    if (is_null($custom_sizes[$i]) && !is_null($custom_prices[$i])) {
+                        $fail('Vul een maat in voor de prijs.');
+                        return;
+                    }
+                }
+            }],
             'custom_sizes.*' => 'nullable|string',
             'af-submit-app-upload-images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
