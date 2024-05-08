@@ -60,8 +60,6 @@ class ProductController extends Controller
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
 
-
-
         $validPictureAdded = ($request->hasFile('af-submit-app-upload-images') && $request->file('af-submit-app-upload-images')->isValid());
         if ($validPictureAdded) {
             if ($product->image_path) {
@@ -74,6 +72,7 @@ class ProductController extends Controller
         if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         }
+        ProductProductSize::where('product_id', $product->id)->delete();
         if ($request->has('priceForSize')) {
             foreach ($validatedData['priceForSize'] as $size => $price) {
                 if ($price !== null) {
