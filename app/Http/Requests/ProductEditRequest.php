@@ -31,6 +31,8 @@ class ProductEditRequest extends FormRequest
                 $priceForSize = $this->input('priceForSize') ?? [];
                 $custom_prices = $this->input('custom_prices') ?? [];
 
+
+
                 $defaultPriceExists = false;
                 $customSizeWithPriceExists = false;
 

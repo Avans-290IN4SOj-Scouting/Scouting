@@ -74,6 +74,10 @@ class ProductController extends Controller
         if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         }
+
+
+
+
         if ($request->has('priceForSize')) {
             foreach ($validatedData['priceForSize'] as $size => $price) {
                 if ($price !== null) {

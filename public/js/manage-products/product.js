@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function addCustomSizeInput() {
+
     var newDiv = document.createElement('div');
     newDiv.classList.add('flex', 'items-center', 'space-x-4');
     newDiv.style.marginTop = '16px';
@@ -89,13 +90,11 @@ function checkExistingProduct() {
     var checkbox = document.getElementById("same-price-all");
     var inputField = document.getElementById("priceForSize[Default]");
     var sizePriceInputs = document.getElementById("size-price-inputs");
-
-    // Check if the checkbox for "same-price-all" is checked by default
     if (checkbox.checked) {
         inputField.disabled = true;
         inputField.classList.add('bg-gray-200');
         inputField.classList.add('cursor-not-allowed');
-        sizePriceInputs.classList.remove('hidden'); // Show custom size and price inputs
+        sizePriceInputs.classList.remove('hidden');
     } else {
         inputField.disabled = false;
         inputField.classList.remove('bg-gray-200');
@@ -129,16 +128,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const defaultPriceInput = document.getElementById('priceForSize[Default]');
         var customSizeInputs = document.querySelectorAll('#custom-size-inputs input[type="text"]');
         var customPriceInputs = document.querySelectorAll('#custom-size-inputs input[type="number"]');
+        var existingPriceInputs = document.getElementsByClassName("existing-custom-price");
 
         if (this.checked) {
             defaultPriceInput.parentNode.parentNode.classList.remove('hidden');
             priceLabel.classList.remove('hidden');
             customSizeInputs.forEach(function(input) {
                 input.disabled = false;
+
             });
             customPriceInputs.forEach(function(input) {
                 input.disabled = false;
             });
+
+            for (var i = 0; i < existingPriceInputs.length; i++) {
+                existingPriceInputs[i].disabled = false;
+            }
 
         } else {
                 customSizeInputs.forEach(function(input) {
@@ -147,6 +152,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 customPriceInputs.forEach(function(input) {
                     input.disabled = true;
                 });
+
+            for (var i = 0; i < existingPriceInputs.length; i++) {
+                existingPriceInputs[i].disabled = true;
+            }
         }
     });
 });

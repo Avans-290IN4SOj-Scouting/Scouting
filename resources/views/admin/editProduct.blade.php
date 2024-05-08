@@ -63,6 +63,7 @@
                                                 $sizeWithPrice['size'],
                                             'name' => 'priceForSize[' . $sizeWithPrice['size'] . ']',
                                             'value' => $sizeWithPrice['price'],
+                                            'class' => 'existing-custom-price '
                                         ])
                                     @endforeach
                                     <div id="custom-size-inputs">
