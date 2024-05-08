@@ -17,20 +17,17 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('productType', 'groups')->get();
         $categories = ProductType::all();
-        $productsModel = [];
-
-        foreach ($products as $product) {
-            $productDetails = [
+        $productsModel = $products->map(function ($product) {
+            return [
                 'name' => $product->name,
                 'category' => $product->productType->type,
-                'groups' => $product->groups()->pluck('name')->toArray(),
+                'groups' => $product->groups->pluck('name')->toArray(),
                 'sizesWithPrices' => $this->getSizesWithPrices($product),
                 'id' => $product->id,
             ];
-            $productsModel[] = $productDetails;
-        }
+        });
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
     }
@@ -132,6 +129,14 @@ class ProductController extends Controller
 
     public function edit($productId)
     {
+
+        $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
+
+        // Check if the product exists
+        if (!$product) {
+            // Product not found, redirect back with an error message
+            return redirect()->back()->with('error', 'Product not found.');
+        }
 
         $categories = ProductType::all();
         $groups = Group::all();
@@ -242,10 +247,6 @@ class ProductController extends Controller
             throw $e;
         }
     }
-
-
-
-
     private function savePicture($picture, $name)
     {
         if (Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {

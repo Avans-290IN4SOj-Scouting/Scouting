@@ -28,22 +28,44 @@ class ProductEditRequest extends FormRequest
             'category' => 'required|string',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
-                $priceForSize = $this->input('priceForSize');
-                $custom_prices = $this->input('custom_prices');
-                if (is_array($priceForSize) && is_array($custom_prices)) {
-                    foreach ($priceForSize as $price) {
-                        if (!is_null($price)) {
-                            return;
-                        }
+                $priceForSize = $this->input('priceForSize') ?? [];
+                $custom_prices = $this->input('custom_prices') ?? [];
+
+                $defaultPriceExists = false;
+                $customSizeWithPriceExists = false;
+
+                // Check if a default price or a custom size with price exists
+                foreach ($priceForSize as $size => $price) {
+                    if ($size === 'Default' && $price !== null) {
+                        $defaultPriceExists = true;
+                    } elseif ($size !== 'Default' && $price !== null) {
+                        $customSizeWithPriceExists = true;
                     }
-                    foreach ($custom_prices as $price) {
-                        if (!is_null($price)) {
+                }
+
+                // If a custom size with price exists, prevent adding the default size with a price
+                if ($customSizeWithPriceExists && $defaultPriceExists) {
+                    $fail("You can't add a default size with a price when a custom size with a price already exists.");
+                    return;
+                }
+
+                // If a default price exists, prevent adding other sizes with prices
+                if ($defaultPriceExists) {
+                    foreach ($priceForSize as $size => $price) {
+                        if ($size !== 'Default' && $price !== null) {
+                            $fail("You can't add another size with a price when a default size with a price already exists.");
                             return;
                         }
                     }
                 }
-                $fail('Vul minimaal 1 prijs in voor de maat.');
-            },],
+
+                // Check if at least one price is provided for either default or custom sizes
+
+                if (empty(array_filter($priceForSize)) && empty(array_filter($custom_prices))) {
+                    $fail('Vul minimaal 1 prijs in voor de maat.');
+                    return;
+                }
+            }],
             'priceForSize.*' => 'nullable|numeric',
             'custom_prices' => 'nullable|array',
             'custom_prices.*' => 'nullable|numeric',
