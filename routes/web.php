@@ -87,6 +87,9 @@ Route::middleware('role:admin')->group(function () {
         Route::get(__('navbar.manage_products'), [ManageStocksController::class, 'index'])
             ->name('products');
 
+        Route::put(__('navbar.manage_stocks') . '/{id}', [ManageStocksController::class, 'update'])
+            ->name('update');
+
         Route::get(__('navbar.manage_stocks'), [ManageStocksController::class, 'index'])
             ->name('stocks');
 

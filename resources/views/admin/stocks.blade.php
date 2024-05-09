@@ -38,8 +38,11 @@
                         {{ $product->name }}
                     </p>
                 </div>
-{{--                @foreach ($product->productTypes as $type)--}}
-                    <div class="accordion-content">
+                {{--                @foreach ($product->productTypes as $type)--}}
+                <div class="accordion-content">
+                    <form method="POST" action="{{ route('manage.update', $product->id) }}">
+                        @csrf
+                        @method('PUT')
                         <div class="accordion-group bg-white dark:bg-slate-900 dark:border-slate-700 border-gray-500">
                             <div id="accordion-item-{{$loop->index + 1}}-{{$loop->index + 1}}"
                                  class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
@@ -67,26 +70,29 @@
                                     @foreach ($product->productSizes as $size)
                                         <div
                                             class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden">
-                                            <label for="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
-                                                   class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
+                                            <label
+                                                for="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                                class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
                                                 {{ $size->size }}
                                             </label>
                                             <div
                                                 class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
-                                            <input id="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
-                                                   class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
-                                                   type="text" value="0">
+                                            <input
+                                                id="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                                class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
+                                                type="text" value="0">
                                         </div>
                                     @endforeach
-                                    <button type="button"
+                                    <button type="submit"
                                             class="ms-auto py-1 px-2.5 inline-flex items-center text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:pointer-events-none">
-                                        {{ __('manage-stocks/stock.save') }}
+                                        {{ __('manage-stocks/stocks.save') }}
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-{{--                @endforeach--}}
+                    </form>
+                </div>
+                {{--                @endforeach--}}
             </div>
         @endforeach
     </div>
