@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "page_title" => "Product management",
+    "page_title" => "Voorraad beheren",
     "empty_inventory" => "Voorraad legen",
     "save" => "Opslaan",
 ];

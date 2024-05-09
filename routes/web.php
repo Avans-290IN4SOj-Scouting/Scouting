@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\ManageProductsController;
+use App\Http\Controllers\ManageStockController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -83,8 +83,12 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        Route::get(__('navbar.manage_products'), [ManageProductsController::class, 'index'])
+        //TODO: cant remember what the method and controller was called
+        Route::get(__('navbar.manage_products'), [ManageStockController::class, 'index'])
             ->name('products');
+
+        Route::get(__('navbar.manage_stock'), [ManageStockController::class, 'index'])
+            ->name('stock');
 
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {
             Route::get('/', [ManageOrdersController::class, 'index'])

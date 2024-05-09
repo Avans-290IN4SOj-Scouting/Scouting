@@ -65,6 +65,10 @@
                                href="{{route('manage.products')}}">
                                 {{__('navbar.manage_products')}}
                             </a>
+                            <a class="{{ request()->routeIs('manage.stock') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                               href="{{route('manage.stock')}}">
+                                {{__('navbar.manage_stock')}}
+                            </a>
                             <a class="{{ request()->routeIs('manage.orders.index') || request()->routeIs('manage.orders.filter') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
                                 href="{{route('manage.orders.index')}}">
                                  {{__('navbar.manage_orders')}}

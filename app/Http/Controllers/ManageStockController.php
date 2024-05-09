@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 
-class ManageProductsController extends Controller
+class ManageStockController extends Controller
 {
     public function index()
     {
@@ -15,7 +15,7 @@ class ManageProductsController extends Controller
         $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
         $colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'];
 
-        return view("admin.products", ['products' => $products, 'all_products' => $all_products, 'sizes' => $sizes, 'colors' => $colors]);
+        return view("admin.stock", ['products' => $products, 'all_products' => $all_products, 'sizes' => $sizes, 'colors' => $colors]);
     }
 
 }
