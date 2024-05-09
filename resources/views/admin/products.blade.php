@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-3xl font-bold text-gray-700 font-semibold">Producten</h1>
+            <h1 class="text-3xl font-bold text-gray-700">{{ __('manage-products/products.title_label') }}</h1>
             <a class="add-product-button" href="{{ route('manage.products.create.index') }}">
                 <span class="inline-flex justify-center items-center size-[37px] rounded-full bg-blue-600 text-white dark:bg-blue-500">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                     @foreach ($product['sizesWithPrices'] as $sizeWithPrice)
-                                        <div>{{ $sizeWithPrice['size'] }} - €{{ number_format($sizeWithPrice['price'], 2) }}</div>
+                                        <div>{{ $sizeWithPrice['size'] }} - €{{ number_format($sizeWithPrice['price'], 2, ',', '.') }}</div>
                                     @endforeach
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
@@ -52,13 +52,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                     <button type="button" onclick="window.location.href='{{ route('manage.products.edit.index', ['id' => $product['id']]) }}'"
                                             dusk="{{__('manage-products/products.action_edit_class')}}"
-                                    class=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:hover:text-white">
+                                    class=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600">
                                     {{ __('manage-products/products.action_edit_label') }}
-                                    </button>
-
-
-                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400">
-                                        {{ __('manage-products/products.action_delete_label') }}
                                     </button>
                                 </td>
                             </tr>

@@ -50,9 +50,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
-                            <x-error :error="$errors->first('priceForSize.*')" id="priceForSize.*" />
-                            <x-error :error="$errors->first('custom_prices.*')" id="custom_prices.*" />
+                            @php
+                            $price_sizeErrorTypes = [
+                                'priceForSize',
+                                'priceForSize.*',
+                                'custom_prices',
+                                'custom_prices.*',
+                                'custom_sizes',
+                                'custom_sizes.*',
+                            ];
+                            @endphp
+                            @foreach ($price_sizeErrorTypes as $errorType)
+                                @if ($errors->has($errorType))
+                                    <x-error :error="$errors->first($errorType)" :id="$errorType" />
+                                    @break
+                                @endif
+                            @endforeach
                         </div>
                         <!-- Select Groups Field -->
                         @include('partials._select', [

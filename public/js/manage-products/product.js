@@ -66,6 +66,7 @@ function addCustomSizeInput() {
         'specific-size-price');
     var priceInput = document.createElement('input');
     priceInput.type = 'number';
+    priceInput.step = '0.01';
     priceInput.name = 'custom_prices[]';
     priceInput.placeholder = 'Prijs';
     priceInput.classList.add('w-full', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md',
