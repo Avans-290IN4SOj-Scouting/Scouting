@@ -62,13 +62,19 @@
                                 "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
                                 "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"flex-shrink-0 size-3.5 text-gray-500 dark:text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
                                 }' class="hidden" {{ $order->status === \App\Enum\DeliveryStatus::Cancelled->value ? 'disabled' : '' }}>
-                                @foreach(\App\Enum\DeliveryStatus::cases() as $case)
-                                    @if($case !== \App\Enum\DeliveryStatus::Cancelled)
-                                        <option {{ $order->status === $case->value ? 'selected' : '' }}>
-                                            {{ \App\Enum\DeliveryStatus::localisedValue($case->value) }}
-                                        </option>
-                                    @endif
-                                @endforeach
+                                @if ($order->status !== \App\Enum\DeliveryStatus::Cancelled->value)
+                                    @foreach(\App\Enum\DeliveryStatus::cases() as $case)
+                                        @if($case->value !== \App\Enum\DeliveryStatus::Cancelled->value)
+                                            <option {{ $order->status === $case->value ? 'selected' : '' }}>
+                                                {{ \App\Enum\DeliveryStatus::localisedValue($case->value) }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <option selected>
+                                        {{ \App\Enum\DeliveryStatus::localisedValue($order->status) }}
+                                    </option>
+                                @endif
                             </select>
                         </form>
                     </div>
