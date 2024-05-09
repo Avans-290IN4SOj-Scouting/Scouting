@@ -9,10 +9,10 @@
 
 @section('content')
     <div class="flex items-center justify-between">
-        <h1 class="text-4xl m-8 dark:text-white">{{ __('manage-products/products.page_title') }}</h1>
+        <h1 class="text-4xl m-8 dark:text-white">{{ __('manage-stocks/stocks.page_title') }}</h1>
         <button type="button"
                 class="me-6 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
-            {{ __('manage-products/products.empty_inventory') }}
+            {{ __('manage-stocks/stocks.empty_inventory') }}
         </button>
     </div>
 
@@ -80,7 +80,7 @@
                                     @endforeach
                                     <button type="button"
                                             class="ms-auto py-1 px-2.5 inline-flex items-center text-sm rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:pointer-events-none">
-                                        {{ __('manage-products/products.save') }}
+                                        {{ __('manage-stocks/stock.save') }}
                                     </button>
                                 </div>
                             </div>

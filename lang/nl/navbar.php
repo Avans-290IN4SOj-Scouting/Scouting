@@ -4,7 +4,7 @@ return [
     'account' => 'Mijn account',
     'manage_accounts' => 'Beheer accounts',
     'manage_products' => 'Beheer producten',
-    'manage_stock' => 'Beheer voorraad',
+    'manage_stocks' => 'Beheer voorraad',
     'manage_orders' => 'Beheer bestellingen',
     'home' => 'Home',
     'cart' => 'Winkelwagen',
