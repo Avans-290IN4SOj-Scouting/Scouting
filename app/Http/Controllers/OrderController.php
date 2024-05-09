@@ -47,6 +47,7 @@ class OrderController extends Controller
                     ->on('product_sizes.id', '=', 'product_product_size.product_size_id');
             })
             ->where('groups.id', '=', $group->id)
+            ->where('products.inactive', '=', false)
             ->select('products.*', 'product_product_size.*')
             ->get();
 

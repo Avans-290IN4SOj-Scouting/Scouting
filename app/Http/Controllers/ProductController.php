@@ -72,6 +72,7 @@ class ProductController extends Controller
         if ($validPictureAdded) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
         }
+
         ProductProductSize::where('product_id', $product->id)->delete();
         if ($request->has('priceForSize')) {
             foreach ($validatedData['priceForSize'] as $size => $price) {
@@ -86,7 +87,6 @@ class ProductController extends Controller
                 }
             }
         }
-
         if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
             foreach ($validatedData['custom_prices'] as $index => $customPrice) {
                 $customSize = $validatedData['custom_sizes'][$index];
@@ -101,15 +101,16 @@ class ProductController extends Controller
                 }
             }
         }
+
         $product->groups()->detach();
         foreach ($validatedData['products-group-multiselect'] as $groupName) {
             $group = Group::firstOrCreate(['name' => $groupName]);
             $product->groups()->attach($group);
         }
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('product_images', 'public');
-            $product->image_path = $imagePath;
-        }
+
+        $isInactive = $request->has('inactive-checkbox') ? 1 : 0;
+        $product->inactive = $isInactive;
+
         $product->save();
         return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
     }
