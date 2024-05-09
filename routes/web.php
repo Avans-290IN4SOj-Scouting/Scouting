@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     // Order cancelling testing page (remove when orderDetails is made)
     Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
         ->name('orders-user.details-order');
-    Route::post('/orderDetails/cancelOrder', [OrderDetailsController::class, 'cancelOrder'])
+    Route::post('/orderDetails/{id}', [OrderDetailsController::class, 'cancelOrder'])
         ->name('orders-user.cancel-order');
 });
 
