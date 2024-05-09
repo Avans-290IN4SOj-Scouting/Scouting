@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="max-w-sm">
-                        <form action="" method="post">
+                        <form id="statusform" action="{{ route('manage.orders.update-status', ['id' => $order->id]) }}" method="post">
                             @csrf
                             <label for="status" class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.status') }}</label>
                             <select id="status" data-hs-select='{
@@ -62,7 +62,7 @@
                          }' class="hidden">
                                 @foreach(\App\Enum\DeliveryStatus::cases() as $case)
                                     @if($case !== \App\Enum\DeliveryStatus::Cancelled)
-                                        <option>
+                                        <option {{ $order->status === $case->value ? 'selected' : '' }}>
                                             {{ \App\Enum\DeliveryStatus::localisedValue($case->value) }}
                                         </option>
                                     @endif
