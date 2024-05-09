@@ -2,6 +2,7 @@ function handleFileSelect(event) {
     const file = event.target.files[0];
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
+    const placeholder = document.getElementById('notimage');
     if (file.type.startsWith('image/')) {
         const reader = new FileReader();
 
@@ -12,11 +13,11 @@ function handleFileSelect(event) {
         }
 
         reader.readAsDataURL(file);
-        document.getElementById('notimage').classList.add('hidden');
+        placeholder.classList.add('hidden');
     } else {
         preview.classList.add('hidden');
-        removeBtn.classList.add('hidden'); // Hide remove button
-        document.getElementById('notimage').classList.remove('hidden');
+        removeBtn.classList.add('hidden');
+        placeholder.classList.remove('hidden');
     }
 }
 
@@ -27,8 +28,10 @@ function removeImage(event) {
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
     const uploadInput = document.getElementById('af-submit-app-upload-images');
+    const placeholder = document.getElementById('notimage');
     preview.classList.add('hidden');
     removeBtn.classList.add('hidden');
+    placeholder.classList.remove('hidden');
     uploadInput.value = '';
 }
 

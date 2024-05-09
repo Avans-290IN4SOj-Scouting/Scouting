@@ -132,7 +132,7 @@
                             <div class="flex justify-center items-center containerMaxH">
                                 <img id="file-image" src="#" alt="Preview" class="hidden containerMaxH">
                             </div>
-                            <svg class="size-10 mx-auto text-gray-400 dark:text-gray-600"
+                            <svg id="notimage" class="size-10 mx-auto text-gray-400 dark:text-gray-600"
                                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
