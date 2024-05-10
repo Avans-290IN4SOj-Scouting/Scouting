@@ -15,7 +15,6 @@ return [
     'products' => 'Producten',
     'date' => 'Datum',
     'status' => 'Status',
-    'group_name' => 'Groepnaam',
-    'group' => 'Groep',
+    'group_name' => 'Groepsnaam',
     'empty_table' => 'Geen geplaatste bestellingen',
 ];

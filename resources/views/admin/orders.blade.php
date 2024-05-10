@@ -66,10 +66,10 @@ $title = __('manage-orders/orders.page_title');
                         {{ __('manage-orders/orders.date') }}
                     </th>
                     <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
-                        {{ __('manage-orders/orders.status') }}
+                        {{ __('manage-orders/orders.group_name') }}
                     </th>
                     <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
-                        {{ __('manage-orders/orders.group') }}
+                        {{ __('manage-orders/orders.status') }}
                     </th>
                 </tr>
             </thead>
@@ -93,10 +93,10 @@ $title = __('manage-orders/orders.page_title');
                         {{ Carbon\Carbon::parse($order['order_date'])->format(__('common.date_time')) }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {{ __('delivery_status.'.$order['status']) }}
+                        {{ $order->group->name }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {{ $order->group->name }}
+                        {{ __('delivery_status.'.$order['status']) }}
                     </td>
                 </tr>
                 @empty
