@@ -13,4 +13,5 @@ return [
     "question"=> "Vraag",
     "suggestion"=> "Suggestie",
     "review"=> "Beoordeling",
+    "hcaptcha_error_message" => "hCaptcha validatie is niet geslaagd"
 ];

@@ -9,6 +9,7 @@
 
 @push('scripts')
     <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 @endpush
 
 @section('content')
@@ -26,32 +27,37 @@
                 class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
                 <form action="{{ route('feedback.store') }}" method="POST">
                     @csrf
-                    <x-feedbackField name="email"></x-feedbackField>
-                    <div class="mb-4 sm:mb-8 flex flex-col lg:flex-row gap-3 lg:items-center form-group">
-                        <label for="type"
-                            class="text-sm font-medium dark:text-white">{{ __('feedback/feedback.type') }}</label>
+                    <x-feedback.field>
+                        <x-feedback.label label="email"> </x-feedback.label>
+                        <input type="text" id="email " name="email"
+                            class="px-4 w-full border-red-700 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-100 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                            placeholder="{{ __('feedback/feedback.email') }}" value="{{ old('email') }}">
+                        <x-feedback.feedback-error error="email"></x-feedback.feedback-error>
+                    </x-feedback.field>
+                    <x-feedback.field class="form-group">
+                        <x-feedback.label label="type"></x-feedback.label>
                         <select
                             class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                            name="type">
+                            name="type" value="{{ old('type') }}">>
                             @foreach ($feedbacktypes as $feedback)
                                 <option value="{{ $feedback }}">{{ $feedback }}</option>
                             @endforeach
                         </select>
-                        @error('type')
-                            <p class="text-red-500 text-xs mt-0">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="mb-4 sm:mb-8 flex flex-col lg:flex-row gap-3 lg:items-top">
-                        <label for="message"
-                            class="text-sm font-medium dark:text-white">{{ __('feedback/feedback.message') }}</label>
+                        <x-feedback.feedback-error error="type"></x-feedback.feedback-error>
+                    </x-feedback.field>
+                    <x-feedback.field>
+                        <x-feedback.label label="message"></x-feedback.label>
                         <textarea
                             class="px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                            rows="3" name="message" placeholder="{{ __('feedback/feedback.placeholder') }}"></textarea>
-                        @error('message')
-                            <p class="text-red-500 text-xs mt-0">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="h-captcha" data-sitekey="50831444-e5fe-4809-adf6-15fbe0195749"></div>
+                            rows="3" name="message" placeholder="{{ __('feedback/feedback.placeholder') }}"
+                            value="{{ old('message') }}"></textarea>
+                        <x-feedback.feedback-error error="message"></x-feedback.feedback-error>
+                    </x-feedback.field>
+                    <x-feedback.field class="lg:justify-center">
+                        <div class="h-captcha flex flex-col items-center"
+                            data-sitekey="50831444-e5fe-4809-adf6-15fbe0195749"></div>
+                        <x-feedback.feedback-error error="hCaptchaError"></x-feedback.feedback-error>
+                    </x-feedback.field>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>

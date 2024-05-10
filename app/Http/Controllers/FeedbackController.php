@@ -17,7 +17,7 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {  
         $token = $request->input('h-captcha-response');
-        $secretKey = 'ES_18327d0ec5554c5584eacbc15dcb12a0';
+        $secretKey = 'ES_87aef4f7d619476b95d64409dc73fcc1';
         $client = new Client();
     
         $response = $client->post('https://hcaptcha.com/siteverify', [
@@ -49,7 +49,10 @@ class FeedbackController extends Controller
             ]);
         } else {
             // hCaptcha validation failed
-            return redirect()->back()->with('error', 'hCaptcha validation failed.');
+            return redirect()->back()->with([
+                'toast-type' => 'error',
+                'toast-message' => __('feedback/feedback.hcaptcha_error_message')
+            ]);
         }
 
        
