@@ -81,7 +81,8 @@
                                                 name="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                 id="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                 class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
-                                                type="text" value="0">
+                                                type="text"
+                                                value="{{ $product->stocks->firstWhere('product_size_id', $size->id)->amount ?? 0 }}">
                                         </div>
                                     @endforeach
                                     <button type="submit"
