@@ -39,12 +39,11 @@ class ManageStocksController extends Controller
         return redirect()->back();
     }
 
-    public function delete()
+    public function destroy()
     {
         Stock::query()->delete();
 
-        return redirect()->route('manage.stocks')
-            ->with('success', 'All stocks have been deleted.');
+        return redirect()->route('manage.stocks');
     }
 
 }
