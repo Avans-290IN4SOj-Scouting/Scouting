@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "products.title_label" => "Producten",
+    "title_label" => "Producten",
     "groups_heading" => "Scouting groepen",
     "actions_heading" => "Actions",
     "action_edit_label" => "Wijzig",
@@ -28,5 +28,7 @@ return [
     "add_product" => "add-product",
     "product_image_span" => "Selecteer of sleep een afbeelding voor het product",
     "product_image_delete_button" => "Verwijder afbeelding",
+    "not_found" => "Product niet gevonden",
+    "update_succes" => "Product succesvol gewijzigd",
 ];
 

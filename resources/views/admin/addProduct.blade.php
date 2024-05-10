@@ -2,9 +2,8 @@
 @push('scripts')
     <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
 @endpush
-@section('title', __('manage-products/products.page_title'))
-@section('content')
 
+@section('content')
     <body class="bg-gray-100">
         <div class="container mx-auto px-4 py-8">
             <h1 id="add-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
