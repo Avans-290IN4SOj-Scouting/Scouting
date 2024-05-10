@@ -26,12 +26,9 @@
 
                     @if($isCancellable)
                         <div class="mt-4">
-                            <form action="{{ route('orders-user.cancel-order') }}" method="POST">
-                                @csrf
-                                <input id="orderId" name="orderId" type="hidden" value="{{ $order->id }}">
-                                <button id="cancel-button"
-                                        class="bg-red-600 text-white rounded p-2 hover:bg-red-900">{{ __('orders/orders.cancel-order') }}</button>
-                            </form>
+                            <x-modal :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
+                                     :modal-button="__('orders/order_details.cancel_order_confirm')" :modal-text="__('orders/order_details.cancel_order_text')"
+                                     :route="route('orders-user.cancel-order', ['id' => $order->id])" color="red" />
                         </div>
                     @endif
 
