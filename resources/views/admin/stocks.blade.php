@@ -10,10 +10,14 @@
 @section('content')
     <div class="flex items-center justify-between">
         <h1 class="text-4xl m-8 dark:text-white">{{ __('manage-stocks/stocks.page_title') }}</h1>
-        <button type="button"
-                class="me-6 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
-            {{ __('manage-stocks/stocks.empty_inventory') }}
-        </button>
+        <form method="POST" action="{{ route('manage.delete') }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                    class="me-6 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
+                {{ __('manage-stocks/stocks.empty_inventory') }}
+            </button>
+        </form>
     </div>
 
     <div class="accordion-group bg-white border rounded-xl dark:bg-slate-900 dark:border-slate-700 border-gray-500">

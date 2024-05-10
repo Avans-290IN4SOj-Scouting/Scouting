@@ -22,25 +22,29 @@ class ManageStocksController extends Controller
 
         foreach ($request->all() as $key => $value) {
             if (Str::startsWith($key, 'size-')) {
-                // The size is extracted from the key by removing 'size-' from the start
                 $size = Str::after($key, 'size-');
                 $size = strtoupper(preg_replace("/[^A-Za-z]/", '', $size));
 
-                // Find the productSize for the current size
                 $productSize = $product->productSizes()->where('size', $size)->first();
 
                 if ($productSize) {
-                    // Find or create a stock for the current productSize
                     Stock::updateOrCreate(
-                        ['product_id' => $product->id, 'product_size_id' => $productSize->id], // These fields are used to find an existing record
-                        ['amount' => $value] // These are the values used to update or create a record
+                        ['product_id' => $product->id, 'product_size_id' => $productSize->id],
+                        ['amount' => $value]
                     );
                 }
             }
         }
 
-        return redirect()->back()->with('success', 'Product updated successfully');
+        return redirect()->back();
     }
 
+    public function delete()
+    {
+        Stock::query()->delete();
+
+        return redirect()->route('manage.stocks')
+            ->with('success', 'All stocks have been deleted.');
+    }
 
 }

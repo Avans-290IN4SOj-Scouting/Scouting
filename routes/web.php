@@ -112,6 +112,9 @@ Route::middleware('role:admin')->group(function () {
 
             Route::get('/', [ManageStocksController::class, 'index'])
                 ->name('stocks');
+
+            Route::delete('/delete', [ManageStocksController::class, 'delete'])
+                ->name('delete');
         });
 
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {
