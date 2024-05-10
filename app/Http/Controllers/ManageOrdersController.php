@@ -8,12 +8,20 @@ use App\Models\OrderStatus;
 use Exception;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ManageOrdersController extends Controller
 {
     public function index()
     {
-        $orders = Order::query()->sortable()->paginate(10);
+        $orders = Order::query();
+
+        if (Auth::user()->hasRole('teamleader'))
+        {
+            $orders = $orders->whereIn('group_id', $this->getUserRoles());
+        }
+
+        $orders = $orders->sortable()->paginate(10);
 
         return view('admin.orders', [
             'orders' => $orders,
@@ -71,12 +79,17 @@ class ManageOrdersController extends Controller
 
         $orders = Order::query();
 
+        if (Auth::user()->hasRole('teamleader'))
+        {
+            $orders = $orders->whereIn('group_id', $this->getUserRoles());
+        }
+
         $status = DeliveryStatus::hasStatus($status) ? $status : null;
 
         // Check for Email
         if (!empty($search))
         {
-            $orders = Order::whereHas('user', function ($query) use ($search) {
+            $orders = $orders->whereHas('user', function ($query) use ($search) {
                 $query->where('email', 'like', "%$search%");
             });
         }
@@ -135,5 +148,9 @@ class ManageOrdersController extends Controller
             'allstatusses' => DeliveryStatus::localised(),
             'selected' => $status,
         ]);
+    }
+
+    private function getUserRoles() {
+        return Auth::user()->roles->pluck('group_id')->whereNotNull()->toArray();
     }
 }

@@ -68,6 +68,9 @@ $title = __('manage-orders/orders.page_title');
                     <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
                         {{ __('manage-orders/orders.status') }}
                     </th>
+                    <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
+                        {{ __('manage-orders/orders.group') }}
+                    </th>
                 </tr>
             </thead>
             <tbody id="table-body" class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -91,6 +94,9 @@ $title = __('manage-orders/orders.page_title');
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         {{ __('delivery_status.'.$order['status']) }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                        {{ $order->group->name }}
                     </td>
                 </tr>
                 @empty
