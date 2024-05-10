@@ -44,11 +44,15 @@
             </div>
             <div class="info">
                 <div>
-                    <h2 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h2>
+                    <h1 class="text-4xl font-extrabold dark:text-white">{{ $product->name }} - {{ $group->name }}</h1>
                     <p class="dark:text-white">
                         <span>{{ __('common.currency_symbol') }}</span>
                         <span id="product-price">
-                            {{ number_format($product->productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            @if (count($productSizes->where('size', '=', $group->size->size)) === 0)
+                            {{ number_format($productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            @else
+                            {{ number_format($productSizes->where('size', '=', $group->size->size)->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            @endif
                         </span>
                     </p>
                     @if (count($productSizes) === 1)

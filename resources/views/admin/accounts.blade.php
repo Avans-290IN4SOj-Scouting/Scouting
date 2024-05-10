@@ -34,8 +34,9 @@
                 <input type="hidden" name="direction" value="{{ Request::get('direction') }}">
             </form>
 
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead>
                     <tr>
                         <th scope="col"
                             class="w-4/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase flex items-left gap-0.5">
@@ -45,59 +46,60 @@
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
                                         </svg>
                                     </span>
                                 @else
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
                                         </svg>
                                     </span>
                                 @endif
                             @else
                                 <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                    </svg>
-                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
+                                </svg>
+                            </span>
                             @endif
                         </th>
-                        <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                        <th scope="col"
+                            class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                             {{ __('manage-accounts/accounts.role') }}
                         </th>
                     </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($accounts as $account)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <div id="selectRole-div" class="relative" data-account-email="{{ $account->email }}"
+                                <div id="selectRole-div" class="relative"
+                                    data-account-email="{{ $account->email }}"
                                     data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
                                     style="width: 250px;">
-                                    <label for="selectRole" hidden>{{ __('manage-accounts/accounts.role') }}</label>
+                                    <label for="selectRole" hidden>{{ __('manage-accounts/accounts.role')  }}</label>
                                     <select id="selectRole" multiple
-                                        data-hs-select='{
-                                                  "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
-                                                  "toggleTag": "<button type=\"button\"></button>",
-                                                  "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
-                                                  "dropdownClasses": "z-50 mt-2 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
-                                                  "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
-                                                  "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
-                                                }'
-                                        class="hidden">
-                                        @foreach ($roles as $role)
+                                            data-hs-select='{
+                                                    "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
+                                                    "toggleTag": "<button type=\"button\"></button>",
+                                                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
+                                                    "dropdownClasses": "z-50 mt-2 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
+                                                    "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
+                                                    "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
+                                                    }' class="hidden">
+                                        @foreach($roles as $role)
                                             <option value="{{ $role->name }}"
-                                                data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}"
-                                                {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                    data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
                                                 {{ __('manage-accounts/roles.' . $role->name) }}
                                             </option>
                                         @endforeach
@@ -113,8 +115,9 @@
                             </td>
                         </tr>
                     @endforelse
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
