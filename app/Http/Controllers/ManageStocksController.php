@@ -18,7 +18,16 @@ class ManageStocksController extends Controller
 
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
+
+        foreach ($request->all() as $key => $value) {
+            if (Str::startsWith($key, 'size-') && $value < 0) {
+                return redirect()->back()->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-stocks/stocks.invalid_amount')
+                ]);
+            }
+        }
 
         foreach ($request->all() as $key => $value) {
             if (Str::startsWith($key, 'size-')) {
@@ -36,14 +45,20 @@ class ManageStocksController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()->with([
+            'toast-type' => 'success',
+            'toast-message' => __('manage-stocks/stocks.update_inventory_success')
+        ]);
     }
 
     public function destroy()
     {
         Stock::query()->delete();
 
-        return redirect()->route('manage.stocks');
+        return redirect()->route('manage.stocks')->with([
+            'toast-type' => 'success',
+            'toast-message' => __('manage-stocks/stocks.empty_inventory_success')
+        ]);;
     }
 
 }
