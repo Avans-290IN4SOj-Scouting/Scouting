@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ManageStocksController extends Controller
 {
@@ -13,27 +15,16 @@ class ManageStocksController extends Controller
 
         return view("admin.stocks", ['products' => $products]);
     }
+
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
+        foreach ($request->all() as $key => $value) {
 
-        // Validate the request data
-        $validated = $request->validate([
-            'productSizes' => 'required|array',
-            'productSizes.*' => 'integer|min:0'
-        ]);
+            if (Str::startsWith($key, 'size-')) {
 
-        foreach ($validated['productSizes'] as $sizeId => $quantity) {
-            $stock = $product->stocks()->where('size_id', $sizeId)->first();
-
-            if ($stock) {
-                // Update existing stock record
-                $stock->update(['quantity' => $quantity]);
-            } else {
-                // Create new stock record
-                $product->stocks()->create([
-                    'size_id' => $sizeId,
-                    'quantity' => $quantity
+                Stock::create([
+                    'amount' => $value,
+                    'product_id' => $id,
                 ]);
             }
         }

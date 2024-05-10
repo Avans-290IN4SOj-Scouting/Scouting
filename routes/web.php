@@ -83,15 +83,36 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        //TODO: cant remember what the method and controller was called
-        Route::get(__('navbar.manage_products'), [ManageStocksController::class, 'index'])
-            ->name('products');
+        //TODO: remove this before merging into develop
+//        Route::prefix(__('route.products'))->name('products.')->group(function () {
+//            Route::get('/', [ProductController::class, 'index'])
+//                ->name('index');
+//
+//            Route::prefix(__('route.create'))->name('create.')->group(function () {
+//                Route::get('/', [ProductController::class, 'add'])
+//                    ->name('index');
+//
+//                Route::post('store', [ProductController::class, 'store'])
+//                    ->name('store');
+//            });
+//
+//            Route::prefix(__('route.edit'))->name('edit.')->group(function () {
+//                Route::get('/{id}', [ProductController::class, 'edit'])
+//                    ->name('index');
+//
+//                Route::put('store/{id}', [ProductController::class, 'update'])
+//                    ->name('store');
+//            });
+//        });
 
-        Route::put(__('navbar.manage_stocks') . '/{id}', [ManageStocksController::class, 'update'])
-            ->name('update');
+        // Manage Stocks
+        Route::prefix(__('navbar.manage_stocks'))->group(function () {
+            Route::put('/{id}', [ManageStocksController::class, 'update'])
+                ->name('update');
 
-        Route::get(__('navbar.manage_stocks'), [ManageStocksController::class, 'index'])
-            ->name('stocks');
+            Route::get('/', [ManageStocksController::class, 'index'])
+                ->name('stocks');
+        });
 
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {
             Route::get('/', [ManageOrdersController::class, 'index'])
