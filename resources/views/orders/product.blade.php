@@ -48,7 +48,11 @@
                     <p class="dark:text-white">
                         <span>{{ __('common.currency_symbol') }}</span>
                         <span id="product-price">
-                            {{ number_format($product->productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            @if (count($productSizes->where('size', '=', $group->size->size)) === 0)
+                            {{ number_format($productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            @else
+                            {{ number_format($productSizes->where('size', '=', $group->size->size)->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            @endif
                         </span>
                     </p>
                     @if (count($productSizes) === 1)
