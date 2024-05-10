@@ -302,6 +302,22 @@ class ManageOrdersTest extends DuskTestCase
         });
     }
 
+    public function test_update_order_status(): void
+    {
+        $this->createOrders();
+
+        $this->browse(function (Browser $browser) {
+           $browser->loginAs($this->admin)->visit(route('manage.orders.order', ['id' => 1]))
+               ->screenshot('testorder')
+               ->waitFor('#status-select')
+               ->click('#status-select')
+               ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value))
+               ->click(DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value))
+               ->assertSee(__('toast/messages.success-order-status-update'))
+               ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value));
+        });
+    }
+
     public function test_resizability(): void
     {
         $admin = User::factory()->create(['email' => 'res@ponsive'])->assignRole('admin');

@@ -19,9 +19,11 @@
                 <h1 class="text-4xl font-bold dark:text-white mb-4 lg:mb-0">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
                 @if ($order->status == App\Enum\DeliveryStatus::AwaitingPayment->value)
-                    <x-modal :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
-                             :modal-button="__('orders/order_details.cancel_order_confirm')" :modal-text="__('orders/order_details.cancel_order_text')"
-                             :route="route('manage.orders.cancel-order', ['id' => $order->id])" color="red" />
+                    <x-modal :button-text="__('orders/order_details.cancel_order')"
+                             :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
+                             :modal-button="__('orders/order_details.cancel_order_confirm')"
+                             :modal-text="__('orders/order_details.cancel_order_text')"
+                             :route="route('manage.orders.cancel-order', ['id' => $order->id])" color="red"/>
                 @endif
             </div>
             <br>
@@ -56,13 +58,16 @@
                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600" @readonly(true)>
                         </div>
 
-                    <div class="max-w-sm">
-                        <form id="statusform" action="{{ route('manage.orders.update-status', ['id' => $order->id]) }}"
-                              method="post">
-                            @csrf
-                            <label for="status"
-                                   class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.status') }}</label>
-                            <select id="status" data-hs-select='{
+                        <div class="max-w-sm">
+                            <form id="statusform"
+                                  action="{{ route('manage.orders.update-status', ['id' => $order->id]) }}"
+                                  method="post">
+                                @csrf
+
+                                <label for="status"
+                                       class="block text-sm font-medium mb-2 dark:text-white">{{ __('manage-orders/orders.status') }}</label>
+                                <div id="status-select">
+                                    <select id="status" data-hs-select='{
                                 "placeholder": "Select option...",
                                 "toggleTag": "<button type=\"button\"></button>",
                                 "toggleClasses": "hs-select-disabled:pointer-events-none relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400",
@@ -70,69 +75,72 @@
                                 "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:hover:bg-slate-800 dark:text-neutral-200 dark:focus:bg-slate-800",
                                 "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
                                 "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"flex-shrink-0 size-3.5 text-gray-500 dark:text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
-                                }' class="hidden" {{ $order->status === \App\Enum\DeliveryStatus::Cancelled->value ? 'disabled' : '' }}>
-                                @if ($order->status !== \App\Enum\DeliveryStatus::Cancelled->value)
-                                    @foreach(\App\Enum\DeliveryStatus::cases() as $case)
-                                        @if($case->value !== \App\Enum\DeliveryStatus::Cancelled->value)
-                                            <option {{ $order->status === $case->value ? 'selected' : '' }}>
-                                                {{ \App\Enum\DeliveryStatus::localisedValue($case->value) }}
+                                }'
+                                            class="hidden" {{ $order->status === \App\Enum\DeliveryStatus::Cancelled->value ? 'disabled' : '' }}>
+                                        @if ($order->status !== \App\Enum\DeliveryStatus::Cancelled->value)
+                                            @foreach(\App\Enum\DeliveryStatus::cases() as $case)
+                                                @if($case->value !== \App\Enum\DeliveryStatus::Cancelled->value)
+                                                    <option {{ $order->status === $case->value ? 'selected' : '' }}>
+                                                        {{ \App\Enum\DeliveryStatus::localisedValue($case->value) }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <option selected>
+                                                {{ \App\Enum\DeliveryStatus::localisedValue($order->status) }}
                                             </option>
                                         @endif
-                                    @endforeach
-                                @else
-                                    <option selected>
-                                        {{ \App\Enum\DeliveryStatus::localisedValue($order->status) }}
-                                    </option>
-                                @endif
-                            </select>
-                        </form>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
-                </div>
-                <!-- /Gegevens -->
+                    <!-- /Gegevens -->
 
-                <!-- Producten -->
-                <div
-                    class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
-                    <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
+                    <!-- Producten -->
+                    <div
+                        class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
+                        <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
-                    <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                            <thead>
-                            <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                    {{ __('manage-orders/order.name') }}
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                    {{ __('manage-orders/order.size') }}
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                    {{ __('manage-orders/order.price-per') }}
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                    {{ __('manage-orders/order.amount') }}
-                                </th>
-                            </tr>
-                            </thead>
-
-                            <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
-                            @foreach ($order->orderLines as $orderLine)
+                        <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                                <thead>
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                        {{ __('manage-orders/order.name') }}
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                        {{ __('manage-orders/order.size') }}
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                        {{ __('manage-orders/order.price-per') }}
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                        {{ __('manage-orders/order.amount') }}
+                                    </th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
+                                @foreach ($order->orderLines as $orderLine)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <!-- /Producten -->
                 </div>
-                <!-- /Producten -->
             </div>
         </div>
-    </div>
 @endsection
