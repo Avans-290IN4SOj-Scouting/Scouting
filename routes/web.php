@@ -5,9 +5,10 @@ use App\Http\Controllers\ManageProductsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
-
+use App\Http\Controllers\ManageOrdersController;
 use App\Http\Controllers\TestController;
 
 /*
@@ -34,6 +35,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
+
+    // Order cancelling testing page (remove when orderDetails is made)
+    Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
+        ->name('orders-user.details-order');
+    Route::post('/orderDetails/{id}', [OrderDetailsController::class, 'cancelOrder'])
+        ->name('orders-user.cancel-order');
 });
 
 Route::get(__('route.logout'), function () {
@@ -76,9 +83,27 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        //TODO: Move to be better suited controller
-        Route::get(__('navbar.manage_products'), [ManageProductsController::class, 'index'])
-            ->name('products');
+        Route::prefix(__('route.orders'))->name('orders.')->group(function () {
+            Route::get('/', [ManageOrdersController::class, 'index'])
+                ->name('index');
+
+            Route::get(__('route.order-details') . '/{id}', [ManageOrdersController::class, 'orderDetails'])
+                ->name('order');
+
+            Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
+                ->name('filter');
+
+            // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
+            // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            //     ->name('cancel-order');
+            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
+                ->name('cancel-order');
+        });
+
+        Route::get(__('navbar.manage_products'), function () {
+            return view('admin.products');
+        })->name('products');
+        
     });
 });
 
