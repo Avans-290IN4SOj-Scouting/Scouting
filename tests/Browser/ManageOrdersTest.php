@@ -305,16 +305,18 @@ class ManageOrdersTest extends DuskTestCase
     public function test_update_order_status(): void
     {
         $this->createOrders();
+        $order = Order::factory()->create(['status' => DeliveryStatus::Processing]);
+        $awaitingPayment = DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value);
 
-        $this->browse(function (Browser $browser) {
-           $browser->loginAs($this->admin)->visit(route('manage.orders.order', ['id' => 1]))
-               ->screenshot('testorder')
+        $this->browse(function (Browser $browser) use($order, $awaitingPayment) {
+           $browser->loginAs($this->admin)->visit(route('manage.orders.order', ['id' => $order->id]))
                ->waitFor('#status-select')
                ->click('#status-select')
-               ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value))
-               ->click(DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value))
+               ->assertSee($awaitingPayment)
+               ->screenshot('testorder')
+               ->click("[data-value='{$awaitingPayment}']")
                ->assertSee(__('toast/messages.success-order-status-update'))
-               ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value));
+               ->assertSee($awaitingPayment);
         });
     }
 
