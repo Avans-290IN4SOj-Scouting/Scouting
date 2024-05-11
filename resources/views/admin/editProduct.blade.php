@@ -62,7 +62,8 @@
                                                 ' ' .
                                                 $sizeWithPrice['size'],
                                             'name' => 'priceForSize[' . $sizeWithPrice['size'] . ']',
-                                            'value' => $sizeWithPrice['price'],
+
+                                            'value' => old('priceForSize.' . $sizeWithPrice['size'], $sizeWithPrice['price']),
                                             'class' => 'existing-custom-price '
                                         ])
                                     @endforeach
@@ -77,6 +78,7 @@
                         <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
                         <x-error :error="$errors->first('priceForSize.*')" id="priceForSize.*" />
                         <x-error :error="$errors->first('custom_prices.*')" id="custom_prices.*" />
+                        <x-error :error="$errors->first('custom_sizes')" id="custom_sizes" />
                     </div>
                     <!-- Select Groups Field -->
                     @include('partials._select', [
@@ -84,7 +86,7 @@
                         'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                         'options' => $baseGroups->pluck('name'),
                         'name' => 'products-group-multiselect',
-                        'selectedGroups' => $chosenGroups->pluck('name')->toArray(),
+                        'selectedGroups' => $chosenGroups->pluck('name'),
                         'class' => 'manage-products/products.groups-multiselect',
                     ])
                     <!-- Product Category Field -->

@@ -23,6 +23,7 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'name' => 'required|string',
             'category' => 'required|string',
@@ -30,50 +31,50 @@ class ProductEditRequest extends FormRequest
             'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 $priceForSize = $this->input('priceForSize') ?? [];
                 $custom_prices = $this->input('custom_prices') ?? [];
-
-                $defaultPriceExists = false;
-                $customSizeWithPriceExists = false;
-
-                // Check if a default price or a custom size with price exists
-                foreach ($priceForSize as $size => $price) {
-                    if ($size === 'Default' && $price !== null) {
-                        $defaultPriceExists = true;
-                    } elseif ($size !== 'Default' && $price !== null) {
-                        $customSizeWithPriceExists = true;
+                if (is_array($priceForSize) && is_array($custom_prices)) {
+                    foreach ($priceForSize as $price) {
+                        if (!is_null($price)) {
+                            return;
+                        }
                     }
-                }
-
-                // If a custom size with price exists, prevent adding the default size with a price
-                if ($customSizeWithPriceExists && $defaultPriceExists) {
-                    $fail("You can't add a default size with a price when a custom size with a price already exists.");
-                    return;
-                }
-
-                // If a default price exists, prevent adding other sizes with prices
-                if ($defaultPriceExists) {
-                    foreach ($priceForSize as $size => $price) {
-                        if ($size !== 'Default' && $price !== null) {
-                            $fail("You can't add another size with a price when a default size with a price already exists.");
+                    foreach ($custom_prices as $price) {
+                        if (!is_null($price)) {
                             return;
                         }
                     }
                 }
-
-                // Check if at least one price is provided for either default or custom sizes
-                if (empty(array_filter($priceForSize)) && empty(array_filter($custom_prices))) {
-                    $fail('Vul minimaal 1 prijs in voor de maat.');
+                $fail('Vul minimaal 1 prijs in voor de maat.');
+            },],
+            'priceForSize.*' => 'nullable|numeric',
+            'custom_prices' =>  ['nullable', 'array', function ($attribute, $value, $fail) {
+        $priceForSize = $this->input('priceForSize') ?? [];
+        $custom_prices = $this->input('custom_prices');
+        if (is_array($priceForSize) && is_array($custom_prices)) {
+            foreach ($priceForSize as $price) {
+                if (!is_null($price)) {
                     return;
                 }
-            }],
-            'priceForSize.*' => 'nullable|numeric',
-            'custom_prices' => 'nullable|array',
+
+            }
+            foreach ($custom_prices as $price) {
+                if (!is_null($price)) {
+                    return;
+                }
+            }
+        }
+        $fail('Vul minimaal 1 prijs in voor de maat.');
+    },],
             'custom_prices.*' => 'nullable|numeric',
             'custom_sizes' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 $custom_sizes = $this->input('custom_sizes');
-                $custom_prices = $this->input('custom_prices');
-                for($i = 0; $i < count($custom_sizes); $i + 1) {
+                $custom_prices = $this->input('custom_prices') ?? [];
+                for($i = 0; $i < count($custom_sizes); $i += 1) {
                     if (is_null($custom_sizes[$i]) && !is_null($custom_prices[$i])) {
                         $fail('Vul een maat in voor de prijs.');
+                        return;
+                    }
+                    if(!is_null($custom_sizes[$i]) && is_null($custom_prices[$i])) {
+                        $fail('Vul een prijs in voor de maat.');
                         return;
                     }
                 }
