@@ -74,25 +74,12 @@ class Product extends Model
         $this->priceForSize = $priceForSize;
     }
 
-    public function addPriceForSize($sizes, $prices)
-    {
-        if (!is_array($sizes) || !is_array($prices)) {
-            return;
-        }
-        if (count($sizes) != count($prices)) {
-            dd('The number of sizes and prices do not match', $sizes, $prices);
-        }
-        for ($i = 0; $i < count($sizes); $i++) {
-            $this->priceForSize[$sizes[$i]] = $prices[$i];
-        }
-    }
-
     public function setGroups($groups)
     {
         if (is_array($groups)) {
             $this->groups = $groups;
         } else {
-            $this->groups = [$groups]; // Convert the string to a single-element array
+            $this->groups = [$groups];
         }
     }
 }

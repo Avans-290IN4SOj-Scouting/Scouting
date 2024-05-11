@@ -48,9 +48,6 @@ class ProductCreationRequest extends FormRequest
             'custom_sizes' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 $custom_sizes = $this->input('custom_sizes');
                 $custom_prices = $this->input('custom_prices');
-
-
-
                 for($i = 0; $i < count($custom_sizes); $i += 1) {
                     if (is_null($custom_sizes[$i]) && !is_null($custom_prices[$i])) {
                         $fail('Vul een maat in voor de prijs.');

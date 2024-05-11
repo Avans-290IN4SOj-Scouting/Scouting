@@ -2,9 +2,8 @@
 @push('scripts')
     <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
 @endpush
-@section('title', 'Product Toevoegen')
-@section('content')
 
+@section('content')
     <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
         <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
@@ -41,7 +40,6 @@
                      'value' => old('priceForSize.Default', $defaultSizeWithPrice['price']),
                     ])
 
-
                     <div>
                         <div id="size-price-options" class="space-y-4">
                             <div class="flex items-center space-x-4">
@@ -75,10 +73,22 @@
                                 </div>
                             </div>
                         </div>
-                        <x-error :error="$errors->first('priceForSize')" id="priceForSize" />
-                        <x-error :error="$errors->first('priceForSize.*')" id="priceForSize.*" />
-                        <x-error :error="$errors->first('custom_prices.*')" id="custom_prices.*" />
-                        <x-error :error="$errors->first('custom_sizes')" id="custom_sizes" />
+                        @php
+                            $price_sizeErrorTypes = [
+                                'priceForSize',
+                                'priceForSize.*',
+                                'custom_prices',
+                                'custom_prices.*',
+                                'custom_sizes',
+                                'custom_sizes.*',
+                            ];
+                        @endphp
+                        @foreach ($price_sizeErrorTypes as $errorType)
+                            @if ($errors->has($errorType))
+                                <x-error :error="$errors->first($errorType)" :id="$errorType" />
+                                @break
+                            @endif
+                        @endforeach
                     </div>
                     <!-- Select Groups Field -->
                     @include('partials._select', [
@@ -134,7 +144,7 @@
                             <div class="flex justify-center items-center containerMaxH">
                                 <img id="file-image" src="#" alt="Preview" class="hidden containerMaxH">
                             </div>
-                            <svg class="size-10 mx-auto text-gray-400 dark:text-gray-600"
+                            <svg id="notimage" class="size-10 mx-auto text-gray-400 dark:text-gray-600"
                                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"

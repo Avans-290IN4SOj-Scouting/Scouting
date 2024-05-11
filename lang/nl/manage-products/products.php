@@ -26,6 +26,8 @@ return [
     "product_edit_button" => "Product wijzigen",
     "add_product" => "add-product",
     "product_image_span" => "Selecteer of sleep een afbeelding voor het product",
-    "product_image_delete_button" => "Verwijder afbeelding"
+    "product_image_delete_button" => "Verwijder afbeelding",
+    "not_found" => "Product niet gevonden",
+    "update_succes" => "Product succesvol gewijzigd",
 ];
 
