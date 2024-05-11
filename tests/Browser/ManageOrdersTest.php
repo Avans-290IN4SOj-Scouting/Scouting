@@ -291,7 +291,7 @@ class ManageOrdersTest extends DuskTestCase
                 ->keys('input[name=q]', WebDriverKeys::ENTER)
                 ->waitFor('#table-body')->click('#table-body > :first-child')
 
-                ->press(__('orders/order_details.cancel_order'))
+                ->pressAndWaitFor(__('orders/order_details.cancel_order'), 10)
                 ->press(__('orders/order_details.cancel_order_confirm'))
 
                 ->type('#search', '_one@example.net')
