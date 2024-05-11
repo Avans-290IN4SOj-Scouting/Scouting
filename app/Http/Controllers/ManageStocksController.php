@@ -58,7 +58,7 @@ class ManageStocksController extends Controller
         return redirect()->route('manage.stocks')->with([
             'toast-type' => 'success',
             'toast-message' => __('manage-stocks/stocks.empty_inventory_success')
-        ]);;
+        ]);
     }
 
 }
