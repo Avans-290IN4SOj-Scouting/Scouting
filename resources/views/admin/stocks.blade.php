@@ -50,7 +50,7 @@
                         @method('PUT')
                         <div class="accordion-group bg-white dark:bg-slate-900 dark:border-slate-700 border-gray-500">
                             <div id="accordion-item-{{$loop->index + 1}}-{{$loop->index + 1}}"
-                                 class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
+                                 class="accordion-item">
                                 <div class="accordion-header ps-6 py-3">
                                     <svg class="size-3.5 inactive dark:text-white" xmlns="http://www.w3.org/2000/svg"
                                          width="24" height="24"
@@ -74,10 +74,10 @@
                                 <div class="accordion-content ps-6 py-2.5 space-x-1">
                                     @foreach ($product->productSizes as $size)
                                         <div
-                                            class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden">
+                                            class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden shadow-md">
                                             <label
                                                 for="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
-                                                class="text-gray-800 px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
+                                                class="text-black font-semibold px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
                                                 {{ $size->size }}
                                             </label>
                                             <div
@@ -85,7 +85,7 @@
                                             <input
                                                 name="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                 id="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
-                                                class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
+                                                class="p-0 w-6 font-semibold bg-transparent border-0 text-black text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
                                                 type="text"
                                                 value="{{ $product->stocks->firstWhere('product_size_id', $size->id)->amount ?? 0 }}">
                                         </div>

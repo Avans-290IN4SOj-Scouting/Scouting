@@ -37,7 +37,7 @@
         border-bottom-color: rgb(51 65 85);
     }
     /* border-white */
-    border-bottom-color: rgb(0 0 0);
+    border-bottom-color: rgb(107, 114, 128);
 }
 
 .accordion-header.active > svg, .accordion-header.active > p {

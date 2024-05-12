@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class StocksController extends Controller
 {
@@ -20,13 +22,25 @@ class StocksController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        $rules = [];
+        $customMessages = [
+            '*.integer' => __('manage-stocks/stocks.invalid_type'),
+            '*.between' => __('manage-stocks/stocks.invalid_amount'),
+        ];
+
         foreach ($request->all() as $key => $value) {
-            if (Str::startsWith($key, 'size-') && $value < 0) {
-                return redirect()->back()->with([
-                    'toast-type' => 'error',
-                    'toast-message' => __('manage-stocks/stocks.invalid_amount')
-                ]);
+            if (Str::startsWith($key, 'size-')) {
+                $rules[$key] = 'integer|between:0,100';
             }
+        }
+
+        $validator = Validator::make($request->all(), $rules, $customMessages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with([
+                'toast-type' => 'error',
+                'toast-message' => $validator->errors()->first()
+            ]);
         }
 
         foreach ($request->all() as $key => $value) {
