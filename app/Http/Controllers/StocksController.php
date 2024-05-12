@@ -7,13 +7,13 @@ use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ManageStocksController extends Controller
+class StocksController extends Controller
 {
     public function index()
     {
         $products = Product::with(['productType', 'productSizes', 'stocks'])->get();
 
-        return view("admin.stocks", ['products' => $products]);
+        return view('admin.stocks', ['products' => $products]);
     }
 
     public function update(Request $request, $id)
@@ -55,7 +55,7 @@ class ManageStocksController extends Controller
     {
         Stock::query()->delete();
 
-        return redirect()->route('manage.stocks')->with([
+        return redirect()->back()->with([
             'toast-type' => 'success',
             'toast-message' => __('manage-stocks/stocks.empty_inventory_success')
         ]);

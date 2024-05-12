@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\ManageStocksController;
+use App\Http\Controllers\StocksController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -83,37 +83,15 @@ Route::middleware('role:admin')->group(function () {
             });
         });
 
-        //TODO: remove this before merging into develop
-//        Route::prefix(__('route.products'))->name('products.')->group(function () {
-//            Route::get('/', [ProductController::class, 'index'])
-//                ->name('index');
-//
-//            Route::prefix(__('route.create'))->name('create.')->group(function () {
-//                Route::get('/', [ProductController::class, 'add'])
-//                    ->name('index');
-//
-//                Route::post('store', [ProductController::class, 'store'])
-//                    ->name('store');
-//            });
-//
-//            Route::prefix(__('route.edit'))->name('edit.')->group(function () {
-//                Route::get('/{id}', [ProductController::class, 'edit'])
-//                    ->name('index');
-//
-//                Route::put('store/{id}', [ProductController::class, 'update'])
-//                    ->name('store');
-//            });
-//        });
-
         // Manage Stocks
-        Route::prefix(__('navbar.manage_stocks'))->group(function () {
-            Route::put('/{id}', [ManageStocksController::class, 'update'])
+        Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
+            Route::put('/{id}', [StocksController::class, 'update'])
                 ->name('update');
 
-            Route::get('/', [ManageStocksController::class, 'index'])
-                ->name('stocks');
+            Route::get('/', [StocksController::class, 'index'])
+                ->name('index');
 
-            Route::delete('/destroy', [ManageStocksController::class, 'destroy'])
+            Route::delete('/destroy', [StocksController::class, 'destroy'])
                 ->name('destroy');
         });
 

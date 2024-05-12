@@ -35,7 +35,6 @@ class Order extends Model
         'status',
     ];
 
-
     public function orderLines(): HasMany
     {
         return $this->hasMany(OrderLine::class);
