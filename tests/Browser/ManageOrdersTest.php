@@ -313,7 +313,6 @@ class ManageOrdersTest extends DuskTestCase
                ->waitFor('#status-select')
                ->click('#status-select')
                ->assertSee($awaitingPayment)
-               ->screenshot('testorder')
                ->click("[data-value='{$awaitingPayment}']")
                ->assertSee(__('toast/messages.success-order-status-update'))
                ->assertSee($awaitingPayment);
