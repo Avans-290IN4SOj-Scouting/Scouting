@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "title_label" => "Producten",
     "groups_heading" => "Groepen",
     "actions_heading" => "Actie",
     "action_edit_label" => "Wijzig",

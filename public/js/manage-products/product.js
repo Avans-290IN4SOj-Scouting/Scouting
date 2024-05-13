@@ -21,8 +21,6 @@ function handleFileSelect(event) {
     }
 }
 
-document.getElementById('af-submit-app-upload-images').addEventListener('change', handleFileSelect);
-
 function removeImage(event) {
     event.preventDefault();
     const preview = document.getElementById('file-image');
@@ -35,25 +33,7 @@ function removeImage(event) {
     uploadInput.value = '';
 }
 
-document.getElementById('remove-image').addEventListener('click', removeImage);
-document.addEventListener("DOMContentLoaded", function () {
-    var checkbox = document.getElementById("same-price-all");
-    var inputField = document.getElementById("priceForSize[Default]");
-    checkbox.addEventListener("change", function () {
-        if (checkbox.checked) {
-            inputField.disabled = true;
-            inputField.classList.add('bg-gray-200');
-            inputField.classList.add('cursor-not-allowed');
-
-        } else {
-            inputField.disabled = false;
-            inputField.classList.remove('bg-gray-200');
-            inputField.classList.remove('cursor-not-allowed');
-        }
-    });
-});
-
-function addCustomSizeInput() {
+function addCustomSizeInput(maat = '', prijs = '') {
 
     var newDiv = document.createElement('div');
     newDiv.classList.add('flex', 'items-center', 'space-x-4');
@@ -62,12 +42,14 @@ function addCustomSizeInput() {
     sizeInput.type = 'text';
     sizeInput.name = 'custom_sizes[]';
     sizeInput.placeholder = 'Maat';
+    sizeInput.value = maat;
     sizeInput.classList.add('w-full', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md',
         'specific-size-price');
     var priceInput = document.createElement('input');
     priceInput.type = 'number';
     priceInput.step = '0.01';
     priceInput.name = 'custom_prices[]';
+    priceInput.value = prijs;
     priceInput.placeholder = 'Prijs';
     priceInput.classList.add('w-full', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md',
         'specific-size-price');
@@ -103,63 +85,6 @@ function checkExistingProduct() {
         inputField.disabled = false;
         inputField.classList.remove('bg-gray-200');
         inputField.classList.remove('cursor-not-allowed');
-        sizePriceInputs.classList.add('hidden'); // Hide custom size and price inputs
+        sizePriceInputs.classList.add('hidden');
     }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    toggleButtons();
-    checkExistingProduct();
-    addCustomSizeInput();
-});
-
-window.addEventListener('resize', toggleButtons);
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('same-price-all').addEventListener('change', function () {
-        var specificSizes = document.getElementById('specific-size-prices');
-        var labels = specificSizes.getElementsByTagName('label');
-        var labelValues = [];
-        for (var i = 0; i < labels.length; i++) {
-            labelValues.push(labels[i].textContent);
-        }
-
-        document.getElementById('size-price-inputs').classList.toggle('hidden');
-
-        const priceLabel = document.querySelector('label[for="priceForSize[Default]"]');
-        const defaultPriceInput = document.getElementById('priceForSize[Default]');
-        var customSizeInputs = document.querySelectorAll('#custom-size-inputs input[type="text"]');
-        var customPriceInputs = document.querySelectorAll('#custom-size-inputs input[type="number"]');
-        var existingPriceInputs = document.getElementsByClassName("existing-custom-price");
-
-        if (this.checked) {
-            defaultPriceInput.parentNode.parentNode.classList.remove('hidden');
-            priceLabel.classList.remove('hidden');
-            customSizeInputs.forEach(function(input) {
-                input.disabled = false;
-
-            });
-            customPriceInputs.forEach(function(input) {
-                input.disabled = false;
-            });
-
-            for (var i = 0; i < existingPriceInputs.length; i++) {
-                existingPriceInputs[i].disabled = false;
-            }
-
-        } else {
-                customSizeInputs.forEach(function(input) {
-                    input.disabled = true;
-                });
-                customPriceInputs.forEach(function(input) {
-                    input.disabled = true;
-                });
-
-            for (var i = 0; i < existingPriceInputs.length; i++) {
-                existingPriceInputs[i].disabled = true;
-            }
-        }
-    });
-});
