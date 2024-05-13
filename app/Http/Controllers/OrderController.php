@@ -41,7 +41,7 @@ class OrderController extends Controller
         // Get all Products from obtained Group
         $products = Product::whereHas('groups', function ($query) use ($group) {
             $query->where('groups.id', '=', $group->id);
-        })->get();
+        })->where('products.inactive', '=', false)->get();
 
         return view('orders.overview', [
             'products' => $products,

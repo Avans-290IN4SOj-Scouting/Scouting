@@ -119,6 +119,7 @@
                         'selectedGroups' => $chosenGroups->pluck('name'),
                         'class' => 'manage-products/products.groups-multiselect',
                     ])
+                    
                     <!-- Product Category Field -->
                     @include('partials._input', [
                         'label' => __('manage-products/products.category_input_label'),
@@ -129,22 +130,18 @@
                         'value' => $baseChosenCategorie->type,
                         'disabled' => false,
                     ])
+
                     <!-- Disable Product Checkbox -->
                     <div class="flex">
-                        @if ($product->inactive === 1)
-                            <input name="inactive-checkbox" type="checkbox"
-                                class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                id="hs-default-checkbox" checked>
-                            <label for="hs-default-checkbox"
-                                class="text-sm text-gray-500 ms-3 dark:text-gray-400">{{ __('products.active-product') }}</label>
-                        @else
-                            <input name="inactive-checkbox" type="checkbox"
-                                class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                id="hs-default-checkbox">
-                            <label for="hs-default-checkbox"
-                                class="text-sm text-gray-500 ms-3 dark:text-gray-400">{{ __('products.inactive-product') }}</label>
-                        @endif
+                        <input name="inactive-checkbox" type="checkbox"
+                               class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                               id="hs-default-checkbox" {{ $product->inactive ? 'checked' : '' }}>
+                        <label for="hs-default-checkbox"
+                               class="text-sm text-gray-500 ms-3 dark:text-gray-400">
+                            {{ $product->inactive ? __('manage-products/products.active-product') : __('manage-products/products.inactive-product') }}
+                        </label>
                     </div>
+
                     <!-- Add Product Button -->
                     <div>
                         <button id="big-screen" type="submit"
