@@ -95,8 +95,11 @@ Route::middleware('role:admin|teamleader')->group(function () {
             // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
             // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
             //     ->name('cancel-order');
-            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            Route::post('/{id}/cancel', [ManageOrdersController::class, 'cancelOrder'])
                 ->name('cancel-order');
+
+            Route::post('/{id}/update', [ManageOrdersController::class, 'updateOrderStatus'])
+                ->name('update-status');
         });
 
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {

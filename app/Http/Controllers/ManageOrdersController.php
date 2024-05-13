@@ -36,8 +36,7 @@ class ManageOrdersController extends Controller
     public function orderDetails(string $id)
     {
         $order = Order::find($id);
-        if ($order === null)
-        {
+        if ($order === null) {
             return redirect()->route('manage.orders.index')
                 ->with([
                     'toast-type' => 'error',
@@ -50,11 +49,38 @@ class ManageOrdersController extends Controller
         ]);
     }
 
+    public function updateOrderStatus(Request $request, string $id)
+    {
+        $order = Order::find($id);
+        if (!$order) {
+            return redirect()->route('manage.orders.index')
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.order-doesnt-exist')
+                ]);
+        }
+
+        $status = $request->input('status');
+        $delocalizedStatus = DeliveryStatus::delocalised($status);
+
+        $order->status = $delocalizedStatus;
+        if (!$order->save()) {
+            return redirect()->back()->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast/messages.error-order-status-not-updated')
+            ]);
+        }
+
+        return redirect()->back()->with([
+            'toast-type' => 'success',
+            'toast-message' => __('toast/messages.success-order-status-update')
+        ]);
+    }
+
     public function cancelOrder(string $id)
     {
         $order = Order::find($id);
-        if ($order === null)
-        {
+        if ($order === null) {
             return redirect()->route('manage.orders.index')
                 ->with([
                     'toast-type' => 'error',
@@ -95,38 +121,29 @@ class ManageOrdersController extends Controller
         }
 
         // Check for Status
-        if ($status !== null)
-        {
+        if ($status !== null) {
             $orders = $orders->where('status', $status);
         }
 
         // Check for date
         $dateFromString = $request->input('date-from-filter');
         $dateTillString = $request->input('date-till-filter');
-        try
-        {
+        try {
             // Check is from is empty ...
-            if (!empty($dateFromString))
-            {
+            if (!empty($dateFromString)) {
                 /// ... if not set it
                 $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFromString)->toDateTimeString();
 
                 // if till is empty set it to the next day
-                if (empty($dateTillString))
-                {
+                if (empty($dateTillString)) {
                     $dateTill = Carbon::now()->addDay(1);
                     $dateTillString = $dateTill->format('Y-m-d');
-                }
-                else
-                {
+                } else {
                     $dateTill = Carbon::createFromFormat('Y-m-d', $dateTillString)->toDateTimeString();
                 }
-            }
-            else
-            {
+            } else {
                 // If it is empty and till is empty, do nothing because both are empty
-                if (!empty($dateTillString))
-                {
+                if (!empty($dateTillString)) {
                     // if till is not empty, set from to ???
                     $dateTill = Carbon::createFromFormat('Y-m-d', $dateTillString)->toDateTimeString();
                     $dateFrom = Carbon::createFromTimestamp(0);
@@ -135,8 +152,8 @@ class ManageOrdersController extends Controller
             }
 
             $orders = $orders->whereBetween('order_date', [$dateFrom, $dateTill]);
+        } catch (Exception $e) {
         }
-        catch (Exception $e) { }
 
         $orders = $orders->sortable()->paginate(10);
 

@@ -291,7 +291,7 @@ class ManageOrdersTest extends DuskTestCase
                 ->keys('input[name=q]', WebDriverKeys::ENTER)
                 ->waitFor('#table-body')->click('#table-body > :first-child')
 
-                ->press(__('orders/order_details.cancel_order'))
+                ->pressAndWaitFor(__('orders/order_details.cancel_order'), 10)
                 ->press(__('orders/order_details.cancel_order_confirm'))
 
                 ->type('#search', '_one@example.net')
@@ -299,6 +299,23 @@ class ManageOrdersTest extends DuskTestCase
 
                 ->assertSee(DeliveryStatus::localisedValue(DeliveryStatus::Cancelled->value));
 
+        });
+    }
+
+    public function test_update_order_status(): void
+    {
+        $this->createOrders();
+        $order = Order::factory()->create(['status' => DeliveryStatus::Processing]);
+        $awaitingPayment = DeliveryStatus::localisedValue(DeliveryStatus::AwaitingPayment->value);
+
+        $this->browse(function (Browser $browser) use($order, $awaitingPayment) {
+           $browser->loginAs($this->admin)->visit(route('manage.orders.order', ['id' => $order->id]))
+               ->waitFor('#status-select')
+               ->click('#status-select')
+               ->assertSee($awaitingPayment)
+               ->click("[data-value='{$awaitingPayment}']")
+               ->assertSee(__('toast/messages.success-order-status-update'))
+               ->assertSee($awaitingPayment);
         });
     }
 
