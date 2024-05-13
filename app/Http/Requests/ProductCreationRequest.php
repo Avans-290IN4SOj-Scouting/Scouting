@@ -53,6 +53,10 @@ class ProductCreationRequest extends FormRequest
                         $fail('Vul een maat in voor de prijs.');
                         return;
                     }
+                    if(!is_null($custom_sizes[$i]) && is_null($custom_prices[$i])) {
+                        $fail('Vul een prijs in voor de maat.');
+                        return;
+                    }
                 }
             }],
             'custom_sizes.*' => 'nullable|string',

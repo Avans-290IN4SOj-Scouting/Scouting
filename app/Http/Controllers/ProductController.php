@@ -54,7 +54,7 @@ class ProductController extends Controller
         $validatedData = $request->validated();
         $product = Product::find($productId);
         if (!$product) {
-            return redirect()->back()->with('error', 'Product not found.');
+            return redirect()->back()->with('error', __('manage-products/products.not_found'));
         }
 
         $categoryId = $this->categoryToId($validatedData['category']);
@@ -112,7 +112,7 @@ class ProductController extends Controller
         $product->inactive = $isInactive;
 
         $product->save();
-        return redirect()->route('manage.products.index', ['id' => $product->id])->with('success', 'Product updated successfully.');
+        return redirect()->route('manage.products.index')->with('success', __('manage-products/products.update_success'));
     }
 
     public function add()
@@ -129,13 +129,12 @@ class ProductController extends Controller
 
     public function edit($productId)
     {
-
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
 
         // Check if the product exists
         if (!$product) {
             // Product not found, redirect back with an error message
-            return redirect()->back()->with('error', 'Product not found.');
+            return redirect()->back()->with('error', __('manage-products/products.not_found'));
         }
 
         $categories = ProductType::all();

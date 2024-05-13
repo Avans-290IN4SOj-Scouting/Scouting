@@ -39,9 +39,9 @@
                                 </div>
                                 <div>
                                     <div>
-                                        <h4 class="text-lg font-bold text-gray-800 dark:text-white">
+                                        <p class="text-lg font-bold text-gray-800 dark:text-white">
                                             {{ $product->name }} - {{ __('orders/orders.size') }} {{ $product->size }}
-                                        </h4>
+                                        </p>
                                         <p class="dark:text-white">
                                             <span
                                                 class="dark:text-white">{{ __('common.currency_symbol') }}

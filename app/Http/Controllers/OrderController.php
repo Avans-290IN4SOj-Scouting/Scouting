@@ -39,17 +39,9 @@ class OrderController extends Controller
         }
 
         // Get all Products from obtained Group
-        $products = Product::join('product_group', 'products.id', '=', 'product_group.product_id')
-            ->join('groups', 'product_group.group_id', '=', 'groups.id')
-            ->join('product_sizes', 'groups.size_id', '=', 'product_sizes.id')
-            ->join('product_product_size', function ($join) {
-                $join->on('products.id', '=', 'product_product_size.product_id')
-                    ->on('product_sizes.id', '=', 'product_product_size.product_size_id');
-            })
-            ->where('groups.id', '=', $group->id)
-            ->where('products.inactive', '=', false)
-            ->select('products.*', 'product_product_size.*')
-            ->get();
+        $products = Product::whereHas('groups', function ($query) use ($group) {
+            $query->where('groups.id', '=', $group->id);
+        })->where('products.inactive', '=', false)->get();
 
         return view('orders.overview', [
             'products' => $products,
@@ -120,12 +112,12 @@ class OrderController extends Controller
             $order->order_date = now();
             $order->lid_name = $request->input('lid-name');
             $order->group_id = $request->input('scouting-group');
+            $order->user_id = auth()->id();
             $order->save();
         }
         catch (Exception $e)
         {
             DB::rollBack();
-
             return redirect()->route('orders.checkout.order')->with([
                 'error', '__(\'orders.completed-error\')',
                 'toast-type' => 'error',

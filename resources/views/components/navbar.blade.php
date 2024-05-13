@@ -41,7 +41,10 @@
                     <div
                         class="hs-dropdown [--strategy:static] sm:[--strategy:fixed] [--adaptive:none] sm:[--trigger:hover] sm:py-4">
                         <button type="button"
-                                class="{{ request()->routeIs('manage.products.index') || request()->routeIs('manage.accounts.index') || request()->routeIs('manage.accounts.filter') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
+                                class="{{
+                                    request()->routeIs('manage.products.index') || request()->routeIs('manage.accounts.index') ||
+                                    request()->routeIs('manage.orders.index') || request()->routeIs('manage.orders.order') ||
+                                    request()->routeIs('manage.accounts.filter') ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
                             {{__('navbar.admin')}}
                             <svg class="ms-2 size-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16"
                                  fill="none"
@@ -61,6 +64,10 @@
                             <a class="{{ request()->routeIs('manage.products.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
                                href="{{route('manage.products.index')}}">
                                 {{__('navbar.manage_products')}}
+                            </a>
+                            <a class="{{ request()->routeIs('manage.orders.index') || request()->routeIs('manage.orders.filter') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                href="{{route('manage.orders.index')}}">
+                                 {{__('navbar.manage_orders')}}
                             </a>
                         </div>
                     </div>
