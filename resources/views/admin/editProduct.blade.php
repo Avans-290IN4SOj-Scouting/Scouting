@@ -8,7 +8,6 @@
     <div class="container mx-auto px-4 py-8">
         <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
             {{ __('manage-products/products.edit_page_title') }}</h1>
-        <!-- Product Form and Image Section -->
         <form action="{{ route('manage.products.edit.store', ['id' => $product->id]) }}" method="POST"
               enctype="multipart/form-data">
             @csrf
@@ -142,7 +141,9 @@
                             <input id="af-submit-app-upload-images" name="af-submit-app-upload-images" type="file"
                                    class="sr-only">
                             <div class="flex justify-center items-center containerMaxH">
-                                <img id="file-image" src="#" alt="Preview" class="hidden containerMaxH">
+                                @if($product->image_path)
+                                    <img id="file-image" src="{{ asset($product->image_path) }}" alt="Preview" class="hidden containerMaxH">
+                                @endif
                             </div>
                             <svg id="notimage" class="size-10 mx-auto text-gray-400 dark:text-gray-600"
                                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

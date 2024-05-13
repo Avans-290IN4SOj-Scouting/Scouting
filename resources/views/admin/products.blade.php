@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-3xl font-bold text-gray-700">{{ __('manage-products/products.title_label') }}</h1>
+            <h1 class="text-3xl font-bold text-gray-700">{{ __('manage-products/products.index_page_title') }}</h1>
             <a class="add-product-button" href="{{ route('manage.products.create.index') }}">
                 <span class="inline-flex justify-center items-center size-[37px] rounded-full bg-blue-600 text-white dark:bg-blue-500">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
