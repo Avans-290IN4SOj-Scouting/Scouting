@@ -1,6 +1,6 @@
 <label class="select block text-gray-700 font-semibold">{{ $label }}</label>
 <div class="relative">
-    <select dusk="multiple-select-{{__($class)}}" class= "{{ $class }}" multiple name="{{ $name }}[]"
+    <select dusk="multiple-select-{{ __($class) }}" class= "{{ $class }}" multiple name="{{ $name }}[]"
         data-hs-select='{
         "placeholder": "{{ $placeholder }}",
   "toggleTag": "<button type=\"button\"></button>",
@@ -9,14 +9,13 @@
   "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
   "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
   "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"flex-shrink-0 size-3.5 text-gray-500 dark:text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
-}' class="hidden">
+}'
+        class="hidden">
         <option value="">Kies</option>
         @foreach ($options as $option)
-
-
-            <option value="{{$option}}"
+            <option value="{{ $option }}"
                 @if (old($name) !== null) {{ in_array($option, old($name)) ? 'selected' : '' }}
-                    {{ in_array($option, $chosenGroups->pluck('name')->toArray()) ? 'selected' : '' }} @endif>
+                @elseif ($selected ?? false) {{ in_array($option, $selected->toArray()) ? 'selected' : '' }} @endif>
                 {{ $option }}
             </option>
         @endforeach
