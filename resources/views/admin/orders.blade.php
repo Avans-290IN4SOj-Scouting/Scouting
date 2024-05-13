@@ -65,9 +65,7 @@ $title = __('manage-orders/orders.page_title');
                     <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
                         {{ __('manage-orders/orders.date') }}
                     </th>
-                    <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
-                        {{ __('manage-orders/orders.group_name') }}
-                    </th>
+                    <x-sortable-table-header sortOn="group.name" textKey="manage-orders/orders.group_name" dusk="id" />
                     <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
                         {{ __('manage-orders/orders.status') }}
                     </th>

@@ -150,7 +150,8 @@ class ManageOrdersController extends Controller
         ]);
     }
 
-    private function getUserRoles() {
+    private function getUserRoles()
+    {
         return Auth::user()->roles->pluck('group_id')->whereNotNull()->toArray();
     }
 }
