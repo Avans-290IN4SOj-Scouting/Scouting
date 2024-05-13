@@ -94,53 +94,54 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
-                    <!-- /Gegevens -->
 
-                    <!-- Producten -->
-                    <div
-                        class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
-                        <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
-
-                        <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                                <thead>
-                                <tr>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.name') }}
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.size') }}
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.price-per') }}
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{ __('manage-orders/order.amount') }}
-                                    </th>
-                                </tr>
-                                </thead>
-
-                                <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
-                                @foreach ($order->orderLines as $orderLine)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /Producten -->
                 </div>
+                <!-- /Gegevens -->
+
+                <!-- Producten -->
+                <div
+                    class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
+                    <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
+
+                    <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                            <thead>
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.name') }}
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.size') }}
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.price-per') }}
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    {{ __('manage-orders/order.amount') }}
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
+                            @foreach ($order->orderLines as $orderLine)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /Producten -->
             </div>
         </div>
+    </div>
 @endsection
