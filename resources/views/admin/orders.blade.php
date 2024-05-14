@@ -24,8 +24,9 @@ $title = __('manage-orders/orders.page_title');
                     <div class="flex flex-row flex-wrap gap-4">
                         <x-search-bar search="{{ $search }}" placeholder="{{ __('manage-orders/orders.search_placeholder') }}" />
 
+                        <label for="filter" class="sr-only">{{ __('manage-orders/orders.filter_on_status') }}</label>
                         <select id="filter" name="filter" class="py-3 max-sm:w-full px-4 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-slate-500 dark:focus:ring-slate-600">
-                            <option value="0">Filter op status</option>
+                            <option value="0">{{ __('manage-orders/orders.filter_on_status') }}</option>
                             @foreach ($allstatusses as $status)
                             <option value="{{ App\Enum\DeliveryStatus::delocalised($status)->value }}" @if($selected && App\Enum\DeliveryStatus::delocalised($status)->value == $selected) selected @endif>{{ $status }}</option>
                             @endforeach
