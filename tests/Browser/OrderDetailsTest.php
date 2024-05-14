@@ -32,8 +32,9 @@ class OrderDetailsTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user, $order) {
             $browser->loginAs($user)
-                ->visit("/orderDetails/{$order->id}")
-                ->click('#cancel-button')
+                ->visit(route('orders-user.details-order', ['orderId' => $order->id]))
+                ->pressAndWaitFor(__('orders/order_details.cancel_order'), 10)
+                ->press(__('orders/order_details.cancel_order_confirm'))
                 ->waitFor('.toast-success', 10)
                 ->assertVisible('.toast-success')
                 ->assertSee(__('delivery_status.cancelled'));

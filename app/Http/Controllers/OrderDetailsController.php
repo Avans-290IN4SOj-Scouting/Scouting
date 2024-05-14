@@ -56,44 +56,36 @@ class OrderDetailsController extends Controller
         return view('orders.orderdetails', ['order' => $order, 'orderLines' => $orderLines, 'totalPrice' => $totalPrice, 'isCancellable' => $isCancellable]);
     }
 
-    public function cancelOrder(Request $request)
+    public function cancelOrder(string $id)
     {
-        try {
-            $orderId = $request->input('orderId');
+        $order = Order::where('id', $id)->first();
 
-            $order = Order::where('id', $orderId)->first();
-
-            if (!$order) {
-                return redirect()->back()->with([
-                    'toast-type' => 'error',
-                    'toast-message' => __('toast/messages.error-order-not-found')
-                ]);
-            }
-
-            $redirect = $this->checkIfOrderBelongsToUser($order);
-            if ($redirect) {
-                return $redirect;
-            }
-
-            if (in_array($order->status, $this->ableToCancelStatus)) {
-                $email = Auth::user()->getEmail();
-
-                $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
-
-                $order->status = 'cancelled';
-                $order->save();
-            }
-
-            return redirect()->back()->with([
-                'toast-type' => 'success',
-                'toast-message' => __('toast/messages.success-order-cancelled')
-            ]);
-        } catch (\Exception $e) {
+        if (!$order) {
             return redirect()->back()->with([
                 'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-general')
+                'toast-message' => __('toast/messages.error-order-not-found')
             ]);
         }
+
+        $redirect = $this->checkIfOrderBelongsToUser($order);
+
+        if ($redirect) {
+            return $redirect;
+        }
+
+        if (in_array($order->status, $this->ableToCancelStatus)) {
+            $email = Auth::user()->getEmail();
+
+            $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
+
+            $order->status = 'cancelled';
+            $order->save();
+        }
+
+        return redirect()->back()->with([
+            'toast-type' => 'success',
+            'toast-message' => __('toast/messages.success-order-cancelled')
+        ]);
     }
 
     private function checkIfOrderBelongsToUser($order)

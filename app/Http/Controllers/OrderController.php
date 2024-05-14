@@ -40,16 +40,9 @@ class OrderController extends Controller
         }
 
         // Get all Products from obtained Group
-        $products = Product::join('product_group', 'products.id', '=', 'product_group.product_id')
-            ->join('groups', 'product_group.group_id', '=', 'groups.id')
-            ->join('product_sizes', 'groups.size_id', '=', 'product_sizes.id')
-            ->join('product_product_size', function ($join) {
-                $join->on('products.id', '=', 'product_product_size.product_id')
-                    ->on('product_sizes.id', '=', 'product_product_size.product_size_id');
-            })
-            ->where('groups.id', '=', $group->id)
-            ->select('products.*', 'product_product_size.*')
-            ->get();
+        $products = Product::whereHas('groups', function ($query) use ($group) {
+            $query->where('groups.id', '=', $group->id);
+        })->get();
 
         return view('orders.overview-admin', [
             'products' => $products,

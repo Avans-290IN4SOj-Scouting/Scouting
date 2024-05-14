@@ -9,4 +9,5 @@ return [
     "date" => 'd-m-Y',
     "date_time" => 'd-m-Y H:i:s',
     "required" => ":attribute is verplicht",
+    "close" => "Sluiten",
 ];
