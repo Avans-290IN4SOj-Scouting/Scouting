@@ -15,8 +15,14 @@ class GroupsController extends Controller
         return view('admin.groups', [
             'groups' => $groups,
 
-            'subgroups' => [],
-            'subGroupLeaders' => [],
+            'subgroups' => [
+                (object)['name' => 'hello!'],
+                (object)['name' => 'world!']
+            ],
+            'subGroupLeaders' => [
+                (object)['email' => 'hello!'],
+                (object)['email' => 'world!']
+            ],
         ]);
     }
 }

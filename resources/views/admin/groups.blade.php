@@ -24,12 +24,12 @@
                 {{ $group->name }}
                 </button>
 
-                <div id="hs-basic-bordered-collapse-two" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-bordered-heading-two">
+                <div id="hs-basic-bordered-collapse-two" class="hs-accordion-content hidden w-half overflow-hidden transition-[height] duration-300" aria-labelledby="hs-bordered-heading-two">
                     <div class="pb-4 px-5">
 
-                        <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
+                        <div class="p-1.5 inline-block align-middle overflow-x-auto">
                             <div class="border rounded-lg overflow-hidden dark:border-neutral-700">
-                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <table class="divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="w-1/5 px-6 py-3 text-start text-xs font-medium text-black uppercase dark:text-white">
