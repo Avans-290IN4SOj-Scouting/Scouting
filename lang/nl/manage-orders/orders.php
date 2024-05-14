@@ -17,4 +17,5 @@ return [
     'status' => 'Status',
     'group_name' => 'Groepsnaam',
     'empty_table' => 'Geen geplaatste bestellingen',
+    'filter_on_status' => 'Filter op status',
 ];
