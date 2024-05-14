@@ -51,9 +51,9 @@ Route::get(__('route.logout'), function () {
         ]);
 })->name('logout');
 
-Route::middleware('role:admin')->group(function () {
+Route::middleware('role:admin|teamleader')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
-        Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+        Route::middleware('role:admin')->prefix(__('route.accounts'))->name('accounts.')->group(function () {
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
@@ -102,7 +102,7 @@ Route::middleware('role:admin')->group(function () {
                 ->name('update-status');
         });
 
-        Route::get(__('navbar.manage_products'), function () {
+        Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
     });
