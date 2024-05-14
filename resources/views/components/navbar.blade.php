@@ -77,6 +77,13 @@
                                  {{__('navbar.manage_orders')}}
                             </a>
                             @endif
+
+                            @if (Auth::user()->hasRole('admin'))
+                            <a class="{{ request()->routeIs('manage.groups.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                href="{{route('manage.groups.index')}}">
+                                 {{__('navbar.manage_groups')}}
+                             </a>
+                            @endif
                         </div>
                     </div>
                 @endif

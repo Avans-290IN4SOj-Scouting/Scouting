@@ -5,6 +5,7 @@ return [
     'manage_accounts' => 'Beheer accounts',
     'manage_products' => 'Beheer producten',
     'manage_orders' => 'Beheer bestellingen',
+    'manage_groups' => 'Beheer groepen',
     'home' => 'Home',
     'cart' => 'Winkelwagen',
     'checkout' => 'Afrekenen',
