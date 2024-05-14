@@ -51,4 +51,9 @@ return [
 
     'form-lid-name-error' => 'Uw lid naam is niet ingevuld.',
     'form-group-error' => 'Deze groep bestaat niet (meer).',
+
+    'increase_product_amount_by_1' => 'Verhoog aantal met 1',
+    'decrease_product_amount_by_1' => 'Verlaag aantal met 1',
+    'remove_product_from_cart' => 'Verwijder product uit winkelwagen',
+    'product_amount' => 'Product aantal',
 ];
