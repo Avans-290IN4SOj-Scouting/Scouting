@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Services\ShoppingCartService;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -185,7 +186,7 @@ class OrderController extends Controller
                     $query->orderByDesc('product_price');
                 }
             ]);
-            $order->order_date = new \DateTime($order->order_date);
+            $order->order_date = new DateTime($order->order_date);
             $order->status = DeliveryStatus::localisedValue($order->status);
         });
 

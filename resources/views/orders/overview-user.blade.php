@@ -26,6 +26,8 @@
         </ol>
     </div>
 
+    <h1 class="text-4xl m-8 dark:text-white">{{__('orders/orders.overview_orders')}}</h1>
+
     <div class="shadow p-4 m-4 rounded-xl flex flex-col gap-4">
         @foreach ($orders as $order)
             <a href="{{ route('orders.detail', ['id' => $order->id]) }}">
