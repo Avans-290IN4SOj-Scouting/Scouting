@@ -3,7 +3,7 @@ function handleFileSelect(event) {
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
     const placeholder = document.getElementById('notimage');
-    if (file.type.startsWith('image/')) {
+    if (file.type.startsWith('image/') || preview.src.includes('images')) {
         const reader = new FileReader();
 
         reader.onload = function (event) {
@@ -21,6 +21,16 @@ function handleFileSelect(event) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const preview = document.getElementById('file-image');
+    const removeBtn = document.getElementById('remove-image');
+    if(preview.src.includes('images')) {
+        removeBtn.classList.remove('hidden');
+    }
+});
+
+
+
 function removeImage(event) {
     event.preventDefault();
     const preview = document.getElementById('file-image');
@@ -30,6 +40,9 @@ function removeImage(event) {
     preview.classList.add('hidden');
     removeBtn.classList.add('hidden');
     placeholder.classList.remove('hidden');
+
+    preview.src = '';
+
     uploadInput.value = '';
 }
 

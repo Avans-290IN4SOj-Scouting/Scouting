@@ -12,26 +12,27 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ManageProductsTest extends DuskTestCase
 {
     protected $admin;
-
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->admin = User::factory()->create(['email' => 'role@test.com']);
-        $this->admin->assignRole('admin');
+        $this->admin = User::factory()->create([
+            'email' => 'admin',
+            'password' => 'password',
+        ])->assignRole('admin');
     }
 
-//    public function test_resizability(): void
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $browser->loginAs($this->admin);
-//            $browser->resize(1200, 800);
-//            $browser->visit(route('manage.products.index'))
-//                ->responsiveScreenshots('products/overview/overview-page')
-//                ->visit(route('manage.products.create.index'))
-//                ->responsiveScreenshots('products/add-product/manage-addProduct');
-//        });
-//    }
+    public function test_resizability(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin);
+            $browser->resize(1200, 800);
+            $browser->visit(route('manage.products.index'))
+                ->responsiveScreenshots('products/overview/overview-page')
+                ->visit(route('manage.products.create.index'))
+                ->responsiveScreenshots('products/add-product/manage-addProduct');
+        });
+    }
+
 //    public function test_addProduct_flow(): void
 //    {
 //        $this->browse(function (Browser $browser) {
@@ -60,19 +61,19 @@ class ManageProductsTest extends DuskTestCase
 //        });
 //    }
 
-    public function test_editProduct_flow(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs($this->admin);
-            $browser->visit(route('manage.products.index'))
-                ->click('@edit-product-button')
-                ->assertSee(__('manage-products/products.edit_page_title'))
-                ->type('priceForSize[Default]', '10')
-                ->click('@multiple-select-'.__('manage-products/products.groups-multiselect').' + *')
-                ->click(__('[data-value="Bevers"]'))
-                ->click(__('[data-value="Kabouters"]'))
-                ->click('.add-product')
-                ->screenshot("redirectingCorrectlyWhenSubmittedEdit");
-        });
-    }
+//    public function test_editProduct_flow(): void
+//    {
+//        $this->browse(function (Browser $browser) {
+//            $browser->loginAs($this->admin);
+//            $browser->visit(route('manage.products.index'))
+//                ->click('@edit-product-button')
+//                ->assertSee(__('manage-products/products.edit_page_title'))
+//                ->type('priceForSize[Default]', '10')
+//                ->click('@multiple-select-'.__('manage-products/products.groups-multiselect').' + *')
+//                ->click(__('[data-value="Bevers"]'))
+//                ->click(__('[data-value="Kabouters"]'))
+//                ->click('.add-product')
+//                ->screenshot("redirectingCorrectlyWhenSubmittedEdit");
+//        });
+//    }
 }

@@ -59,19 +59,13 @@ class ProductController extends Controller
 
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
-
-        $validPictureAdded = ($request->hasFile('af-submit-app-upload-images') && $request->file('af-submit-app-upload-images')->isValid());
-        if ($validPictureAdded) {
-            if ($product->image_path) {
+        if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
                 Storage::disk('public')->delete($product->image_path);
             }
-        }
         if ($product->name !== $validatedData['name']) {
             $product->name = $validatedData['name'];
         }
-        if ($validPictureAdded) {
-            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
-        }
+            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '' , $product->getName(), $product->id);
 
         ProductProductSize::where('product_id', $product->id)->delete();
         if ($request->has('priceForSize')) {
@@ -193,7 +187,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
-        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName());
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName(),$product->id);
 
         // Set default price if priceForSize is not provided in the request
         $defaultPriceForSize = ['Default' => null];
@@ -246,11 +240,15 @@ class ProductController extends Controller
             throw $e;
         }
     }
-    private function savePicture($picture, $name)
+    private function savePicture($picture, $name, $id)
     {
-        if (Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
-            return '/images/products/' . $name . '.png';
+        if (!$picture) {
+            return "/images/products/placeholder.png";
         }
+        if (Storage::disk('public')->put('/images/products/' . $name . $id . '.png', $picture->get())) {
+            return '/images/products/' . $name . $id . '.png';
+        }
+
         return "/images/products/placeholder.png";
     }
 
