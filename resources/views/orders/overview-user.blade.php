@@ -28,7 +28,7 @@
 
     <div class="shadow p-4 m-4 rounded-xl flex flex-col gap-4">
         @foreach ($orders as $order)
-            <a href="{{ route('orders-user.details-order', ['orderId' => $order->id]) }}">
+            <a href="{{ route('orders.detail', ['id' => $order->id]) }}">
                 <x-order-preview :order="$order"/>
             </a>
         @endforeach
