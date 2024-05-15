@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCollection;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,9 +14,14 @@ class StocksController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['productType', 'productSizes', 'stocks'])->get();
+        $productCollections = ProductCollection::with([
+            'products',
+            'products.productType',
+            'products.productSizes',
+            'products.stocks'
+        ])->get();
 
-        return view('admin.stocks', ['products' => $products]);
+        return view('admin.stocks', ['productCollections' => $productCollections]);
     }
 
     public function update(Request $request, $id)
