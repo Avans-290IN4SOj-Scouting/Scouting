@@ -48,18 +48,4 @@ class Product extends Model
     {
         return $this->belongsToMany(Group::class, 'product_group');
     }
-
-    public function setPriceForSize(mixed $priceForSize)
-    {
-        $this->priceForSize = $priceForSize;
-    }
-
-    public function setGroups($groups)
-    {
-        if (is_array($groups)) {
-            $this->groups = $groups;
-        } else {
-            $this->groups = [$groups];
-        }
-    }
 }
