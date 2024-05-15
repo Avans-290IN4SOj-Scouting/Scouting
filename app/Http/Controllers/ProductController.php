@@ -65,6 +65,15 @@ class ProductController extends Controller
         $product->product_type_id = $this->categoryToId($validatedData['category']);
         $product->inactive = $request->has('inactive-checkbox') ? 1 : 0;
         $product->save();
+        $categoryId = $this->categoryToId($validatedData['category']);
+        $product->product_type_id = $categoryId;
+        if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
+            Storage::disk('public')->delete($product->image_path);
+        }
+        if ($product->name !== $validatedData['name']) {
+            $product->name = $validatedData['name'];
+        }
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '', $product->getName(), $product->id);
 
         // Sync product sizes
         $this->syncProductSizes($product, $validatedData);
