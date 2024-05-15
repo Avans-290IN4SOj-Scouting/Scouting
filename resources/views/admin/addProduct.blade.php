@@ -5,6 +5,7 @@
 @endpush
 
 @section('content')
+    <x-breadcrumbs :names="[__('manage-products/products.index_page_title'), __('manage-products/products.create_page_title')]" :routes="[route('manage.products.index'), route('manage.products.create.index')]" />
 
     <body class="bg-gray-100">
         <div class="container mx-auto px-4 py-8">

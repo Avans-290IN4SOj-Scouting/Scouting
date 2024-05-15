@@ -60,12 +60,12 @@ class ProductController extends Controller
         $categoryId = $this->categoryToId($validatedData['category']);
         $product->product_type_id = $categoryId;
         if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
-                Storage::disk('public')->delete($product->image_path);
-            }
+            Storage::disk('public')->delete($product->image_path);
+        }
         if ($product->name !== $validatedData['name']) {
             $product->name = $validatedData['name'];
         }
-            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '' , $product->getName(), $product->id);
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '', $product->getName(), $product->id);
 
         ProductProductSize::where('product_id', $product->id)->delete();
         if ($request->has('priceForSize')) {
@@ -187,7 +187,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->setName($request->input('name'));
         $product->setCategory($request->input('category'));
-        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName(),$product->id);
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName(), $product->id);
 
         // Set default price if priceForSize is not provided in the request
         $defaultPriceForSize = ['Default' => null];
