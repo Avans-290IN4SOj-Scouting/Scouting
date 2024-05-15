@@ -52,61 +52,61 @@ class ProductController extends Controller
     public function update(ProductEditRequest $request, $productId)
     {
         $validatedData = $request->validated();
-        $product = Product::find($productId);
-        if (!$product) {
-            return redirect()->back()->with('error', __('manage-products/products.not_found'));
+        $product = Product::findOrFail($productId);
+
+        if ($request->hasFile('af-submit-app-upload-images')) {
+            $image = $request->file('af-submit-app-upload-images');
+            $imageName = $product->getName() . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $product->image_path = $this->savePicture($image, $imageName, $product->id);
         }
 
-        $categoryId = $this->categoryToId($validatedData['category']);
-        $product->product_type_id = $categoryId;
-        if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
-                Storage::disk('public')->delete($product->image_path);
-            }
-        if ($product->name !== $validatedData['name']) {
-            $product->name = $validatedData['name'];
-        }
-            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '' , $product->getName(), $product->id);
+        // Update other product attributes
+        $product->name = $validatedData['name'];
+        $product->product_type_id = $this->categoryToId($validatedData['category']);
+        $product->inactive = $request->has('inactive-checkbox') ? 1 : 0;
+        $product->save();
 
-        ProductProductSize::where('product_id', $product->id)->delete();
-        if ($request->has('priceForSize')) {
+        // Sync product sizes
+        $this->syncProductSizes($product, $validatedData);
+
+        // Sync product groups
+        $this->syncProductGroups($product, $validatedData['products-group-multiselect']);
+
+        return redirect()->route('manage.products.index')->with('success', __('manage-products/products.update_success'));
+    }
+
+    private function syncProductSizes(Product $product, array $validatedData)
+    {
+        $product->productSizes()->detach();
+
+        if ($validatedData['priceForSize']) {
             foreach ($validatedData['priceForSize'] as $size => $price) {
                 if ($price !== null) {
                     $productSize = ProductSize::firstOrCreate(['size' => $size]);
-                    $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
-                } else {
-                    $existingProductSize = ProductSize::where('size', $size)->first();
-                    if ($existingProductSize) {
-                        $product->productSizes()->detach($existingProductSize->id);
-                    }
+                    $product->productSizes()->attach($productSize, ['price' => $price]);
                 }
             }
         }
+
         if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
             foreach ($validatedData['custom_prices'] as $index => $customPrice) {
                 $customSize = $validatedData['custom_sizes'][$index];
                 if ($customPrice !== null && trim($customPrice) !== '') {
                     $productSize = ProductSize::firstOrCreate(['size' => $customSize]);
-                    $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $customPrice]]);
-                } else {
-                    $productSize = ProductSize::where('size', $customSize)->first();
-                    if ($productSize) {
-                        $product->productSizes()->detach($productSize->id);
-                    }
+                    $product->productSizes()->attach($productSize, ['price' => $customPrice]);
                 }
             }
         }
+    }
 
+    private function syncProductGroups(Product $product, array $groupNames)
+    {
         $product->groups()->detach();
-        foreach ($validatedData['products-group-multiselect'] as $groupName) {
+
+        foreach ($groupNames as $groupName) {
             $group = Group::firstOrCreate(['name' => $groupName]);
             $product->groups()->attach($group);
         }
-
-        $isInactive = $request->has('inactive-checkbox') ? 1 : 0;
-        $product->inactive = $isInactive;
-
-        $product->save();
-        return redirect()->route('manage.products.index')->with('success', __('manage-products/products.update_success'));
     }
 
     public function add()
@@ -124,13 +124,9 @@ class ProductController extends Controller
     public function edit($productId)
     {
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
-
-        // Check if the product exists
         if (!$product) {
-            // Product not found, redirect back with an error message
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
         }
-
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::whereNot('size', 'Default')->get();
@@ -149,14 +145,11 @@ class ProductController extends Controller
                 $sizes[] = $sizeData;
             }
         }
-
         $defaultSize = [
             'size' => 'Default',
             'price' => null,
         ];
-
         $defaultProductSize = ProductSize::where('size', 'Default')->first();
-
         if ($defaultProductSize) {
             $defaultProductSizePrice = ProductProductSize::where('product_id', $product->id)
                 ->where('product_size_id', $defaultProductSize->id)
@@ -166,9 +159,7 @@ class ProductController extends Controller
                 $defaultSize['price'] = $defaultProductSizePrice->price;
             }
         }
-
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
-
         return view('admin.editProduct', [
             'product' => $product,
             'baseCategories' => $categories,
@@ -181,77 +172,47 @@ class ProductController extends Controller
             'nameDisabled' => $nameDisabled,
         ]);
     }
-
     public function store(ProductCreationRequest $request)
     {
-        $product = new Product();
-        $product->setName($request->input('name'));
-        $product->setCategory($request->input('category'));
-        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName(),$product->id);
-
-        // Set default price if priceForSize is not provided in the request
+        $requestData = $request->all();
+        $image = $request->file('af-submit-app-upload-images');
+        $imageName = $request->input('name');
+        $uniqueImageName = $imageName . '_' . time() . '.' . $image->getClientOriginalExtension();
+        $product = Product::create([
+            'name' => $imageName,
+            'image_path' => $this->savePicture($image, $uniqueImageName),
+            'product_type_id' => $this->categoryToId($requestData['category']),
+            'discount' => 0,
+        ]);
         $defaultPriceForSize = ['Default' => null];
-        $priceForSize = $request->input('priceForSize', $defaultPriceForSize);
-        $product->setPriceForSize($priceForSize);
-
-        // Set custom sizes and prices
-        $customSizes = $request->input('custom_sizes', []);
-        $customPrices = $request->input('custom_prices', []);
-
-        // Merge default and custom sizes and prices
-        $sizesAndPrices = array_merge($product->priceForSize, array_combine($customSizes, $customPrices));
-
-        // Set sizes and prices on the product
-        $product->setPriceForSize($sizesAndPrices);
-
-        // Set groups
-        $product->setGroups($request->input('products-group-multiselect'));
-
-        DB::beginTransaction();
-        try {
-            $category = $this->categoryToId($product->getCategory());
-            $newProduct = Product::create([
-                'name' => $product->getName(),
-                'discount' => 0,
-                'product_type_id' => $category,
-                'image_path' => $product->image_path,
-            ]);
-
-            // Handle sizes and prices
-            foreach ($product->priceForSize as $size => $price) {
-                if ($price !== null) {
-                    $productSize = ProductSize::firstOrCreate(['size' => $size]);
-                    $newProduct->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
-                }
+        $priceForSize = $requestData['priceForSize'] ?? $defaultPriceForSize;
+        $customSizes = $requestData['custom_sizes'] ?? [];
+        $customPrices = $requestData['custom_prices'] ?? [];
+        $sizesAndPrices = array_merge($priceForSize, array_combine($customSizes, $customPrices));
+        foreach ($sizesAndPrices as $size => $price) {
+            if ($price !== null) {
+                $productSize = ProductSize::firstOrCreate(['size' => $size]);
+                $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
             }
-
-            // Handle groups
-            foreach ($product->groups as $group) {
-                $newProduct->groups()->attach(Group::firstOrCreate(['name' => $group]));
-            }
-
-            DB::commit();
-
-            $request->session()->flash('toast-type', 'success');
-            $request->session()->flash('toast-message', __('toast/messages.success-product-add'));
-            return redirect()->route('manage.products.index');
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
         }
+        $groups = $requestData['products-group-multiselect'] ?? [];
+        foreach ($groups as $group) {
+            $product->groups()->attach(Group::firstOrCreate(['name' => $group]));
+        }
+        $request->session()->flash('toast-type', 'success');
+        $request->session()->flash('toast-message', __('toast/messages.success-product-add'));
+        return redirect()->route('manage.products.index');
     }
-    private function savePicture($picture, $name, $id)
+    private function savePicture($picture, $name)
     {
         if (!$picture) {
             return "/images/products/placeholder.png";
         }
-        if (Storage::disk('public')->put('/images/products/' . $name . $id . '.png', $picture->get())) {
-            return '/images/products/' . $name . $id . '.png';
+        if (Storage::disk('public')->put('/images/products/' . $name . '.png', $picture->get())) {
+            return '/images/products/' . $name . '.png';
         }
-
         return "/images/products/placeholder.png";
     }
-
     private function categoryToId($category)
     {
         $category = strtolower($category);

@@ -89,7 +89,7 @@
                         'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                         'options' => $baseGroups->pluck('name'),
                         'name' => 'products-group-multiselect',
-                        'class' => 'scouting-groups-select',
+                        'class' => 'manage-products/products.groups-multiselect',
                     ])
                     <!-- Product Category Field -->
                     @include('partials._input', [
