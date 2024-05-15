@@ -15,7 +15,8 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.accounts.filter') }}" method="GET">
-                <div class="flex space-y-2 items-start pb-4 flex-col  sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+                <div
+                    class="flex space-y-2 items-start pb-4 flex-col  sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
                     <x-search-bar search="{{ $search }}"
                                   placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
 
@@ -45,27 +46,27 @@
                                 @if (Request::get('direction') == 'desc')
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                                              d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
                                         </svg>
                                     </span>
                                 @else
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
+                                              d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
                                         </svg>
                                     </span>
                                 @endif
                             @else
                                 <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor" class="w-4 h-4">
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
+                                      d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
                                 </svg>
                             </span>
                             @endif
@@ -82,14 +83,16 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <div id="selectRole-div" class="relative"
-                                    data-account-email="{{ $account->email }}"
-                                    data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
-                                    style="width: 250px;">
-                                    <label for="selectRole" hidden>{{ __('manage-accounts/accounts.role')  }}</label>
-                                    <select id="selectRole" multiple
-                                            data-hs-select='{
+                            <td class="flex items-center justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                <!--<div id="role-modal" class="">
+                                    <div id="selectRole-div" class="relative"
+                                         data-account-email="{{ $account->email }}"
+                                         data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
+                                         style="width: 250px;">
+                                        <label for="selectRole"
+                                               hidden>{{ __('manage-accounts/accounts.role')  }}</label>
+                                        <select id="selectRole" multiple
+                                                data-hs-select='{
                                                     "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
                                                     "toggleTag": "<button type=\"button\"></button>",
                                                     "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
@@ -97,13 +100,30 @@
                                                     "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
                                                     "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                     }' class="hidden">
-                                        @foreach($roles as $role)
-                                            <option value="{{ $role->name }}"
-                                                    data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                {{ __('manage-accounts/roles.' . $role->name) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->name }}"
+                                                        data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                    {{ __('manage-accounts/roles.' . $role->name) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>-->
+                                <div class="text-blue-600">
+                                    <div class="hs-tooltip inline-block">
+                                        <button type="button" class="hs-tooltip-toggle">
+                                            <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M12 2C12.5523 2 13 2.44772 13 3V11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H13V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H11V3C11 2.44772 11.4477 2 12 2Z"
+                                                      fill="currentColor"/>
+                                            </svg>
+                                            <!-- TODO: add localisation when done -->
+                                            <span
+                                                class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700"
+                                                role="tooltip">Rol toevoegen</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
