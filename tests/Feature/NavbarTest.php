@@ -51,7 +51,7 @@ class NavbarTest extends TestCase
             ->get(route('manage.accounts.index'));
 
         $response->assertStatus(200);
-        $response->assertSee(__('navbar.admin'));
+        $response->assertSee(__('navbar.manage'));
     }
 
     public function test_login_link_name()

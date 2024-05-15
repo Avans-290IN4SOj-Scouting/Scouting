@@ -28,19 +28,19 @@
     }
 
     .cancelled {
-        @apply text-red-500;
+        @apply text-red-700;
     }
 
     .payment_refunded, .delivered, .finalized {
-        @apply text-green-500;
+        @apply text-green-700;
     }
 
     .awaiting_payment {
-        @apply text-yellow-500;
+        @apply text-yellow-700;
     }
 
     .processing {
-        @apply text-blue-500;
+        @apply text-blue-700;
     }
 }
 

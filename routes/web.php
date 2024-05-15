@@ -52,9 +52,9 @@ Route::get(__('route.logout'), function () {
         ]);
 })->name('logout');
 
-Route::middleware('role:admin')->group(function () {
+Route::middleware('role:admin|teamleader')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
-        Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+        Route::middleware('role:admin')->prefix(__('route.accounts'))->name('accounts.')->group(function () {
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
@@ -117,8 +117,11 @@ Route::middleware('role:admin')->group(function () {
             // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
             // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
             //     ->name('cancel-order');
-            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            Route::post('/{id}/cancel', [ManageOrdersController::class, 'cancelOrder'])
                 ->name('cancel-order');
+
+            Route::post('/{id}/update', [ManageOrdersController::class, 'updateOrderStatus'])
+                ->name('update-status');
         });
     });
 });

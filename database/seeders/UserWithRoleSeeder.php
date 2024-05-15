@@ -18,6 +18,13 @@ class UserWithRoleSeeder extends Seeder
         ])->first();
         $admin->assignRole('admin');
 
+        $groupLeader = User::factory(1)->create([
+            'email' => 'groepsleider@azge.nl',
+        ])->first();
+        $groupLeader->assignRole('teamleader');
+        $groupLeader->assignRole('team_bevers');
+        $groupLeader->assignRole('team_gidsen');
+
         $user = User::factory(1)->create()->first();
         $user->assignRole('team_bevers');
         $user->assignRole('team_gidsen');
