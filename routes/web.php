@@ -53,32 +53,34 @@ Route::get(__('route.logout'), function () {
 
 Route::middleware('role:admin|teamleader')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
-        Route::middleware('role:admin')->prefix(__('route.accounts'))->name('accounts.')->group(function () {
-            Route::get('/', [AccountsController::class, 'index'])
-                ->name('index');
+        Route::middleware('role:admin')->group(function () {
+            Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+                Route::get('/', [AccountsController::class, 'index'])
+                    ->name('index');
 
-            Route::get(__('route.filter'), [AccountsController::class, 'filter'])
-                ->name('filter');
+                Route::get(__('route.filter'), [AccountsController::class, 'filter'])
+                    ->name('filter');
 
-            Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
-                ->name('update.roles');
+                Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
+                    ->name('update.roles');
 
-            Route::get('warning-toast-accounts', function () {
-                return redirect()
-                    ->route('manage.accounts.index')
-                    ->with([
-                        'toast-type' => 'warning',
-                        'toast-message' => __('toast/messages.warning-accounts')
-                    ]);
-            });
+                Route::get('warning-toast-accounts', function () {
+                    return redirect()
+                        ->route('manage.accounts.index')
+                        ->with([
+                            'toast-type' => 'warning',
+                            'toast-message' => __('toast/messages.warning-accounts')
+                        ]);
+                });
 
-            Route::get('warning-toast-no-admins', function () {
-                return redirect()
-                    ->route('manage.accounts.index')
-                    ->with([
-                        'toast-type' => 'warning',
-                        'toast-message' => __('toast/messages.warning-no-admins')
-                    ]);
+                Route::get('warning-toast-no-admins', function () {
+                    return redirect()
+                        ->route('manage.accounts.index')
+                        ->with([
+                            'toast-type' => 'warning',
+                            'toast-message' => __('toast/messages.warning-no-admins')
+                        ]);
+                });
             });
         });
 
@@ -144,4 +146,4 @@ Route::post('/test/send-test-mail', [TestController::class, 'test_send_test_mail
 Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
-->name('gmail.auth-callback');
+    ->name('gmail.auth-callback');
