@@ -66,7 +66,7 @@ class NavbarTest extends DuskTestCase
                 ->press(__('auth/auth.sign-in'))
                 ->screenshot('admin-navbar')
                 ->assertRouteIs('home')
-                ->assertSee(__('navbar.manage'));
+                ->assertSee(__('navbar.admin'));
         });
     }
 

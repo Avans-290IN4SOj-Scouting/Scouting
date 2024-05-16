@@ -5,7 +5,6 @@
 @endpush
 
 @section('content')
-    <x-breadcrumbs :names="[__('manage-products/products.index_page_title'), $product->name]" :routes="[route('manage.products.index'), route('manage.products.edit.index', ['id' => $product['id']])]" />
 
     <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">

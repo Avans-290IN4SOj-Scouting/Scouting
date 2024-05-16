@@ -20,7 +20,7 @@ class OrderDetailsTest extends TestCase
 
         $order = Order::factory()->create(['status' => DeliveryStatus::AwaitingPayment, 'user_id' => $user->id]);
 
-        $response = $this->post(route('orders-user.cancel-order', ['id' => $order->id]));
+        $response = $this->post(route('orders-user.cancel-order', ['orderId' => $order->id]));
 
         $response->assertRedirect();
         $response->assertSessionHas('toast-type', 'success');
@@ -37,7 +37,7 @@ class OrderDetailsTest extends TestCase
         $userToTest = User::factory()->create();
         $order = Order::factory()->create(['status' => DeliveryStatus::Finalized, 'user_id' => $userToTest->id]);
 
-        $response = $this->post(route('orders-user.cancel-order', ['id' => $order->id]));
+        $response = $this->post(route('orders-user.cancel-order', ['orderId' => $order->id]));
 
         $response->assertRedirect();
         $response->assertSessionHas('toast-type', 'error');
@@ -51,7 +51,7 @@ class OrderDetailsTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $response = $this->post(route('orders-user.cancel-order', ['id' => 999]));
+        $response = $this->post(route('orders-user.cancel-order', ['orderId' => 999]));
 
         $response->assertRedirect();
         $response->assertSessionHas('toast-type', 'error');
