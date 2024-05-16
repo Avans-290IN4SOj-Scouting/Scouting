@@ -49,6 +49,26 @@ class Product extends Model
         return $this->belongsToMany(Group::class, 'product_group');
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
     public function setPriceForSize(mixed $priceForSize)
     {
         $this->priceForSize = $priceForSize;

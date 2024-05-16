@@ -145,7 +145,7 @@
                     <!-- Add Product Button -->
                     <div>
                         <button id="big-screen" type="submit"
-                            class="bg-blue-500 text-white px-4 py-2 big-screen submit-edit rounded-md shadow-md hover:bg-blue-600 transition duration-300">
+                            class="bg-blue-500 text-white px-4 py-2 big-screen rounded-md shadow-md hover:bg-blue-600 transition duration-300">
                             {{ __('manage-products/products.product_edit_button') }}
                         </button>
                     </div>
@@ -178,8 +178,8 @@
                     <x-error :error="$errors->first('af-submit-app-upload-images')" id="af-submit-app-upload-images" />
                 </div>
 
-                <button id="small-screen"  type="submit"
-                    class="bg-blue-500 text-white px-4 py-2 submit-edit rounded-md shadow-md hover:bg-blue-600 transition duration-300">
+                <button id="small-screen" type="submit"
+                    class="bg-blue-500 text-white px-4 py-2   rounded-md shadow-md hover:bg-blue-600 transition duration-300">
                     {{ __('manage-products/products.product_edit_button') }}
                 </button>
             </div>
