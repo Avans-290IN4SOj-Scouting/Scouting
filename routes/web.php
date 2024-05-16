@@ -82,6 +82,11 @@ Route::middleware('role:admin|teamleader')->group(function () {
                         ]);
                 });
             });
+
+            Route::prefix(__('route.backorders'))->name('backorders.')->group(function () {
+                Route::get(__('route.download'), [BackordersController::class, 'download'])
+                    ->name('download');
+            });
         });
 
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {

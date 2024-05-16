@@ -12,4 +12,5 @@ return [
     'admin' => 'Admin',
     'manage' => 'Beheer',
     'register' => 'Registreren',
+    'download_backorders' => 'Download backorders',
 ];
