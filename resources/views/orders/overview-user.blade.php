@@ -21,7 +21,7 @@
             </li>
             <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate dark:text-gray-200"
                 aria-current="page">
-                {{ ucfirst(__('orders/orders.overview_orders')) }}
+                {{ __('orders/orders.overview_orders') }}
             </li>
         </ol>
     </div>
