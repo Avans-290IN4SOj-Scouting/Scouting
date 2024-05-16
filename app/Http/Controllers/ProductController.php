@@ -54,11 +54,10 @@ class ProductController extends Controller
         $validatedData = $request->validated();
         $product = Product::findOrFail($productId);
 
-        // Save the new image if provided
         if ($request->hasFile('af-submit-app-upload-images')) {
             $image = $request->file('af-submit-app-upload-images');
-            $imageName = time() . '.' .  $image->getClientOriginalExtension();
-            $product->image_path = $this->savePicture($image, $imageName);
+            $imageName = $product->getName() . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $product->image_path = $this->savePicture($image, $imageName, $product->id);
         }
 
         // Update other product attributes
@@ -66,6 +65,15 @@ class ProductController extends Controller
         $product->product_type_id = $this->categoryToId($validatedData['category']);
         $product->inactive = $request->has('inactive-checkbox') ? 1 : 0;
         $product->save();
+        $categoryId = $this->categoryToId($validatedData['category']);
+        $product->product_type_id = $categoryId;
+        if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
+            Storage::disk('public')->delete($product->image_path);
+        }
+        if ($product->name !== $validatedData['name']) {
+            $product->name = $validatedData['name'];
+        }
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '', $product->getName(), $product->id);
 
         // Sync product sizes
         $this->syncProductSizes($product, $validatedData);
@@ -76,12 +84,11 @@ class ProductController extends Controller
         return redirect()->route('manage.products.index')->with('success', __('manage-products/products.update_success'));
     }
 
-
     private function syncProductSizes(Product $product, array $validatedData)
     {
         $product->productSizes()->detach();
 
-        if (isset($validatedData['priceForSize']) && is_array($validatedData['priceForSize'])) {
+        if ($validatedData['priceForSize']) {
             foreach ($validatedData['priceForSize'] as $size => $price) {
                 if ($price !== null) {
                     $productSize = ProductSize::firstOrCreate(['size' => $size]);
@@ -100,7 +107,6 @@ class ProductController extends Controller
             }
         }
     }
-
 
     private function syncProductGroups(Product $product, array $groupNames)
     {
