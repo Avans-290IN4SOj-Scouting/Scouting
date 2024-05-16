@@ -23,9 +23,11 @@ class ProfileController extends Controller
             ->take(3)
             ->get()
             ->each(function ($order) {
-                $order->load(['orderLines' => function ($query) {
-                    $query->orderByDesc('product_price');
-                }]);
+                $order->load([
+                    'orderLines' => function ($query) {
+                        $query->orderByDesc('product_price');
+                    }
+                ]);
                 $order->order_date = new \DateTime($order->order_date);
                 $order->status = DeliveryStatus::localisedValue($order->status);
             });

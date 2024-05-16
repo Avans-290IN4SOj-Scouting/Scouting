@@ -25,9 +25,9 @@ class OrderDetailsController extends Controller
             DeliveryStatus::Processing->value];
     }
 
-    public function orderDetails($orderId)
+    public function orderDetails($id)
     {
-        $order = Order::findOrFail($orderId);
+        $order = Order::findOrFail($id);
 
         $redirect = $this->checkIfOrderBelongsToUser($order);
         if ($redirect) {
@@ -39,7 +39,7 @@ class OrderDetailsController extends Controller
         $order->order_date = new \DateTime($order->order_date);
         $order->status = DeliveryStatus::localisedValue($order->status);
 
-        $orderLines = OrderLine::with('product')->where('order_id', $orderId)->get();
+        $orderLines = OrderLine::with('product')->where('order_id', $id)->get();
         $productIds = $orderLines->pluck('product_id')->toArray();
         $productsWithGroups = Product::with('groups')->whereIn('id', $productIds)->get();
 
