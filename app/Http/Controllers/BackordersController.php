@@ -8,7 +8,8 @@ class BackordersController extends Controller
 {
     public function download() {
         $backorders = $this->getFakeBackorders();
-        $filename = "backorders.csv";
+        $date = date('Y-m-d_H-i-s');
+        $filename = "backorders_$date.csv";
         $handle = fopen($filename, 'w+');
         fputcsv($handle, array('ID', 'Product ID', 'Product Name', 'Quantity', 'Created At', 'Updated At'));
         foreach ($backorders as $backorder) {
@@ -19,7 +20,7 @@ class BackordersController extends Controller
             'Content-Type' => 'text/csv',
         );
 
-        return Response::download($filename, 'backorders.csv', $headers);
+        return Response::download($filename, $filename, $headers);
     }
 
     private function getFakeBackorders() {
