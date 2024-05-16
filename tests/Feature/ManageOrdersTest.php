@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use Tests\TestCase;
 use App\Models\User;
 use Carbon\Carbon;
@@ -55,5 +56,36 @@ class ManageOrdersTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertTrue($order->fresh()->status == DeliveryStatus::Cancelled->value);
+    }
+
+    public function test_update_status_successful(): void
+    {
+        $admin = User::factory()->create()->assignRole('admin');
+
+        $order = Order::factory()->create(['status' => DeliveryStatus::Processing->value]);
+
+        $newStatus = DeliveryStatus::AwaitingPayment->value;
+        $newStatusLocalized = DeliveryStatus::localisedValue($newStatus);
+
+        $response = $this->actingAs($admin)
+            ->post(route('manage.orders.update-status', ['id' => $order->id, 'status' => $newStatusLocalized]));
+
+        $response->assertRedirect()
+            ->assertSessionHas('toast-type', 'success')
+            ->assertSessionHas('toast-message', __('toast/messages.success-order-status-update'));
+
+        $this->assertEquals($newStatus, $order->fresh()->status);
+    }
+
+    public function test_update_status_unknown_order(): void
+    {
+        $admin = User::factory()->create()->assignRole('admin');
+
+        $response = $this->actingAs($admin)
+            ->post(route('manage.orders.update-status', ['id' => 999, 'status' => 'test']));
+
+        $response->assertRedirect()
+            ->assertSessionHas('toast-type', 'error')
+            ->assertSessionHas('toast-message', __('manage-orders/order.order-doesnt-exist'));
     }
 }

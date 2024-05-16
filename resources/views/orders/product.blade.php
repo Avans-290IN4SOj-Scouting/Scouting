@@ -15,26 +15,7 @@
 
 @section('content')
 
-<div class="breadcrumbs-container">
-    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
-        <li class="inline-flex items-center">
-            <a href="{{ route('home') }}" class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:focus:text-blue-500">
-                <svg class="flex-shrink-0 me-3 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                {{ __('navbar.home') }}
-            </a>
-            <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </li>
-        <li class="inline-flex items-center">
-            <a  href="{{ route('orders.overview', ['category' => $group->name]) }}" class="flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:focus:text-blue-500">
-                {{ $group->name }}
-            </a>
-            <svg class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </li>
-        <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate dark:text-gray-200" aria-current="page">
-            {{ $product->name }}
-        </li>
-    </ol>
-</div>
+    <x-breadcrumbs :names="[$group->name, $product->name]" :routes="[route('orders.overview', ['category' => $group->name]), '']" />
 
 <div id="wrapper">
     <div id="main">
@@ -62,7 +43,7 @@
                 <div class="actions">
                     @if (count($productSizes) > 1)
                     <div class="relative">
-                        <select id="product-sizes" class="peer p-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
+                        <select id="product-sizes" name="product-sizes" class="peer p-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
                         focus:pt-6
                         focus:pb-2
                         [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2
@@ -75,7 +56,8 @@
                             @endforeach
                         </select>
 
-                        <label class="absolute top-0 start-0 p-4 h-full truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                        <label for="product-sizes"
+                        class="absolute top-0 start-0 p-4 h-full truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
                         peer-focus:text-xs
                         peer-focus:-translate-y-1.5
                         peer-focus:text-gray-500

@@ -60,9 +60,11 @@
                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round">
                                                     <path d="M5 12h14" /></svg>
+                                                    <span class="sr-only">{{ __('orders/orders.decrease_product_amount_by_1') }}</span>
                                             </button>
 
-                                            <input id="input-{{ $product->product_id }}size-{{ $product->product_size_id }}"
+                                            <label for="input-{{ $product->product_id }}size-{{ $product->product_size_id }}" class="sr-only">{{ __('orders/orders.product_amount') }}</label>
+                                            <input id="input-{{ $product->product_id }}size-{{ $product->product_size_id }}" name="input-{{ $product->product_id }}size-{{ $product->product_size_id }}"
                                                 class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 dark:text-white"
                                                 onchange="DOM_shoppingCartProductAmountChange({{ $product->product_id }}, '{{ $product->product_size_id }}')"
                                                 type="text" value="{{ $product->amount }}">
@@ -76,6 +78,7 @@
                                                     stroke-linejoin="round">
                                                     <path d="M5 12h14" />
                                                     <path d="M12 5v14" /></svg>
+                                                    <span class="sr-only">{{ __('orders/orders.increase_product_amount_by_1') }}</span>
                                             </button>
                                         </div>
                                     </div>
@@ -83,7 +86,7 @@
                             </div>
 
                             <div class="product-shoppingcart-delete">
-                                <button type="submit"
+                                <button type="submit" name="delete"
                                     onclick="DOM_removeShoppingCartProduct({{ $product->product_id }}, '{{ $product->product_size_id }}')">
                                     <div class="icon">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -100,6 +103,7 @@
                                                 stroke-linejoin="round" />
                                         </svg>
                                     </div>
+                                    <span class="sr-only">{{ __('orders/orders.remove_product_from_cart') }}</span>
                                 </button>
                             </div>
                         </div>
