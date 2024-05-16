@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\ProductCollection;
+use App\Models\ProductType;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class StocksController extends Controller
 {
@@ -19,9 +18,10 @@ class StocksController extends Controller
         return view('admin.stocks', ['products' => $products]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $productId, $productTypeId)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($productId);
+        $productType = ProductType::findOrFail($productTypeId);
 
         $rules = [];
         $customMessages = [
@@ -53,7 +53,7 @@ class StocksController extends Controller
 
                 if ($productSize) {
                     Stock::updateOrCreate(
-                        ['product_id' => $product->id, 'product_size_id' => $productSize->id],
+                        ['product_id' => $product->id, 'product_type_id' => $productType->id, 'product_size_id' => $productSize->id],
                         ['amount' => $value]
                     );
                 }

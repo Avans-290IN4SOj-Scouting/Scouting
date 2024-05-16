@@ -46,24 +46,20 @@ class ProductGroupSeeder extends Seeder
 
         // First product gets added to all groups
         {
-            $product = Product::where('id', 1)->first();
             $group = Group::where('id', 1)->first();
-            $group->products()->attach($product);
+            $group->products()->attach($test1Product);
         }
         {
-            $product = Product::where('id', 1)->first();
             $group = Group::where('id', 2)->first();
-            $group->products()->attach($product);
+            $group->products()->attach($test1Product);
         }
         {
-            $product = Product::where('id', 1)->first();
             $group = Group::where('id', 3)->first();
-            $group->products()->attach($product);
+            $group->products()->attach($test1Product);
         }
         {
-            $product = Product::where('id', 1)->first();
             $group = Group::where('id', 4)->first();
-            $group->products()->attach($product);
+            $group->products()->attach($test1Product);
         }
     }
 }
