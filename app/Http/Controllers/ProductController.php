@@ -24,29 +24,17 @@ class ProductController extends Controller
                 'name' => $product->name,
                 'category' => $product->productType->type,
                 'groups' => $product->groups->pluck('name')->toArray(),
-                'sizesWithPrices' => $this->getSizesWithPrices($product),
+                'sizesWithPrices' => $product->productSizes->map(function ($size) {
+                    return [
+                        'size' => $size->size,
+                        'price' => $size->pivot->price,
+                    ];
+                }),
                 'id' => $product->id,
             ];
         });
 
         return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
-    }
-
-    private function getSizesWithPrices($product)
-    {
-        $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
-        $sizes = [];
-        foreach ($sizesWithPrices as $sizeWithPrice) {
-            $size = ProductSize::find($sizeWithPrice->product_size_id);
-            if ($size) {
-                $sizeData = [
-                    'size' => $size->size,
-                    'price' => $sizeWithPrice->price,
-                ];
-                $sizes[] = $sizeData;
-            }
-        }
-        return $sizes;
     }
 
     public function update(ProductEditRequest $request, $productId)
