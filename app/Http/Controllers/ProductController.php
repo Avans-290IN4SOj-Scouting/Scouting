@@ -65,7 +65,7 @@ class ProductController extends Controller
         if ($product->name !== $validatedData['name']) {
             $product->name = $validatedData['name'];
         }
-            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '' , $product->getName(), $product->id);
+            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '' , $product->name, $product->id);
 
         ProductProductSize::where('product_id', $product->id)->delete();
         if ($request->has('priceForSize')) {
@@ -185,9 +185,9 @@ class ProductController extends Controller
     public function store(ProductCreationRequest $request)
     {
         $product = new Product();
-        $product->setName($request->input('name'));
-        $product->setCategory($request->input('category'));
-        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->getName(),$product->id);
+        $product->name = $request->input('name');
+        $product->category = $request->input('category');
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->name,$product->id);
 
         // Set default price if priceForSize is not provided in the request
         $defaultPriceForSize = ['Default' => null];
@@ -209,9 +209,9 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
-            $category = $this->categoryToId($product->getCategory());
+            $category = $this->categoryToId($product->category);
             $newProduct = Product::create([
-                'name' => $product->getName(),
+                'name' => $product->name,
                 'discount' => 0,
                 'product_type_id' => $category,
                 'image_path' => $product->image_path,
