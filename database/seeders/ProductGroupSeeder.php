@@ -14,22 +14,37 @@ class ProductGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        $test1Product = Product::where('name', 'TestHeren')->first();
-        $test2Product = Product::where('name', 'TestDames')->first();
-        $test3Product = Product::where('name', 'TestUnisex')->first();
-        $test4Product = Product::where('name', 'TestSingleSize')->first();
+        $test1Product = Product::where('name', 'Wandelschoenen')->first();
+        $test2Product = Product::where('name', 'Vest')->first();
+        $test3Product = Product::where('name', 'Shirt')->first();
+        $test4Product = Product::where('name', 'Broek')->first();
+        $test5Product = Product::where('name', 'Hoed')->first();
+        $test6Product = Product::where('name', 'Sjaal')->first();
+        $test7Product = Product::where('name', 'Riem')->first();
 
-        $kabouterGroup = Group::where('name', 'Kabouters')->first();
+        $beversGroup = Group::where('name', 'Bevers')->first();
+        $kaboutersGroup = Group::where('name', 'Kabouters')->first();
         $welpenGroup = Group::where('name', 'Welpen')->first();
         $scoutsGroup = Group::where('name', 'Scouts')->first();
 
-        $kabouterGroup->products()->attach($test3Product);
-        $kabouterGroup->products()->attach($test4Product);
-        $welpenGroup->products()->attach($test1Product);
-        $welpenGroup->products()->attach($test2Product);
-        $scoutsGroup->products()->attach($test2Product);
-        $scoutsGroup->products()->attach($test3Product);
+        // Attach 3 products to each group
+        $beversGroup->products()->attach($test2Product);
+        $beversGroup->products()->attach($test3Product);
+        $beversGroup->products()->attach($test4Product);
 
+        $kaboutersGroup->products()->attach($test3Product);
+        $kaboutersGroup->products()->attach($test5Product);
+        $kaboutersGroup->products()->attach($test7Product);
+
+        $welpenGroup->products()->attach($test2Product);
+        $welpenGroup->products()->attach($test4Product);
+        $welpenGroup->products()->attach($test6Product);
+
+        $scoutsGroup->products()->attach($test5Product);
+        $scoutsGroup->products()->attach($test6Product);
+        $scoutsGroup->products()->attach($test7Product);
+
+        // First product gets added to all groups
         {
             $product = Product::where('id', 1)->first();
             $group = Group::where('id', 1)->first();
