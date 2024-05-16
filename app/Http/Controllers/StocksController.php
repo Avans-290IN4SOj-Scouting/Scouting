@@ -14,14 +14,9 @@ class StocksController extends Controller
 {
     public function index()
     {
-        $productCollections = ProductCollection::with([
-            'products',
-            'products.productType',
-            'products.productSizes',
-            'products.stocks'
-        ])->get();
+        $products = Product::with('productTypes', 'productSizes', 'stocks')->get();
 
-        return view('admin.stocks', ['productCollections' => $productCollections]);
+        return view('admin.stocks', ['products' => $products]);
     }
 
     public function update(Request $request, $id)

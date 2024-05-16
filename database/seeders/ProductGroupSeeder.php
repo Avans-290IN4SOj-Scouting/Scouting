@@ -14,11 +14,10 @@ class ProductGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        $test1Product = Product::where('name', 'TestHeren1')->first();
-        $test2Product = Product::where('name', 'TestDames1')->first();
-        $test3Product = Product::where('name', 'TestUnisex1')->first();
-        $test4Product = Product::where('name', 'TestSingleSize1')->first();
-        $test5Product = Product::where('name', 'TestSingleSize2')->first();
+        $test1Product = Product::where('name', 'TestHeren')->first();
+        $test2Product = Product::where('name', 'TestDames')->first();
+        $test3Product = Product::where('name', 'TestUnisex')->first();
+        $test4Product = Product::where('name', 'TestSingleSize')->first();
 
         $kabouterGroup = Group::where('name', 'Kabouters')->first();
         $welpenGroup = Group::where('name', 'Welpen')->first();
@@ -26,7 +25,6 @@ class ProductGroupSeeder extends Seeder
 
         $kabouterGroup->products()->attach($test3Product);
         $kabouterGroup->products()->attach($test4Product);
-        $kabouterGroup->products()->attach($test5Product);
         $welpenGroup->products()->attach($test1Product);
         $welpenGroup->products()->attach($test2Product);
         $scoutsGroup->products()->attach($test2Product);

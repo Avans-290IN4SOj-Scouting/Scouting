@@ -25,7 +25,7 @@
     </div>
 
     <div class="accordion-group bg-white border rounded-xl dark:bg-slate-900 dark:border-slate-700 border-gray-500">
-        @foreach($productCollections as $productCollection)
+        @foreach($products as $product)
             <div id="accordion-item-{{$loop->index + 1}}"
                  class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
                 <div class="accordion-header p-1.5 py-3">
@@ -43,18 +43,18 @@
                         <path d="M5 12h14"></path>
                     </svg>
                     <p class="font-semibold text-lg dark:text-white">
-                        {{$productCollection->name}}
+                        {{$product->name}}
                     </p>
                 </div>
                 <div class="accordion-content">
-                    @foreach($productCollection->products as $product)
+                    @foreach($product->productTypes as $productType)
                         <form method="POST" action="{{ route('manage.stocks.update', $product->id) }}">
                             @csrf
                             @method('PUT')
                             <div
                                 class="accordion-group bg-white dark:bg-slate-900 dark:border-slate-700 border-gray-500">
                                 <div id="accordion-item-{{$loop->index + 1}}-{{$loop->index + 1}}"
-                                     class="accordion-item">
+                                     class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
                                     <div class="accordion-header ps-6 py-3">
                                         <svg class="size-3.5 inactive dark:text-white"
                                              xmlns="http://www.w3.org/2000/svg"
@@ -73,26 +73,26 @@
                                             <path d="M5 12h14"></path>
                                         </svg>
                                         <p class="font-semibold text-base dark:text-white">
-                                            {{ $product->name }} - {{ $product->productType->type }}
+                                            {{ $productType->type }}
                                         </p>
                                     </div>
                                     <div class="accordion-content ps-6 py-2.5 space-x-1">
-                                        @foreach ($product->productSizes as $size)
+                                        @foreach ($product->productSizes as $productSize)
                                             <div
                                                 class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden shadow-md">
                                                 <label
-                                                    for="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                                    for="size-{{strtolower($productSize->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
                                                     class="text-black font-semibold px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
-                                                    {{ $size->size }}
+                                                    {{ $productSize->size }}
                                                 </label>
                                                 <div
                                                     class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
                                                 <input
-                                                    name="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
-                                                    id="size-{{strtolower($size->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                                    name="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
+                                                    id="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
                                                     class="p-0 w-6 font-semibold bg-transparent border-0 text-black text-center dark:text-white focus:border-white focus:ring-1 focus:ring-white focus:rounded-l-none focus:rounded-r-lg"
                                                     type="text"
-                                                    value="{{ $product->stocks->firstWhere('product_size_id', $size->id)->amount ?? 0 }}">
+                                                    value="{{ $product->stocks->firstWhere('product_size_id', $productSize->id)->amount ?? 0 }}">
                                             </div>
                                         @endforeach
                                         <button type="submit"
