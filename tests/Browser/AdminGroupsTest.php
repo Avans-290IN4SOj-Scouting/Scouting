@@ -2,10 +2,7 @@
 
 namespace Tests\Browser;
 
-use App\Enum\UserRoleEnum;
 use App\Models\User;
-use Facebook\WebDriver\WebDriverKeys;
-use Google\Service\Compute\Screenshot;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 

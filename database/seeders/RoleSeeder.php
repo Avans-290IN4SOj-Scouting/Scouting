@@ -16,12 +16,12 @@ class RoleSeeder extends Seeder
     {
         $guardName = 'web';
 
-        $roles = ['admin', 'teamleader', 'user'];
+        $roles = ['Admin', 'teamleader', 'user'];
 
         foreach ($roles as $role) {
             if (!Role::where('name', $role)->exists()) {
                 Role::create([
-                    'name' => $role,
+                    'name' => strtolower($role),
                     'guard_name' => $guardName,
                     'display_name' => $role,
                 ]);
