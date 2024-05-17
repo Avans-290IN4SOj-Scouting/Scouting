@@ -73,7 +73,7 @@
                             @endif
                         </th>
                         <th scope="col"
-                            class="w-1/5 px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                            class="w-1/5 px-6 py-3 text-xs font-medium text-gray-500 uppercase text-end">
                             {{ __('manage-accounts/accounts.role') }}
                         </th>
                     </tr>
