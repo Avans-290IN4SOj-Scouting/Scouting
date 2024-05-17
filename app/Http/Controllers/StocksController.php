@@ -30,10 +30,18 @@ class StocksController extends Controller
                 $productSize = $product->productSizes()->where('size', $size)->first();
 
                 if ($productSize) {
-                    Stock::updateOrCreate(
-                        ['product_id' => $product->id, 'product_type_id' => $productType->id, 'product_size_id' => $productSize->id],
-                        ['amount' => $value]
-                    );
+                    $stock = Stock::where([
+                        'product_id' => $product->id,
+                        'product_type_id' => $productType->id,
+                        'product_size_id' => $productSize->id
+                    ])->first();
+
+                    if ($stock || $value > 0) {
+                        Stock::updateOrCreate(
+                            ['product_id' => $product->id, 'product_type_id' => $productType->id, 'product_size_id' => $productSize->id],
+                            ['amount' => $value]
+                        );
+                    }
                 }
             }
         }
