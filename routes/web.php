@@ -111,6 +111,7 @@ Route::middleware('role:admin|teamleader')->group(function () {
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
+        
     });
 });
 
