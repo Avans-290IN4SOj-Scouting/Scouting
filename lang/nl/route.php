@@ -18,4 +18,5 @@ return [
     "orders" => "bestellingen",
     "order-details" => "bestelling",
     "filter" => "filteren",
+    "stocks" => "voorraad",
 ];

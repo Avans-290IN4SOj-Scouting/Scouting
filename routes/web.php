@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\ManageProductsController;
+use App\Http\Controllers\StocksController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -74,6 +74,18 @@ Route::middleware('role:admin|teamleader')->group(function () {
                         'toast-message' => __('toast/messages.warning-no-admins')
                     ]);
             });
+        });
+
+        // Manage Stocks
+        Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
+            Route::put('/{product}/{type}', [StocksController::class, 'update'])
+                ->name('update');
+
+            Route::get('/', [StocksController::class, 'index'])
+                ->name('index');
+
+            Route::delete('/destroy', [StocksController::class, 'destroy'])
+                ->name('destroy');
         });
 
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {

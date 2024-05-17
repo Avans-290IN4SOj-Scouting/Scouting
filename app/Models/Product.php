@@ -12,9 +12,9 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function productType(): BelongsTo
+    public function productTypes(): BelongsToMany
     {
-        return $this->belongsTo(ProductType::class);
+        return $this->belongsToMany(ProductType::class, 'product_product_type', 'product_id', 'product_type_id');
     }
 
     public function productSizes(): BelongsToMany
@@ -26,6 +26,16 @@ class Product extends Model
     public function stock(): HasOne
     {
         return $this->hasOne(Stock::class);
+    }
+
+    public function productCollection(): BelongsTo
+    {
+        return $this->belongsTo(ProductCollection::class);
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
     }
 
     public function groups()
