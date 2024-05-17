@@ -10,6 +10,7 @@ return [
     "update" => "bijwerken",
     "order" => "bestelling",
     "overview" => "overzicht",
+    "profile" => "profiel",
     "products" => "producten",
     "checkout" => "afrekenen",
     "complete_order" => "voltooien",
