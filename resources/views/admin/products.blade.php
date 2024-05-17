@@ -48,7 +48,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                         @foreach ($product['sizesWithPrices'] as $sizeWithPrice)
                                             <div>{{ $sizeWithPrice['size'] }} -
-                                                €{{ number_format($sizeWithPrice['price'], 2, ',', '.') }}</div>
+                                                {{ __('common.currency_symbol') }}
+                                                {{ number_format($sizeWithPrice['price'], 2, __('common.seperator'), '.') }}
+                                            </div>
                                         @endforeach
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">

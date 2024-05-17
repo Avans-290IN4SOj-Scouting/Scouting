@@ -23,7 +23,6 @@ class ProductEditRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'name' => 'required|string',
             'category' => 'required|string',
@@ -45,7 +44,7 @@ class ProductEditRequest extends FormRequest
                 }
                 $fail('Vul minimaal 1 prijs in voor de maat.');
             },],
-            'priceForSize.*' => 'nullable|numeric',
+            'priceForSize.*' => 'nullable|numeric|max:1000|min:0',
             'custom_prices' =>  ['nullable', 'array', function ($attribute, $value, $fail) {
         $priceForSize = $this->input('priceForSize') ?? [];
         $custom_prices = $this->input('custom_prices');
@@ -64,7 +63,7 @@ class ProductEditRequest extends FormRequest
         }
         $fail('Vul minimaal 1 prijs in voor de maat.');
     },],
-            'custom_prices.*' => 'nullable|numeric',
+            'custom_prices.*' => 'nullable|numeric|max:1000|min:0',
             'custom_sizes' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 $custom_sizes = $this->input('custom_sizes');
                 $custom_prices = $this->input('custom_prices') ?? [];
@@ -100,8 +99,12 @@ class ProductEditRequest extends FormRequest
             'products-group-multiselect.required' => 'Geef aan bij welke groepen dit product hoort',
             'products-group-multiselect.array' => 'Het groepen veld heeft een array object nodig.',
             'priceForSize.array' => 'Het prijs per maat veld moet een array zijn.',
-            'priceForSize.*.numeric' => 'Het prijs per maat veld moet numeriek zijn.',
-            'custom_prices.*.numeric' => 'Het aangepaste prijzen veld moet numeriek zijn.',
+            'priceForSize.*.numeric' => 'Elke prijs moet numeriek zijn.',
+            'priceForSize.*.max' => 'Elke prijs moet maximaal 1000 zijn.',
+            'priceForSize.*.min' => 'Elke prijs moet minimaal 0 zijn.',
+            'custom_prices.*.numeric' => 'Elke prijs moet numeriek zijn.',
+            'custom_prices.*.max' => 'Elke prijs moet maximaal 1000 zijn.',
+            'custom_prices.*.min' => 'Elke prijs moet minimaal 0 zijn.',
             'custom_sizes.*.string' => 'Het aangepaste maten veld moet een tekst zijn.',
         ];
     }

@@ -11,6 +11,7 @@ return [
     "create_page_title" => "Nieuw Product",
     "edit_page_title" => "Wijzig Product",
     "heading_custom_sizes" => "Maten en Prijzen",
+    "choose_" => "Kies",
     "name_label" => "Naam",
     "name_placeholder" => "Naam",
     "price_label" => "Product prijs",
@@ -29,9 +30,11 @@ return [
     "add_product" => "add-product",
     "product_image_span" => "Selecteer of sleep een afbeelding voor het product",
     "product_image_delete_button" => "Verwijder afbeelding",
+    "cannot-edit-due-order" => "Aanpassen niet mogelijk (er is een bestelling voor dit product)",
     'inactive-product' => 'Momenteel actief. Klik om inactief te maken.',
     'active-product' => 'Momenteel inactief. Klik om actief te maken.',
     "not_found" => "Product niet gevonden",
     "update_succes" => "Product succesvol gewijzigd",
+    "create_success" => "Product succesvol toegevoegd",
 ];
 

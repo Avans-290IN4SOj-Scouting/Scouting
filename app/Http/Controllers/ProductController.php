@@ -12,6 +12,7 @@ use App\Http\Requests\ProductCreationRequest;
 use App\Http\Requests\ProductEditRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Enum\PriceSizeErrorEnum;
 
 class ProductController extends Controller
 {
@@ -106,25 +107,18 @@ class ProductController extends Controller
             'baseCategories' => $categories,
             'baseGroups' => $groups,
             'baseProductSizes' => $productSizes,
+            'price_sizeErrorTypes' => PriceSizeErrorEnum::toArray(),
         ]);
     }
 
     public function edit($productId)
     {
         $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
-
-        // Check if the product exists
         if (!$product) {
             // Product not found, redirect back with an error message
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
         }
 
-        $categories = ProductType::all();
-        $groups = Group::all();
-        $productSizes = ProductSize::whereNot('size', 'Default')->get();
-        $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
-        $chosenCategorie = $product->productType;
-        $chosenGroups = $product->groups;
         $sizesWithPrices = ProductProductSize::where('product_id', $product->id)->get();
         $sizes = [];
         foreach ($sizesWithPrices as $sizeWithPrice) {
@@ -159,14 +153,15 @@ class ProductController extends Controller
 
         return view('admin.editProduct', [
             'product' => $product,
-            'baseCategories' => $categories,
-            'baseGroups' => $groups,
-            'baseProductSizes' => $productSizes,
-            'baseChosenCategorie' => $chosenCategorie,
-            'chosenGroups' => $chosenGroups,
+            'baseCategories' => ProductType::all(),
+            'baseGroups' => Group::all(),
+            'baseProductSizes' => ProductSize::whereNot('size', 'Default')->get(),
+            'baseChosenCategorie' => $product->productType,
+            'chosenGroups' => $product->groups,
             'sizesWithPrices' => $sizes,
             'defaultSizeWithPrice' => $defaultSize,
             'nameDisabled' => $nameDisabled,
+            'price_sizeErrorTypes' => PriceSizeErrorEnum::toArray(),
         ]);
     }
 
@@ -222,7 +217,7 @@ class ProductController extends Controller
 
             $request->session()->flash('toast-type', 'success');
             $request->session()->flash('toast-message', __('toast/messages.success-product-add'));
-            return redirect()->route('manage.products.index');
+            return redirect()->route('manage.products.index')->with('success', __('manage-products/products.create_success'));
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -233,11 +228,13 @@ class ProductController extends Controller
         if (!$picture) {
             return "/images/products/placeholder.png";
         }
-        if (Storage::disk('public')->put('/images/products/' . $name . $id . '.png', $picture->get())) {
+        try {
+            Storage::disk('public')->put('/images/products/' . $name . $id . '.png', $picture->get());
             return '/images/products/' . $name . $id . '.png';
         }
-
-        return "/images/products/placeholder.png";
+        catch (\Exception $e){
+            return "/images/products/placeholder.png";
+        }
     }
 
     private function categoryToId($category)

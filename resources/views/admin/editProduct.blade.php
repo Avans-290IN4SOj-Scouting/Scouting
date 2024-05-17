@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @push('scripts')
     <script src="{{ asset('js/manage-products/product.js') }}"></script>
-    <script src="{{ asset('js/manage-products/product initialise.js') }}" defer></script>
+    <script src="{{ asset('js/manage-products/product-initialise.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -93,16 +93,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @php
-                                $price_sizeErrorTypes = [
-                                    'priceForSize',
-                                    'priceForSize.*',
-                                    'custom_prices',
-                                    'custom_prices.*',
-                                    'custom_sizes',
-                                    'custom_sizes.*',
-                                ];
-                            @endphp
                             @foreach ($price_sizeErrorTypes as $errorType)
                                 @if ($errors->has($errorType))
                                     <x-error :error="$errors->first($errorType)" :id="$errorType" />

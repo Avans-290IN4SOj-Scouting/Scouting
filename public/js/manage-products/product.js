@@ -21,15 +21,13 @@ function handleFileSelect(event) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
-    if(preview.src.includes('images')) {
+    if (preview.src.includes('images')) {
         removeBtn.classList.remove('hidden');
     }
 });
-
-
 
 function removeImage(event) {
     event.preventDefault();
@@ -48,17 +46,17 @@ function removeImage(event) {
 
 function addCustomSizeInput(maat = '', prijs = '') {
 
-    var newDiv = document.createElement('div');
+    let newDiv = document.createElement('div');
     newDiv.classList.add('flex', 'items-center', 'space-x-4');
     newDiv.style.marginTop = '16px';
-    var sizeInput = document.createElement('input');
+    let sizeInput = document.createElement('input');
     sizeInput.type = 'text';
     sizeInput.name = 'custom_sizes[]';
     sizeInput.placeholder = 'Maat';
     sizeInput.value = maat;
     sizeInput.classList.add('w-full', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md',
         'specific-size-price');
-    var priceInput = document.createElement('input');
+    let priceInput = document.createElement('input');
     priceInput.type = 'number';
     priceInput.step = '0.01';
     priceInput.name = 'custom_prices[]';
@@ -86,9 +84,9 @@ function toggleButtons() {
 }
 
 function checkExistingProduct() {
-    var checkbox = document.getElementById("same-price-all");
-    var inputField = document.getElementById("priceForSize[Default]");
-    var sizePriceInputs = document.getElementById("size-price-inputs");
+    const checkbox = document.getElementById("same-price-all");
+    const inputField = document.getElementById("priceForSize[Default]");
+    const sizePriceInputs = document.getElementById("size-price-inputs");
     if (checkbox.checked) {
         inputField.disabled = true;
         inputField.classList.add('bg-gray-200');
