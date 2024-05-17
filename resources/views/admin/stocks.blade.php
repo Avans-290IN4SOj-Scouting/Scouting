@@ -24,19 +24,19 @@
         </form>
     </div>
 
-    <div class="accordion-group bg-white border rounded-xl dark:bg-slate-900 dark:border-slate-700 border-gray-500">
+    <div class="accordion-group bg-transparent border rounded-xl dark:border-slate-700 border-gray-400">
         @foreach($products as $product)
             <div id="accordion-item-{{$loop->index + 1}}"
-                 class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
+                 class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-400 @endif">
                 <div class="accordion-header p-1.5 py-3">
-                    <svg class="size-3.5 inactive dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24"
+                    <svg class="size-3.5 inactive dark:text-white mx-1.5" xmlns="http://www.w3.org/2000/svg" width="24"
                          height="24"
                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                          stroke-linejoin="round">
                         <path d="M5 12h14"></path>
                         <path d="M12 5v14"></path>
                     </svg>
-                    <svg class="size-3.5 active dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24"
+                    <svg class="size-3.5 active dark:text-white mx-1.5" xmlns="http://www.w3.org/2000/svg" width="24"
                          height="24"
                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                          stroke-linejoin="round">
@@ -52,11 +52,11 @@
                             @csrf
                             @method('PUT')
                             <div
-                                class="accordion-group bg-white dark:bg-slate-900 dark:border-slate-700 border-gray-500">
+                                class="accordion-group bg-transparent dark:border-slate-700 border-gray-400">
                                 <div id="accordion-item-{{$loop->index + 1}}-{{$loop->index + 1}}"
-                                     class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-500 @endif">
+                                     class="accordion-item @if(!$loop->last) border-b dark:border-slate-700 border-gray-400 @endif">
                                     <div class="accordion-header ps-6 py-3">
-                                        <svg class="size-3.5 inactive dark:text-white"
+                                        <svg class="size-3.5 inactive dark:text-white mx-1.5"
                                              xmlns="http://www.w3.org/2000/svg"
                                              width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -65,7 +65,7 @@
                                             <path d="M5 12h14"></path>
                                             <path d="M12 5v14"></path>
                                         </svg>
-                                        <svg class="size-3.5 active dark:text-white" xmlns="http://www.w3.org/2000/svg"
+                                        <svg class="size-3.5 active dark:text-white mx-1.5" xmlns="http://www.w3.org/2000/svg"
                                              width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round"
@@ -79,14 +79,14 @@
                                     <div class="accordion-content ps-6 py-2.5 space-x-1">
                                         @foreach ($product->productSizes as $productSize)
                                             <div
-                                                class="inline-flex text-neutral-200 rounded-lg border-gray-200 border overflow-hidden shadow-md">
+                                                class="inline-flex text-neutral-200 rounded-lg border-gray-400 border overflow-hidden shadow-md">
                                                 <label
-                                                    for="size-{{strtolower($productSize->size)}}-{{$loop->parent->index + 1}}-{{$loop->index + 1}}"
+                                                    for="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
                                                     class="text-black font-semibold px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
                                                     {{ $productSize->size }}
                                                 </label>
                                                 <div
-                                                    class="border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
+                                                    class="border-t sm:border-t-0 sm:border-s border-gray-400 dark:border-neutral-700"></div>
                                                 <input
                                                     name="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
                                                     id="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
