@@ -36,8 +36,8 @@
         /*dark:border-gray-700*/
         border-bottom-color: rgb(55, 65, 81);
     }
-    /* border-gray-400 */
-    border-bottom-color: rgb(156, 163, 175);
+    /* border-gray-300 */
+    border-bottom-color: rgb(209, 213, 219);
 }
 
 .accordion-header.active > svg, .accordion-header.active > p {

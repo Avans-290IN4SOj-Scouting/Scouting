@@ -24,10 +24,10 @@
         </form>
     </div>
 
-    <div class="accordion-group bg-transparent border rounded-xl dark:border-gray-700 border-gray-400">
+    <div class="accordion-group bg-transparent border rounded-xl dark:border-gray-700 border-gray-300">
         @foreach($products as $product)
             <div id="accordion-item-{{$loop->index + 1}}"
-                 class="accordion-item @if(!$loop->last) border-b dark:border-gray-700 border-gray-400 @endif">
+                 class="accordion-item @if(!$loop->last) border-b dark:border-gray-700 border-gray-300 @endif">
                 <div class="accordion-header p-1.5 py-3">
                     <svg class="size-3.5 inactive dark:text-white mx-1.5" xmlns="http://www.w3.org/2000/svg" width="24"
                          height="24"
@@ -52,9 +52,9 @@
                             @csrf
                             @method('PUT')
                             <div
-                                class="accordion-group bg-transparent dark:border-gray-700 border-gray-400">
+                                class="accordion-group bg-transparent dark:border-gray-700 border-gray-300">
                                 <div id="accordion-item-{{$loop->index + 1}}-{{$loop->index + 1}}"
-                                     class="accordion-item @if(!$loop->last) border-b dark:border-gray-700 border-gray-400 @endif">
+                                     class="accordion-item @if(!$loop->last) border-b dark:border-gray-700 border-gray-300 @endif">
                                     <div class="accordion-header ps-6 py-3">
                                         <svg class="size-3.5 inactive dark:text-white mx-1.5"
                                              xmlns="http://www.w3.org/2000/svg"
@@ -79,18 +79,18 @@
                                     <div class="accordion-content ps-6 py-2.5 space-x-1">
                                         @foreach ($product->productSizes as $productSize)
                                             <div
-                                                class="inline-flex text-neutral-200 rounded-lg border-gray-400 dark:border-gray-700 border overflow-hidden shadow-md">
+                                                class="inline-flex text-neutral-200 rounded-lg border-gray-300 dark:border-gray-700 border overflow-hidden shadow-md">
                                                 <label
                                                     for="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
                                                     class="text-black font-semibold px-1.5 dark:text-neutral-200 bg-gray-100 dark:bg-slate-800">
                                                     {{ $productSize->size }}
                                                 </label>
                                                 <div
-                                                    class="border-t sm:border-t-0 sm:border-s border-gray-400 dark:border-gray-700"></div>
+                                                    class="border-t sm:border-t-0 sm:border-s border-gray-300 dark:border-gray-700"></div>
                                                 <input
                                                     name="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
                                                     id="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
-                                                    class="p-0 w-6 font-semibold bg-transparent border-0 text-black text-center dark:text-white focus:border-gray-400 dark:focus:border-gray-700 focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-700 focus:rounded-l-none focus:rounded-r-lg"
+                                                    class="p-0 w-6 font-semibold bg-transparent border-0 text-black text-center dark:text-white focus:border-gray-300 dark:focus:border-gray-700 focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-700 focus:rounded-l-none focus:rounded-r-lg"
                                                     type="text"
                                                     value="{{ $product->stocks->where('product_size_id', $productSize->id)->where('product_type_id', $productType->id)->first()->amount ?? 0 }}">
                                             </div>
