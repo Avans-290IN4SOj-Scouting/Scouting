@@ -28,19 +28,12 @@ Route::get('/', [OrderController::class, 'index'])
     ->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::prefix('profile')->name('profile.')->group(function () {
+    Route::prefix(__('route.profile'))->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])
             ->name('index');
-
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
-
-    // Order cancelling testing page (remove when orderDetails is made)
-    Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
-        ->name('orders-user.details-order');
-    Route::post('/orderDetails/{id}', [OrderDetailsController::class, 'cancelOrder'])
-        ->name('orders-user.cancel-order');
 });
 
 Route::get(__('route.logout'), function () {
@@ -52,9 +45,9 @@ Route::get(__('route.logout'), function () {
         ]);
 })->name('logout');
 
-Route::middleware('role:admin')->group(function () {
+Route::middleware('role:admin|teamleader')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
-        Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+        Route::middleware('role:admin')->prefix(__('route.accounts'))->name('accounts.')->group(function () {
             Route::get('/', [AccountsController::class, 'index'])
                 ->name('index');
 
@@ -96,11 +89,14 @@ Route::middleware('role:admin')->group(function () {
             // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
             // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
             //     ->name('cancel-order');
-            Route::post('/{id}', [ManageOrdersController::class, 'cancelOrder'])
+            Route::post('/{id}/cancel', [ManageOrdersController::class, 'cancelOrder'])
                 ->name('cancel-order');
+
+            Route::post('/{id}/update', [ManageOrdersController::class, 'updateOrderStatus'])
+                ->name('update-status');
         });
 
-        Route::get(__('navbar.manage_products'), function () {
+        Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
         
@@ -116,6 +112,13 @@ Route::prefix(__('route.products'))->name('orders.')->group(function () {
 });
 
 Route::prefix(__('route.order'))->name('orders.')->group(function () {
+    Route::get(__('route.overview'), [OrderController::class, 'overviewUser'])
+        ->name('overview.user');
+    Route::get(__('route.order-details') . '/{id}', [OrderDetailsController::class, 'orderDetails'])
+        ->name('detail');
+    Route::post(__('route.order-details') . '/{id}', [OrderDetailsController::class, 'cancelOrder'])
+        ->name('cancel');
+
     Route::prefix(__('route.checkout'))->name('checkout.')->group(function () {
         Route::get('/', [OrderController::class, 'order'])
             ->name('order');
