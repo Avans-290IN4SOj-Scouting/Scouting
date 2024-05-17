@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StockUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Stock;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class StocksController extends Controller
@@ -18,33 +17,12 @@ class StocksController extends Controller
         return view('admin.stocks', ['products' => $products]);
     }
 
-    public function update(Request $request, $productId, $productTypeId)
+    public function update(StockUpdateRequest $stockUpdateRequest, $productId, $productTypeId)
     {
         $product = Product::findOrFail($productId);
         $productType = ProductType::findOrFail($productTypeId);
 
-        $rules = [];
-        $customMessages = [
-            '*.integer' => __('manage-stocks/stocks.invalid_type'),
-            '*.between' => __('manage-stocks/stocks.invalid_amount'),
-        ];
-
-        foreach ($request->all() as $key => $value) {
-            if (Str::startsWith($key, 'size-')) {
-                $rules[$key] = 'integer|between:0,100';
-            }
-        }
-
-        $validator = Validator::make($request->all(), $rules, $customMessages);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with([
-                'toast-type' => 'error',
-                'toast-message' => $validator->errors()->first()
-            ]);
-        }
-
-        foreach ($request->all() as $key => $value) {
+        foreach ($stockUpdateRequest->all() as $key => $value) {
             if (Str::startsWith($key, 'size-')) {
                 $size = Str::after($key, 'size-');
                 $size = strtoupper(preg_replace("/[^A-Za-z]/", '', $size));
