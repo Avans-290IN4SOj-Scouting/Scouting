@@ -85,10 +85,9 @@
                                 {{ $account['email'] }}
                             </td>
                             <td class="flex items-center justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <div id="selectRole-div" class="relative hidden"
+                                <div id="selectRole-div" class="relative w-[250px] hidden"
                                      data-account-email="{{ $account->email }}"
-                                     data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
-                                     style="width: 250px;">
+                                     data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
                                     <label for="selectRole"
                                            hidden>{{ __('manage-accounts/accounts.role')  }}</label>
                                     <select id="selectRole" multiple
