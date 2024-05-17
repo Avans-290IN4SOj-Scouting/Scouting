@@ -26,6 +26,7 @@ class UserWithRoleSeeder extends Seeder
         $groupLeader->assignRole('gidsen_a');
 
         $user = User::factory(1)->create()->first();
+        $user->assignRole('teamleader');
         $user->assignRole('bevers_a');
         $user->assignRole('gidsen_a');
     }
