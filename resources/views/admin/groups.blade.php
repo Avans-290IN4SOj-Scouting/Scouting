@@ -41,15 +41,19 @@
                                         </tr>
                                     </thead>
                                     <tbody id="table-body" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                        @forelse($subgroups as $subgroup)
+                                        @forelse($group->roles as $subgroup)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                                 {{ $subgroup->name }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                                @foreach ($subGroupLeaders as $subGroupLeader)
+                                                @forelse (\App\Models\User::with('roles')->get()->filter(
+                                                    fn ($user) => $user->roles->where('name', $subgroup->name)->toArray()
+                                                ) as $subGroupLeader)
                                                     <p>{{ $subGroupLeader->email }}</p>
-                                                @endforeach
+                                                @empty
+                                                    <p>{{ __('groups/groups.empty_groups') }}</p>
+                                                @endforelse
                                             </td>
                                         </tr>
                                         @empty
