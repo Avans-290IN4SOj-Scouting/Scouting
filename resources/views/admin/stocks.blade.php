@@ -90,7 +90,7 @@
                                                 <input
                                                     name="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
                                                     id="size-{{strtolower($productSize->size)}}-{{$loop->parent->parent->index + 1}}-{{$loop->index + 1}}"
-                                                    class="p-0 w-6 font-semibold bg-transparent border-0 text-black text-center dark:text-white focus:border-gray-300 dark:focus:border-gray-700 focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-700 focus:rounded-l-none focus:rounded-r-lg"
+                                                    class="p-0 w-6 font-semibold bg-transparent border-0 text-black text-center dark:text-white focus:border-gray-300 dark:focus:border-gray-700 focus:ring-1 focus:ring-gray-300 dark:focus:ring-gray-700 focus:rounded-l-none focus:rounded-r-lg"
                                                     type="text"
                                                     value="{{ $product->stocks->where('product_size_id', $productSize->id)->where('product_type_id', $productType->id)->first()->amount ?? 0 }}">
                                             </div>
