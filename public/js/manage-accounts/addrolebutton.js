@@ -4,9 +4,16 @@ document.addEventListener('DOMContentLoaded', function () {
     addRoleButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             const parent = button.parentElement;
-            const selectRoleDiv = parent.querySelector('#selectRole-div');
+            const selectRoleContainer = parent.querySelector('#selectRoleContainer');
+            const cancelButton = parent.querySelector('#cancelButton');
 
-            selectRoleDiv.classList.remove('hidden');
+            cancelButton.addEventListener('click', function () {
+                selectRoleContainer.classList.add('hidden');
+                button.classList.remove('hidden');
+            });
+
+            selectRoleContainer.classList.remove('hidden');
+
             button.classList.add('hidden');
         });
     });

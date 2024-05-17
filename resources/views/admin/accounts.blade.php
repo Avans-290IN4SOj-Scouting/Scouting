@@ -85,13 +85,14 @@
                                 {{ $account['email'] }}
                             </td>
                             <td class="flex items-center justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <div id="selectRole-div" class="relative w-[250px] hidden"
-                                     data-account-email="{{ $account->email }}"
-                                     data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
-                                    <label for="selectRole"
-                                           hidden>{{ __('manage-accounts/accounts.role')  }}</label>
-                                    <select id="selectRole" multiple
-                                            data-hs-select='{
+                                <div id="selectRoleContainer" class="flex flex-row hidden">
+                                    <div id="selectRole-wrapper" class="relative w-[250px]"
+                                         data-account-email="{{ $account->email }}"
+                                         data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
+                                        <label for="selectRole"
+                                               hidden>{{ __('manage-accounts/accounts.role')  }}</label>
+                                        <select id="selectRole" multiple
+                                                data-hs-select='{
                                                     "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
                                                     "toggleTag": "<button type=\"button\"></button>",
                                                     "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
@@ -99,13 +100,24 @@
                                                     "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
                                                     "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                     }' class="hidden">
-                                        @foreach($roles as $role)
-                                            <option value="{{ $role->name }}"
-                                                    data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                {{ __('manage-accounts/roles.' . $role->name) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->name }}"
+                                                        data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                    {{ __('manage-accounts/roles.' . $role->name) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div id="cancelButton" class="text-red-600 h-[46px]">
+                                        <button class="items-center h-[46px]">
+                                            <svg width="46px" height="46px" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg" transform="rotate(45)">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M12 2C12.5523 2 13 2.44772 13 3V11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H13V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H11V3C11 2.44772 11.4477 2 12 2Z"
+                                                      fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div id="addRoleButton" class="text-blue-600 h-[46px]">
                                     <div class="hs-tooltip inline-block h-[46px]">
