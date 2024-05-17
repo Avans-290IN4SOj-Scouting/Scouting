@@ -7,6 +7,7 @@
 @push('scripts')
     <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script>
     <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
+    <script src="{{ asset('js/manage-accounts/addrolebutton.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -84,15 +85,14 @@
                                 {{ $account['email'] }}
                             </td>
                             <td class="flex items-center justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <!--<div id="role-modal" class="">
-                                    <div id="selectRole-div" class="relative"
-                                         data-account-email="{{ $account->email }}"
-                                         data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
-                                         style="width: 250px;">
-                                        <label for="selectRole"
-                                               hidden>{{ __('manage-accounts/accounts.role')  }}</label>
-                                        <select id="selectRole" multiple
-                                                data-hs-select='{
+                                <div id="selectRole-div" class="relative hidden"
+                                     data-account-email="{{ $account->email }}"
+                                     data-old-roles="{{ json_encode($account->roles->pluck('name')) }}"
+                                     style="width: 250px;">
+                                    <label for="selectRole"
+                                           hidden>{{ __('manage-accounts/accounts.role')  }}</label>
+                                    <select id="selectRole" multiple
+                                            data-hs-select='{
                                                     "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
                                                     "toggleTag": "<button type=\"button\"></button>",
                                                     "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
@@ -100,16 +100,15 @@
                                                     "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
                                                     "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                     }' class="hidden">
-                                            @foreach($roles as $role)
-                                                <option value="{{ $role->name }}"
-                                                        data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                    {{ __('manage-accounts/roles.' . $role->name) }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>-->
-                                <div class="text-blue-600">
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->name }}"
+                                                    data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                {{ __('manage-accounts/roles.' . $role->name) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="addRoleButton" class="text-blue-600 h-10">
                                     <div class="hs-tooltip inline-block">
                                         <button type="button" class="hs-tooltip-toggle">
                                             <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none"
