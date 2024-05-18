@@ -49,9 +49,12 @@ class ProfileController extends Controller
             'password' => bcrypt($validated['new-password']),
         ]);
 
-        return Redirect::back()->with([
-            'toast-type' => 'success',
-            'toast-message' => __('auth/profile.password_updated'),
-        ]);
+        Auth::logout();
+
+        return Redirect::route('login')
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('auth/profile.password_updated'),
+            ]);
     }
 }
