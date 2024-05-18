@@ -84,7 +84,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
-                            <td class="flex items-center gap-4 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                            <td class="flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 <div class="relative">
                                     <select id="subroleSelect{{ $account->id }}" class="peer p-4 pe-9 block w-[150px] border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600
                                         focus:pt-6
@@ -105,7 +105,7 @@
                                         peer-[:not(:placeholder-shown)]:-translate-y-1.5
                                         peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-gray-500">Bevers</label>
                                 </div>
-                                <div id="selectRoleContainer" class="flex flex-row gap-2 hidden">
+                                <div id="selectRoleContainer" class="flex flex-row gap-2 hidden items-center">
                                     <div id="selectRole-wrapper" class="relative w-[250px]"
                                          data-account-email="{{ $account->email }}"
                                          data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
@@ -128,19 +128,19 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div id="cancelButton" class="text-red-600 h-[54px]">
-                                        <button class="items-center h-[54px]">
-                                            <svg class="svg-icon" width="54px" height="54px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <div id="cancelButton" class="text-red-600 h-[35px]">
+                                        <button class="items-center h-[35px]">
+                                            <svg class="svg-icon" width="35px" height="35px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
                                             </svg>
 
                                         </button>
                                     </div>
                                 </div>
-                                <div id="addRoleButton" class="text-blue-600 h-[54px]">
-                                    <div class="hs-tooltip inline-block h-[54px]">
+                                <div id="addRoleButton" class="text-blue-600 h-[35px]">
+                                    <div class="hs-tooltip inline-block h-[35px]">
                                         <button type="button" class="hs-tooltip-toggle items-center">
-                                            <svg width="54px" height="54px" viewBox="0 0 24 24" fill="none"
+                                            <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                                       d="M12 2C12.5523 2 13 2.44772 13 3V11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H13V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H11V3C11 2.44772 11.4477 2 12 2Z"
