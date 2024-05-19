@@ -27,7 +27,6 @@ return [
     "category_input_placeholder" => "Kleur",
     "product_add_button" => "Product toevoegen",
     "product_edit_button" => "Product wijzigen",
-    "add_product" => "add-product",
     "product_image_span" => "Selecteer of sleep een afbeelding voor het product",
     "product_image_delete_button" => "Verwijder afbeelding",
     "cannot-edit-due-order" => "Aanpassen niet mogelijk (er is een bestelling voor dit product)",
