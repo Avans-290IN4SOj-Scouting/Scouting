@@ -29,7 +29,7 @@ class ManageStocksTest extends DuskTestCase
     public function test_admin_update_stock(): void
     {
         $product = Product::inRandomOrder()->first();
-        $stockValue = random_int(1, 9);
+        $stockValue = random_int(1, 100);
         $size = $product->productSizes()->inRandomOrder()->first();
         $typeIndex = random_int(1, 3);
 
