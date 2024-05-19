@@ -121,9 +121,9 @@
                                                     "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                                                     }' class="hidden">
                                             @foreach($roles as $role)
-                                                <option value="{{ $role->name }}"
-                                                        data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                    {{ __('manage-accounts/roles.' . $role->name) }}
+                                                <option value="{{ $role }}"
+                                                    {{ in_array($role, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                    {{ $role }}
                                                 </option>
                                             @endforeach
                                         </select>

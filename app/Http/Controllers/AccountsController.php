@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserRoleEnum;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -14,12 +15,11 @@ class AccountsController extends Controller
     public function index()
     {
         $accounts = $this->getAllUsers()->sortable()->paginate(10);
-        $roles = $this->getRoles();
 
         return view("admin.accounts",
             [
                 "accounts" => $accounts,
-                "roles" => $roles,
+                "roles" => $this->getRoleSelection(),
                 "search" => null,
                 "allroles" => $this->getAllRoles(),
                 "selected" => null
@@ -58,6 +58,19 @@ class AccountsController extends Controller
                 "allroles" => $this->getAllRoles(),
                 "selected" => $filter
             ]);
+    }
+
+    private function getRoleSelection() {
+        $groupNames = Group::whereIn('id', function ($query) {
+            $query->select('group_id')
+                ->from('roles')
+                ->whereNotNull('group_id')
+                ->distinct();
+        })->pluck('name');
+
+        $adminRole = Role::where('name', 'admin')->pluck('name');
+
+        return $groupNames->merge($adminRole);
     }
 
     private function getAllUsers()
