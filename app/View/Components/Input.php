@@ -16,7 +16,7 @@ class Input extends Component
     public $value;
     public $disabled;
 
-    public function __construct($label, $id, $name, $type = 'text', $placeholder = '', $value = null, $disabled = false)
+    public function __construct($label, $id, $name, $type, $placeholder = '', $value = null, $disabled = false)
     {
         $this->label = $label;
         $this->id = $id;
