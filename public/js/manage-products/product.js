@@ -85,7 +85,7 @@ function toggleButtons() {
 
 function checkExistingProduct() {
     const checkbox = document.getElementById("same-price-all");
-    const inputField = document.getElementById("priceForSize[Default]");
+    const inputField = document.getElementById("product-size-price-Default");
     const sizePriceInputs = document.getElementById("size-price-inputs");
     if (checkbox.checked) {
         inputField.disabled = true;

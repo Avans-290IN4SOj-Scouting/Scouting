@@ -19,7 +19,7 @@
                     <!-- Product Form -->
                     <div class="space-y-4">
                         <!-- Product Name Field -->
-                        @include('partials._input', [
+                        @component('components.Input', [
                             'label' => __('manage-products/products.name_label'),
                             'id' => 'product-name',
                             'type' => 'text',
@@ -28,19 +28,22 @@
                             'value' => $product->name,
                             'disabled' => $nameDisabled,
                         ])
+                        @endcomponent
 
                         @if ($nameDisabled)
                             <input type="hidden" name="name" value="{{ $product->name }}">
                         @endif
 
                         <!-- Product Size and Price Fields -->
-                        @include('partials._price-input', [
+                        @component('components.price-input', [
                             'label' => __('manage-products/products.price_label'),
-                            'id' => 'product-price',
+                            'id' => 'product-size-price-Default',
                             'placeholder' => __('manage-products/products.price_placeholder'),
                             'name' => 'priceForSize[Default]',
                             'value' => old('priceForSize.Default', $defaultSizeWithPrice['price']),
+                            'class' => '',
                         ])
+                        @endcomponent
 
                         <div>
                             <div id="size-price-options" class="space-y-4">
@@ -55,20 +58,16 @@
                                         <label
                                             class="block text-gray-700 font-semibold">{{ __('manage-products/products.custom_sizes_label') }}</label>
                                         @foreach ($sizesWithPrices as $sizeWithPrice)
-                                            @include('partials._price-input', [
+                                            @component('components.price-input', [
                                                 'label' => $sizeWithPrice['size'],
                                                 'id' => 'product-size-price-' . $loop->index,
-                                                'placeholder' =>
-                                                    __('manage-products/products.custom_size_placeholder') .
-                                                    ' ' .
-                                                    $sizeWithPrice['size'],
+                                                'placeholder' => __('manage-products/products.custom_size_placeholder') . ' ' . $sizeWithPrice['size'],
                                                 'name' => 'priceForSize[' . $sizeWithPrice['size'] . ']',
                                             
-                                                'value' => old(
-                                                    'priceForSize.' . $sizeWithPrice['size'],
-                                                    $sizeWithPrice['price']),
+                                                'value' => old('priceForSize.' . $sizeWithPrice['size'], $sizeWithPrice['price']),
                                                 'class' => 'existing-custom-price ',
                                             ])
+                                            @endcomponent
                                         @endforeach
                                         <div id="custom-size-inputs">
                                             <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
@@ -101,18 +100,18 @@
                         @endforeach
                     </div>
                     <!-- Select Groups Field -->
-                    @include('partials._select', [
+                    @component('components.multiselect', [
                         'label' => __('manage-products/products.groups_multi_select_label'),
                         'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                         'options' => $baseGroups->pluck('name'),
                         'selected' => $chosenGroups->pluck('name'),
                         'name' => 'products-group-multiselect',
-                        'selectedGroups' => $chosenGroups->pluck('name'),
                         'class' => 'manage-products/products.groups-multiselect',
                     ])
+                    @endcomponent
 
                     <!-- Product Category Field -->
-                    @include('partials._input', [
+                    @component('components.Input', [
                         'label' => __('manage-products/products.category_input_label'),
                         'placeholder' => __('manage-products/products.category_input_placeholder'),
                         'id' => 'product-category',
@@ -121,6 +120,7 @@
                         'value' => $baseChosenCategorie->type,
                         'disabled' => false,
                     ])
+                    @endcomponent
 
                     <!-- Disable Product Checkbox -->
                     <div class="flex">

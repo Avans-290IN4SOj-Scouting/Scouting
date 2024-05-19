@@ -2,7 +2,7 @@ document.getElementById('af-submit-app-upload-images').addEventListener('change'
 document.getElementById('remove-image').addEventListener('click', removeImage);
 document.addEventListener("DOMContentLoaded", function () {
     const checkbox = document.getElementById("same-price-all");
-    const inputField = document.getElementById("priceForSize[Default]");
+    const inputField = document.getElementById("product-size-price-Default");
     checkbox.addEventListener("change", function () {
         if (checkbox.checked) {
             inputField.disabled = true;
@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById('size-price-inputs').classList.toggle('hidden');
 
-        const priceLabel = document.querySelector('label[for="priceForSize[Default]"]');
-        const defaultPriceInput = document.getElementById('priceForSize[Default]');
+        const priceLabel = document.querySelector('label[for="product-size-price-Default"]');
+        const defaultPriceInput = document.getElementById('product-size-price-Default');
         const customSizeInputs = document.querySelectorAll('#custom-size-inputs input[type="text"]');
         const customPriceInputs = document.querySelectorAll('#custom-size-inputs input[type="number"]');
         let existingPriceInputs = document.getElementsByClassName("existing-custom-price");

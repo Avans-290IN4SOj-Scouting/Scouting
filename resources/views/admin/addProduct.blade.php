@@ -18,20 +18,25 @@
                     <!-- Product Form -->
                     <div class="space-y-4">
                         <!-- Product Name Field -->
-                        @include('partials._input', [
+                        @component('components.Input', [
                             'label' => __('manage-products/products.name_label'),
+                            'id' => 'product-name',
                             'type' => 'text',
                             'placeholder' => __('manage-products/products.name_placeholder'),
                             'name' => 'name',
                             'disabled' => false,
+                            'error' => $errors->first('name'),
                         ])
+                        @endcomponent
                         <!-- Product Price Field -->
-                        @include('partials._price-input', [
+                        @component('components.price-input', [
                             'label' => __('manage-products/products.price_label'),
+                            'id' => 'product-size-price-Default',
                             'placeholder' => __('manage-products/products.price_placeholder'),
                             'name' => 'priceForSize[Default]',
-                            'value' => old('priceForSize.Default'),
+                            'class' => '',
                         ])
+                        @endcomponent
                         <!-- Product Size and Price Fields -->
                         <div>
                             <div id="size-price-options" class="space-y-4">
@@ -75,22 +80,26 @@
                         @endforeach
                     </div>
                     <!-- Select Groups Field -->
-                    @include('partials._select', [
+                    @component('components.multiselect', [
                         'label' => __('manage-products/products.groups_multi_select_label'),
                         'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
                         'options' => $baseGroups->pluck('name'),
                         'name' => 'products-group-multiselect',
                         'class' => 'manage-products/products.groups-multiselect',
                     ])
+                    @endcomponent
+
                     <!-- Product Category Field -->
-                    @include('partials._input', [
+                    @component('components.Input', [
                         'label' => __('manage-products/products.category_input_label'),
                         'placeholder' => __('manage-products/products.category_input_placeholder'),
                         'id' => 'product-category',
                         'type' => 'text',
                         'name' => 'category',
                         'disabled' => false,
+                        'error' => $errors->first('category'),
                     ])
+                    @endcomponent
                     <!-- Add Product Button -->
                     <div>
                         <button id="big-screen" type="submit"
