@@ -5,9 +5,10 @@
 @endphp
 
 @push('scripts')
-    <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script>
+    <script src="{{ asset('js/manage-accounts/saveroles.js') }}" defer></script>
     <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
     <script src="{{ asset('js/manage-accounts/addrolebutton.js') }}" defer></script>
+    <script src="{{ asset('js/manage-accounts/adddropdown.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -80,12 +81,12 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($accounts as $account)
-                        <tr>
+                        <tr class="h-[87px]">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
-                            <td class="flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <div class="relative">
+                            <td class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                <!--<div class="relative">
                                     <select id="subroleSelect{{ $account->id }}" class="peer p-4 pe-9 block w-[150px] border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600
                                         focus:pt-6
                                         focus:pb-2
@@ -104,25 +105,18 @@
                                         peer-[:not(:placeholder-shown)]:text-xs
                                         peer-[:not(:placeholder-shown)]:-translate-y-1.5
                                         peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-gray-500">Bevers</label>
-                                </div>
+                                </div>-->
                                 <div id="selectRoleContainer" class="flex flex-row gap-2 hidden items-center">
                                     <div id="selectRole-wrapper" class="relative w-[250px]"
                                          data-account-email="{{ $account->email }}"
                                          data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
-                                        <label for="selectRole"
+                                        <label for="selectRole{{ $account->id }}"
                                                hidden>{{ __('manage-accounts/accounts.role')  }}</label>
-                                        <select id="selectRole" multiple
-                                                data-hs-select='{
-                                                    "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
-                                                    "toggleTag": "<button type=\"button\"></button>",
-                                                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 h-[54px] relative items-center z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
-                                                    "dropdownClasses": "z-50 mt-2 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
-                                                    "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
-                                                    "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
-                                                    }' class="hidden">
+                                        <select id="selectRole{{ $account->id }}" name="selectRole"
+                                                class="h-[54px] py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                             @foreach($roles as $role)
-                                                <option value="{{ $role }}"
-                                                    {{ in_array($role, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                <option
+                                                    value="{{ $role }}" {{ in_array($role, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
                                                     {{ $role }}
                                                 </option>
                                             @endforeach
@@ -130,10 +124,11 @@
                                     </div>
                                     <div id="cancelButton" class="text-red-600 h-[35px]">
                                         <button class="items-center h-[35px]">
-                                            <svg class="svg-icon" width="35px" height="35px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
+                                            <svg class="svg-icon" width="35px" height="35px" viewBox="0 0 1024 1024"
+                                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
                                             </svg>
-
                                         </button>
                                     </div>
                                 </div>
