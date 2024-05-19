@@ -1,13 +1,14 @@
-document.querySelector("select[name='selectRole']").addEventListener('change', function (event) {
-    const selectedValue = event.target.value;
-    if (selectedValue) {
-        addDropdown(selectedValue);
-    }
+document.querySelectorAll("select[name='selectRole']").forEach(function(select) {
+    select.addEventListener('change', function (event) {
+        const selectedValue = event.target.value;
+        if (selectedValue) {
+            const tdElement = event.target.closest('td');
+            addDropdown(selectedValue, tdElement);
+        }
+    });
 });
 
-function addDropdown(selectedValue) {
-    const tdElement = document.querySelector("select[name='selectRole']").closest('td');
-
+function addDropdown(selectedValue, tdElement) {
     const newElement = document.createElement('div');
     newElement.className = 'relative';
 
