@@ -3,6 +3,7 @@
 return [
     "logout" => "uitloggen",
     "login" => "inloggen",
+    "register" => "registreren",
     "manage" => "beheren",
     "accounts" => "accounts",
     "update_roles" => "rollen-bijwerken",

@@ -15,6 +15,7 @@ return [
     "logout" => "Log uit",
     "logout-success" => "Je bent uitgelogd",
     "login-success" => "Je bent ingelogd",
+    "register-success" => "Je bent geregistreerd",
     "failed" => "Deze inloggegevens komen niet overeen met onze gegevens",
     "validation.min.string" => "Het wachtwoord moet minimaal 8 tekens lang zijn",
     "validation.unique" => "Dit e-mailadres is al in gebruik",
