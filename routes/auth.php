@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get(__('navbar.register'), [RegisteredUserController::class, 'create'])
+    Route::get(__('route.register'), [RegisteredUserController::class, 'create'])
         ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store'])
