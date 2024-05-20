@@ -80,6 +80,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <div id="roles-data" data-roles='@json($rolesJson)'></div>
                     @forelse($accounts as $account)
                         <tr class="h-[87px]">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">

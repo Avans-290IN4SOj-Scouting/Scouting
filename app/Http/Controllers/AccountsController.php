@@ -20,6 +20,7 @@ class AccountsController extends Controller
             [
                 "accounts" => $accounts,
                 "roles" => $this->getRoleSelection(),
+                "rolesJson" => $this->getRoles()->toJson(),
                 "search" => null,
                 "allroles" => $this->getAllRoles(),
                 "selected" => null
@@ -60,7 +61,8 @@ class AccountsController extends Controller
             ]);
     }
 
-    private function getRoleSelection() {
+    private function getRoleSelection()
+    {
         $groupNames = Group::whereIn('id', function ($query) {
             $query->select('group_id')
                 ->from('roles')
