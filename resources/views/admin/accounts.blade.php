@@ -95,6 +95,7 @@
                                                hidden>{{ __('manage-accounts/accounts.role')  }}</label>
                                         <select id="selectRole{{ $account->id }}" name="selectRole"
                                                 class="h-[54px] py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                            <option value="" disabled selected>Kies rol</option>
                                             @foreach($roles as $id => $role)
                                                 <option
                                                     value="{{ $role }}" data-group-id="{{ $id }}">

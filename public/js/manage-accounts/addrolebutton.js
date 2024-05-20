@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
             cancelButton.addEventListener('click', function () {
                 selectRoleContainer.classList.add('hidden');
                 button.classList.remove('hidden');
+                selectRole.selectedIndex = 0;
             });
 
             selectRole.addEventListener('change', function (event) {
                 const selectedValue = event.target.value;
                 if (selectedValue) {
-
                     selectRoleContainer.classList.add('hidden');
+                    selectRole.selectedIndex = 0;
                     button.classList.remove('hidden');
                 }
             });
