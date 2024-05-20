@@ -110,10 +110,7 @@
                         <ul>
                             @foreach ($products as $product)
                             <li class="dark:text-white">
-                                {{ $product->amount }}x {{ $product->name }}: {{ __('orders/orders.size') }} {{ $product->size }},
-                                <span class="dark:text-white">{{ __('common.currency_symbol') }}
-                                    {{ number_format($product->price * $product->amount, 2, __('common.seperator'), '.') }}
-                                </span>
+                                {{ $product->amount }}x {{ $product->name }}: {{ __('orders/orders.size') }} {{ $product->size }}
                             </li>
                             @endforeach
                         </ul>
@@ -139,7 +136,7 @@
                         @if (auth()->check() && count($products) > 0)
                             <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                 {{ __('orders/orders.complete-order') }}
-                              </button>
+                            </button>
                         @elseif (count($products) == 0)
                             <p class="dark:text-white italic">{{ __('orders/orders.empty-shoppingcart') }}</p>
                         @else
