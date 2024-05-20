@@ -1,24 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
     const rolesDataElement = document.getElementById('roles-data');
-    const rolesData = JSON.parse(rolesDataElement.getAttribute('data-roles'));
-
-    console.log(rolesData);
+    const rolesDataString = rolesDataElement.getAttribute('data-roles');
+    const rolesData = JSON.parse(JSON.parse(rolesDataString));
 
     document.querySelectorAll("select[name='selectRole']").forEach(function (select) {
         select.addEventListener('change', function (event) {
             const selectedValue = event.target.value;
             if (selectedValue) {
                 const tdElement = event.target.closest('td');
-                if (selectedValue === 'admin') {
-                    addAdminTag(selectedValue, tdElement);
-                } else {
-                    addDropdown(selectedValue, tdElement);
+                const selectedOption = event.target.selectedOptions[0];
+                const selectedGroupId = selectedOption.dataset.groupId;
+                if (selectedGroupId) {
+                    if (selectedValue === 'admin') {
+                        addAdminTag(selectedValue, tdElement);
+                    } else {
+                        addDropdown(selectedValue, selectedGroupId, tdElement);
+                    }
                 }
             }
         });
     });
 
-    function addDropdown(selectedValue, tdElement) {
+    function addDropdown(selectedValue, selectedGroupId, tdElement) {
         const newElement = document.createElement('div');
         newElement.className = 'relative';
 
@@ -26,10 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
         selectElement.id = `subroleSelect${selectedValue}`;
         selectElement.className = 'peer p-4 pe-9 block w-[150px] border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2';
 
-        const options = ['A', 'B', 'C'];
+        const options = rolesData.filter(role => {
+            return role.group_id === parseInt(selectedGroupId);
+        });
+
         options.forEach(option => {
             const optionElement = document.createElement('option');
-            optionElement.textContent = option;
+            optionElement.textContent = option.display_name;
+            optionElement.value = option.id;
             selectElement.appendChild(optionElement);
         });
 
@@ -52,5 +59,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
         tdElement.prepend(adminTag);
     }
-
 });

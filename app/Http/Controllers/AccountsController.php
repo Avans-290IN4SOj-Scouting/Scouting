@@ -63,16 +63,11 @@ class AccountsController extends Controller
 
     private function getRoleSelection()
     {
-        $groupNames = Group::whereIn('id', function ($query) {
-            $query->select('group_id')
-                ->from('roles')
-                ->whereNotNull('group_id')
-                ->distinct();
-        })->pluck('name');
+        $groupSelection = Group::pluck('name', 'id');
 
-        $adminRole = Role::where('name', 'admin')->pluck('name');
+        $adminRole = Role::where('name', 'admin')->first();
 
-        return $groupNames->merge($adminRole);
+        return $groupSelection->add($adminRole->name);
     }
 
     private function getAllUsers()
