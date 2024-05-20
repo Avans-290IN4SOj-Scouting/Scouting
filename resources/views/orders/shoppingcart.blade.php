@@ -35,7 +35,7 @@
                             id="product-{{ $product->product_id }}size-{{ $product->product_size_id }}">
                             <div class="split">
                                 <div class="image">
-                                    <img class="product-image" src="{{ $product->image_path }}" alt="{{$product}}">
+                                    <img class="product-image" src="{{ $product->image_path }}" alt="{{ $product->name }}">
                                 </div>
                                 <div>
                                     <div>
@@ -110,14 +110,14 @@
 
                         @endforeach
 
-                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white">{{ __('orders/orders.empty-shoppingcart') }}</p>
+                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white italic">{{ __('orders/orders.empty-shoppingcart') }}</p>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                     <div class="order-data">
                         <h2 class="text-4xl font-extrabold dark:text-white">{{ __('orders/orders.shoppingcart-order') }}</h2>
-                        <p class="dark:text-white">{{ __('orders/orders.order-products') }}: (<span
+                        <p class="dark:text-white">{{ __('orders/orders.order-products') }} (<span
                                 id="productCount">{{ $prices->amount }}</span>)</p>
 
                         <div class="order-total">
