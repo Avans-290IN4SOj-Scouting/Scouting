@@ -11,6 +11,6 @@ return [
     'checkout' => 'Afrekenen',
     'login' => 'Log in',
     'admin' => 'Admin',
-    'manage' => 'Beheer',
+    'manage' => 'Admin',
     'register' => 'Registreren',
 ];

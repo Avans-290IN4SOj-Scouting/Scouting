@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class GroupsController extends Controller
 {
-    //
     public function index()
     {
         $groups = Group::orderBy('name', 'asc')->get();
