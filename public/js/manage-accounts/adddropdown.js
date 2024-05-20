@@ -1,9 +1,13 @@
-document.querySelectorAll("select[name='selectRole']").forEach(function(select) {
+document.querySelectorAll("select[name='selectRole']").forEach(function (select) {
     select.addEventListener('change', function (event) {
         const selectedValue = event.target.value;
         if (selectedValue) {
             const tdElement = event.target.closest('td');
-            addDropdown(selectedValue, tdElement);
+            if (selectedValue === 'admin') {
+                addAdminTag(selectedValue, tdElement);
+            } else {
+                addDropdown(selectedValue, tdElement);
+            }
         }
     });
 });
@@ -33,4 +37,12 @@ function addDropdown(selectedValue, tdElement) {
     newElement.appendChild(labelElement);
 
     tdElement.prepend(newElement);
+}
+
+function addAdminTag(selectedValue, tdElement) {
+    const adminTag = document.createElement('p');
+    adminTag.className = 'bg-red-600 p-2 rounded font-bold';
+    adminTag.textContent = selectedValue.toUpperCase();
+
+    tdElement.prepend(adminTag);
 }
