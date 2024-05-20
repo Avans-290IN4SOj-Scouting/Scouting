@@ -15,7 +15,7 @@ return [
     'log-in' => 'Log in om te voltooien',
     'accessibility-group-image' => 'product categorie',
     'group' => 'Groep',
-    'back-to-home-page' => 'Terug naar de home pagina',
+    'back-to-home-page' => 'Klik hier om terug te gaan naar de home pagina',
     'till' => 'tot',
 
     'select-group' => 'Selecteer de aflevergroep',

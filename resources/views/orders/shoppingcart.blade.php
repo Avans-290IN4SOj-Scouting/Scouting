@@ -110,7 +110,7 @@
 
                         @endforeach
 
-                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white">{{ __('orders/orders.empty-shoppingcart') }}</p>
+                        <p id="empty-shopping-cart-text" @if(!count($products) == 0) hidden @endif class="dark:text-white italic">{{ __('orders/orders.empty-shoppingcart') }}</p>
                     </div>
                 </div>
 
