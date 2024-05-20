@@ -19,7 +19,11 @@
 
         </div>
         <div id="main">
-            <a href="{{ route('home') }}">{{ __('orders/orders.back-to-home-page') }}</a>
+            <p>
+                <a class="text-blue-600 underline underline-offset-1 decoration-blue-600 hover:opacity-80" href="{{ route('home') }}">
+                    {{ __('orders/orders.back-to-home-page') }}
+                </a>
+            </p>
         </div>
     </div>
 
