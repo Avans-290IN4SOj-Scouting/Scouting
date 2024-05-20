@@ -31,7 +31,6 @@ class Order extends Model
         'lid_name',
         'group_id',
         'user_id',
-        'order_status_id',
         'status',
     ];
 
