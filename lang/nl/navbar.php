@@ -5,11 +5,12 @@ return [
     'manage_accounts' => 'Beheer accounts',
     'manage_products' => 'Beheer producten',
     'manage_orders' => 'Beheer bestellingen',
+    'manage_groups' => 'Groepen',
     'home' => 'Home',
     'cart' => 'Winkelwagen',
     'checkout' => 'Afrekenen',
     'login' => 'Log in',
     'admin' => 'Admin',
-    'manage' => 'Beheer',
+    'manage' => 'Admin',
     'register' => 'Registreren',
 ];

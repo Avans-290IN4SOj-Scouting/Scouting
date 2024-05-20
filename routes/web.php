@@ -8,6 +8,8 @@ use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 use App\Http\Controllers\ManageOrdersController;
+use App\Http\Controllers\GroupsController;
+
 use App\Http\Controllers\TestController;
 
 /*
@@ -93,6 +95,11 @@ Route::middleware('role:admin|teamleader')->group(function () {
 
             Route::post('/{id}/update', [ManageOrdersController::class, 'updateOrderStatus'])
                 ->name('update-status');
+        });
+
+        Route::prefix(__('route.groups'))->name('groups.')->group(function () {
+            Route::get('/', [GroupsController::class, 'index'])
+                ->name('index');
         });
 
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {

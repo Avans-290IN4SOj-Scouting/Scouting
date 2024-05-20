@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Group;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -15,30 +16,40 @@ class RoleSeeder extends Seeder
     {
         $guardName = 'web';
 
-        $roles = ['admin', 'teamleader', 'user'];
+        $roles = ['Admin', 'teamleader', 'user'];
 
         foreach ($roles as $role) {
             if (!Role::where('name', $role)->exists()) {
                 Role::create([
-                    'name' => $role,
+                    'name' => strtolower($role),
                     'guard_name' => $guardName,
+                    'display_name' => $role,
                 ]);
             }
         }
 
         $teamleaderRoles = [
-            ['team_bevers', '1'],
-            ['team_gidsen', '2'],
-            ['team_kabouters', '3'],
-            ['team_scouts', '4'],
-            ['team_zeeverkenners', '5'],
-            ['team_welpen', '6']
+            ['A', '1'],
+            ['B', '1'],
+            ['C', '1'],
+            ['A', '2'],
+            ['B', '2'],
+            ['A', '3'],
+            ['B', '3'],
+            ['A', '4'],
+            ['A', '5'],
+            ['B', '5'],
+            ['C', '5'],
+            ['D', '5'],
+            ['A', '6'],
+            ['B', '6'],
         ];
 
         foreach ($teamleaderRoles as $subRole) {
             if (!Role::where('name', $subRole[0])->exists()) {
                 Role::create([
-                    'name' => $subRole[0],
+                    'name' => strtolower(Group::where('id', '=', $subRole[1])->first()->name . '_' . $subRole[0]),
+                    'display_name' => $subRole[0],
                     'group_id' => $subRole[1],
                     'guard_name'=> $guardName,
                 ]);
