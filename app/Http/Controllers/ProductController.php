@@ -215,9 +215,10 @@ class ProductController extends Controller
 
             DB::commit();
 
-            $request->session()->flash('toast-type', 'success');
-            $request->session()->flash('toast-message', __('toast/messages.success-product-add'));
-            return redirect()->route('manage.products.index')->with('success', __('manage-products/products.create_success'));
+            return redirect()->route('manage.products.index')->with([
+                'toast-type' => 'success',
+                'toast-message' => __('toast/messages.success-product-add')
+            ]);
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
