@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const filteredOptions = availableOptions.filter(option => !existingSelections.includes(option.id.toString()));
 
                         if (filteredOptions.length > 0) {
-                            addDropdown(selectedValue, selectedGroupId, tdElement);
+                            addDropdown(selectedValue, selectedGroupId, tdElement, filteredOptions);
                         } else {
                             const translation = document.getElementById('translation')
                                 .getAttribute('data-translation');
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function addDropdown(selectedValue, selectedGroupId, tdElement) {
+    function addDropdown(selectedValue, selectedGroupId, tdElement, options) {
         const newElement = document.createElement('div');
         newElement.className = 'relative';
 
@@ -42,13 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectElement.id = `subroleSelect${selectedValue}`;
         selectElement.style.width = '150px';
         selectElement.className = 'peer p-4 pe-9 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2';
-
-        const existingSelections = Array.from(document.querySelectorAll(`select[data-group-id='${selectedGroupId}']`))
-            .map(select => select.value);
-
-        const options = rolesData.filter(role => {
-            return role.group_id === parseInt(selectedGroupId) && !existingSelections.includes(role.id.toString());
-        });
+        selectElement.dataset.groupId = selectedGroupId;
 
         options.forEach(option => {
             const optionElement = document.createElement('option');
@@ -57,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
             selectElement.appendChild(optionElement);
         });
 
-        selectElement.dataset.groupId = selectedGroupId;
         newElement.appendChild(selectElement);
 
         const labelElement = document.createElement('label');
@@ -69,9 +62,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         tdElement.prepend(newElement);
 
-        selectElement.addEventListener('change', function() {
+        selectElement.addEventListener('change', function () {
             updateDropdowns(selectedGroupId);
         });
+
+        updateAvailableOptions(selectedGroupId);
     }
 
     function updateDropdowns(groupId) {
@@ -111,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function showToast(type, message) {
         const toastContainer = document.createElement('div');
         toastContainer.id = 'dismiss-toast';
-        toastContainer.className = 'z-50 fixed bottom-0 end-0 m-6 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-md bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700';
+        toastContainer.className = 'z-50 fixed bottom-0 end-0 m-6 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-md bg -white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700';
         toastContainer.setAttribute('role', 'alert');
 
         const toast = document.createElement('div');
@@ -143,12 +138,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 <path d="m6 6 12 12"/>
             </svg>
         `;
-        closeButton.addEventListener('click', function() {
+        closeButton.addEventListener('click', function () {
             toastContainer.classList.add('hs-removing');
             setTimeout(() => toastContainer.remove(), 300);
         });
         closeButtonContainer.appendChild(closeButton);
 
         document.body.appendChild(toastContainer);
+    }
+
+    function updateAvailableOptions(groupId) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
+        const selectedValues = Array.from(selects).flatMap(select => Array.from(select.options).filter(option => option.selected).map(option => option.value));
+        const availableOptions = rolesData.filter(role => role.group_id === parseInt(groupId));
+
+        selects.forEach(select => {
+            const firstOption = select.querySelector('option');
+
+            select.innerHTML = '';
+            select.appendChild(firstOption);
+
+            availableOptions.forEach(option => {
+                if (!selectedValues.includes(option.id.toString())) {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = option.display_name;
+                    optionElement.value = option.id;
+                    select.appendChild(optionElement);
+                }
+            });
+        });
     }
 });
