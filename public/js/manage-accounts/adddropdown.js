@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectElement = document.createElement('select');
         selectElement.id = `subroleSelect${selectedValue}`;
         selectElement.style.width = '150px';
-        selectElement.className = 'peer p-4 pe-9 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2';
+        selectElement.className = 'peer p-4 pr-10 block border-gray-200 border-r-[28px] rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2 appearance-none bg-no-repeat bg-right pr-10';
         selectElement.dataset.groupId = selectedGroupId;
 
         options.forEach(option => {
@@ -59,6 +59,20 @@ document.addEventListener('DOMContentLoaded', function () {
         labelElement.textContent = selectedValue;
 
         newElement.appendChild(labelElement);
+
+        const removeButton = document.createElement('div');
+        removeButton.className = 'absolute top-1 end-1 text-red-600 cursor-pointer';
+        removeButton.innerHTML = `
+            <svg class="svg-icon" width="20px" height="20px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
+            </svg>
+        `;
+        removeButton.addEventListener('click', function () {
+            newElement.remove();
+            updateAvailableOptions(selectedGroupId);
+        });
+
+        newElement.appendChild(removeButton);
 
         tdElement.prepend(newElement);
 
@@ -106,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function showToast(type, message) {
         const toastContainer = document.createElement('div');
         toastContainer.id = 'dismiss-toast';
-        toastContainer.className = 'z-50 fixed bottom-0 end-0 m-6 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-md bg -white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700';
+        toastContainer.className = 'z-50 fixed bottom-0 end-0 m-6 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-md bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700';
         toastContainer.setAttribute('role', 'alert');
 
         const toast = document.createElement('div');
@@ -149,22 +163,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateAvailableOptions(groupId) {
         const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
-        const selectedValues = Array.from(selects).flatMap(select => Array.from(select.options).filter(option => option.selected).map(option => option.value));
-        const availableOptions = rolesData.filter(role => role.group_id === parseInt(groupId));
+        const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
-            const firstOption = select.querySelector('option');
+            const currentValue = select.value;
+            const options = rolesData.filter(role => {
+                return role.group_id === parseInt(groupId) && (role.id.toString() === currentValue || !selectedValues.includes(role.id.toString()));
+            });
 
-            select.innerHTML = '';
-            select.appendChild(firstOption);
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
 
-            availableOptions.forEach(option => {
-                if (!selectedValues.includes(option.id.toString())) {
-                    const optionElement = document.createElement('option');
-                    optionElement.textContent = option.display_name;
-                    optionElement.value = option.id;
-                    select.appendChild(optionElement);
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option.display_name;
+                optionElement.value = option.id;
+                if (option.id.toString() === currentValue) {
+                    optionElement.selected = true;
                 }
+                select.appendChild(optionElement);
             });
         });
     }
