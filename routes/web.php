@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\BackordersController;
+use App\Http\Controllers\StocksController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -28,19 +29,12 @@ Route::get('/', [OrderController::class, 'index'])
     ->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::prefix('profile')->name('profile.')->group(function () {
+    Route::prefix(__('route.profile'))->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])
             ->name('index');
-
         Route::post('/', [ProfileController::class, 'update'])
             ->name('update');
     });
-
-    // Order cancelling testing page (remove when orderDetails is made)
-    Route::get('/orderDetails/{orderId}', [OrderDetailsController::class, 'orderDetails'])
-        ->name('orders-user.details-order');
-    Route::post('/orderDetails/{id}', [OrderDetailsController::class, 'cancelOrder'])
-        ->name('orders-user.cancel-order');
 });
 
 Route::get(__('route.logout'), function () {
@@ -90,6 +84,18 @@ Route::middleware('role:admin|teamleader')->group(function () {
             });
         });
 
+        // Manage Stocks
+        Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
+            Route::put('/{product}/{type}', [StocksController::class, 'update'])
+                ->name('update');
+
+            Route::get('/', [StocksController::class, 'index'])
+                ->name('index');
+
+            Route::delete('/destroy', [StocksController::class, 'destroy'])
+                ->name('destroy');
+        });
+
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {
             Route::get('/', [ManageOrdersController::class, 'index'])
                 ->name('index');
@@ -113,6 +119,7 @@ Route::middleware('role:admin|teamleader')->group(function () {
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
+        
     });
 });
 
@@ -125,6 +132,13 @@ Route::prefix(__('route.products'))->name('orders.')->group(function () {
 });
 
 Route::prefix(__('route.order'))->name('orders.')->group(function () {
+    Route::get(__('route.overview'), [OrderController::class, 'overviewUser'])
+        ->name('overview.user');
+    Route::get(__('route.order-details') . '/{id}', [OrderDetailsController::class, 'orderDetails'])
+        ->name('detail');
+    Route::post(__('route.order-details') . '/{id}', [OrderDetailsController::class, 'cancelOrder'])
+        ->name('cancel');
+
     Route::prefix(__('route.checkout'))->name('checkout.')->group(function () {
         Route::get('/', [OrderController::class, 'order'])
             ->name('order');

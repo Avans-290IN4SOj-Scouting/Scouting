@@ -23,9 +23,11 @@ class ProfileController extends Controller
             ->take(3)
             ->get()
             ->each(function ($order) {
-                $order->load(['orderLines' => function ($query) {
-                    $query->orderByDesc('product_price');
-                }]);
+                $order->load([
+                    'orderLines' => function ($query) {
+                        $query->orderByDesc('product_price');
+                    }
+                ]);
                 $order->order_date = new \DateTime($order->order_date);
                 $order->status = DeliveryStatus::localisedValue($order->status);
             });
@@ -47,9 +49,12 @@ class ProfileController extends Controller
             'password' => bcrypt($validated['new-password']),
         ]);
 
-        return Redirect::back()->with([
-            'toast-type' => 'success',
-            'toast-message' => __('auth/profile.password_updated'),
-        ]);
+        Auth::logout();
+
+        return Redirect::route('login')
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('auth/profile.password_updated'),
+            ]);
     }
 }

@@ -9,26 +9,26 @@
     <!-- TODO: replace hardcoded string w/ attributes -->
 
     <!-- hidden until general orderview is made -->
-    <!--<div class="text-sm">
-        <a href="#" class="flex flex-row items-center hover:text-blue-600 dark:text-white dark:fill-white">
+    <div class="text-sm">
+        <a href="{{ route('orders.overview.user') }}" class="flex flex-row items-center hover:text-blue-600 dark:text-white dark:fill-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>{{ __('orders/orders.back-to-orders') }}</div>
         </a>
-    </div>-->
+    </div>
 
     <div class="shadow p-4 rounded-xl">
         <div class="m-4">
             <div class="flex flex-col gap-4 justify-between md:flex-row w-full dark:text-white">
                 <div class="flex flex-col justify-normal mb-2 sm:mb-0">
-                    <div class="text-4xl">{{ __('orders/orders.order') . $order->id }}</div>
+                    <div class="text-4xl">{{ __('orders/orders.order') . ' ' . $order->id }}</div>
 
                     @if($isCancellable)
                         <div class="mt-4">
                             <x-modal :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
                                      :modal-button="__('orders/order_details.cancel_order_confirm')" :modal-text="__('orders/order_details.cancel_order_text')"
-                                     :route="route('orders-user.cancel-order', ['id' => $order->id])" color="red" />
+                                     :route="route('orders.detail', ['id' => $order->id])" color="red" />
                         </div>
                     @endif
 

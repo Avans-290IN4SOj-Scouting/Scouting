@@ -64,6 +64,10 @@
                                    href="{{route('manage.products')}}">
                                     {{__('navbar.manage_products')}}
                                 </a>
+                                <a class="{{ request()->routeIs('stocks.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                   href="{{route('manage.stocks.index')}}">
+                                    {{__('navbar.manage_stocks')}}
+                                </a>
                             @endif
 
                             @if (Auth::user()->hasAnyRole(['admin', 'teamleader']))
