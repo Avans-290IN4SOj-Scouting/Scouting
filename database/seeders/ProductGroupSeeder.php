@@ -51,4 +51,5 @@ class ProductGroupSeeder extends Seeder
             $group->products()->attach($product);
         }
     }
+
 }

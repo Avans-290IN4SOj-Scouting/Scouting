@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\StocksController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -75,6 +76,18 @@ Route::middleware('role:admin|teamleader')->group(function () {
             });
         });
 
+        // Manage Stocks
+        Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
+            Route::put('/{product}/{type}', [StocksController::class, 'update'])
+                ->name('update');
+
+            Route::get('/', [StocksController::class, 'index'])
+                ->name('index');
+
+            Route::delete('/destroy', [StocksController::class, 'destroy'])
+                ->name('destroy');
+        });
+
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {
             Route::get('/', [ManageOrdersController::class, 'index'])
                 ->name('index');
@@ -98,6 +111,7 @@ Route::middleware('role:admin|teamleader')->group(function () {
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
+        
     });
 });
 
