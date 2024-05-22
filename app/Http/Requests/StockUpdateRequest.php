@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Validation\Validator;
 
 class StockUpdateRequest extends FormRequest
 {
@@ -12,7 +14,7 @@ class StockUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true; // Update this if you need to add authorization logic
     }
@@ -22,7 +24,7 @@ class StockUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = [];
 
@@ -40,11 +42,25 @@ class StockUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             '*.integer' => __('manage-stocks/stocks.invalid_type'),
             '*.between' => __('manage-stocks/stocks.invalid_amount'),
         ];
     }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors()->messages();
+        $firstError = array_shift($errors)[0];
+
+        throw new HttpResponseException(
+            back()->withInput($this->input())->with([
+                'toast-type' => 'error',
+                'toast-message' => $firstError,
+            ])
+        );
+    }
+
 }

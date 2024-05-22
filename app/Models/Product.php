@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -23,22 +22,12 @@ class Product extends Model
             ->withPivot('price');
     }
 
-    public function stock(): HasOne
-    {
-        return $this->hasOne(Stock::class);
-    }
-
-    public function productCollection(): BelongsTo
-    {
-        return $this->belongsTo(ProductCollection::class);
-    }
-
-    public function stocks()
+    public function stocks(): HasMany
     {
         return $this->hasMany(Stock::class);
     }
 
-    public function groups()
+    public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'product_group');
     }

@@ -31,14 +31,6 @@ class Order extends Model
         'lid_name',
         'group_id',
         'user_id',
-        'order_status_id',
-        'status',
-    ];
-
-    protected $fillable = [
-        'order_date',
-        'lid_name',
-        'group_id',
         'status',
     ];
 
