@@ -23,8 +23,6 @@
                 <div class="image">
                     <img src="{{ asset($group->image_url) }}" alt="{{ __('orders/orders.accessibility-group-image') }} {{ $group->name }} {{ __('orders/orders.group') }}">
                 </div>
-
-                <p class="group-name dark:text-white">{{ $group->name }}</p>
             </a>
             @endforeach
         </div>
