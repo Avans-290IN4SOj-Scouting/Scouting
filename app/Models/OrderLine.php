@@ -23,6 +23,7 @@ class OrderLine extends Model
         'product_price',
         'product_size',
         'product_image_path',
+        'product_type_id',
     ];
 
     public function product(): BelongsTo

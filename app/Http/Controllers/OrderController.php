@@ -150,6 +150,7 @@ class OrderController extends Controller
                 $orderLine->amount = $product->amount;
                 $orderLine->product_price = $product->price;
                 $orderLine->product_size = $product->size;
+                $orderLine->product_type_id = $product->product_type_id;
 
                 $orderLine->save();
             }
@@ -159,6 +160,7 @@ class OrderController extends Controller
         }
         catch (Exception $e)
         {
+            dd($e);
             DB::rollBack();
 
             return redirect()->route('orders.checkout.order')->with([
