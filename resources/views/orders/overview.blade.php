@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/orders/overview.css') }}">
 @endpush
-@push('scripts')
+{{-- @push('scripts')
     <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
-@endpush
+@endpush --}}
 
 @section('content')
 

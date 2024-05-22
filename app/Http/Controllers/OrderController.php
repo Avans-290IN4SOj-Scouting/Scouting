@@ -73,12 +73,10 @@ class OrderController extends Controller
         }
 
         // Get Pivot table values
-        $productSizes = $productFromName->productSizes;
-
         return view('orders.product', [
             'group' => $groupFromName,
             'product' => $product,
-            'productSizes' => $productSizes
+            'productSizes' => $productFromName->productSizes,
         ]);
     }
 

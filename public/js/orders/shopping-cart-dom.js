@@ -5,38 +5,39 @@ class PHPPriceChange {
     }
 }
 
-function DOM_removeShoppingCartProduct(id, sizeId) {
-    const toDelete = document.querySelector('#product-' + id + 'size-' + sizeId);
+function DOM_removeShoppingCartProduct(id, sizeId, typeId) {
+    const toDelete = document.querySelector('#product-' + id + 'size-' + sizeId + 'type-' + typeId);
+    console.log(toDelete);
 
-    removeProductFromShoppingCart(id, sizeId);
+    removeProductFromShoppingCart(id, sizeId, typeId);
     shoppingCartChanged();
 
     toDelete.remove();
 }
 
-function DOM_shoppingCartProductAmountChange(id, sizeId) {
-    let input = document.querySelector('#input-' + id + 'size-' + sizeId);
+function DOM_shoppingCartProductAmountChange(id, sizeId, typeId) {
+    let input = document.querySelector('#input-' + id + 'size-' + sizeId + 'type-' + typeId);
 
     const regex = /^[0-9]{0,3}$/;
     if (!regex.test(input.value)) {
-        setShoppingCartProductAmount(id, sizeId, 1);
+        setShoppingCartProductAmount(id, sizeId, typeId, 1);
         input.value = 1;
     }
 
     if (parseInt(input.value) === 0) {
-        DOM_removeShoppingCartProduct(id, sizeId);
+        DOM_removeShoppingCartProduct(id, sizeId, typeId);
         return;
     }
 
-    setShoppingCartProductAmount(id, sizeId, Number(input.value));
+    setShoppingCartProductAmount(id, sizeId, typeId, Number(input.value));
     shoppingCartChanged();
 }
 
-function DOM_shoppingCartProductAdd(id, sizeId, amount) {
-    let input = document.querySelector('#input-' + id + 'size-' + sizeId);
+function DOM_shoppingCartProductAdd(id, sizeId, typeId, amount) {
+    let input = document.querySelector('#input-' + id + 'size-' + sizeId + 'type-' + typeId);
     input.value = (Number(input.value) + amount);
 
-    DOM_shoppingCartProductAmountChange(id, sizeId);
+    DOM_shoppingCartProductAmountChange(id, sizeId, typeId);
 }
 
 function shoppingCartChanged() {
@@ -91,10 +92,14 @@ function formatPrice(price) {
 function DOM_addProductFromProductPage(productId) {
     try
     {
-        const element = document.querySelector('#product-sizes');
-        const sizeId = element.options[element.selectedIndex].id;
+        const sizeElement = document.querySelector('#product-sizes');
+        const sizeId = sizeElement.options[sizeElement.selectedIndex].id;
+
+        const typeElement = document.querySelector('#product-types');
+        const typeId = typeElement.options[typeElement.selectedIndex].id;
+
         const amount = 1;
-        addProductToShoppingCart(productId, sizeId, amount);
+        addProductToShoppingCart(productId, sizeId, typeId, amount);
     }
     catch (e)
     {
