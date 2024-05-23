@@ -96,7 +96,8 @@ function DOM_addProductFromProductPage(productId) {
         const sizeId = sizeElement.options[sizeElement.selectedIndex].id;
 
         const typeElement = document.querySelector('#product-types');
-        const typeId = typeElement.options[typeElement.selectedIndex].id;
+        // TODO: Hardcoded type id naar unisex
+        const typeId = 2;
 
         const amount = 1;
         addProductToShoppingCart(productId, sizeId, typeId, amount);
