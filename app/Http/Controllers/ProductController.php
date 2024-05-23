@@ -169,7 +169,6 @@ class ProductController extends Controller
     {
         $product = new Product();
         $product->name = $request->input('name');
-        $product->category = $request->input('category');
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->name,$product->id);
 
         // Set default price if priceForSize is not provided in the request
@@ -187,16 +186,15 @@ class ProductController extends Controller
         // Set sizes and prices on the product
         $product->setPriceForSize($sizesAndPrices);
 
-        // Set groups
+        // Set groups & categories
         $product->setGroups($request->input('products-group-multiselect'));
+        $product->setTypes($request->input('products-category-multiselect'));
 
         DB::beginTransaction();
         try {
-            $category = $this->categoryToId($product->category);
             $newProduct = Product::create([
                 'name' => $product->name,
                 'discount' => 0,
-                'product_type_id' => $category,
                 'image_path' => $product->image_path,
             ]);
 
@@ -212,6 +210,10 @@ class ProductController extends Controller
             foreach ($product->groups as $group) {
                 $newProduct->groups()->attach(Group::firstOrCreate(['name' => $group]));
             }
+            // Handle categories
+            foreach ($product->types as $category) {
+                $newProduct->ProductTypes()->attach(ProductType::firstOrCreate(['type' => $category]));
+            }
 
             DB::commit();
 
@@ -221,7 +223,10 @@ class ProductController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
+            return redirect()->route('manage.products.index')->with([
+                'toast-type' => 'error',
+                'toast-message' => __('toast/messages.error-product-add')
+            ]);
         }
     }
     private function savePicture($picture, $name, $id)

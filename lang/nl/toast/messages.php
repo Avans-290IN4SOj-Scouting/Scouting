@@ -8,6 +8,7 @@ return [
     "warning-no-admins" => "Er moet minstens één admin aangewezen zijn!",
     "order-no-products" => "U heeft geen producten in uw winkelwagen!",
     "success-product-add" => "Product succesvol aangemaakt!",
+    "error-product-add" => "Product kon niet aangemaakt worden!",
     "error-order-not-found" => "De bestelling kan niet gevonden worden!",
     "error-order-not-cancelled" => "Order kan niet meer geannuleerd worden!",
     "success-order-cancelled" => "Bestelling succesvol geannuleerd!",

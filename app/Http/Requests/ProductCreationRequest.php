@@ -23,7 +23,7 @@ class ProductCreationRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'products-category-multiselect' => 'required|string',
+            'products-category-multiselect' => 'required|array',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 $priceForSize = $this->input('priceForSize');

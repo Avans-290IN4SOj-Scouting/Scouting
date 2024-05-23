@@ -60,4 +60,13 @@ class Product extends Model
             $this->groups = [$groups];
         }
     }
+
+    public function setTypes($types)
+    {
+        if (is_array($types)) {
+            $this->types = $types;
+        } else {
+            $this->types = [$types];
+        }
+    }
 }
