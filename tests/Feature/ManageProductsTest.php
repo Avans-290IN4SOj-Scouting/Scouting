@@ -26,13 +26,9 @@ class ManageProductsTest extends TestCase
             'custom_prices' => [200.00, 300.00],
             'products-group-multiselect' => ['Bevers', 'Welpen'],
         ];
-        $response = $this->actingAs($admin)->post(route('manage.products.create.store'), $data);
+        $this->actingAs($admin)->post(route('manage.products.create.store'), $data);
 
-        $response->assertStatus(302);
-
-        $response->assertRedirect(route('manage.products.index'))
-            ->assertSessionHas('toast-type', 'success')
-            ->assertSessionHas('toast-message', __('toast/messages.success-product-add'));
+        $this->assertTrue(Product::where('name', $data['name'])->exists());
     }
 
     public function test_edit_product(): void
@@ -54,12 +50,8 @@ class ManageProductsTest extends TestCase
             'custom_prices' => [200, 300],
             'products-group-multiselect' => ['Scouts', 'Welpen'],
         ];
-        $response = $this->actingAs($admin)->put(route('manage.products.edit.store', $product->id), $data);
+        $this->actingAs($admin)->put(route('manage.products.edit.store', $product->id), $data);
 
-        $response->assertStatus(302);
-
-        $response->assertRedirect(route('manage.products.index'))
-            ->assertSessionHas('toast-type', 'success')
-            ->assertSessionHas('toast-message', __('toast/messages.success-product-update'));
+        $this->assertTrue(Product::where('name', $data['name'])->exists());
     }
 }

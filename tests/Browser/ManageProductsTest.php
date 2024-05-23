@@ -38,7 +38,7 @@ class ManageProductsTest extends DuskTestCase
                     ->visit(route('manage.products.edit.index', ['id' => $productId]))
                     ->responsiveScreenshots('products/edit-product/manage-editProduct');
             } else {
-                $this->assertTrue(false, 'No product found in the database.');
+                $this->assertTrue(false, __('manage-products/products.not_found'));
             }
         });
     }
