@@ -181,7 +181,7 @@ class ProductController extends Controller
         // Set default price if priceForSize is not provided in the request
         $defaultPriceForSize = ['Default' => null];
         $priceForSize = $request->input('priceForSize', $defaultPriceForSize);
-        $product->setPriceForSize($priceForSize);
+        $product->priceForSize = $priceForSize;
 
         // Set custom sizes and prices
         $customSizes = $request->input('custom_sizes', []);
@@ -191,11 +191,11 @@ class ProductController extends Controller
         $sizesAndPrices = array_merge($product->priceForSize, array_combine($customSizes, $customPrices));
 
         // Set sizes and prices on the product
-        $product->setPriceForSize($sizesAndPrices);
+        $product->priceForSize = $sizesAndPrices;
 
         // Set groups & categories
-        $product->setGroups($request->input('products-group-multiselect'));
-        $product->setTypes($request->input('products-category-multiselect'));
+        $product->groups = $request->input('products-group-multiselect');
+        $product->types = $request->input('products-category-multiselect');
 
         DB::beginTransaction();
         try {
