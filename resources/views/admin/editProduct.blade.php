@@ -6,7 +6,15 @@
 
 @section('content')
     <x-breadcrumbs :names="[__('manage-products/products.index_page_title'), $product->name]" :routes="[route('manage.products.index'), route('manage.products.edit.index', ['id' => $product['id']])]" />
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <body class="bg-gray-100">
         <div class="container mx-auto px-4 py-8">
             <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
@@ -63,7 +71,7 @@
                                                 'id' => 'product-size-price-' . $loop->index,
                                                 'placeholder' => __('manage-products/products.custom_size_placeholder') . ' ' . $sizeWithPrice['size'],
                                                 'name' => 'priceForSize[' . $sizeWithPrice['size'] . ']',
-                                            
+
                                                 'value' => old('priceForSize.' . $sizeWithPrice['size'], $sizeWithPrice['price']),
                                                 'class' => 'existing-custom-price ',
                                             ])
@@ -111,14 +119,13 @@
                     @endcomponent
 
                     <!-- Product Category Field -->
-                    @component('components.Input', [
+                    @component('components.multiselect', [
                         'label' => __('manage-products/products.category_input_label'),
                         'placeholder' => __('manage-products/products.category_input_placeholder'),
-                        'id' => 'product-category',
-                        'type' => 'text',
-                        'name' => 'category',
-                        'value' => $baseChosenCategorie->type,
-                        'disabled' => false,
+                        'options' => $baseCategories->pluck('type'),
+                        'selected' => $chosenCategories->pluck('type'),
+                        'name' => 'products-category-multiselect',
+                        'class' => 'manage-products/products.category-multiselect',
                     ])
                     @endcomponent
 

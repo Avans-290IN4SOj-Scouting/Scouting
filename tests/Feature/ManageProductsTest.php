@@ -19,8 +19,8 @@ class ManageProductsTest extends TestCase
             ->create(['email' => 'admin@test.nl'])
             ->assignRole('admin');
         $data = [
-            'name' => 'Test Product thingy',
-            'category' => 'test category',
+            'name' => 'Grootste Vlinderdas',
+            'products-category-multiselect' => ['Groen', 'Blauw'],
             'af-submit-app-upload-images' => UploadedFile::fake()->image('test.jpg'),
             'custom_sizes' => ['L', 'M'],
             'custom_prices' => [200.00, 300.00],
@@ -48,7 +48,7 @@ class ManageProductsTest extends TestCase
             ->assignRole('admin');
         $data = [
             'name' => 'Updated Product Name',
-            'category' => 'updated category',
+            'products-category-multiselect' => ['Groen', 'Blauw'],
             'image_path' => 'fake_image.jpg',
             'custom_sizes' => ['L', 'M'],
             'custom_prices' => [200, 300],

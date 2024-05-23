@@ -60,6 +60,12 @@ class ManageProductsTest extends DuskTestCase
                 ->click(__('[data-value="Bevers"]'))
                 ->click(__('[data-value="Kabouters"]'))
                 ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
+
+                ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
+                ->click(__('[data-value="Bevers"]'))
+                ->click(__('[data-value="Kabouters"]'))
+
+
                 ->type('category', 'groen')
                 ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png')
                 ->click('.submit-add')

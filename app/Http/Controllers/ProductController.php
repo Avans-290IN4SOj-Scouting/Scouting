@@ -42,12 +42,11 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
         $product = Product::find($productId);
+
         if (!$product) {
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
         }
 
-        $categoryId = $this->categoryToId($validatedData['category']);
-        $product->product_type_id = $categoryId;
         if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
                 Storage::disk('public')->delete($product->image_path);
             }
@@ -84,6 +83,11 @@ class ProductController extends Controller
                 }
             }
         }
+        $product->productTypes()->detach();
+        foreach ($validatedData['products-category-multiselect'] as $categoryName) {
+            $category = ProductType::firstOrCreate(['type' => $categoryName]);
+            $product->productTypes()->attach($category);
+        }
 
         $product->groups()->detach();
         foreach ($validatedData['products-group-multiselect'] as $groupName) {
@@ -113,6 +117,7 @@ class ProductController extends Controller
 
     public function edit($productId)
     {
+
         $product = Product::with(['productTypes', 'groups', 'productSizes'])->find($productId);
         if (!$product) {
             // Product not found, redirect back with an error message
@@ -150,13 +155,12 @@ class ProductController extends Controller
         }
 
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
-
         return view('admin.editProduct', [
             'product' => $product,
             'baseCategories' => ProductType::all(),
             'baseGroups' => Group::all(),
             'baseProductSizes' => ProductSize::whereNot('size', 'Default')->get(),
-            'baseChosenCategorie' => $product->productTypes->first()->type,
+            'chosenCategories' => $product->productTypes,
             'chosenGroups' => $product->groups,
             'sizesWithPrices' => $sizes,
             'defaultSizeWithPrice' => $defaultSize,
@@ -241,12 +245,5 @@ class ProductController extends Controller
         catch (\Exception $e){
             return "/images/products/placeholder.png";
         }
-    }
-
-    private function categoryToId($category)
-    {
-        $category = strtolower($category);
-        $productType = ProductType::firstOrCreate(['type' => $category]);
-        return $productType->id;
     }
 }
