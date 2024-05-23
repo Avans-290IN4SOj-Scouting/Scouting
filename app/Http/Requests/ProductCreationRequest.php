@@ -23,7 +23,7 @@ class ProductCreationRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'category' => 'required|string',
+            'products-category-multiselect' => 'required|string',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 $priceForSize = $this->input('priceForSize');
@@ -86,8 +86,8 @@ class ProductCreationRequest extends FormRequest
         return [
             'name.required' => __('manage-products/requests.name.required'),
             'name.string' => __('manage-products/requests.name.string'),
-            'category.required' => __('manage-products/requests.category.required'),
-            'category.string' => __('manage-products/requests.category.string'),
+            'products-category-multiselect.required' => __('manage-products/requests.category.required'),
+            'products-category-multiselect.array' => __('manage-products/requests.category.array'),
             'af-submit-app-upload-images.required' => __('manage-products/requests.image.required'),
             'af-submit-app-upload-images.file' => __('manage-products/requests.image.file'),
             'af-submit-app-upload-images.image' => __('manage-products/requests.image.image'),

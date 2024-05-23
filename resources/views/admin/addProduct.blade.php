@@ -90,14 +90,13 @@
                     @endcomponent
 
                     <!-- Product Category Field -->
-                    @component('components.Input', [
+                    @component('components.multiselect', [
                         'label' => __('manage-products/products.category_input_label'),
                         'placeholder' => __('manage-products/products.category_input_placeholder'),
+                        'options' => $baseCategories->pluck('type'),
                         'id' => 'product-category',
-                        'type' => 'text',
-                        'name' => 'category',
-                        'disabled' => false,
-                        'error' => $errors->first('category'),
+                        'name' => 'products-category-multiselect',
+                        'class' => 'manage-products/products.category-multiselect',
                     ])
                     @endcomponent
                     <!-- Add Product Button -->

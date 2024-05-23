@@ -12,7 +12,7 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'image_path'
+        'image_path',
     ];
 
     public function productTypes(): BelongsToMany
@@ -38,7 +38,6 @@ class Product extends Model
     }
 
     public function stocks(): HasMany
-
     {
         return $this->hasMany(Stock::class);
     }

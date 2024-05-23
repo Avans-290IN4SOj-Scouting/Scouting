@@ -3,8 +3,8 @@
 return [
     'name.required' => 'Het naam veld moet ingevuld worden.',
     'name.string' => 'Het naam veld moet een tekst zijn.',
-    'category.required' => 'Het Kleur categorie veld moet ingevuld worden.',
-    'category.string' => 'Het Kleur categorie veld moet een tekst zijn.',
+    'category.required' => 'Geef aan bij welke categorie dit product hoort',
+    'category.array' => 'Het Kleur categorie veld moet een array zijn.',
     'image.required' => 'Voeg een afbeelding toe.',
     'image.file' => 'Je probeert iets te uploaden dat geen bestand is.',
     'image.image' => 'Het geüploade bestand moet een afbeelding zijn.',

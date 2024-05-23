@@ -96,6 +96,8 @@ Route::middleware('role:admin|teamleader')->group(function () {
                 Route::put('store/{id}', [ProductController::class, 'update'])
                     ->name('store');
             });
+        });
+
         // Manage Stocks
         Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
             Route::put('/{product}/{type}', [StocksController::class, 'update'])

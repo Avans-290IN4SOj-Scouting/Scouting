@@ -18,12 +18,12 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productType', 'groups')->get();
+        $products = Product::with('productTypes', 'groups')->get();
         $categories = ProductType::all();
         $productsModel = $products->map(function ($product) {
             return [
                 'name' => $product->name,
-                'category' => $product->productType->type,
+                'category' => implode(', ', $product->productTypes->pluck('type')->toArray()),
                 'groups' => $product->groups->pluck('name')->toArray(),
                 'sizesWithPrices' => $product->productSizes->map(function ($size) {
                     return [
@@ -113,7 +113,7 @@ class ProductController extends Controller
 
     public function edit($productId)
     {
-        $product = Product::with(['productType', 'groups', 'productSizes'])->find($productId);
+        $product = Product::with(['productTypes', 'groups', 'productSizes'])->find($productId);
         if (!$product) {
             // Product not found, redirect back with an error message
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
@@ -156,7 +156,7 @@ class ProductController extends Controller
             'baseCategories' => ProductType::all(),
             'baseGroups' => Group::all(),
             'baseProductSizes' => ProductSize::whereNot('size', 'Default')->get(),
-            'baseChosenCategorie' => $product->productType,
+            'baseChosenCategorie' => $product->productTypes->first()->type,
             'chosenGroups' => $product->groups,
             'sizesWithPrices' => $sizes,
             'defaultSizeWithPrice' => $defaultSize,
