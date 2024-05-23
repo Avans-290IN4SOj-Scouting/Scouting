@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class textarea extends Component
+class Textarea extends Component
 {
     public $label;
     public $name;

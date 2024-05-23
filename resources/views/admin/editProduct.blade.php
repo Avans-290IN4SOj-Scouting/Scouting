@@ -15,6 +15,7 @@
             </ul>
         </div>
     @endif
+
     <body class="bg-gray-100">
         <div class="container mx-auto px-4 py-8">
             <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
@@ -27,31 +28,16 @@
                     <!-- Product Form -->
                     <div class="space-y-4">
                         <!-- Product Name Field -->
-                        @component('components.Input', [
-                            'label' => __('manage-products/products.name_label'),
-                            'id' => 'product-name',
-                            'type' => 'text',
-                            'placeholder' => __('manage-products/products.name_placeholder'),
-                            'name' => 'name',
-                            'value' => $product->name,
-                            'disabled' => $nameDisabled,
-                        ])
-                        @endcomponent
+                        <x-input :label="__('manage-products/products.name_label')" id="product-name" type="text" :placeholder="__('manage-products/products.name_placeholder')" name="name"
+                            :value="$product->name" :disabled="$nameDisabled" />
 
                         @if ($nameDisabled)
                             <input type="hidden" name="name" value="{{ $product->name }}">
                         @endif
 
                         <!-- Product Size and Price Fields -->
-                        @component('components.price-input', [
-                            'label' => __('manage-products/products.price_label'),
-                            'id' => 'product-size-price-Default',
-                            'placeholder' => __('manage-products/products.price_placeholder'),
-                            'name' => 'priceForSize[Default]',
-                            'value' => old('priceForSize.Default', $defaultSizeWithPrice['price']),
-                            'class' => '',
-                        ])
-                        @endcomponent
+                        <x-price-input :label="__('manage-products/products.price_label')" id="product-size-price-Default" :placeholder="__('manage-products/products.price_placeholder')"
+                            name="priceForSize[Default]" :value="old('priceForSize.Default', $defaultSizeWithPrice['price'])" class="" />
 
                         <div>
                             <div id="size-price-options" class="space-y-4">
@@ -66,16 +52,13 @@
                                         <label
                                             class="block text-gray-700 font-semibold">{{ __('manage-products/products.custom_sizes_label') }}</label>
                                         @foreach ($sizesWithPrices as $sizeWithPrice)
-                                            @component('components.price-input', [
-                                                'label' => $sizeWithPrice['size'],
-                                                'id' => 'product-size-price-' . $loop->index,
-                                                'placeholder' => __('manage-products/products.custom_size_placeholder') . ' ' . $sizeWithPrice['size'],
-                                                'name' => 'priceForSize[' . $sizeWithPrice['size'] . ']',
-
-                                                'value' => old('priceForSize.' . $sizeWithPrice['size'], $sizeWithPrice['price']),
-                                                'class' => 'existing-custom-price ',
-                                            ])
-                                            @endcomponent
+                                            <x-price-input :label="$sizeWithPrice['size']" :id="'product-size-price-' . $loop->index" :placeholder="__('manage-products/products.custom_size_placeholder') .
+                                                ' ' .
+                                                $sizeWithPrice['size']"
+                                                :name="'priceForSize[' . $sizeWithPrice['size'] . ']'" :value="old(
+                                                    'priceForSize.' . $sizeWithPrice['size'],
+                                                    $sizeWithPrice['price'],
+                                                )" class="existing-custom-price" />
                                         @endforeach
                                         <div id="custom-size-inputs">
                                             <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
@@ -108,26 +91,12 @@
                         @endforeach
                     </div>
                     <!-- Select Groups Field -->
-                    @component('components.multiselect', [
-                        'label' => __('manage-products/products.groups_multi_select_label'),
-                        'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
-                        'options' => $baseGroups->pluck('name'),
-                        'selected' => $chosenGroups->pluck('name'),
-                        'name' => 'products-group-multiselect',
-                        'class' => 'manage-products/products.groups-multiselect',
-                    ])
-                    @endcomponent
+                    <x-multiselect :label="__('manage-products/products.groups_multi_select_label')" :placeholder="__('manage-products/products.groups_multi_select_placeholder')" :options="$baseGroups->pluck('name')" :selected="$chosenGroups->pluck('name')"
+                        name="products-group-multiselect" class="manage-products/products.groups-multiselect" />
 
                     <!-- Product Category Field -->
-                    @component('components.multiselect', [
-                        'label' => __('manage-products/products.category_input_label'),
-                        'placeholder' => __('manage-products/products.category_input_placeholder'),
-                        'options' => $baseCategories->pluck('type'),
-                        'selected' => $chosenCategories->pluck('type'),
-                        'name' => 'products-category-multiselect',
-                        'class' => 'manage-products/products.category-multiselect',
-                    ])
-                    @endcomponent
+                    <x-multiselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" :selected="$chosenCategories->pluck('type')"
+                        name="products-category-multiselect" class="manage-products/products.category-multiselect" />
 
                     <!-- Disable Product Checkbox -->
                     <div class="flex">

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class singleselect extends Component
+class Singleselect extends Component
 {
     public $label;
     public $placeholder;

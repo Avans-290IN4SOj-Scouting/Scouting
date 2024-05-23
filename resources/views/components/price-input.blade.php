@@ -7,5 +7,5 @@
         name="{{ $name }}"
         class="{{ $class }} block w-full pl-8 pr-4 py-2 border border-gray-300 rounded-md"
         value="{{ old($name) ?? ($value ?? '') }}">
-    <x-error :error="$errors->first($name)" :id="$name" />
 </div>
+<x-error :error="$errors->first($name)" :id="$name" />

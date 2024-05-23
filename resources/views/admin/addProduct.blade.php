@@ -18,25 +18,12 @@
                     <!-- Product Form -->
                     <div class="space-y-4">
                         <!-- Product Name Field -->
-                        @component('components.Input', [
-                            'label' => __('manage-products/products.name_label'),
-                            'id' => 'product-name',
-                            'type' => 'text',
-                            'placeholder' => __('manage-products/products.name_placeholder'),
-                            'name' => 'name',
-                            'disabled' => false,
-                            'error' => $errors->first('name'),
-                        ])
-                        @endcomponent
+                        <x-input :label="__('manage-products/products.name_label')" id="product-name" type="text" :placeholder="__('manage-products/products.name_placeholder')" name="name"
+                            :disabled="false" :error="$errors->first('name')" />
                         <!-- Product Price Field -->
-                        @component('components.price-input', [
-                            'label' => __('manage-products/products.price_label'),
-                            'id' => 'product-size-price-Default',
-                            'placeholder' => __('manage-products/products.price_placeholder'),
-                            'name' => 'priceForSize[Default]',
-                            'class' => '',
-                        ])
-                        @endcomponent
+                        <x-price-input :label="__('manage-products/products.price_label')" id="product-size-price-Default" :placeholder="__('manage-products/products.price_placeholder')"
+                            name="priceForSize[Default]" class="" />
+
                         <!-- Product Size and Price Fields -->
                         <div>
                             <div id="size-price-options" class="space-y-4">
@@ -80,25 +67,12 @@
                         @endforeach
                     </div>
                     <!-- Select Groups Field -->
-                    @component('components.multiselect', [
-                        'label' => __('manage-products/products.groups_multi_select_label'),
-                        'placeholder' => __('manage-products/products.groups_multi_select_placeholder'),
-                        'options' => $baseGroups->pluck('name'),
-                        'name' => 'products-group-multiselect',
-                        'class' => 'manage-products/products.groups-multiselect',
-                    ])
-                    @endcomponent
+                    <x-multiselect :label="__('manage-products/products.groups_multi_select_label')" :placeholder="__('manage-products/products.groups_multi_select_placeholder')" :options="$baseGroups->pluck('name')"
+                        name="products-group-multiselect" class="manage-products/products.groups-multiselect" />
 
                     <!-- Product Category Field -->
-                    @component('components.multiselect', [
-                        'label' => __('manage-products/products.category_input_label'),
-                        'placeholder' => __('manage-products/products.category_input_placeholder'),
-                        'options' => $baseCategories->pluck('type'),
-                        'id' => 'product-category',
-                        'name' => 'products-category-multiselect',
-                        'class' => 'manage-products/products.category-multiselect',
-                    ])
-                    @endcomponent
+                    <x-multiselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" id="product-category"
+                        name="products-category-multiselect" class="manage-products/products.category-multiselect" />
                     <!-- Add Product Button -->
                     <div>
                         <button id="big-screen" type="submit"
