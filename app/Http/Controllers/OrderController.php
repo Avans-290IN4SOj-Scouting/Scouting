@@ -158,7 +158,6 @@ class OrderController extends Controller
         }
         catch (Exception $e)
         {
-            dd($e);
             DB::rollBack();
 
             return redirect()->route('orders.checkout.order')->with([
