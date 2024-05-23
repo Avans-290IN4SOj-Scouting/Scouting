@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DeliveryStatus;
 use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Services\ShoppingCartService;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -173,5 +175,21 @@ class OrderController extends Controller
 
     public function completedOrder() {
         return view('orders.complete');
+    }
+
+    public function overviewUser()
+    {
+        $orders = Order::where('user_id', auth()->id())->get()->sortByDesc('order_date')
+        ->each(function ($order) {
+            $order->load([
+                'orderLines' => function ($query) {
+                    $query->orderByDesc('product_price');
+                }
+            ]);
+            $order->order_date = new DateTime($order->order_date);
+            $order->status = DeliveryStatus::localisedValue($order->status);
+        });
+
+        return view('orders.overview-user', ['orders' => $orders]);
     }
 }

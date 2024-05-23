@@ -20,7 +20,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'old-password' => ['required', new CheckOldPassword],
-            'new-password' => ['required', Password::defaults(), 'different:old-password'],
+            'new-password' => ['required', 'different:old-password', 'min:8'],
             'repeat-password' => ['required', 'same:new-password'],
         ];
     }
@@ -39,8 +39,8 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'new-password' => [
                 'required' => __('common.required', ['attribute' => __('auth/profile.new_password')]),
-                'password' => __('auth/profile.password_requirements'),
                 'different' => __('auth/profile.password_different'),
+                'min' => __('auth/profile.password_requirements'),
             ],
             'repeat-password' => [
                 'required' => __('common.required', ['attribute' => __('auth/profile.repeat_password')]),

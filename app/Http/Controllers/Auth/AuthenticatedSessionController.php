@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,8 +17,10 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
+        $request->session()->put('url.intended', URL::previous());
+
         return view('auth.login');
     }
 
@@ -36,7 +39,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('home')
+        $url = $request->session()->pull('url.intended', route('home'));
+        $request->session()->forget('url.intended');
+
+        return redirect()->to($url)
             ->with([
                 'toast-type' => 'success',
                 'toast-message' => __('auth/auth.login-success')

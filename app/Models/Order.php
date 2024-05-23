@@ -31,7 +31,6 @@ class Order extends Model
         'lid_name',
         'group_id',
         'user_id',
-        'order_status_id',
         'status',
     ];
 
@@ -54,4 +53,5 @@ class Order extends Model
     {
         return $this->belongsTo(OrderStatus::class);
     }
+
 }
