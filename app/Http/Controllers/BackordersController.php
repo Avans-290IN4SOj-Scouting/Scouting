@@ -14,19 +14,25 @@ use Illuminate\Http\Request;
 
 class BackordersController extends Controller
 {
-    public function download(Request $request)
+    public function download()
     {
-        $request->session()->put('url.intended', URL::previous());
         $backorders = $this->getBackorders();
 
         if (empty($backorders)) {
-            return redirect()->route(session('url.intended'))->with('info', __('orders/backorders.no_backorders'));
+            return redirect()->back()->with(
+                [
+                    'toast-type' => 'info',
+                    'toast-message' => __('orders/backorders.no_backorders')
+                ]);
         }
 
         try {
             $filename = $this->generateCsv($backorders);
         } catch (\Exception) {
-            return redirect()->route(session('url.intended'))->with('error', __('orders/backorders.error'));
+            return redirect()->back()->with([
+                'toast-type' => 'error',
+                'toast-message' => __('orders/backorders.error')
+            ]);
         }
 
         $headers = array(
