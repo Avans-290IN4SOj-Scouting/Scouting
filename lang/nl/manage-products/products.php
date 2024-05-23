@@ -33,7 +33,7 @@ return [
     'inactive-product' => 'Momenteel actief. Klik om inactief te maken.',
     'active-product' => 'Momenteel inactief. Klik om actief te maken.',
     "not_found" => "Product niet gevonden",
-    "update_succes" => "Product succesvol gewijzigd",
+    "update_success" => "Product succesvol gewijzigd",
     "create_success" => "Product succesvol toegevoegd",
 ];
 

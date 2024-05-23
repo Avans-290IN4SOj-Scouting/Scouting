@@ -59,6 +59,7 @@ class ManageProductsTest extends TestCase
         $response->assertStatus(302);
 
         $response->assertRedirect(route('manage.products.index'))
-            ->assertSessionHas('success', __('manage-products/products.update_success'));
+            ->assertSessionHas('toast-type', 'success')
+            ->assertSessionHas('toast-message', __('toast/messages.success-product-update'));
     }
 }

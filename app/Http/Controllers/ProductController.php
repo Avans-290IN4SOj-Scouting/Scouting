@@ -99,7 +99,10 @@ class ProductController extends Controller
         $product->inactive = $isInactive;
 
         $product->save();
-        return redirect()->route('manage.products.index')->with('success', __('manage-products/products.update_success'));
+        return redirect()->route('manage.products.index')->with([
+            'toast-type' => 'success',
+            'toast-message' => __('toast/messages.success-product-update')
+        ]);
     }
 
     public function add()

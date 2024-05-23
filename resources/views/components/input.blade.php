@@ -6,7 +6,7 @@
         value="{{ old($name) ?? ($value ?? (request()->has($name) ? request($name) : '')) }}"
         @if ($disabled) disabled @endif>
     @if ($disabled)
-        <span class="text-sm text-gray-500">__('manage-products/products.cannot-edit-due-order')</span>
+        <span class="text-sm text-gray-500">{{__('manage-products/products.cannot-edit-due-order')}}</span>
     @endif
     <x-error :error="$errors->first($name)" :id="$name" />
 </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Laravel\Prompts\pause;
 
 class ManageProductsTest extends DuskTestCase
 {
@@ -30,7 +31,6 @@ class ManageProductsTest extends DuskTestCase
             $product = Product::get()->first();
             if ($product) {
                 $productId = $product->id;
-
                 $browser->visit(route('manage.products.index'))
                     ->responsiveScreenshots('products/products/products-page')
                     ->visit(route('manage.products.create.index'))
@@ -60,13 +60,9 @@ class ManageProductsTest extends DuskTestCase
                 ->click(__('[data-value="Bevers"]'))
                 ->click(__('[data-value="Kabouters"]'))
                 ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
-
-                ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
-                ->click(__('[data-value="Bevers"]'))
-                ->click(__('[data-value="Kabouters"]'))
-
-
-                ->type('category', 'groen')
+                ->click('@multiple-select-' . trans('manage-products/products.category-multiselect') . ' + *')
+                ->click(__('[data-value="blauw"]'))
+                ->click(__('[data-value="geel"]'))
                 ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png')
                 ->click('.submit-add')
                 ->assertSee(__('toast/messages.success-product-add'));
@@ -85,9 +81,11 @@ class ManageProductsTest extends DuskTestCase
                     ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
                     ->click(__('[data-value="Bevers"]'))
                     ->click(__('[data-value="Kabouters"]'))
+                    ->click('@multiple-select-' . trans('manage-products/products.category-multiselect') . ' + *')
+                    ->click(__('[data-value="groen"]'))
                     ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png')
                     ->click('.submit-edit')
-                    ->assertSee(__('manage-products/products.update_succes'));
+                    ->assertSee(__('toast/messages.success-product-update'));
         });
     }
 }
