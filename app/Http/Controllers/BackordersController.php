@@ -3,33 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
-use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\ProductSize;
 use App\Models\ProductType;
 use App\Models\Stock;
-use DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Request;
 
 class BackordersController extends Controller
 {
-    public function download()
+    public function download(Request $request)
     {
+        $request->session()->put('url.intended', URL::previous());
         $backorders = $this->getBackorders();
+
+        if (empty($backorders)) {
+            return redirect()->route(session('url.intended'))->with('info', __('orders/backorders.no_backorders'));
+        }
+
         $date = date('YmdHis');
         $filename = "downloads/backorders_$date.csv";
         $handle = fopen($filename, 'w+');
-        fputcsv($handle, array('ID', 'Product ID', 'Product Name', 'Quantity', 'Created At', 'Updated At'));
+        fputcsv($handle, array(__('orders/backorders.product_name'), __('orders/backorders.product_size'), __('orders/backorders.product_type'), __('orders/backorders.quantity')));
         foreach ($backorders as $backorder) {
-            fputcsv($handle, array($backorder->id, $backorder->product_id, $backorder->product_name, $backorder->quantity, $backorder->created_at, $backorder->updated_at));
+            fputcsv($handle, array($backorder->product_name, $backorder->product_size, $backorder->product_type, $backorder->quantity));
         }
         fclose($handle);
         $headers = array(
             'Content-Type' => 'text/csv',
         );
 
-        return Response::download($filename, "backorders_$date.csv", $headers);
+        return Response::download($filename, "${date}_backorders.csv", $headers);
     }
 
     private function getBackorders()
@@ -58,7 +64,6 @@ class BackordersController extends Controller
             }
         }
 
-        dd($backorders);
         return $backorders ?? [];
     }
 
