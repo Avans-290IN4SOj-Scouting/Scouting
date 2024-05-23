@@ -33,7 +33,7 @@ class ProductController extends Controller
                 'id' => $product->id,
             ];
         });
-        
+
         return view('admin.products', ['products' => $productsModel]);
     }
 
@@ -46,13 +46,13 @@ class ProductController extends Controller
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
         }
 
-        if ($product->image_path && $product->image_path !== '/images/products/placeholder.png') {
-                Storage::disk('public')->delete($product->image_path);
-            }
         if ($product->name !== $validatedData['name']) {
             $product->name = $validatedData['name'];
         }
-            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images') ?? '' , $product->name, $product->id);
+
+        if($request->file('af-submit-app-upload-images')) {
+            $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
+        }
 
         ProductProductSize::where('product_id', $product->id)->delete();
         if ($request->has('priceForSize')) {
@@ -175,7 +175,8 @@ class ProductController extends Controller
     {
         $product = new Product();
         $product->name = $request->input('name');
-        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->name,$product->id);
+        $product->id = Product::latest('id')->value('id') + 1;
+        $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
 
         // Set default price if priceForSize is not provided in the request
         $defaultPriceForSize = ['Default' => null];
@@ -200,7 +201,6 @@ class ProductController extends Controller
         try {
             $newProduct = Product::create([
                 'name' => $product->name,
-                'discount' => 0,
                 'image_path' => $product->image_path,
             ]);
 
@@ -235,14 +235,14 @@ class ProductController extends Controller
             ]);
         }
     }
-    private function savePicture($picture, $name, $id)
+    private function savePicture($picture, $id)
     {
         if (!$picture) {
             return "/images/products/placeholder.png";
         }
         try {
-            Storage::disk('public')->put('/images/products/' . $name . $id . '.png', $picture->get());
-            return '/images/products/' . $name . $id . '.png';
+            Storage::disk('public')->put('/images/products/product-' . $id . '.png', $picture->get());
+            return '/images/products/product-' . $id . '.png';
         }
         catch (\Exception $e){
             return "/images/products/placeholder.png";

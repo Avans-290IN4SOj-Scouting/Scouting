@@ -9,14 +9,18 @@ function handleFileSelect(event) {
         reader.onload = function (event) {
             preview.src = reader.result;
             preview.classList.remove('hidden');
-            removeBtn.classList.remove('hidden');
+            if (!window.location.href.includes('editProduct')) {
+                removeBtn.classList.remove('hidden');
+            }
         }
 
         reader.readAsDataURL(file);
         placeholder.classList.add('hidden');
     } else {
         preview.classList.add('hidden');
-        removeBtn.classList.add('hidden');
+        if (!window.location.href.includes('editProduct')) {
+            removeBtn.classList.add('hidden');
+        }
         placeholder.classList.remove('hidden');
     }
 }

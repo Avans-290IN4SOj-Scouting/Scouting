@@ -140,7 +140,7 @@
                             </svg>
                             <span
                                 class="mt-2 block text-sm text-gray-800 dark:text-gray-200">{{ __('manage-products/products.product_image_span') }}</span>
-                            <button id="remove-image"
+                            <button id="remove-image" hidden
                                 class="hidden mt-2 bg-red-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.product_image_delete_button') }}</button>
                         </label>
                     </div>
