@@ -23,21 +23,51 @@ class BackordersController extends Controller
             return redirect()->route(session('url.intended'))->with('info', __('orders/backorders.no_backorders'));
         }
 
-        $date = date('YmdHis');
-        $filename = "downloads/backorders_$date.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(__('orders/backorders.product_name'), __('orders/backorders.product_size'), __('orders/backorders.product_type'), __('orders/backorders.quantity')));
-        foreach ($backorders as $backorder) {
-            fputcsv($handle, array($backorder->product_name, $backorder->product_size, $backorder->product_type, $backorder->quantity));
+        try {
+            $filename = $this->generateCsv($backorders);
+        } catch (\Exception) {
+            return redirect()->route(session('url.intended'))->with('error', __('orders/backorders.error'));
         }
-        fclose($handle);
+
         $headers = array(
             'Content-Type' => 'text/csv',
         );
 
-        return Response::download($filename, "${date}_backorders.csv", $headers);
+        return Response::download($filename, basename($filename), $headers);
     }
 
+    /**
+     * Generate a CSV file with all backorders
+     *
+     * @param $backorders
+     * @return string
+     * @throws \Exception
+     */
+    private function generateCsv($backorders)
+    {
+        $date = date('YmdHis');
+        $filename = "downloads/${date}_backorders.csv";
+        $handle = fopen($filename, 'w+');
+
+        if ($handle === false) {
+            throw new \Exception('Unable to open file for writing');
+        }
+
+        fputcsv($handle, array(__('orders/backorders.product_name'), __('orders/backorders.product_size'), __('orders/backorders.product_type'), __('orders/backorders.quantity')));
+
+        foreach ($backorders as $backorder) {
+            fputcsv($handle, array($backorder->product_name, $backorder->product_size, $backorder->product_type, $backorder->quantity));
+        }
+
+        fclose($handle);
+
+        return $filename;
+    }
+
+    /**
+     * Get all backorders
+     * @return array
+     */
     private function getBackorders()
     {
         $orderLines = $this->getOrderLines();
@@ -55,7 +85,7 @@ class BackordersController extends Controller
                 $size = $orderLine->product_size;
                 $type = ProductType::where('id', $orderLine->product_type_id)->first()->type;
                 $quantity = $orderLine->amount - $stockAmount;
-                $backorders[] = (object) [
+                $backorders[] = (object)[
                     'product_name' => $productName,
                     'product_size' => $size,
                     'product_type' => $type,
