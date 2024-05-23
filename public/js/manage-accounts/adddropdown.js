@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const removeButton = document.createElement('div');
         removeButton.className = 'absolute text-red-600 cursor-pointer';
-        removeButton.style.top = '4px';
+        removeButton.style.top = '17px';
         removeButton.style.right = '4px';
         removeButton.innerHTML = `
             <svg class="svg-icon" width="20px" height="20px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
