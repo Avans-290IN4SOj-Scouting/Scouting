@@ -19,11 +19,10 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('productTypes', 'groups')->get();
-        $categories = ProductType::all();
         $productsModel = $products->map(function ($product) {
             return [
                 'name' => $product->name,
-                'category' => implode(', ', $product->productTypes->pluck('type')->toArray()),
+                'category' => $product->productTypes->pluck('type')->toArray(),
                 'groups' => $product->groups->pluck('name')->toArray(),
                 'sizesWithPrices' => $product->productSizes->map(function ($size) {
                     return [
@@ -34,8 +33,8 @@ class ProductController extends Controller
                 'id' => $product->id,
             ];
         });
-
-        return view('admin.products', ['products' => $productsModel, 'categories' => $categories]);
+        
+        return view('admin.products', ['products' => $productsModel]);
     }
 
     public function update(ProductEditRequest $request, $productId)

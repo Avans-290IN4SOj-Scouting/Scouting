@@ -58,6 +58,11 @@
                                             <div>{{ $group }}</div>
                                         @endforeach
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        @foreach ($product['category'] as $category)
+                                            <div>{{ $category }}</div>
+                                        @endforeach
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <button type="button"
                                             onclick="window.location.href='{{ route('manage.products.edit.index', ['id' => $product['id']]) }}'"
