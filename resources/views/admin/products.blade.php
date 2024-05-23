@@ -33,6 +33,10 @@
                                     {{ __('manage-products/products.groups_heading') }}
                                 </th>
                                 <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    {{ __('manage-products/products.category_heading') }}
+                                </th>
+                                <th scope="col"
                                     class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
                                     {{ __('manage-products/products.actions_heading') }}
                                 </th>
@@ -56,6 +60,11 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                         @foreach ($product['groups'] as $group)
                                             <div>{{ $group }}</div>
+                                        @endforeach
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        @foreach ($product['category'] as $category)
+                                            <div>{{ $category }}</div>
                                         @endforeach
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">

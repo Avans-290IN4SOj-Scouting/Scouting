@@ -23,7 +23,7 @@ class ProductController extends Controller
         $productsModel = $products->map(function ($product) {
             return [
                 'name' => $product->name,
-                'category' => implode(', ', $product->productTypes->pluck('type')->toArray()),
+                'category' => $product->productTypes->pluck('type')->toArray(),
                 'groups' => $product->groups->pluck('name')->toArray(),
                 'sizesWithPrices' => $product->productSizes->map(function ($size) {
                     return [

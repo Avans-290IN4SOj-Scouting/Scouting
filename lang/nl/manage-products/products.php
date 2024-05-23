@@ -3,6 +3,7 @@
 return [
     "title_label" => "Producten",
     "groups_heading" => "Groepen",
+    "category_heading" => "Kleuren",
     "actions_heading" => "Actie",
     "action_edit_label" => "Wijzig",
     "action_delete_label" => "Verwijder",
