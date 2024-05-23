@@ -3,6 +3,7 @@
 return [
     "logout" => "uitloggen",
     "login" => "inloggen",
+    "register" => "registreren",
     "manage" => "beheren",
     "accounts" => "accounts",
     "update_roles" => "rollen-bijwerken",
@@ -10,6 +11,7 @@ return [
     "update" => "bijwerken",
     "order" => "bestelling",
     "overview" => "overzicht",
+    "profile" => "profiel",
     "products" => "producten",
     "checkout" => "afrekenen",
     "complete_order" => "voltooien",
@@ -19,4 +21,5 @@ return [
     "filter" => "filteren",
     "create" => "toevoegen",
     "edit" => "bewerken",
+    "stocks" => "voorraad",
 ];

@@ -34,12 +34,13 @@ class ShoppingCartService
     {
         try
         {
-            $amount = count($products);
+            $amount = 0;
             $totalPrice = 0.00;
 
             foreach ($products as $product)
             {
                 $totalPrice += ($product->price * $product->amount);
+                $amount += $product->amount;
             }
 
             return new JsPriceChange($amount, round($totalPrice, 2));

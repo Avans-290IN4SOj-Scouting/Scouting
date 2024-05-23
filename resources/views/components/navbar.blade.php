@@ -62,8 +62,12 @@
                             {{-- Separate auth checks for expandability, I know they can be just one --}}
                             @if (Auth::user()->hasRole('admin'))
                                 <a class="{{ request()->routeIs('manage.accounts.index') || request()->routeIs('manage.accounts.filter') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                                    href="{{ route('manage.accounts.index') }}">
-                                    {{ __('navbar.manage_accounts') }}
+                                   href="{{route('manage.accounts.index')}}">
+                                    {{__('navbar.manage_accounts')}}
+                                </a>
+                                <a class="{{ request()->routeIs('stocks.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                   href="{{route('manage.stocks.index')}}">
+                                    {{__('navbar.manage_stocks')}}
                                 </a>
                             @endif
                             @if (Auth::user()->hasRole('admin'))

@@ -12,39 +12,36 @@ class OrderTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->click('@Bevers')
-                    ->click('@TestAll')
-                    ->press(__('orders/orders.add-to-shoppingcart'))
-                    ->assertSee(__('orders/orders.product-added'));
+                ->click('@Bevers')
+                ->click('@TestAll')
+                ->press(__('orders/orders.add-to-shoppingcart'))
+                ->assertSee(__('orders/orders.product-added'));
         });
     }
 
     public function test_order_flow(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('orders.shoppingcart.index'))
-                    ->click('@shoppingcart-next-button')
-                    ->assertSee(__('orders/orders.order'));
+            $browser->resize(425, 815)
+                ->visit(route('orders.shoppingcart.index'))
+                ->click('@shoppingcart-next-button')
+                ->assertSee(__('orders/orders.order'));
         });
     }
 
-    public function test_resizability() : void
+    public function test_resizability(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->responsiveScreenshots('orders/home')
-
-                    ->visit(route('orders.overview', 'welpen'))
-                    ->responsiveScreenshots('orders/product-overview')
-
-                    ->visit(route('orders.product', '/TestAll/Welpen'))
-                    ->responsiveScreenshots('orders/product')
-
-                    ->visit(route('orders.shoppingcart.index'))
-                    ->responsiveScreenshots('orders/shopping-cart')
-
-                    ->visit(route('orders.checkout.order'))
-                    ->responsiveScreenshots('orders/order');
+                ->responsiveScreenshots('orders/home')
+                ->visit(route('orders.overview', 'welpen'))
+                ->responsiveScreenshots('orders/product-overview')
+                ->visit(route('orders.product', '/TestAll/Welpen'))
+                ->responsiveScreenshots('orders/product')
+                ->visit(route('orders.shoppingcart.index'))
+                ->responsiveScreenshots('orders/shopping-cart')
+                ->visit(route('orders.checkout.order'))
+                ->responsiveScreenshots('orders/order');
         });
     }
 
