@@ -99,8 +99,8 @@
                                                     }' class="hidden">
                                         @foreach($roles as $role)
                                             <option value="{{ $role->name }}"
-                                                    data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                {{ __('manage-accounts/roles.' . $role->name) }}
+                                                    data-translated-name="{{ $role->name }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
+                                                {{ $role->name }}
                                             </option>
                                         @endforeach
                                     </select>
