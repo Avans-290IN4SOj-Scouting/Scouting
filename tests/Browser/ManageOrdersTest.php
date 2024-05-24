@@ -39,7 +39,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
             OrderLine::create([
                 'order_id' => $order->id,
@@ -47,7 +48,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
         }
 
@@ -70,7 +72,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
             OrderLine::create([
                 'order_id' => $order->id,
@@ -78,7 +81,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
         }
 
@@ -101,7 +105,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
             OrderLine::create([
                 'order_id' => $order->id,
@@ -109,7 +114,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
         }
 
@@ -132,7 +138,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
             OrderLine::create([
                 'order_id' => $order->id,
@@ -140,7 +147,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
         }
 
@@ -163,7 +171,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
             OrderLine::create([
                 'order_id' => $order->id,
@@ -171,7 +180,8 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
-                'product_image_path' => 'image/products/placeholder.png'
+                'product_image_path' => 'image/products/placeholder.png',
+                'product_type_id' => 1
             ]);
         }
     }
