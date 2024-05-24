@@ -5,8 +5,8 @@
 @endphp
 
 @push('scripts')
-    <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script>
-    <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-accounts/accounts.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-accounts/filter.js') }}" defer></script>
 @endpush
 
 @section('content')

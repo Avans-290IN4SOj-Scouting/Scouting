@@ -5,8 +5,8 @@ $title = __('manage-orders/orders.page_title');
 @endphp
 
 @push('scripts')
-<script src="{{ asset('js/manage-orders/filter.js') }}" defer></script>
-<script src="{{ asset('js/table/clickabletable.js') }}" defer></script>
+<script src="{{ secure_asset('js/manage-orders/filter.js') }}" defer></script>
+<script src="{{ secure_asset('js/table/clickabletable.js') }}" defer></script>
 @endpush
 
 @section('content')
