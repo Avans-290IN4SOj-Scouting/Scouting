@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Permission\Models\Role;
 
 class Group extends Model
 {
@@ -32,5 +33,9 @@ class Group extends Model
 
     public function size(): HasOne {
         return $this->hasOne(ProductSize::class, 'id', 'size_id');
+    }
+
+    public function roles(): HasMany {
+        return $this->hasMany(Role::class);
     }
 }

@@ -22,4 +22,5 @@ return [
     "backorders" => "backorders",
     "download" => "download",
     "stocks" => "voorraad",
+    "groups" => "groepen",
 ];
