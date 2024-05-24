@@ -78,18 +78,18 @@
                             @endif
 
                             @if (Auth::user()->hasRole('admin'))
+                            <a class="{{ request()->routeIs('manage.groups.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                href="{{route('manage.groups.index')}}">
+                                 {{__('navbar.manage_groups')}}
+                             </a>
+                            @endif
+
+                            @if (Auth::user()->hasRole('admin'))
                                 <hr class="border-gray-300 dark:border-gray-100">
                                 <a class="inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm"
                                    href="{{ route('manage.backorders.download') }}">
                                     {{__('navbar.download_backorders')}}
                                 </a>
-                            @endif
-
-                            @if (Auth::user()->hasRole('admin'))
-                            <a class="{{ request()->routeIs('manage.groups.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                                href="{{route('manage.groups.index')}}">
-                                 {{__('navbar.manage_groups')}}
-                             </a>
                             @endif
                         </div>
                     </div>
