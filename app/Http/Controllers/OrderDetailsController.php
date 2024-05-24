@@ -21,8 +21,8 @@ class OrderDetailsController extends Controller
     )
     {
         $this->ableToCancelStatus = [
-            DeliveryStatus::AwaitingPayment->value,
-            DeliveryStatus::Processing->value];
+            DeliveryStatus::AwaitingPayment->value
+        ];
     }
 
     public function orderDetails($id)

@@ -21,5 +21,7 @@ return [
     "filter" => "filteren",
     "create" => "toevoegen",
     "edit" => "bewerken",
+    "backorders" => "backorders",
+    "download" => "download",
     "stocks" => "voorraad",
 ];

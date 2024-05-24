@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/orders/overview.css') }}">
 @endpush
-@push('scripts')
-    <script src="{{ asset('js/orders/shopping-cart.js') }}"></script>
-@endpush
 
 @section('content')
     <x-breadcrumbs :names="[$group->name]" :routes="[route('orders.overview', ['category' => $group->name])]" />

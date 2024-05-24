@@ -42,14 +42,12 @@ class ProfilePageTest extends DuskTestCase
                 ->type('repeat-password', 'new-password')
                 ->press(__('auth/profile.edit_password'))
                 ->assertSee(__('auth/profile.password_updated'))
-                ->assertRouteIs('profile.index')
-                ->logout();
+                ->assertRouteIs('login');
 
-            $browser->visit(route('login'))
-                ->type('email', $user->email)
+            $browser->type('email', $user->email)
                 ->type('password', 'new-password')
                 ->press(__('auth/auth.sign-in'))
-                ->assertRouteIs('home');
+                ->assertRouteIs('profile.index');
         });
     }
 }

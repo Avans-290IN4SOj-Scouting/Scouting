@@ -15,6 +15,7 @@ class JsProduct {
     public $id;
     public $amount;
     public $size;
+    public $productTypeId;
 }
 
 class JsPriceChange {
@@ -88,6 +89,8 @@ class ShoppingCartService
 
                 $product->amount = $shoppingCartProduct->amount;
                 $product->size = $product->size;
+                $product->product_type_id = $shoppingCartProduct->productTypeId;
+                $product->type = $product->productTypes()->where('id', '=', $shoppingCartProduct->productTypeId)->first()->type;
                 array_push($products, $product);
             }
 
