@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\OrderLine;
 use App\Models\Product;
+use App\Models\ProductProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderLineFactory extends Factory
@@ -30,6 +31,7 @@ class OrderLineFactory extends Factory
             'product_size' => $this->faker->randomElement(['S', 'M', 'L', 'XL']),
             'product_image_path' => $this->faker->imageUrl(),
             'amount' => $this->faker->numberBetween(1, 10),
+            'product_type_id' => ProductProductType::where('product_id', $product->id)->first()->product_type_id,
         ];
     }
 }
