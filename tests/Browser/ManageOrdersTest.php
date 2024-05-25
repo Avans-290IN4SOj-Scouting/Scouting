@@ -247,12 +247,14 @@ class ManageOrdersTest extends DuskTestCase
     public function test_till_date_filter()
     {
         $this->createOrders();
-        $this->browse(function (Browser $browser) {
-            $tillDate = Carbon::now()->addMonths(1)->addDays(1);
-            $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
 
+        $tillDate = Carbon::now()->addMonths(1)->addDays(1);
+        $formattedDate = $tillDate->format('m-d-Y');
+
+        $this->browse(function (Browser $browser) use ($formattedDate) {
+            $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
                 ->clickLink(__('manage-orders/orders.remove_filters_button'))
-                ->type('#date-till-filter', $tillDate->format('d-m-Y'))
+                ->type('#date-till-filter', $formattedDate)
                 ->waitFor('#link-email > :first-child')->click('#link-email > :first-child')
 
                 ->assertSee('_one@example.net')
