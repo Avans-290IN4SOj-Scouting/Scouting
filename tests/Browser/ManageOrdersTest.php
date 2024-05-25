@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\User;
 use Carbon\Carbon;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -249,7 +250,7 @@ class ManageOrdersTest extends DuskTestCase
         $this->createOrders();
 
         $tillDate = Carbon::now()->addMonths(1)->addDays(1);
-        $formattedDate = $tillDate->format('m-d-Y');
+        $formattedDate = $tillDate->format('d-m-Y');
 
         $this->browse(function (Browser $browser) use ($formattedDate) {
             $browser->loginAs($this->admin)->visit(route('manage.orders.index'))
