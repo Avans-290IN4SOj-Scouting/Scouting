@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\Group;
 use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -44,6 +45,26 @@ class AdminGroupsTest extends DuskTestCase
                 }
 
                 $this->assertFalse($mismatch);
+        });
+    }
+
+    public function test_all_groups_present(): void
+    {
+        $this->createUsers();
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin)
+                ->visit(route('manage.groups.index'));
+
+            $dbGroups = Group::orderBy('name', 'asc')->get();
+            $elements = $browser->elements('@group_name');
+            $pageGroups = array_map(function ($element) {
+                return $element->getText();
+            }, $elements);
+
+            for ($i = 0; $i < count($pageGroups); $i++)
+            {
+                $this->assertEquals($dbGroups[$i]->name, $pageGroups[$i]);
+            }
         });
     }
 
