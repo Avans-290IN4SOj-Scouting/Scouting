@@ -22,6 +22,19 @@ class ManageStocksTest extends DuskTestCase
         $this->admin = User::factory()->create(['email' => 'admin@test.com'])->assignRole('admin');
     }
 
+    /**
+     * @throws Throwable
+     * @group manageStocks
+     */
+    public function test_responsiveness_screenshots(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->admin)
+                ->visitRoute('manage.stocks.index')
+                ->responsiveScreenshots('manageStocks/manageStocks');
+        });
+    }
+
 
     /**
      * @throws Throwable
