@@ -270,78 +270,14 @@ class ProductController extends Controller
             dd($e);
             return redirect()->route('manage.products.index')->with([
                 'toast-type' => 'error',
-                'toast-message' => __('toast/messages.error-product-add')
+                'toast-message' => __('toast/messages.error-product-update')
             ]);
         }
 
         return redirect()->route('manage.products.index')->with([
             'toast-type' => 'success',
-            'toast-message' => __('toast/messages.success-product-add')
+            'toast-message' => __('toast/messages.success-product-update')
         ]);
-
-        // $validatedData = $request->validated();
-        // $product = Product::find($productId);
-
-        // if (!$product) {
-        //     return redirect()->back()->with('error', __('manage-products/products.not_found'));
-        // }
-
-        // if ($product->name !== $validatedData['name']) {
-        //     $product->name = $validatedData['name'];
-        // }
-
-        // if($request->file('af-submit-app-upload-images')) {
-        //     $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
-        // }
-
-        // ProductProductSize::where('product_id', $product->id)->delete();
-        // if ($request->has('priceForSize')) {
-        //     foreach ($validatedData['priceForSize'] as $size => $price) {
-        //         if ($price !== null) {
-        //             $productSize = ProductSize::firstOrCreate(['size' => $size]);
-        //             $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
-        //         } else {
-        //             $existingProductSize = ProductSize::where('size', $size)->first();
-        //             if ($existingProductSize) {
-        //                 $product->productSizes()->detach($existingProductSize->id);
-        //             }
-        //         }
-        //     }
-        // }
-        // if (!empty($validatedData['custom_prices']) && !empty($validatedData['custom_sizes'])) {
-        //     foreach ($validatedData['custom_prices'] as $index => $customPrice) {
-        //         $customSize = $validatedData['custom_sizes'][$index];
-        //         if ($customPrice !== null && trim($customPrice) !== '') {
-        //             $productSize = ProductSize::firstOrCreate(['size' => $customSize]);
-        //             $product->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $customPrice]]);
-        //         } else {
-        //             $productSize = ProductSize::where('size', $customSize)->first();
-        //             if ($productSize) {
-        //                 $product->productSizes()->detach($productSize->id);
-        //             }
-        //         }
-        //     }
-        // }
-        // $product->productTypes()->detach();
-        // foreach ($validatedData['products-category-multiselect'] as $categoryName) {
-        //     $category = ProductType::firstOrCreate(['type' => $categoryName]);
-        //     $product->productTypes()->attach($category);
-        // }
-
-        // $product->groups()->detach();
-        // foreach ($validatedData['products-group-multiselect'] as $groupName) {
-        //     $group = Group::firstOrCreate(['name' => $groupName]);
-        //     $product->groups()->attach($group);
-        // }
-
-        // $isInactive = $request->has('inactive-checkbox') ? 1 : 0;
-        // $product->inactive = $isInactive;
-
-        // $product->save();
-        // return redirect()->route('manage.products.index')->with([
-        //     'toast-type' => 'success',
-        //     'toast-message' => __('toast/messages.success-product-update')
-        // ]);
     }
 
     private function savePicture($picture, $id)
