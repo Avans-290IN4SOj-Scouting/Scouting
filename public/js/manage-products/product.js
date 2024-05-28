@@ -26,6 +26,8 @@ function handleFileSelect(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    addPriceSizeInput();
+
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
     if (preview.src.includes('images')) {

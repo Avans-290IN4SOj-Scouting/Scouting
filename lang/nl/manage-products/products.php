@@ -16,7 +16,6 @@ return [
     "name_label" => "Naam",
     "name_placeholder" => "Naam",
     "price_label" => "Product prijs",
-    "price_placeholder" => "Prijs",
     "custom_sizes_prices_label" => "Verschillende prijzen voor de maten",
     "custom_sizes_label" => "Specifieke maten",
     "custom_size_placeholder" => "Prijs voor maat",
@@ -36,5 +35,8 @@ return [
     "not_found" => "Product niet gevonden",
     "update_success" => "Product succesvol gewijzigd",
     "create_success" => "Product succesvol toegevoegd",
+
+    'sizes' => 'product maten',
+    'price_placeholder' => 'Prijs',
 ];
 

@@ -13,6 +13,7 @@ use App\Http\Requests\ProductEditRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Enum\PriceSizeErrorEnum;
+use LengthException;
 
 class ProductController extends Controller
 {
@@ -176,66 +177,60 @@ class ProductController extends Controller
 
     public function store(ProductCreationRequest $request)
     {
-        $product = new Product();
-        $product->name = $request->input('name');
-        $product->id = Product::latest('id')->value('id') + 1;
+        // dd($request);
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'image_path' => '/images/products/placeholder.png'
+        ]);
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
 
-        // Set default price if priceForSize is not provided in the request
-        $product->priceForSize = $request->input('priceForSize', ['Default' => null]);
-
-        // Set custom sizes and prices
-        $customSizes = $request->input('custom_sizes', []);
-        $customPrices = $request->input('custom_prices', []);
-
-        // Merge default and custom sizes and prices
-        $sizesAndPrices = array_merge($product->priceForSize, array_combine($customSizes, $customPrices));
-        dd($sizesAndPrices);
-
-        // Set sizes and prices on the product
-        $product->priceForSize = $sizesAndPrices;
-
-        // Set groups & categories
-        $product->groups = $request->input('products-group-multiselect');
-        $product->types = $request->input('products-category-multiselect');
-
         DB::beginTransaction();
-        try {
-            $newProduct = Product::create([
-                'name' => $product->name,
-                'image_path' => $product->image_path,
-            ]);
+        try
+        {
+            // Set custom sizes and prices
+            $sizes = $request->input('size_input', []);
+            $prices = $request->input('price_input', []);
 
-            // Handle sizes and prices
-            foreach ($product->priceForSize as $size => $price) {
-                if ($price !== null) {
-                    $productSize = ProductSize::firstOrCreate(['size' => $size]);
-                    $newProduct->productSizes()->syncWithoutDetaching([$productSize->id => ['price' => $price]]);
-                }
+            for ($i = 0; $i < count($sizes); $i++)
+            {
+                $size = $sizes[$i];
+                $price = $prices[$i];
+                $product->productSizes()->attach($product->id, ['product_size_id' => $size, 'price' => $price]);
             }
 
-            // Handle groups
-            foreach ($product->groups as $group) {
-                $newProduct->groups()->attach(Group::firstOrCreate(['name' => $group]));
+            // Groups
+            $groups = $request->input('products-group-multiselect');
+            foreach ($groups as $inputGroup)
+            {
+                $group = Group::where('name', '=', $inputGroup)->first();
+                $product->groups()->attach($group);
             }
-            // Handle categories
-            foreach ($product->types as $category) {
-                $newProduct->ProductTypes()->attach(ProductType::firstOrCreate(['type' => $category]));
+
+            // Categories / Colors
+            $categories = $request->input('products-category-multiselect');
+            foreach ($categories as $inputCategory)
+            {
+                $category = ProductType::where('type', '=', $inputCategory)->first();
+                $product->productTypes()->attach($category);
             }
 
             DB::commit();
-
-            return redirect()->route('manage.products.index')->with([
-                'toast-type' => 'success',
-                'toast-message' => __('toast/messages.success-product-add')
-            ]);
-        } catch (\Exception $e) {
+            $product->save();
+        }
+        catch (\Exception $e)
+        {
             DB::rollback();
+            dd($e);
             return redirect()->route('manage.products.index')->with([
                 'toast-type' => 'error',
                 'toast-message' => __('toast/messages.error-product-add')
             ]);
         }
+
+        return redirect()->route('manage.products.index')->with([
+            'toast-type' => 'success',
+            'toast-message' => __('toast/messages.success-product-add')
+        ]);
     }
     private function savePicture($picture, $id)
     {

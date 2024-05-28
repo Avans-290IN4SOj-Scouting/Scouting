@@ -27,7 +27,7 @@
                             <div id="size-price-options" class="space-y-4">
                                 <div id="size-price-inputs-jeroen" class="flex flex-col gap-4">
                                     <div id="price-size-inputs" class="flex flex-col gap-4">
-                                        <x-product-price-size-entry :sizes="$sizes" />
+
                                     </div>
 
                                     <button type="button" onclick="addPriceSizeInput()"
