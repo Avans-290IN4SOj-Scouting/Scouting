@@ -116,6 +116,32 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function updateAvailableOptions(groupId) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
+        const selectedValues = Array.from(selects).map(select => select.value);
+
+        selects.forEach(select => {
+            const currentValue = select.value;
+            const options = rolesData.filter(role => {
+                return role.group_id === parseInt(groupId) && (role.id.toString() === currentValue || !selectedValues.includes(role.id.toString()));
+            });
+
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
+
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option.display_name;
+                optionElement.value = option.id;
+                if (option.id.toString() === currentValue) {
+                    optionElement.selected = true;
+                }
+                select.appendChild(optionElement);
+            });
+        });
+    }
+
     function addAdminTag(selectedValue, tdElement) {
         const adminTag = document.createElement('p');
         adminTag.className = 'bg-red-600 p-2 rounded font-bold';
@@ -166,31 +192,5 @@ document.addEventListener('DOMContentLoaded', function () {
         closeButtonContainer.appendChild(closeButton);
 
         document.body.appendChild(toastContainer);
-    }
-
-    function updateAvailableOptions(groupId) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
-        const selectedValues = Array.from(selects).map(select => select.value);
-
-        selects.forEach(select => {
-            const currentValue = select.value;
-            const options = rolesData.filter(role => {
-                return role.group_id === parseInt(groupId) && (role.id.toString() === currentValue || !selectedValues.includes(role.id.toString()));
-            });
-
-            while (select.firstChild) {
-                select.removeChild(select.firstChild);
-            }
-
-            options.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.textContent = option.display_name;
-                optionElement.value = option.id;
-                if (option.id.toString() === currentValue) {
-                    optionElement.selected = true;
-                }
-                select.appendChild(optionElement);
-            });
-        });
     }
 });
