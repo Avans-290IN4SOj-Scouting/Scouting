@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
-use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\UpdateProductPriceRequest;
 use App\Models\Order;
 use App\Models\OrderLine;
-use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\ProductType;
 use Exception;
