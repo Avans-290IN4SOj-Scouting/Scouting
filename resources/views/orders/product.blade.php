@@ -38,8 +38,7 @@
                         </span>
                         </p>
                         @if (count($productSizes) === 1)
-                            <p class="dark:text-white">{{ __('orders/orders.size') }}
-                                - {{ $product->productSizes->first()->size }}</p>
+                            <p class="dark:text-white">{{ __('orders/orders.size') }} - {{ $productSizes->first()->size }}</p>
                         @endif
                     </div>
                     <div class="actions">

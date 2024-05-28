@@ -34,7 +34,9 @@ class ProductController extends Controller
             ];
         });
 
-        return view('admin.products', ['products' => $productsModel]);
+        return view('admin.products', [
+            'products' => $productsModel
+        ]);
     }
 
     public function update(ProductEditRequest $request, $productId)
@@ -109,11 +111,12 @@ class ProductController extends Controller
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::whereNot('size', 'Default')->get();
-        return view('admin.addProduct', [
+        return view('admin.add-product', [
             'baseCategories' => $categories,
             'baseGroups' => $groups,
             'baseProductSizes' => $productSizes,
             'price_sizeErrorTypes' => PriceSizeErrorEnum::toArray(),
+            'sizes' => ProductSize::all(),
         ]);
     }
 
@@ -157,7 +160,7 @@ class ProductController extends Controller
         }
 
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
-        return view('admin.editProduct', [
+        return view('admin.edit-product', [
             'product' => $product,
             'baseCategories' => ProductType::all(),
             'baseGroups' => Group::all(),
@@ -179,9 +182,7 @@ class ProductController extends Controller
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
 
         // Set default price if priceForSize is not provided in the request
-        $defaultPriceForSize = ['Default' => null];
-        $priceForSize = $request->input('priceForSize', $defaultPriceForSize);
-        $product->priceForSize = $priceForSize;
+        $product->priceForSize = $request->input('priceForSize', ['Default' => null]);
 
         // Set custom sizes and prices
         $customSizes = $request->input('custom_sizes', []);
@@ -189,6 +190,7 @@ class ProductController extends Controller
 
         // Merge default and custom sizes and prices
         $sizesAndPrices = array_merge($product->priceForSize, array_combine($customSizes, $customPrices));
+        dd($sizesAndPrices);
 
         // Set sizes and prices on the product
         $product->priceForSize = $sizesAndPrices;

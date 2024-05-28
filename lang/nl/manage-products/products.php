@@ -20,7 +20,7 @@ return [
     "custom_sizes_prices_label" => "Verschillende prijzen voor de maten",
     "custom_sizes_label" => "Specifieke maten",
     "custom_size_placeholder" => "Prijs voor maat",
-    "custom_size_button" => "Voeg maat toe",
+    "add_size" => "Voeg extra maat toe",
     "groups_multi_select_label" => "Scouting groepen",
     "groups_multi_select_placeholder" => "Selecteer Scouting groepen",
     "groups-multiselect" => "products-group-multiselect",

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @push('scripts')
-    <script src="{{ asset('js/manage-products/product.js') }}"></script>
+    <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
     <script src="{{ asset('js/manage-products/product-initialise.js') }}" defer></script>
 @endpush
 
@@ -20,43 +20,20 @@
                         <!-- Product Name Field -->
                         <x-input :label="__('manage-products/products.name_label')" id="product-name" type="text" :placeholder="__('manage-products/products.name_placeholder')" name="name"
                             :disabled="false" :error="$errors->first('name')" />
-                        <!-- Product Price Field -->
-                        <x-price-input :label="__('manage-products/products.price_label')" id="product-size-price-Default" :placeholder="__('manage-products/products.price_placeholder')"
-                            name="priceForSize[Default]" class="" />
 
                         <!-- Product Size and Price Fields -->
-                        <div>
+                        <p class="block text-gray-700 font-semibold">Prijzen</p>
+                        <div class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
                             <div id="size-price-options" class="space-y-4">
-                                <div class="flex items-center space-x-4">
-                                    <input type="checkbox" id="same-price-all" class="form-checkbox text-blue-500 h-5 w-5">
-                                    <label for="same-price-all"
-                                        class="ml-2 text-gray-700">{{ __('manage-products/products.custom_sizes_prices_label') }}</label>
-                                </div>
-                                <div id="size-price-inputs" class="hidden">
-                                    <div id="specific-size-prices">
-                                        <label class="block text-gray-700 font-semibold">
-                                            {{ __('manage-products/products.custom_sizes_label') }} </label>
-                                        <div id="custom-size-inputs">
-                                            <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
-                                            @php
-                                                $oldCustomSizes = old('custom_sizes') ?? [];
-                                                $oldCustomPrices = old('custom_prices') ?? [];
-                                            @endphp
-                                            @if (count($oldCustomSizes) > 0 && count($oldCustomPrices) > 0)
-                                                @for ($i = 0; $i < count($oldCustomSizes); $i++)
-                                                    <script>
-                                                        addCustomSizeInput('{{ $oldCustomSizes[$i] }}', '{{ $oldCustomPrices[$i] }}');
-                                                    </script>
-                                                @endfor
-                                            @else
-                                                <script>
-                                                    addCustomSizeInput();
-                                                </script>
-                                            @endif
-                                        </div>
-                                        <button onclick="addCustomSizeInput()" type="button"
-                                            class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.custom_size_button') }}</button>
+                                <div id="size-price-inputs-jeroen" class="flex flex-col gap-4">
+                                    <div id="price-size-inputs" class="flex flex-col gap-4">
+                                        <x-product-price-size-entry :sizes="$sizes" />
                                     </div>
+
+                                    <button type="button" onclick="addPriceSizeInput()"
+                                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                        {{ __('manage-products/products.add_size') }}
+                                    </button>
                                 </div>
                             </div>
                             @foreach ($price_sizeErrorTypes as $errorType)
@@ -74,12 +51,10 @@
                     <x-multiselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" id="product-category"
                         name="products-category-multiselect" class="manage-products/products.category-multiselect" />
                     <!-- Add Product Button -->
-                    <div>
-                        <button id="big-screen" type="submit"
-                            class="submit-add bg-blue-500 text-white submit-product px-4 py-2 big-screen rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-                            {{ __('manage-products/products.product_add_button') }}
-                        </button>
-                    </div>
+                    <button type="submit"
+                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                        {{ __('manage-products/products.product_add_button') }}
+                    </button>
                 </div>
 
                 <div class="container mx-auto">
@@ -109,13 +84,13 @@
                     </div>
                     <x-error :error="$errors->first('af-submit-app-upload-images')" id="af-submit-app-upload-images" />
                 </div>
-
-                <button id="small-screen" type="submit"
-                    class=" submit-add bg-blue-500 text-white px-4 py-2 submit-product rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-                    {{ __('manage-products/products.product_add_button') }}
-                </button>
             </div>
         </form>
     </div>
 </body>
+
+<template id="price-size-template">
+    <x-product-price-size-entry :sizes="$sizes" />
+</template>
+
 @endsection
