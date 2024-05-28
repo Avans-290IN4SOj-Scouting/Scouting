@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
+use App\Http\Requests\AddProductRequest;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderStatus;
+use App\Models\Product;
+use App\Models\ProductType;
 use Exception;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -44,9 +47,31 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
+        $products = $this->getAllProducts();
+
         return view('admin.order-details', [
             'order' => $order,
+            'products' => $products,
         ]);
+    }
+
+    private function getAllProducts()
+    {
+        $products = Product::query()
+            ->join('product_product_type', 'product_product_type.product_id', '=', 'products.id')
+            ->join('product_types', 'product_types.id', '=', 'product_product_type.product_type_id')
+            ->join('product_product_size', 'product_product_size.product_id', '=', 'products.id')
+            ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
+            ->select('products.*', 'product_types.type as type', 'product_sizes.size as size', 'product_product_size.price as price')
+            ->orderBy('products.name')
+            ->orderBy('product_types.type')
+            ->get();
+
+        $products->each(function ($product, $index) {
+            $product->row_number = $index + 1;
+        });
+
+        return $products;
     }
 
     public function updateOrderStatus(Request $request, string $id)
@@ -117,6 +142,49 @@ class ManageOrdersController extends Controller
             ->with([
                 'toast-type' => 'success',
                 'toast-message' => __('manage-orders/order.product-removed')
+            ]);
+    }
+
+    public function addProduct(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'product-select' => 'required',
+        ]);
+
+        $products = $this->getAllProducts();
+        $product = $products->where('row_number', $validated['product-select'])->first();
+
+        $order = Order::find($id);
+        if ($order === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.order-doesnt-exist')
+                ]);
+        }
+
+        if ($product === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.product-add-fail')
+                ]);
+        }
+
+        $orderLine = new OrderLine();
+        $orderLine->order_id = $order->id;
+        $orderLine->product_id = $product->id;
+        $orderLine->amount = 1;
+        $orderLine->product_price = $product->price;
+        $orderLine->product_size = $product->size;
+        $orderLine->product_type_id = ProductType::where('type', $product->type)->first()->id;
+        $orderLine->product_image_path = Product::find($product->id)->first()->image_path;
+        $orderLine->save();
+
+        return redirect()->back()
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('manage-orders/order.product-add-success')
             ]);
     }
 

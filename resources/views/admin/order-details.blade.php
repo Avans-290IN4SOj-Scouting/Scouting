@@ -197,10 +197,28 @@
                         </table>
                     </div>
 
-                    <button type="button"
-                            class="py-3 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                        {{ __('manage-orders/order.add_product') }}
-                    </button>
+                    @if($admin)
+                        <x-modal :button-text="__('manage-orders/order.add_product')"
+                                 :title="__('manage-orders/order.add_product')"
+                                 :modal-button="__('manage-orders/order.add_product')"
+                                 modal-text=" "
+                                 :route="route('manage.orders.add.product', ['id' => $order->id])"
+                                 color="blue">
+                            <label for="product-select"
+                                   class="sr-only">{{ __('manage-orders/order.add_product_modal_text') }}</label>
+                            <select id="product-select" name="product-select"
+                                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                <option disabled
+                                        selected="">{{ __('manage-orders/order.add_product_modal_text') }}</option>
+                                @foreach($products as $product)
+                                    <option value="{{ $product->row_number }}">{{ $product->name }}
+                                        , {{ $product->type }}, {{ $product->size }},
+                                        {{ __('common.currency_symbol') }} {{ number_format($product->price, 2, __('common.seperator'), '.') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </x-modal>
+                    @endif
                 </div>
                 <!-- /Producten -->
             </div>

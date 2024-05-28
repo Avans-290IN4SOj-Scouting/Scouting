@@ -10,6 +10,8 @@ return [
     'cancel-order-success' => 'Bestelling succesvol geannuleerd.',
     'product-removed' => 'Product succesvol verwijderd uit bestelling.',
     'product-remove-fail' => 'Product kon niet worden verwijderd uit bestelling.',
+    'product-add-fail' => 'Product kon niet worden toegevoegd aan bestelling.',
+    'product-add-success' => 'Product succesvol toegevoegd aan bestelling.',
 
     'name' => 'Naam',
     'size' => 'Maat',
@@ -24,4 +26,5 @@ return [
     'no_products' => 'Geen producten gevonden in deze bestelling.',
 
     'add_product' => 'Voeg product toe',
+    'add_product_modal_text' => 'Selecteer een product om toe te voegen aan de bestelling.',
 ];
