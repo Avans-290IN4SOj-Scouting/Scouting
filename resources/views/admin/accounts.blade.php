@@ -81,7 +81,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($accounts as $account)
-                        <tr class="h-[87px]">
+                        <tr class="h-[87px]" data-email="{{ $account['email'] }}">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>

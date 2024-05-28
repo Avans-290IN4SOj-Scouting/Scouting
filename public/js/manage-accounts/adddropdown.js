@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const accountsDataString = accountsDataElement.getAttribute('data-accounts');
     const accountsData = JSON.parse(accountsDataString);
 
+    setupDropdownsForAccountsData();
+
     document.querySelectorAll("select[name='selectRole']").forEach(function (select) {
         select.addEventListener('change', function (event) {
             const selectedValue = event.target.value;
@@ -37,6 +39,32 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    function setupDropdownsForAccountsData() {
+        accountsData.data.forEach(account => {
+            const email = account.email;
+            const roles = account.roles;
+
+            const trElement = document.querySelector(`tr[data-email='${email}']`);
+
+            if (trElement) {
+                roles.forEach(role => {
+                    const groupId = role.group_id;
+                    const roleId = role.id;
+                        const roleData = rolesData.find(roleData => roleData.id === roleId);
+                        if (roleData) {
+                            addDropdown(roleData.name, groupId, trElement, [{
+                                id: roleData.id,
+                                display_name: roleData.display_name
+                            }]);
+                        }
+                });
+            }
+        });
+
+        console.log('klaar');
+    }
+
 
     function addDropdown(selectedValue, selectedGroupId, tdElement, options) {
         const newElement = document.createElement('div');
