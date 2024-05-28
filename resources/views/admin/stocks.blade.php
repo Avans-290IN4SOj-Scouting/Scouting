@@ -8,12 +8,12 @@
 @endpush
 
 @section('content')
-    <div class="flex items-start flex-col sm:justify-between sm:items-center sm:flex-row">
-        <h1 class="text-4xl m-3 dark:text-white">{{ __('manage-stocks/stocks.page_title') }}</h1>
+    <div class="flex items-center justify-between">
+        <h1 class="text-4xl m-8 dark:text-white">{{ __('manage-stocks/stocks.page_title') }}</h1>
         <form method="POST" action="{{ route('manage.stocks.destroy') }}">
             @csrf
             @method('DELETE')
-            <div class="m-3">
+            <div class="m-8">
                 <x-modal :button-text="__('manage-stocks/stocks.empty_inventory')"
                          :title="__('manage-stocks/stocks.empty_inventory_title')"
                          :modal-button="__('manage-stocks/stocks.empty_inventory_confirm')"

@@ -40,9 +40,14 @@
                     <div
                         class="hs-dropdown [--strategy:static] sm:[--strategy:fixed] [--adaptive:none] sm:[--trigger:hover] sm:py-4">
                         <button type="button"
-                                class="{{
-                                    request()->routeIs(['manage.products', 'manage.accounts.index', 'manage.orders.index', 'manage.orders.order', 'manage.accounts.filter', 'manage.stocks.index']) ? 'active-nav-link' : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
-                            {{__('navbar.manage')}}
+                            class="{{ request()->routeIs('manage.products.index') ||
+                            request()->routeIs('manage.accounts.index') ||
+                            request()->routeIs('manage.orders.index') ||
+                            request()->routeIs('manage.orders.order') ||
+                            request()->routeIs('manage.accounts.filter')
+                                ? 'active-nav-link'
+                                : 'inactive-nav-link' }} flex items-center w-full sm:py-0">
+                            {{ __('navbar.manage') }}
                             <svg class="ms-2 size-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16"
                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5"
@@ -57,11 +62,7 @@
                                    href="{{route('manage.accounts.index')}}">
                                     {{__('navbar.manage_accounts')}}
                                 </a>
-                                <a class="{{ request()->routeIs('manage.products') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
-                                   href="{{route('manage.products')}}">
-                                    {{__('navbar.manage_products')}}
-                                </a>
-                                <a class="{{ request()->routeIs('manage.stocks.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
+                                <a class="{{ request()->routeIs('stocks.index') ? 'active-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' : 'inactive-nav-link flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm' }}"
                                    href="{{route('manage.stocks.index')}}">
                                     {{__('navbar.manage_stocks')}}
                                 </a>
