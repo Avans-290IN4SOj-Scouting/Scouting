@@ -142,7 +142,7 @@
                             </thead>
 
                             <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
-                            @foreach ($order->orderLines as $orderLine)
+                            @forelse($order->orderLines as $orderLine)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
@@ -187,7 +187,12 @@
                                         </td>
                                     @endif
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td class="px-6 italic py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200"
+                                        colspan="5">{{ __('manage-orders/order.no_products') }}</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>

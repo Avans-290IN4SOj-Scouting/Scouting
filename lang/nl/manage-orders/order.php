@@ -21,6 +21,7 @@ return [
 
     'customer' => 'Klant',
     'products' => 'Producten',
+    'no_products' => 'Geen producten gevonden in deze bestelling.',
 
     'add_product' => 'Voeg product toe',
 ];
