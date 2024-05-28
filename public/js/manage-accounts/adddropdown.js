@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const rolesDataString = rolesDataElement.getAttribute('data-roles');
     const rolesData = JSON.parse(JSON.parse(rolesDataString));
 
+    const accountsDataElement = document.getElementById('accounts-data');
+    const accountsDataString = accountsDataElement.getAttribute('data-accounts');
+    const accountsData = JSON.parse(accountsDataString);
+
     document.querySelectorAll("select[name='selectRole']").forEach(function (select) {
         select.addEventListener('change', function (event) {
             const selectedValue = event.target.value;

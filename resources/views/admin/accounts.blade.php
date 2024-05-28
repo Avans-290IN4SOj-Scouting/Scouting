@@ -177,6 +177,7 @@
 
     <!-- TEMP -->
     <div id="roles-data" data-roles='@json($rolesJson)'></div>
+    <div id="accounts-data" data-accounts='@json($accounts)'></div>
     <div id="translation"
          data-translation="{{ __('toast/messages.warning-accounts-no-options') }}"></div>
 @endsection
