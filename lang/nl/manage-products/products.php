@@ -38,5 +38,6 @@ return [
 
     'sizes' => 'product maten',
     'price_placeholder' => 'Prijs',
+    'product_not_found' => 'Product niet gevonden',
 ];
 

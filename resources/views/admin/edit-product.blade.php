@@ -1,7 +1,6 @@
 @extends('layouts.base')
 @push('scripts')
-    <script src="{{ asset('js/manage-products/product.js') }}"></script>
-    <script src="{{ asset('js/manage-products/product-initialise.js') }}" defer></script>
+    <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -16,7 +15,7 @@
         </div>
     @endif
 
-    <body class="bg-gray-100">
+    <div>
         <div class="container mx-auto px-4 py-8">
             <h1 id="#edit-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
                 {{ __('manage-products/products.edit_page_title') }}</h1>
@@ -31,65 +30,34 @@
                         <x-input :label="__('manage-products/products.name_label')" id="product-name" type="text" :placeholder="__('manage-products/products.name_placeholder')" name="name"
                             :value="$product->name" :disabled="$nameDisabled" />
 
-                        @if ($nameDisabled)
-                            <input type="hidden" name="name" value="{{ $product->name }}">
-                        @endif
-
-                        <!-- Product Size and Price Fields -->
-                        <x-price-input :label="__('manage-products/products.price_label')" id="product-size-price-Default" :placeholder="__('manage-products/products.price_placeholder')"
-                            name="priceForSize[Default]" :value="old('priceForSize.Default', $defaultSizeWithPrice['price'])" class="" />
-
+                        <!-- Sizes & Prices -->
                         <div>
-                            <div id="size-price-options" class="space-y-4">
-                                <div class="flex items-center space-x-4">
-                                    <input type="checkbox" id="same-price-all" class="form-checkbox text-blue-500 h-5 w-5"
-                                        {{ $defaultSizeWithPrice['price'] == null ? 'checked' : '' }}>
-                                    <label for="same-price-all"
-                                        class="ml-2 text-gray-700">{{ __('manage-products/products.custom_sizes_prices_label') }}</label>
-                                </div>
-                                <div id="size-price-inputs" class="hidden">
-                                    <div id="specific-size-prices">
-                                        <label
-                                            class="block text-gray-700 font-semibold">{{ __('manage-products/products.custom_sizes_label') }}</label>
-                                        @foreach ($sizesWithPrices as $sizeWithPrice)
-                                            <x-price-input :label="$sizeWithPrice['size']" :id="'product-size-price-' . $loop->index" :placeholder="__('manage-products/products.custom_size_placeholder') .
-                                                ' ' .
-                                                $sizeWithPrice['size']"
-                                                :name="'priceForSize[' . $sizeWithPrice['size'] . ']'" :value="old(
-                                                    'priceForSize.' . $sizeWithPrice['size'],
-                                                    $sizeWithPrice['price'],
-                                                )" class="existing-custom-price" />
-                                        @endforeach
-                                        <div id="custom-size-inputs">
-                                            <!-- Dit is waar de nieuwe invoervelden worden toegevoegd -->
-                                            @php
-                                                $oldCustomSizes = old('custom_sizes') ?? [];
-                                                $oldCustomPrices = old('custom_prices') ?? [];
-                                            @endphp
-                                            @if (count($oldCustomSizes) > 0 && count($oldCustomPrices) > 0)
-                                                @for ($i = 0; $i < count($oldCustomSizes); $i++)
-                                                    <script>
-                                                        addCustomSizeInput('{{ $oldCustomSizes[$i] }}', '{{ $oldCustomPrices[$i] }}');
-                                                    </script>
-                                                @endfor
-                                            @else
-                                                <script>
-                                                    addCustomSizeInput();
-                                                </script>
-                                            @endif
+                            <p class="block text-gray-700 font-semibold">Prijzen</p>
+                            <div class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
+                                <div id="size-price-options" class="space-y-4">
+                                    <div id="size-price-inputs-jeroen" class="flex flex-col gap-4">
+                                        <div id="price-size-inputs" class="flex flex-col gap-4">
+                                            @foreach ($product->productSizes as $priceSize)
+                                            <x-product-price-size-entry :sizes="$sizes" :sizeValue="$priceSize->pivot->product_size_id" :priceValue="$priceSize->pivot->price" />
+                                            @endforeach
                                         </div>
-                                        <button onclick="addCustomSizeInput()" type="button"
-                                            class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.add_size') }}</button>
+
+                                        <button type="button" onclick="addPriceSizeInput()"
+                                            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                            {{ __('manage-products/products.add_size') }}
+                                        </button>
                                     </div>
                                 </div>
+                                @foreach ($price_sizeErrorTypes as $errorType)
+                                    @if ($errors->has($errorType))
+                                        <x-error :error="$errors->first($errorType)" :id="$errorType" />
+                                    @break
+                                @endif
+                                @endforeach
                             </div>
-                            @foreach ($price_sizeErrorTypes as $errorType)
-                                @if ($errors->has($errorType))
-                                    <x-error :error="$errors->first($errorType)" :id="$errorType" />
-                                @break
-                            @endif
-                        @endforeach
-                    </div>
+                        </div>
+                        <!-- /Sizes & Prices -->
+
                     <!-- Select Groups Field -->
                     <x-multiselect :label="__('manage-products/products.groups_multi_select_label')" :placeholder="__('manage-products/products.groups_multi_select_placeholder')" :options="$baseGroups->pluck('name')" :selected="$chosenGroups->pluck('name')"
                         name="products-group-multiselect" class="manage-products/products.groups-multiselect" />
@@ -109,12 +77,10 @@
                     </div>
 
                     <!-- Add Product Button -->
-                    <div>
-                        <button id="big-screen" type="submit"
-                            class="bg-blue-500 text-white px-4 py-2 big-screen submit-edit rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-                            {{ __('manage-products/products.product_edit_button') }}
-                        </button>
-                    </div>
+                    <button type="submit"
+                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                        {{ __('manage-products/products.product_edit_button') }}
+                    </button>
                 </div>
                 <div class="container mx-auto">
                     <!-- Upload Image -->
@@ -140,19 +106,17 @@
                             </svg>
                             <span
                                 class="mt-2 block text-sm text-gray-800 dark:text-gray-200">{{ __('manage-products/products.product_image_span') }}</span>
-                            <button id="remove-image" hidden
-                                class="hidden mt-2 bg-red-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.product_image_delete_button') }}</button>
                         </label>
                     </div>
                     <x-error :error="$errors->first('af-submit-app-upload-images')" id="af-submit-app-upload-images" />
                 </div>
-
-                <button id="small-screen" type="submit"
-                    class="bg-blue-500 text-white px-4 py-2 submit-edit rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-                    {{ __('manage-products/products.product_edit_button') }}
-                </button>
             </div>
         </form>
     </div>
-</body>
+</div>
+
+<template id="price-size-template">
+    <x-product-price-size-entry :sizes="$sizes" />
+</template>
+
 @endsection

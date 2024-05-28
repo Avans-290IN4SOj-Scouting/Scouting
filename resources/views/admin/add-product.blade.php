@@ -1,7 +1,6 @@
 @extends('layouts.base')
 @push('scripts')
     <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
-    <script src="{{ asset('js/manage-products/product-initialise.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -11,6 +10,7 @@
         <div class="container mx-auto px-4 py-8">
             <h1 id="add-product-heading" class="text-3xl font-bold text-gray-700 mb-4">
                 {{ __('manage-products/products.create_page_title') }}</h1>
+
             <!-- Product Form and Image Section -->
             <form action="{{ route('manage.products.create.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -21,28 +21,32 @@
                         <x-input :label="__('manage-products/products.name_label')" id="product-name" type="text" :placeholder="__('manage-products/products.name_placeholder')" name="name"
                             :disabled="false" :error="$errors->first('name')" />
 
-                        <!-- Product Size and Price Fields -->
-                        <p class="block text-gray-700 font-semibold">Prijzen</p>
-                        <div class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <div id="size-price-options" class="space-y-4">
-                                <div id="size-price-inputs-jeroen" class="flex flex-col gap-4">
-                                    <div id="price-size-inputs" class="flex flex-col gap-4">
+                        <!-- Sizes & Prices -->
+                        <div>
+                            <p class="block text-gray-700 font-semibold">Prijzen</p>
+                            <div class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
+                                <div id="size-price-options" class="space-y-4">
+                                    <div id="size-price-inputs-jeroen" class="flex flex-col gap-4">
+                                        <div id="price-size-inputs" class="flex flex-col gap-4">
+                                            <x-product-price-size-entry :sizes="$sizes" />
+                                        </div>
 
+                                        <button type="button" onclick="addPriceSizeInput()"
+                                            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                            {{ __('manage-products/products.add_size') }}
+                                        </button>
                                     </div>
-
-                                    <button type="button" onclick="addPriceSizeInput()"
-                                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                        {{ __('manage-products/products.add_size') }}
-                                    </button>
                                 </div>
+                                @foreach ($price_sizeErrorTypes as $errorType)
+                                    @if ($errors->has($errorType))
+                                        <x-error :error="$errors->first($errorType)" :id="$errorType" />
+                                    @break
+                                @endif
+                                @endforeach
                             </div>
-                            @foreach ($price_sizeErrorTypes as $errorType)
-                                @if ($errors->has($errorType))
-                                    <x-error :error="$errors->first($errorType)" :id="$errorType" />
-                                @break
-                            @endif
-                        @endforeach
-                    </div>
+                        </div>
+                        <!-- /Sizes & Prices -->
+
                     <!-- Select Groups Field -->
                     <x-multiselect :label="__('manage-products/products.groups_multi_select_label')" :placeholder="__('manage-products/products.groups_multi_select_placeholder')" :options="$baseGroups->pluck('name')"
                         name="products-group-multiselect" class="manage-products/products.groups-multiselect" />
@@ -78,8 +82,6 @@
                             </svg>
                             <span
                                 class="mt-2 block text-sm text-gray-800 dark:text-gray-200">{{ __('manage-products/products.product_image_span') }}</span>
-                            <button id="remove-image"
-                                class="hidden mt-2 bg-red-500 text-white px-4 py-2 rounded-md">{{ __('manage-products/products.product_image_delete_button') }}</button>
                         </label>
                     </div>
                     <x-error :error="$errors->first('af-submit-app-upload-images')" id="af-submit-app-upload-images" />
