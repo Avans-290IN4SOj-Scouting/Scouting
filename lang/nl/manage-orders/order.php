@@ -14,7 +14,11 @@ return [
     'price-per' => 'Prijs per stuk',
     'amount' => 'Aantal',
     'total-price' => 'Totaalprijs',
+    'action' => 'Actie',
+    'delete' => 'Verwijder dit product',
 
     'customer' => 'Klant',
     'products' => 'Producten',
+
+    'add_product' => 'Voeg product toe',
 ];
