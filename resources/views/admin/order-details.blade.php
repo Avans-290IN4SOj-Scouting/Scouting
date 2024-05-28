@@ -113,6 +113,8 @@
                     class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                     <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
+                    <x-error id="product-price" :error="$errors->first('product-price')" />
+
                     <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
                             <thead>
@@ -136,7 +138,6 @@
                                 @if($admin)
                                     <th scope="col"
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
-                                        {{--                                        {{ __('manage-orders/order.action') }}--}}
                                     </th>
                                 @endif
                             </tr>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
 use App\Http\Requests\AddProductRequest;
+use App\Http\Requests\UpdateProductPriceRequest;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderStatus;
@@ -102,7 +103,7 @@ class ManageOrdersController extends Controller
         ]);
     }
 
-    public function updateProductPrice(Request $request, string $id)
+    public function updateProductPrice(UpdateProductPriceRequest $request, string $id)
     {
         $orderline = OrderLine::find($id);
 
@@ -113,11 +114,6 @@ class ManageOrdersController extends Controller
                     'toast-message' => __('toast/messages.product-update-fail')
                 ]);
         }
-
-        // TODO: Custom request
-        $request->validate([
-            'product-price' => 'required|numeric|min:0.01'
-        ]);
 
         $orderline->product_price = $request->input('product-price');
         $orderline->save();
