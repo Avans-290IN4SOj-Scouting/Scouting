@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
 use App\Models\Order;
+use App\Models\OrderLine;
 use App\Models\OrderStatus;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,8 +17,7 @@ class ManageOrdersController extends Controller
     {
         $orders = Order::query();
 
-        if (Auth::user()->hasRole('teamleader'))
-        {
+        if (Auth::user()->hasRole('teamleader')) {
             $orders = $orders->whereIn('group_id', $this->getUserRoles());
         }
 
@@ -98,6 +98,28 @@ class ManageOrdersController extends Controller
             ]);
     }
 
+    public function deleteOrderLine(Request $request, string $id)
+    {
+        $validated = $request->validate;
+
+        $orderLine = OrderLine::find($id);
+        if ($orderLine === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.product-remove-fail')
+                ]);
+        }
+
+        $orderLine->delete();
+
+        return redirect()->back()
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('manage-orders/order.product-removed')
+            ]);
+    }
+
     public function filter(Request $request)
     {
         $search = $request->input('q');
@@ -105,16 +127,14 @@ class ManageOrdersController extends Controller
 
         $orders = Order::query();
 
-        if (Auth::user()->hasRole('teamleader'))
-        {
+        if (Auth::user()->hasRole('teamleader')) {
             $orders = $orders->whereIn('group_id', $this->getUserRoles());
         }
 
         $status = DeliveryStatus::hasStatus($status) ? $status : null;
 
         // Check for Email
-        if (!empty($search))
-        {
+        if (!empty($search)) {
             $orders = $orders->whereHas('user', function ($query) use ($search) {
                 $query->where('email', 'like', "%$search%");
             });

@@ -8,6 +8,8 @@ return [
 
     'order-doesnt-exist' => 'Deze bestelling bestaat niet.',
     'cancel-order-success' => 'Bestelling succesvol geannuleerd.',
+    'product-removed' => 'Product succesvol verwijderd uit bestelling.',
+    'product-remove-fail' => 'Product kon niet worden verwijderd uit bestelling.',
 
     'name' => 'Naam',
     'size' => 'Maat',
