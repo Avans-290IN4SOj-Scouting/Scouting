@@ -112,6 +112,9 @@ Route::middleware('role:admin|teamleader')->group(function () {
             Route::post(__('route.add_product') . '/{id}', [ManageOrdersController::class, 'addProduct'])
                 ->name('add.product');
 
+            Route::post(__('route.update') . '/{id}', [ManageOrdersController::class, 'updateProductPrice'])
+                ->name('update-price');
+
             // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
             // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
             //     ->name('cancel-order');

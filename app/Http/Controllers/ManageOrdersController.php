@@ -102,6 +102,33 @@ class ManageOrdersController extends Controller
         ]);
     }
 
+    public function updateProductPrice(Request $request, string $id)
+    {
+        $orderline = OrderLine::find($id);
+
+        if ($orderline === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast/messages.product-update-fail')
+                ]);
+        }
+
+        // TODO: Custom request
+        $request->validate([
+            'product-price' => 'required|numeric|min:0.01'
+        ]);
+
+        $orderline->product_price = $request->input('product-price');
+        $orderline->save();
+
+        return redirect()->back()
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('toast/messages.product-update-success')
+            ]);
+    }
+
     public function cancelOrder(string $id)
     {
         $order = Order::find($id);

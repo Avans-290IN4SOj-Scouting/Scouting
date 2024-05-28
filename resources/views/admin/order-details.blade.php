@@ -7,6 +7,7 @@
 
 @push('scripts')
     <script type="module" src="{{ asset('js/manage-orders/updatestatus.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/manage-orders/updateprice.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -148,18 +149,22 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
                                         @if($admin)
-                                            <div>
-                                                <div class="flex rounded-lg ">
+                                            <div class="flex rounded-lg ">
                                                     <span
                                                         class="px-4 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 text-sm text-gray-500 dark:bg-neutral-700 dark:border-neutral-700 dark:text-neutral-400">
                                                         {{ __('common.currency_symbol') }}
                                                     </span>
+                                                <form
+                                                    action="{{ route('manage.orders.update-price', ['id' => $orderLine->id]) }}"
+                                                    method="POST">
+                                                    @csrf
                                                     <label for="product-price"
                                                            class="sr-only">{{ __('manage-orders/order.price-per') }}</label>
                                                     <input type="number" id="product-price" step="0.01"
+                                                           name="product-price"
                                                            value="{{ number_format($orderLine->product_price, 2)  }}"
                                                            class="py-3 px-4 block w-min border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                                </div>
+                                                </form>
                                             </div>
                                         @else
                                             {{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}
