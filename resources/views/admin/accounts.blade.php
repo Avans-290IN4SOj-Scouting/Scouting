@@ -80,9 +80,6 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <div id="roles-data" data-roles='@json($rolesJson)'></div>
-                    <div id="translation"
-                         data-translation="{{ __('toast/messages.warning-accounts-no-options') }}"></div>
                     @forelse($accounts as $account)
                         <tr class="h-[87px]">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
@@ -91,7 +88,6 @@
                             <td class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 <div id="selectRoleContainer" class="flex flex-row gap-2 hidden items-center">
                                     <div id="selectRole-wrapper" class="relative w-[250px]"
-                                         data-account-email="{{ $account->email }}"
                                          data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
                                         <label for="selectRole{{ $account->id }}"
                                                hidden>{{ __('manage-accounts/accounts.role')  }}</label>
@@ -178,4 +174,9 @@
             </div>
         </div>
     </div>
+
+    <!-- TEMP -->
+    <div id="roles-data" data-roles='@json($rolesJson)'></div>
+    <div id="translation"
+         data-translation="{{ __('toast/messages.warning-accounts-no-options') }}"></div>
 @endsection
