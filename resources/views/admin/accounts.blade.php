@@ -85,7 +85,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
-                            <td class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                            <td id="roleContainer{{ $account->id }}" class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 <div id="selectRoleContainer" class="flex flex-row gap-2 hidden items-center">
                                     <div id="selectRole-wrapper" class="relative w-[250px]"
                                          data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">

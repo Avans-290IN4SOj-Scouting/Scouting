@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const selectedValue = event.target.value;
             if (selectedValue) {
                 const tdElement = event.target.closest('td');
+                console.log(tdElement);
                 const selectedOption = event.target.selectedOptions[0];
                 const selectedGroupId = selectedOption.dataset.groupId;
                 if (selectedGroupId) {
@@ -51,20 +52,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 roles.forEach(role => {
                     const groupId = role.group_id;
                     const roleId = role.id;
-                        const roleData = rolesData.find(roleData => roleData.id === roleId);
-                        if (roleData) {
-                            addDropdown(roleData.name, groupId, trElement, [{
+                    const roleData = rolesData.find(roleData => roleData.id === roleId);
+                    if (roleData) {
+                        const tdElement = trElement.querySelector(`td#roleContainer${account.id}`);
+                        if (tdElement) {
+                            addDropdown(roleData.name, groupId, tdElement, [{
                                 id: roleData.id,
                                 display_name: roleData.display_name
                             }]);
                         }
+                    }
                 });
             }
         });
-
-        console.log('klaar');
     }
-
 
     function addDropdown(selectedValue, selectedGroupId, tdElement, options) {
         const newElement = document.createElement('div');
