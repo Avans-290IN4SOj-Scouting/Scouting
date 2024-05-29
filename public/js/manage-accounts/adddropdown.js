@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const selectedValue = event.target.value;
             if (selectedValue) {
                 const tdElement = event.target.closest('td');
-                console.log(tdElement);
                 const selectedOption = event.target.selectedOptions[0];
                 const selectedGroupId = selectedOption.dataset.groupId;
                 if (selectedGroupId) {
@@ -56,7 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (roleData) {
                         const tdElement = trElement.querySelector(`td#roleContainer${account.id}`);
                         if (tdElement) {
-                            addDropdown(roleData.name, groupId, tdElement, [{
+                            const formattedRoleName = formatRoleName(roleData.name);
+                            addDropdown(formattedRoleName, groupId, tdElement, [{
                                 id: roleData.id,
                                 display_name: roleData.display_name
                             }]);
@@ -65,6 +65,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
+    }
+
+    function formatRoleName(roleName) {
+        const parts = roleName.split('_');
+        if (parts.length > 1) {
+            return parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+        }
+        return roleName;
     }
 
     function addDropdown(selectedValue, selectedGroupId, tdElement, options) {
