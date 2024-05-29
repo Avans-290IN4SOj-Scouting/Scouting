@@ -1,7 +1,7 @@
 <div class="w-full sm:flex sm:max-w-none border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden">
     <div
         class="h-48 sm:h-auto sm:w-48 flex-none bg-cover text-center overflow-hidden"
-        style="background-image: url({{ $order->orderLines->first()->product_image_path }})" title="{{--TODO!--}}">
+        style="background-image: url({{ asset($order->orderLines->first()->product_image_path) }})" title="{{--TODO!--}}">
     </div>
     <div
         class="w-full p-10 flex sm:flex-row justify-between leading-normal dark:text-white">
