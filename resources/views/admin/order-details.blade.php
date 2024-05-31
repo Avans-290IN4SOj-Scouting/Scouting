@@ -20,7 +20,8 @@
                 <h1 class="text-4xl font-bold dark:text-white mb-4 lg:mb-0">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
                 @if ($order->status == App\Enum\DeliveryStatus::AwaitingPayment->value)
-                    <x-modal :button-text="__('orders/order_details.cancel_order')"
+                    <x-modal id="cancel-order"
+                             :button-text="__('orders/order_details.cancel_order')"
                              :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
                              :modal-button="__('orders/order_details.cancel_order_confirm')"
                              :modal-text="__('orders/order_details.cancel_order_text')"
@@ -178,8 +179,10 @@
                                                 action="{{ route('manage.orders.delete.orderline', ['id' => $orderLine->id ]) }}"
                                                 method="POST">
                                                 @csrf
-                                                <button type="submit" id="trash" name="trash"
-                                                        aria-label="{{ __('manage-orders/order.delete') }}"
+                                                <button type="submit" id="trash-{{ $orderLine->id }}"
+                                                        name="trash-{{ $orderLine->id }}"
+                                                        dusk="delete-orderline-{{ $orderLine->id }}"
+                                                        aria-label="{{ __('manage-orders/order.delete', ['product' => $orderLine->product->name]) }}"
                                                         class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-slate-200 text-red-500 hover:border-slate-100 hover:text-red-400 disabled:opacity-50 disabled:pointer-events-none">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"
@@ -203,9 +206,10 @@
                     </div>
 
                     @if($admin)
-                        <x-modal :button-text="__('manage-orders/order.add_product')"
+                        <x-modal id="add-product"
+                                 :button-text="__('manage-orders/order.add_product')"
                                  :title="__('manage-orders/order.add_product')"
-                                 :modal-button="__('manage-orders/order.add_product')"
+                                 :modal-button="__('manage-orders/order.add_product_modal')"
                                  modal-text=" "
                                  :route="route('manage.orders.add.product', ['id' => $order->id])"
                                  color="blue">

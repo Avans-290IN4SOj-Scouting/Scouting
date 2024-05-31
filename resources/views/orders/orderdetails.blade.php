@@ -5,7 +5,7 @@
 @endphp
 
 @section('content')
-    
+
     <div class="text-sm">
         <a href="{{ route('orders.overview.user') }}" class="flex flex-row items-center hover:text-blue-600 dark:text-white dark:fill-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,8 @@
 
                     @if($isCancellable)
                         <div class="mt-4">
-                            <x-modal :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
+                            <x-modal id="cancel-order"
+                                     :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
                                      :modal-button="__('orders/order_details.cancel_order_confirm')" :modal-text="__('orders/order_details.cancel_order_text')"
                                      :route="route('orders.detail', ['id' => $order->id])" color="red" />
                         </div>

@@ -19,12 +19,13 @@ return [
     'amount' => 'Aantal',
     'total-price' => 'Totaalprijs',
     'action' => 'Actie',
-    'delete' => 'Verwijder dit product',
+    'delete' => 'Verwijder product :attribute uit bestelling',
 
     'customer' => 'Klant',
     'products' => 'Producten',
     'no_products' => 'Geen producten gevonden in deze bestelling.',
 
     'add_product' => 'Voeg product toe',
+    'add_product_modal' => 'Voeg product toe aan bestelling',
     'add_product_modal_text' => 'Selecteer een product om toe te voegen aan de bestelling.',
 ];
