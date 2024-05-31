@@ -113,7 +113,7 @@
                     class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                     <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
-                    <x-error id="product-price" :error="$errors->first('product-price')" />
+                    <x-error id="product-price" :error="$errors->first('product-price')"/>
 
                     <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
@@ -178,9 +178,8 @@
                                                 action="{{ route('manage.orders.delete.orderline', ['id' => $orderLine->id ]) }}"
                                                 method="POST">
                                                 @csrf
-                                                <label for="trash"
-                                                       class="sr-only">{{ __('manage-orders/order.delete') }}</label>
-                                                <button type="submit" id="trash"
+                                                <button type="submit" id="trash" name="trash"
+                                                        aria-label="{{ __('manage-orders/order.delete') }}"
                                                         class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-slate-200 text-red-500 hover:border-slate-100 hover:text-red-400 disabled:opacity-50 disabled:pointer-events-none">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"

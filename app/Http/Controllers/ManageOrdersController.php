@@ -192,15 +192,23 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
-        $orderLine = new OrderLine();
-        $orderLine->order_id = $order->id;
-        $orderLine->product_id = $product->id;
-        $orderLine->amount = 1;
-        $orderLine->product_price = $product->price;
-        $orderLine->product_size = $product->size;
-        $orderLine->product_type_id = ProductType::where('type', $product->type)->first()->id;
-        $orderLine->product_image_path = Product::find($product->id)->first()->image_path;
-        $orderLine->save();
+        $orderLine = OrderLine::create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'amount' => 1,
+            'product_price' => $product->price,
+            'product_size' => $product->size,
+            'product_type_id' => ProductType::where('type', $product->type)->first()->id,
+            'product_image_path' => Product::find($product->id)->first()->image_path,
+        ]);
+
+        if ($orderLine === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.product-add-fail')
+                ]);
+        }
 
         return redirect()->back()
             ->with([
