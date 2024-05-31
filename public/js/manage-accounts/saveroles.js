@@ -119,11 +119,11 @@ document.addEventListener('DOMContentLoaded', function () {
         let infoHtml = '';
 
         savedRoleChanges.forEach(account => {
-            const {email, oldRoles, newRoles} = account;
+            const { email, oldRoles, newRoles } = account;
 
-            const formattedOldRoles = oldRoles.map(roleId => getRoleNameById(roleId)).join(', ');
-
-            const formattedNewRoles = newRoles.map(roleId => getRoleNameById(roleId)).join(', ');
+            // TODO: add localization
+            const formattedOldRoles = oldRoles.length > 0 ? oldRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
+            const formattedNewRoles = newRoles.length > 0 ? newRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
 
             infoHtml += `<strong>${email}</strong>: ${formattedOldRoles} -> ${formattedNewRoles}<br>`;
         });
