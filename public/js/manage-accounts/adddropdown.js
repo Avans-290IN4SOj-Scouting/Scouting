@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         const filteredOptions = availableOptions.filter(option => !existingSelections.includes(option.id.toString()));
 
                         if (filteredOptions.length > 0) {
-                            addDropdown(selectedValue, selectedGroupId, tdElement, filteredOptions);
+                            const email = tdElement.closest('tr').getAttribute('data-email');
+                            addDropdown(selectedValue, selectedGroupId, tdElement, filteredOptions, email);
                         } else {
                             const translation = document.getElementById('translation')
                                 .getAttribute('data-translation');
@@ -58,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             const formattedRoleName = formatRoleName(roleData.name);
                             addDropdown(formattedRoleName, groupId, tdElement, [{
                                 id: roleData.id,
-                                display_name: roleData.display_name
-                            }]);
+                                display_name: roleData.display_name,
+                            }], email);
                         }
                     }
                 });
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return roleName;
     }
 
-    function addDropdown(selectedValue, selectedGroupId, tdElement, options) {
+    function addDropdown(selectedValue, selectedGroupId, tdElement, options, email) {
         const newElement = document.createElement('div');
         newElement.className = 'relative';
 
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectElement.style.width = '150px';
         selectElement.className = 'peer p-4 pr-10 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2 appearance-none bg-no-repeat bg-right pr-10';
         selectElement.dataset.groupId = selectedGroupId;
+        selectElement.dataset.email = email;
 
         options.forEach(option => {
             const optionElement = document.createElement('option');

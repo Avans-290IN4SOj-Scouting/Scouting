@@ -32,8 +32,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.querySelectorAll("[id^='roleContainer']").forEach(container => {
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(mutation => {
+                if (mutation.removedNodes.length > 0) {
+                    mutation.removedNodes.forEach(removedNode => {
+                        if (removedNode.tagName === 'DIV') {
+                            const selectElement = removedNode.querySelector('select');
+                            const email = selectElement.getAttribute('data-email');
+
+                            if (selectElement) {
+                                const selectedValue = selectElement.selectedOptions[0].value;
+                                console.log('Email:', email);
+                                console.log('Geselecteerde waarde:', selectedValue);
+                                removeRoleChange(email);
+                                saveRoles();
+                                updateChangedAccountsInfo();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        function removeRoleChange(email, removedRole) {
+            const savedRoleChanges = JSON.parse(localStorage.getItem('roleChanges')) || [];
+            const index = savedRoleChanges.findIndex(change => change.email === email);
+            if (index !== -1) {
+                const userRoleChange = savedRoleChanges[index];
+                const removedRoleIndex = userRoleChange.newRoles.indexOf(removedRole);
+                if (removedRoleIndex !== -1) {
+                    userRoleChange.newRoles.remove(index);
+                    localStorage.setItem('roleChanges', JSON.stringify(savedRoleChanges));
+                }
+            }
+        }
+
+        const observerConfig = {childList: true};
+
+        observer.observe(container, observerConfig);
+
         container.addEventListener('change', function (event) {
-            if (event.target.tagName.toLowerCase() === 'select') {
+            if (event.target.tagName === 'SELECT') {
                 saveRoleChange(event.target);
                 saveRoles();
                 updateChangedAccountsInfo();
@@ -41,9 +80,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function saveRoleChange(selectElement) {
-        const email = selectElement.closest('tr').querySelector('td').innerText.trim();
+    function saveRoleChange(selectElement, email = null) {
+        if (!email) {
+            email = selectElement.closest('tr').querySelector('td').innerText.trim();
+        }
+
         const selectedValue = selectElement.value;
+
+        console.log(selectedValue);
 
         const savedRoleChanges = JSON.parse(localStorage.getItem('roleChanges')) || [];
 
@@ -75,18 +119,18 @@ document.addEventListener('DOMContentLoaded', function () {
         let infoHtml = '';
 
         savedRoleChanges.forEach(account => {
-            const { email, oldRoles, newRoles } = account;
-            const changes = newRoles.filter((newRole, index) => newRole !== oldRoles[index]);
+            const {email, oldRoles, newRoles} = account;
 
-            if (changes.length > 0) {
-                const formattedOldRoles = oldRoles.map(roleId => getRoleNameById(roleId)).join(', ');
-                const formattedNewRoles = newRoles.map(roleId => getRoleNameById(roleId)).join(', ');
-                infoHtml += `<strong>${email}</strong>: ${formattedOldRoles} -> ${formattedNewRoles}<br>`;
-            }
+            const formattedOldRoles = oldRoles.map(roleId => getRoleNameById(roleId)).join(', ');
+
+            const formattedNewRoles = newRoles.map(roleId => getRoleNameById(roleId)).join(', ');
+
+            infoHtml += `<strong>${email}</strong>: ${formattedOldRoles} -> ${formattedNewRoles}<br>`;
         });
 
         changedAccountsInfo.innerHTML = infoHtml;
     }
+
 
     function formatRoleName(roleName) {
         const parts = roleName.split('_');
@@ -114,9 +158,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        const hasSelectedRoles = selectedRoles.some(change => change.newRoles.length > 0);
+
+        if (!hasSelectedRoles) {
+            existingRoleChanges.forEach(change => {
+                change.newRoles = [];
+            });
+        }
+
         localStorage.setItem('roleChanges', JSON.stringify(existingRoleChanges));
         console.log('Rollen opgeslagen:', JSON.stringify(existingRoleChanges));
     }
+
 
     function getSelectedRoles() {
         const selectedRoles = [];
@@ -141,8 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-
-        console.log(selectedRoles);
 
         return selectedRoles;
     }
