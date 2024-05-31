@@ -14,11 +14,14 @@ class AccountsController extends Controller
 
     public function index()
     {
+        $allAccounts = $this->getAllUsers()->get();
+
         $accounts = $this->getAllUsers()->sortable()->paginate(10);
 
         return view("admin.accounts",
             [
                 "accounts" => $accounts,
+                "allAccounts" => $allAccounts,
                 "roles" => $this->getRoleSelection(),
                 "rolesJson" => $this->getRoles()->toJson(),
                 "search" => null,

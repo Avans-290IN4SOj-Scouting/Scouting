@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function setupDropdownsForAccountsData() {
-        accountsData.data.forEach(account => {
+        accountsData.forEach(account => {
             const email = account.email;
             const roles = account.roles;
 
