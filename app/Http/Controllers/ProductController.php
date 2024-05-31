@@ -132,6 +132,10 @@ class ProductController extends Controller
             {
                 $size = $sizes[$i];
                 $price = $prices[$i];
+                if ($product->productSizes()->where('product_size_id', $size)->exists())
+                {
+                    return redirect()->back()->with('error_same_product_size', __('manage-products/products.error_same_product_size'));
+                }
                 $product->productSizes()->attach($product->id, ['product_size_id' => $size, 'price' => $price]);
             }
 
@@ -180,7 +184,7 @@ class ProductController extends Controller
         }
 
         // Name
-        if ($product->name !== $request->input('name'))
+        if ($product->name !== $request->input('name') && $request->input('name') !== null)
         {
             $product->name = $request->input('name');
         }
@@ -214,12 +218,16 @@ class ProductController extends Controller
                 }
             }
             // Add remaining
-            // dd($detached, $inputSizes, $inputPrices);
             foreach ($inputSizes as $inputSize)
             {
                 $index = array_search($inputSize, $inputSizes);
                 $size = $inputSizes[$index];
                 $price = $inputPrices[$index];
+
+                if ($product->productSizes()->where('product_size_id', $size)->exists())
+                {
+                    return redirect()->back()->with('error_same_product_size', __('manage-products/products.error_same_product_size'));
+                }
                 $product->productSizes()->attach($product->id, ['product_size_id' => $size, 'price' => $price]);
             }
 
@@ -267,7 +275,6 @@ class ProductController extends Controller
         catch (\Exception $e)
         {
             DB::rollback();
-            dd($e);
             return redirect()->route('manage.products.index')->with([
                 'toast-type' => 'error',
                 'toast-message' => __('toast/messages.error-product-update')

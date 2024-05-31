@@ -48,12 +48,13 @@
                                         </button>
                                     </div>
                                 </div>
-                                @foreach ($price_sizeErrorTypes as $errorType)
-                                    @if ($errors->has($errorType))
-                                        <x-error :error="$errors->first($errorType)" :id="$errorType" />
-                                    @break
+
+                                @if (session('error_same_product_size'))
+                                <p class="text-xs text-red-600 mt-2" id="error_same_product_size-error">
+                                    {{ session('error_same_product_size') }}
+                                </p>
                                 @endif
-                                @endforeach
+                                <x-error :error="$errors->first('price_input.0')" :id="'price_input.0'" />
                             </div>
                         </div>
                         <!-- /Sizes & Prices -->
@@ -77,7 +78,7 @@
                     </div>
 
                     <!-- Add Product Button -->
-                    <button type="submit"
+                    <button type="submit" id="update-product-button"
                         class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                         {{ __('manage-products/products.product_edit_button') }}
                     </button>

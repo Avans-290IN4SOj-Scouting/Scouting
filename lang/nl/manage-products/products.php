@@ -39,5 +39,6 @@ return [
     'sizes' => 'product maten',
     'price_placeholder' => 'Prijs',
     'product_not_found' => 'Product niet gevonden',
+    'error_same_product_size' => 'Je kan geen dubbele size hebben',
 ];
 

@@ -24,7 +24,6 @@ class ProductEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
             'products-category-multiselect' => 'required|array',
             'products-group-multiselect' => 'required|array',
             'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
@@ -87,7 +86,6 @@ class ProductEditRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => __('manage-products/requests.name.required'),
             'name.string' => __('manage-products/requests.name.string'),
             'products-category-multiselect.required' => __('manage-products/requests.category.required'),
             'products-category-multiselect.array' => __('manage-products/requests.category.array'),

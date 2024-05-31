@@ -1,8 +1,7 @@
 <div class="flex flex-row gap-2 w-full justify-between price-size-entry">
     <div class="max-w-sm space-y-3 w-full">
-        <select id="size_input" name="size_input[]"
+        <select id="size_input" name="size_input[]" dusk="size-input"
             class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-            <option value="" disabled selected>Selecteer uw maat</option>
             @foreach ($sizes as $size)
                 <option @selected(($sizeValue ?? '') === $size->id) value="{{ $size->id }}" >{{ $size->size }}</option>
             @endforeach
@@ -10,12 +9,12 @@
     </div>
 
     <div class="max-w-sm space-y-3 w-full">
-        <input type="number" step=".01" id="price_input" name="price_input[]" value="{{ $priceValue ?? '' }}"
+        <input type="number" step=".01" id="price_input" name="price_input[]" value="{{ $priceValue ?? '' }}" dusk="price-input"
             class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
             placeholder="{{ __('manage-products/products.price_placeholder') }}">
     </div>
 
-    <button type="button" onclick="removePriceSize(event)"
+    <button type="button" onclick="removePriceSize(event)" dusk="removePriceSize"
         class="px-2.5 flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">

@@ -25,58 +25,8 @@ class ProductCreationRequest extends FormRequest
             'name' => 'required|string',
             'products-category-multiselect' => 'required|array',
             'products-group-multiselect' => 'required|array',
-            'priceForSize' => ['nullable', 'array', function ($attribute, $value, $fail) {
-                $priceForSize = $this->input('priceForSize');
-                $custom_prices = $this->input('custom_prices');
-                if (is_array($priceForSize) && is_array($custom_prices)) {
-                    foreach ($priceForSize as $price) {
-                        if (!is_null($price)) {
-                            return;
-                        }
-                    }
-                    foreach ($custom_prices as $price) {
-                        if (!is_null($price)) {
-                            return;
-                        }
-                    }
-                }
-                $fail(__('manage-products/requests.price.required'));
-            },],
-            'priceForSize.*' => 'nullable|numeric|max:1000|min:0',
-            'custom_prices' =>  ['nullable', 'array', function ($attribute, $value, $fail) {
-                $priceForSize = $this->input('priceForSize') ?? [];
-                $custom_prices = $this->input('custom_prices');
-                if (is_array($priceForSize) && is_array($custom_prices)) {
-                    foreach ($priceForSize as $price) {
-                        if (!is_null($price)) {
-                            return;
-                        }
-
-                    }
-                    foreach ($custom_prices as $price) {
-                        if (!is_null($price)) {
-                            return;
-                        }
-                    }
-                }
-                $fail(__('manage-products/requests.price.required'));
-            },],
-            'custom_prices.*' => 'nullable|numeric|max:1000|min:0',
-            'custom_sizes' => ['nullable', 'array', function ($attribute, $value, $fail) {
-                $custom_sizes = $this->input('custom_sizes');
-                $custom_prices = $this->input('custom_prices');
-                for($i = 0; $i < count($custom_sizes); $i += 1) {
-                    if (is_null($custom_sizes[$i]) && !is_null($custom_prices[$i])) {
-                        $fail(__('manage-products/requests.size.required'));
-                        return;
-                    }
-                    if(!is_null($custom_sizes[$i]) && is_null($custom_prices[$i])) {
-                        $fail(__('manage-products/requests.price.required'));
-                        return;
-                    }
-                }
-            }],
-            'custom_sizes.*' => 'nullable|string',
+            'price_input' => 'required|array',
+            'price_input.*' => 'required|numeric|max:1000|min:0',
             'af-submit-app-upload-images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
@@ -95,14 +45,11 @@ class ProductCreationRequest extends FormRequest
             'af-submit-app-upload-images.max' => __('manage-products/requests.image.max'),
             'products-group-multiselect.required' => __('manage-products/requests.group.required'),
             'products-group-multiselect.array' => __('manage-products/requests.group.array'),
-            'priceForSize.array' => __('manage-products/requests.price.array'),
-            'priceForSize.*.numeric' => __('manage-products/requests.price.numeric'),
-            'priceForSize.*.max' => __('manage-products/requests.price.max'),
-            'priceForSize.*.min' => __('manage-products/requests.price.min'),
-            'custom_prices.*.numeric' => __('manage-products/requests.price.numeric'),
-            'custom_prices.*.max' => __('manage-products/requests.price.max'),
-            'custom_prices.*.min' => __('manage-products/requests.price.min'),
-            'custom_sizes.*.string' => __('manage-products/requests.size.string'),
+            'price_input.required' => __('manage-products/requests.price.required'),
+            'price_input.*.required' => __('manage-products/requests.price.required'),
+            'price_input.*.numeric' => __('manage-products/requests.price.numeric'),
+            'price_input.*.max' => __('manage-products/requests.price.max'),
+            'price_input.*.min' => __('manage-products/requests.price.min'),
         ];
     }
 }
