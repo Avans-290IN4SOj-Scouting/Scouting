@@ -5,7 +5,7 @@
 @endphp
 
 @section('content')
-    
+
     <div class="text-sm">
         <a href="{{ route('orders.overview.user') }}" class="flex flex-row items-center hover:text-blue-600 dark:text-white dark:fill-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@
             <div class="m-4">
                 <div
                         class="flex flex-col gap-1 sm:gap-0 pb-1 sm:pb-0 sm:flex-row justify-between items-center sm:pr-6 rounded-xl border dark:text-white dark:border-gray-700">
-                    <img src="{{ $orderLine->product_image_path }}" alt="Image of {{ $orderLine->product->name }}"
+                    <img src="{{ asset($orderLine->product_image_path) }}" alt="{{ __('common.image_of') . $orderLine->product->name }}"
                          class="rounded-t-xl sm:rounded-tr-none sm:rounded-l-xl w-full sm:w-48 h-auto">
                     <div class="w-28 text-center">
                         <a href="{{ route('orders.product', [ 'name' => $orderLine->product->name, 'groupName' => $orderLine->product->group_name]) }}"
