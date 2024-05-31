@@ -1,7 +1,8 @@
 <div class="w-full sm:flex sm:max-w-none border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden">
-    <div
-        class="h-48 sm:h-auto sm:w-48 flex-none bg-cover text-center overflow-hidden"
-        style="background-image: url({{ asset($order->orderLines->first()->product_image_path) }})" title="{{--TODO!--}}">
+    <div class="h-48 sm:h-auto sm:w-48 flex-none bg-cover text-center overflow-hidden">
+        <img src="{{ asset($order->orderLines->first()->product_image_path) }}"
+             alt="{{ __('common.image_of') . $order->orderLines->first()->name }}"
+             class="h-full object-cover">
     </div>
     <div
         class="w-full p-10 flex sm:flex-row justify-between leading-normal dark:text-white">
