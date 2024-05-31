@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function saveRoleChange(selectElement) {
         const email = selectElement.closest('tr').querySelector('td').innerText.trim();
-        const groupId = selectElement.dataset.groupId;
         const selectedValue = selectElement.value;
 
         const savedRoleChanges = JSON.parse(localStorage.getItem('roleChanges')) || [];
@@ -50,20 +49,27 @@ document.addEventListener('DOMContentLoaded', function () {
             savedRoleChanges.push(userRoleChange);
         }
 
-        if (!userRoleChange.oldRoles[groupId]) {
-            userRoleChange.oldRoles[groupId] = getOldRole(email, groupId);
+        if (!userRoleChange.oldRoles) {
+            userRoleChange.oldRoles = getOldRoles(email);
         }
 
-        userRoleChange.newRoles[groupId] = selectedValue;
+        userRoleChange.newRoles = selectedValue;
 
         localStorage.setItem('roleChanges', JSON.stringify(savedRoleChanges));
     }
 
-    function getOldRole(email, groupId) {
+    function getOldRoles(email, groupId) {
         const account = accountsData.find(account => account.email === email);
         if (account) {
-            const role = account.roles.find(role => role.group_id == groupId);
-            return role ? role.role : null;
+            const oldRoles = account.roles;
+            if (oldRoles) {
+                const oldRoleIds = [];
+                oldRoles.forEach(oldRole => {
+                    oldRoleIds.push(oldRole.id)
+                })
+
+                return oldRoleIds;
+            }
         }
         return null;
     }
@@ -73,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let infoHtml = '';
 
         savedRoleChanges.forEach(account => {
-            const { email, oldRoles, newRoles } = account;
+            const {email, oldRoles, newRoles} = account;
             const oldRolesList = Object.values(oldRoles).filter(role => role !== null);
             const newRolesList = Object.values(newRoles).filter(role => role !== null);
 
@@ -121,16 +127,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 if (roleSelections.length > 0) {
-                    const oldRoles = {};
-                    const newRoles = {};
-                    roleSelections.forEach(({group, role}) => {
-                        oldRoles[group] = getOldRole(email, group);
-                        newRoles[group] = role;
+                    const oldRoles = getOldRoles(email);
+                    let newRoles = [];
+                    roleSelections.forEach(({role}) => {
+                        newRoles.push(role);
                     });
                     selectedRoles.push({email: email, oldRoles: oldRoles, newRoles: newRoles});
                 }
             }
         });
+
+        console.log(selectedRoles);
 
         return selectedRoles;
     }
