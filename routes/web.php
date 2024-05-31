@@ -82,18 +82,18 @@ Route::middleware('role:admin|teamleader')->group(function () {
                 Route::get(__('route.download'), [BackordersController::class, 'download'])
                     ->name('download');
             });
-        });
 
-        // Manage Stocks
-        Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
-            Route::put('/{product}/{type}', [StocksController::class, 'update'])
-                ->name('update');
+            // Manage Stocks
+            Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
+                Route::put('/{product}/{type}', [StocksController::class, 'update'])
+                    ->name('update');
 
-            Route::get('/', [StocksController::class, 'index'])
-                ->name('index');
+                Route::get('/', [StocksController::class, 'index'])
+                    ->name('index');
 
-            Route::delete('/destroy', [StocksController::class, 'destroy'])
-                ->name('destroy');
+                Route::delete('/destroy', [StocksController::class, 'destroy'])
+                    ->name('destroy');
+            });
         });
 
         Route::prefix(__('route.orders'))->name('orders.')->group(function () {
@@ -105,6 +105,15 @@ Route::middleware('role:admin|teamleader')->group(function () {
 
             Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
                 ->name('filter');
+
+            Route::post(__('route.delete') . '/{id}', [ManageOrdersController::class, 'deleteOrderLine'])
+                ->name('delete.orderline');
+
+            Route::post(__('route.add_product') . '/{id}', [ManageOrdersController::class, 'addProduct'])
+                ->name('add.product');
+
+            Route::post(__('route.update') . '/{id}', [ManageOrdersController::class, 'updateProductPrice'])
+                ->name('update-price');
 
             // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
             // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
@@ -119,7 +128,7 @@ Route::middleware('role:admin|teamleader')->group(function () {
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
-        
+
     });
 });
 

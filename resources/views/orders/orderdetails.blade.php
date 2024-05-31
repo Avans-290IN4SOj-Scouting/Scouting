@@ -23,7 +23,8 @@
 
                     @if($isCancellable)
                         <div class="mt-4">
-                            <x-modal :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
+                            <x-modal id="cancel-order"
+                                     :button-text="__('orders/order_details.cancel_order')" :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
                                      :modal-button="__('orders/order_details.cancel_order_confirm')" :modal-text="__('orders/order_details.cancel_order_text')"
                                      :route="route('orders.detail', ['id' => $order->id])" color="red" />
                         </div>
