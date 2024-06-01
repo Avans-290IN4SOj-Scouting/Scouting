@@ -22,11 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (selectedValue === 'admin') {
                         addAdminTag(selectedValue, tdElement);
                     } else {
+                        const selectedRoles = Array.from(document.querySelectorAll(`select[name='selectRole']`))
+                            .map(select => select.value);
+
                         const availableOptions = rolesData.filter(role => role.group_id === parseInt(selectedGroupId));
                         const existingSelections = Array.from(document.querySelectorAll(`select[data-group-id='${selectedGroupId}']`))
                             .map(select => select.value);
 
-                        const filteredOptions = availableOptions.filter(option => !existingSelections.includes(option.id.toString()));
+                        const filteredOptions = availableOptions.filter(option => !selectedRoles.includes(option.id.toString()) || existingSelections.includes(option.id.toString()));
 
                         if (filteredOptions.length > 0) {
                             const email = tdElement.closest('tr').getAttribute('data-email');
@@ -42,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
 
     function setupDropdownsForAccountsData() {
         accountsData.forEach(account => {
