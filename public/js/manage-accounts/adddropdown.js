@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
     function setupDropdownsForAccountsData() {
         accountsData.forEach(account => {
             const email = account.email;
@@ -142,11 +141,15 @@ document.addEventListener('DOMContentLoaded', function () {
         selectElement.dataset.groupId = selectedGroupId;
         selectElement.dataset.email = email;
 
+        const existingRoles = Array.from(tdElement.querySelectorAll('select')).map(select => select.value);
+
         options.forEach(option => {
-            const optionElement = document.createElement('option');
-            optionElement.textContent = option.display_name;
-            optionElement.value = option.id;
-            selectElement.appendChild(optionElement);
+            if (!existingRoles.includes(option.id.toString())) {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option.display_name;
+                optionElement.value = option.id;
+                selectElement.appendChild(optionElement);
+            }
         });
 
         newElement.appendChild(selectElement);
@@ -182,6 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         updateAvailableOptions(selectedGroupId, email);
     }
+
 
     function updateDropdowns(groupId, email) {
         const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
@@ -234,6 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
 
     function addAdminTag(selectedValue, tdElement) {
         const adminTag = document.createElement('p');
