@@ -20,19 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (selectedValue === 'admin') {
                         addAdminTag(selectedValue, tdElement);
                     } else {
-                        const availableOptions = rolesData.filter(role => role.group_id === parseInt(selectedGroupId));
-                        const existingSelections = Array.from(document.querySelectorAll(`select[data-group-id='${selectedGroupId}']`))
-                            .map(select => select.value);
+                        const email = tdElement.closest('tr').getAttribute('data-email');
+                        const availableOptions = getAvailableOptionsForGroup(selectedGroupId, email);
 
-                        const filteredOptions = availableOptions.filter(option => !existingSelections.includes(option.id.toString()));
-
-                        if (filteredOptions.length > 0) {
-                            const email = tdElement.closest('tr').getAttribute('data-email');
-                            addDropdown(selectedValue, selectedGroupId, tdElement, filteredOptions, email);
+                        if (availableOptions.length > 0) {
+                            addDropdown(selectedValue, selectedGroupId, tdElement, availableOptions, email);
                         } else {
-                            const translation = document.getElementById('translation')
-                                .getAttribute('data-translation');
-
+                            const translation = document.getElementById('translation').getAttribute('data-translation');
                             showToast('warning', translation);
                         }
                     }
@@ -76,6 +70,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return roleName;
     }
 
+    function getAvailableOptionsForGroup(groupId, email) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
+        const selectedValues = Array.from(selects).map(select => select.value);
+
+        return rolesData.filter(role => {
+            return role.group_id === parseInt(groupId) && !selectedValues.includes(role.id.toString());
+        });
+    }
+
     function addDropdown(selectedValue, selectedGroupId, tdElement, options, email) {
         const newElement = document.createElement('div');
         newElement.className = 'relative';
@@ -115,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         removeButton.addEventListener('click', function () {
             newElement.remove();
-            updateAvailableOptions(selectedGroupId);
+            updateAvailableOptions(selectedGroupId, email);
         });
 
         newElement.appendChild(removeButton);
@@ -123,14 +126,14 @@ document.addEventListener('DOMContentLoaded', function () {
         tdElement.prepend(newElement);
 
         selectElement.addEventListener('change', function () {
-            updateDropdowns(selectedGroupId);
+            updateDropdowns(selectedGroupId, email);
         });
 
-        updateAvailableOptions(selectedGroupId);
+        updateAvailableOptions(selectedGroupId, email);
     }
 
-    function updateDropdowns(groupId) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
+    function updateDropdowns(groupId, email) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
         const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
@@ -155,8 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function updateAvailableOptions(groupId) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
+    function updateAvailableOptions(groupId, email) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
         const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
