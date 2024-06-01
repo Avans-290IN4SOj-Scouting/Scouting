@@ -156,13 +156,13 @@ document.addEventListener('DOMContentLoaded', function () {
         removeButton.style.top = '17px';
         removeButton.style.right = '4px';
         removeButton.innerHTML = `
-            <svg class="svg-icon" width="20px" height="20px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
-            </svg>
-        `;
+<svg class="svg-icon" width="20px" height="20px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
+</svg>
+`;
         removeButton.addEventListener('click', function () {
             newElement.remove();
-            updateAvailableOptions(selectedGroupId);
+            updateAvailableOptions(selectedGroupId, email);
         });
 
         newElement.appendChild(removeButton);
@@ -170,14 +170,14 @@ document.addEventListener('DOMContentLoaded', function () {
         tdElement.prepend(newElement);
 
         selectElement.addEventListener('change', function () {
-            updateDropdowns(selectedGroupId);
+            updateDropdowns(selectedGroupId, email);
         });
 
-        updateAvailableOptions(selectedGroupId);
+        updateAvailableOptions(selectedGroupId, email);
     }
 
-    function updateDropdowns(groupId) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
+    function updateDropdowns(groupId, email) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
         const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function updateAvailableOptions(groupId) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
+    function updateAvailableOptions(groupId, email) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
         const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
