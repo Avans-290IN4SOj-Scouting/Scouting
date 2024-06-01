@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setupDropdownsForAccountsData();
 
+    restoreSelectionsFromLocalStorage();
+
     document.querySelectorAll("select[name='selectRole']").forEach(function (select) {
         select.addEventListener('change', function (event) {
             const selectedValue = event.target.value;
@@ -20,13 +22,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (selectedValue === 'admin') {
                         addAdminTag(selectedValue, tdElement);
                     } else {
-                        const email = tdElement.closest('tr').getAttribute('data-email');
-                        const availableOptions = getAvailableOptionsForGroup(selectedGroupId, email);
+                        const availableOptions = rolesData.filter(role => role.group_id === parseInt(selectedGroupId));
+                        const existingSelections = Array.from(document.querySelectorAll(`select[data-group-id='${selectedGroupId}']`))
+                            .map(select => select.value);
 
-                        if (availableOptions.length > 0) {
-                            addDropdown(selectedValue, selectedGroupId, tdElement, availableOptions, email);
+                        const filteredOptions = availableOptions.filter(option => !existingSelections.includes(option.id.toString()));
+
+                        if (filteredOptions.length > 0) {
+                            const email = tdElement.closest('tr').getAttribute('data-email');
+                            addDropdown(selectedValue, selectedGroupId, tdElement, filteredOptions, email);
                         } else {
-                            const translation = document.getElementById('translation').getAttribute('data-translation');
+                            const translation = document.getElementById('translation')
+                                .getAttribute('data-translation');
+
                             showToast('warning', translation);
                         }
                     }
@@ -62,21 +70,57 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function restoreSelectionsFromLocalStorage() {
+        const roleChanges = JSON.parse(localStorage.getItem('roleChanges')) || [];
+
+        roleChanges.forEach(change => {
+            const {email, newRoles} = change;
+            const trElement = document.querySelector(`tr[data-email='${email}']`);
+
+            if (trElement) {
+                const email = trElement.getAttribute('data-email');
+                const account = accountsData.find(account => account.email === email);
+
+                if (account) {
+                    const tdElement = trElement.querySelector(`td#roleContainer${account.id}`);
+
+                    if (tdElement) {
+                        const existingSelects = tdElement.querySelectorAll('select');
+                        const existingRoles = Array.from(existingSelects).map(select => select.value);
+
+                        existingSelects.forEach(select => {
+                            const roleId = select.value;
+                            if (!newRoles.includes(roleId)) {
+                                select.parentElement.remove();
+                            }
+                        });
+
+                        newRoles.forEach(roleId => {
+                            if (!existingRoles.includes(roleId)) {
+                                const roleData = rolesData.find(role => role.id === parseInt(roleId));
+                                if (roleData) {
+                                    const groupId = roleData.group_id;
+                                    const formattedRoleName = formatRoleName(roleData.name);
+                                    const option = {
+                                        id: roleData.id,
+                                        display_name: roleData.display_name
+                                    };
+                                    addDropdown(formattedRoleName, groupId, tdElement, [option], email);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
     function formatRoleName(roleName) {
         const parts = roleName.split('_');
         if (parts.length > 1) {
             return parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
         }
         return roleName;
-    }
-
-    function getAvailableOptionsForGroup(groupId, email) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
-        const selectedValues = Array.from(selects).map(select => select.value);
-
-        return rolesData.filter(role => {
-            return role.group_id === parseInt(groupId) && !selectedValues.includes(role.id.toString());
-        });
     }
 
     function addDropdown(selectedValue, selectedGroupId, tdElement, options, email) {
@@ -118,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         removeButton.addEventListener('click', function () {
             newElement.remove();
-            updateAvailableOptions(selectedGroupId, email);
+            updateAvailableOptions(selectedGroupId);
         });
 
         newElement.appendChild(removeButton);
@@ -126,14 +170,14 @@ document.addEventListener('DOMContentLoaded', function () {
         tdElement.prepend(newElement);
 
         selectElement.addEventListener('change', function () {
-            updateDropdowns(selectedGroupId, email);
+            updateDropdowns(selectedGroupId);
         });
 
-        updateAvailableOptions(selectedGroupId, email);
+        updateAvailableOptions(selectedGroupId);
     }
 
-    function updateDropdowns(groupId, email) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
+    function updateDropdowns(groupId) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
         const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
@@ -158,8 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function updateAvailableOptions(groupId, email) {
-        const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
+    function updateAvailableOptions(groupId) {
+        const selects = document.querySelectorAll(`select[data-group-id='${groupId}']`);
         const selectedValues = Array.from(selects).map(select => select.value);
 
         selects.forEach(select => {
