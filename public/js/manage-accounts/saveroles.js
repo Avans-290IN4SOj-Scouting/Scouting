@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 const selectedValue = selectElement.selectedOptions[0].value;
                                 console.log('Email:', email);
                                 console.log('Geselecteerde waarde:', selectedValue);
-                                removeRoleChange(email);
+                                removeRoleChange(email, selectedValue);
                                 saveRoles();
                                 updateChangedAccountsInfo();
                             }
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const userRoleChange = savedRoleChanges[index];
                 const removedRoleIndex = userRoleChange.newRoles.indexOf(removedRole);
                 if (removedRoleIndex !== -1) {
-                    userRoleChange.newRoles.remove(index);
+                    userRoleChange.newRoles.splice(removedRoleIndex, 1);
                     localStorage.setItem('roleChanges', JSON.stringify(savedRoleChanges));
                 }
             }
