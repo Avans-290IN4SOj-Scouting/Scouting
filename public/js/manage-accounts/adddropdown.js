@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         existingSelects.forEach(select => {
                             const roleId = select.value;
                             if (!newRoles.includes(roleId)) {
-                                console.log(select);
                                 if (select.id.includes('subrole')) {
                                     select.parentElement.remove();
                                 }

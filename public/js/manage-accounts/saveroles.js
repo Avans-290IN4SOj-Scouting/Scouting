@@ -42,8 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             if (selectElement) {
                                 const selectedValue = selectElement.selectedOptions[0].value;
-                                console.log('Email:', email);
-                                console.log('Geselecteerde waarde:', selectedValue);
                                 removeRoleChange(email, selectedValue);
                                 saveRoles();
                                 updateChangedAccountsInfo();
@@ -86,8 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const selectedValue = selectElement.value;
-
-        console.log(selectedValue);
 
         const savedRoleChanges = JSON.parse(localStorage.getItem('roleChanges')) || [];
 
@@ -167,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         localStorage.setItem('roleChanges', JSON.stringify(existingRoleChanges));
-        console.log('Rollen opgeslagen:', JSON.stringify(existingRoleChanges));
     }
 
 
