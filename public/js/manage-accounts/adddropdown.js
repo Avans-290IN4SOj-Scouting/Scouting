@@ -251,26 +251,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addAdminTag(selectedValue, tdElement, email) {
-        if (tdElement.querySelector('.admin-tag')) {
-            // TODO: add localization
-            showToast('warning', 'Adminrol al toegewezen!');
-            return;
+        if (!tdElement.querySelector('.admin-tag')) {
+            const adminTag = document.createElement('div');
+            adminTag.className = 'bg-red-600 p-2 rounded font-bold admin-tag flex items-center justify-between';
+            adminTag.dataset.email = email
+            adminTag.innerHTML = `
+            <span>${selectedValue.toUpperCase()}</span>
+            <button class="remove-admin-tag text-white ml-2">&times;</button>
+        `;
+
+            tdElement.prepend(adminTag);
+
+            const removeButton = adminTag.querySelector('.remove-admin-tag');
+            removeButton.addEventListener('click', function () {
+                adminTag.remove();
+            });
         }
-
-        const adminTag = document.createElement('div');
-        adminTag.className = 'bg-red-600 p-2 rounded font-bold admin-tag flex items-center justify-between';
-        adminTag.dataset.email = email
-        adminTag.innerHTML = `
-        <span>${selectedValue.toUpperCase()}</span>
-        <button class="remove-admin-tag text-white ml-2">&times;</button>
-    `;
-
-        tdElement.prepend(adminTag);
-
-        const removeButton = adminTag.querySelector('.remove-admin-tag');
-        removeButton.addEventListener('click', function () {
-            adminTag.remove();
-        });
     }
 
     function showToast(type, message) {
