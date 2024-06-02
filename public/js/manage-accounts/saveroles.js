@@ -36,7 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
             mutations.forEach(mutation => {
                 if (mutation.removedNodes.length > 0) {
                     mutation.removedNodes.forEach(removedNode => {
-                        if (removedNode.tagName === 'DIV') {
+                        if (removedNode.classList.contains('admin-tag')) {
+                            const email = removedNode.getAttribute('data-email');
+                            const adminRoleId = rolesData.find(role => role.name === "admin").id;
+                            removeRoleChange(email, adminRoleId.toString());
+                            saveRoles();
+                            updateChangedAccountsInfo();
+                        } else if (removedNode.tagName === 'DIV') {
                             const selectElement = removedNode.querySelector('select');
                             const email = selectElement.getAttribute('data-email');
 
@@ -115,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let infoHtml = '';
 
         savedRoleChanges.forEach(account => {
-            const { email, oldRoles, newRoles } = account;
+            const {email, oldRoles, newRoles} = account;
 
             const oldRolesSorted = oldRoles.slice().sort();
             const newRolesSorted = newRoles.slice().sort();
@@ -172,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('roleChanges', JSON.stringify(existingRoleChanges));
     }
 
-
     function getSelectedRoles() {
         const selectedRoles = [];
 
@@ -190,8 +195,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
 
+                if (tr.querySelector('.admin-tag')) {
+                    const adminRoleId = rolesData.find(role => role.name === "admin").id;
+                    roleSelections.push(adminRoleId.toString());
+                }
+
+                const oldRoles = getOldRoles(email);
+
                 if (roleSelections.length > 0) {
-                    const oldRoles = getOldRoles(email);
                     selectedRoles.push({email: email, oldRoles: oldRoles, newRoles: roleSelections});
                 }
             }
