@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
             adminTag.dataset.email = email
             adminTag.innerHTML = `
             <span>${selectedValue.toUpperCase()}</span>
-            <button class="remove-admin-tag text-white ml-2">&times;</button>
+            <button class="remove-admin-tag text-white" style="padding-left: 8px;">&times;</button>
         `;
 
             tdElement.prepend(adminTag);
