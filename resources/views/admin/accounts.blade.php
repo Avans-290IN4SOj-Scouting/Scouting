@@ -17,19 +17,22 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.accounts.filter') }}" method="GET">
-                <div
-                    class="flex space-y-2 items-start pb-4 flex-col  sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-                    <x-search-bar search="{{ $search }}"
-                                  placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
+                <div class="lg:flex lg:flex-row lg:justify-between">
+                    <div
+                        class="flex space-y-2 items-start pb-4 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+                        <x-search-bar search="{{ $search }}"
+                                      placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
 
-                    <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              name="filter" selected="{{ $selected }}"/>
+                        <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
+                                  :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
+                                  name="filter" selected="{{ $selected }}"/>
 
-                    <a href="{{ route('manage.accounts.index') }}"
-                       class="text-blue-600 hover:underline hover:decoration-blue-600">
-                        {{__('manage-accounts/accounts.remove_filters_button')}}
-                    </a>
+                        <a href="{{ route('manage.accounts.index') }}"
+                           class="text-blue-600 hover:underline hover:decoration-blue-600">
+                            {{__('manage-accounts/accounts.remove_filters_button')}}
+                        </a>
+                    </div>
+                    <button class="bg-red-600 rounded p-2 mb-4 text-white w-full sm:w-auto">Wijzigingen ongedaan maken</button>
                 </div>
 
                 <!-- Add these hidden fields to remember the sort direction and column -->
@@ -85,7 +88,8 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
-                            <td id="roleContainer{{ $account->id }}" class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                            <td id="roleContainer{{ $account->id }}"
+                                class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 <div id="selectRoleContainer" class="flex flex-row gap-2 hidden items-center">
                                     <div id="selectRole-wrapper" class="relative w-[250px]"
                                          data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
