@@ -117,16 +117,23 @@ document.addEventListener('DOMContentLoaded', function () {
         savedRoleChanges.forEach(account => {
             const { email, oldRoles, newRoles } = account;
 
-            // TODO: add localization
-            const formattedOldRoles = oldRoles.length > 0 ? oldRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
-            const formattedNewRoles = newRoles.length > 0 ? newRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
+            const oldRolesSorted = oldRoles.slice().sort();
+            const newRolesSorted = newRoles.slice().sort();
 
-            infoHtml += `<strong>${email}</strong>: ${formattedOldRoles} -> ${formattedNewRoles}<br>`;
+            const hasChanges = oldRolesSorted.length !== newRolesSorted.length ||
+                oldRolesSorted.some((role, index) => role !== newRolesSorted[index]);
+
+            if (hasChanges) {
+                // TODO: add localization
+                const formattedOldRoles = oldRoles.length > 0 ? oldRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
+                const formattedNewRoles = newRoles.length > 0 ? newRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
+
+                infoHtml += `<strong>${email}</strong>: ${formattedOldRoles} -> ${formattedNewRoles}<br>`;
+            }
         });
 
         changedAccountsInfo.innerHTML = infoHtml;
     }
-
 
     function formatRoleName(roleName) {
         const parts = roleName.split('_');
