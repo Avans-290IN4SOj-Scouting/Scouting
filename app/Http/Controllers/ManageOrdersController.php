@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
 use App\Http\Requests\UpdateProductPriceRequest;
+use App\Mail\OrderStatusChanged;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Services\GmailService;
 use Exception;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ManageOrdersController extends Controller
 {
+    public function __construct(
+        protected GmailService $gmailService
+    )
+    {
+    }
+
     public function index()
     {
         $orders = Order::query();
@@ -86,8 +95,12 @@ class ManageOrdersController extends Controller
 
         $status = $request->input('status');
         $delocalizedStatus = DeliveryStatus::delocalised($status);
-
         $order->status = $delocalizedStatus;
+
+        $emailContent = (new OrderStatusChanged($order))->render();
+//        $this->gmailService->sendMail($order->user->email, 'Order Status Changed', $emailContent);
+        $this->gmailService->sendMail('vincentvanhintum@gmail.com', 'Order Status Changed', $emailContent);
+
         if (!$order->save()) {
             return redirect()->back()->with([
                 'toast-type' => 'error',
