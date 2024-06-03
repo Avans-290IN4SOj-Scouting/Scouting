@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use ReflectionException;
 
 class ManageOrdersController extends Controller
 {
@@ -82,6 +84,9 @@ class ManageOrdersController extends Controller
         return $products;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function updateOrderStatus(Request $request, string $id)
     {
         $order = Order::find($id);
@@ -94,12 +99,14 @@ class ManageOrdersController extends Controller
         }
 
         $status = $request->input('status');
+        $order->status = $status;
+
+        $productTypes = ProductType::all();
+        $emailContent = View::make('orders.emails.order_status_changed', ['order' => $order, 'productTypes' => $productTypes])->render();
+        $this->gmailService->sendMail('v.vanhintum@student.avans.nl', __('manage-orders/email.orderstatus-changed.subject'), $emailContent);
+
         $delocalizedStatus = DeliveryStatus::delocalised($status);
         $order->status = $delocalizedStatus;
-
-        $emailContent = (new OrderStatusChanged($order))->render();
-//        $this->gmailService->sendMail($order->user->email, 'Order Status Changed', $emailContent);
-        $this->gmailService->sendMail('vincentvanhintum@gmail.com', 'Order Status Changed', $emailContent);
 
         if (!$order->save()) {
             return redirect()->back()->with([
