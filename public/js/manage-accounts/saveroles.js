@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    updateChangedAccountsInfo();
+
     document.querySelectorAll("[id^='roleContainer']").forEach(container => {
         const observer = new MutationObserver(function (mutations) {
             mutations.forEach(mutation => {
