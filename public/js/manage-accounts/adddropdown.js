@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addAdminTag(selectedValue, tdElement, email) {
         if (!tdElement.querySelector('.admin-tag')) {
             const adminTag = document.createElement('div');
-            adminTag.className = 'bg-blue-600 p-2 rounded font-bold admin-tag flex items-center justify-between';
+            adminTag.className = 'bg-blue-600 p-2 rounded text-white font-bold admin-tag flex items-center justify-between';
             adminTag.dataset.email = email
             adminTag.innerHTML = `
             <span>${selectedValue.toUpperCase()}</span>
