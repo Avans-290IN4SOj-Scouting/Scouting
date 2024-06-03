@@ -20,7 +20,7 @@ function handleFileSelect(event) {
     const file = event.target.files[0];
     const preview = document.getElementById('file-image');
     const removeBtn = document.getElementById('remove-image');
-    const placeholder = document.getElementById('notimage');
+    const placeholder = document.getElementById('not-image');
     if (file.type.startsWith('image/') || preview.src.includes('images')) {
         const reader = new FileReader();
 
