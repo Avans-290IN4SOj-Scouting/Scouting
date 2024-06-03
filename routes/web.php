@@ -107,11 +107,6 @@ Route::middleware('role:admin|teamleader')->group(function () {
 
             // Manage Stocks
             Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
-                Route::put('/{product}/{type}', [StocksController::class, 'update'])
-                    ->name('update');
-
-                // Manage Stocks
-                Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
                     Route::put('/{product}/{type}', [StocksController::class, 'update'])
                         ->name('update');
 
@@ -120,7 +115,6 @@ Route::middleware('role:admin|teamleader')->group(function () {
 
                     Route::delete('/destroy', [StocksController::class, 'destroy'])
                         ->name('destroy');
-                });
             });
 
             Route::prefix(__('route.orders'))->name('orders.')->group(function () {
