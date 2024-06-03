@@ -8,8 +8,8 @@
 @endpush
 
 @section('content')
-    <div class="flex items-start flex-col sm:justify-between sm:items-center sm:flex-row">
-        <h1 class="text-4xl m-3 dark:text-white">{{ __('manage-stocks/stocks.page_title') }}</h1>
+    <div class="flex items-center justify-between">
+        <h1 class="text-4xl m-8 dark:text-white">{{ __('manage-stocks/stocks.page_title') }}</h1>
         <form method="POST" action="{{ route('manage.stocks.destroy') }}">
             @csrf
             @method('DELETE')

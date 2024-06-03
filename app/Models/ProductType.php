@@ -11,6 +11,8 @@ class ProductType extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['type'];
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_product_type', 'product_type_id', 'product_id');
