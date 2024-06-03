@@ -28,7 +28,7 @@ class OrderDetailsTest extends DuskTestCase
     {
         $user = User::factory()->create(['email' => 'test@mail.com']);
 
-        $order = Order::factory()->create(['status' => 'awaiting_payment', 'user_id' => $user->id]);
+        $order = Order::factory()->create(['status' => 'processing', 'user_id' => $user->id]);
 
         $this->browse(function (Browser $browser) use ($user, $order) {
             $browser->loginAs($user)

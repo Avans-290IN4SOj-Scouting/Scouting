@@ -10,22 +10,22 @@
 @endpush
 
 @section('content')
-    <h1 class="text-4xl m-8 dark:text-white">{{__('manage-accounts/accounts.page_title')}}</h1>
+    <h1 class="text-4xl m-8 dark:text-white">{{ __('manage-accounts/accounts.page_title') }}</h1>
 
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.accounts.filter') }}" method="GET">
                 <div class="flex space-y-2 items-start pb-4 flex-col  sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
                     <x-search-bar search="{{ $search }}"
-                                  placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
+                        placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}" />
 
-                    <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              name="filter" selected="{{ $selected }}"/>
+                    <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}" :options="$allroles"
+                        label="{{ __('manage-accounts/accounts.filter_placeholder') }}" name="filter"
+                        selected="{{ $selected }}" />
 
                     <a href="{{ route('manage.accounts.index') }}"
-                       class="text-blue-600 hover:underline hover:decoration-blue-600">
-                        {{__('manage-accounts/accounts.remove_filters_button')}}
+                        class="text-blue-600 hover:underline hover:decoration-blue-600">
+                        {{ __('manage-accounts/accounts.remove_filters_button') }}
                     </a>
                 </div>
 
@@ -125,27 +125,27 @@
 
     <div class="fixed bottom-0 right-0 m-4">
         <button id="saveBtn" name="saveBtn" type="button"
-                class="saveBtn pointer-events-auto z-10 p-4 sm:p-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            {{__('manage-accounts/accounts.save_button')}}
+            class="saveBtn pointer-events-auto z-10 p-4 sm:p-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            {{ __('manage-accounts/accounts.save_button') }}
         </button>
     </div>
 
     <div id="confirmModal" name="confirmModal"
-         class="confirmModal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        class="confirmModal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-4 rounded shadow-lg dark:bg-gray-800">
-            <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2 dark:text-white dark:border-gray-600">{{__('manage-accounts/accounts.modal_warning_title')}}
+            <h3 class="font-bold text-2xl text-gray-800 border-b mb-4 pb-2 dark:text-white dark:border-gray-600">
+                {{ __('manage-accounts/accounts.modal_warning_title') }}
             </h3>
-            <div id="changedAccountsInfo" name="changedAccountsInfo"
-                 class="text-gray-800 mb-4 dark:text-gray-400"></div>
+            <div id="changedAccountsInfo" name="changedAccountsInfo" class="text-gray-800 mb-4 dark:text-gray-400"></div>
             <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-600">
                 <button id="closeModalBtn" name="closeModalBtn"
-                        class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{__('manage-accounts/accounts.close_button')}}</button>
+                    class="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{ __('manage-accounts/accounts.close_button') }}</button>
                 <form id="updateRoleForm" action="{{ route('manage.accounts.update.roles') }}" method="post">
                     @csrf
                     <input type="hidden" id="userRoles" name="userRoles" value="">
                     <button type="button" id="confirmModalBtn" name="confirmModalBtn"
-                            class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        {{__('manage-accounts/accounts.confirm_button')}}
+                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        {{ __('manage-accounts/accounts.confirm_button') }}
                     </button>
                 </form>
             </div>

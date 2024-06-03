@@ -10,7 +10,6 @@ return [
     "here" => "hier",
     "no_orders" => "Je hebt nog geen bestellingen geplaatst.",
     "welcome" => "Welkom",
-    "profile" => "Profiel",
 
     "incorrect_password" => "Het ingevoerde wachtwoord is onjuist.",
     "password_mismatch" => "De wachtwoorden komen niet overeen.",

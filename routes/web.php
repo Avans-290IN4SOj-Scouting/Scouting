@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 use App\Http\Controllers\ManageOrdersController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestController;
 
 /*
@@ -81,6 +82,28 @@ Route::middleware('role:admin|teamleader')->group(function () {
             Route::prefix(__('route.backorders'))->name('backorders.')->group(function () {
                 Route::get(__('route.download'), [BackordersController::class, 'download'])
                     ->name('download');
+            });
+
+            // Manage Proucts
+            Route::prefix(__('route.products'))->name('products.')->group(function () {
+                Route::get('/', [ProductController::class, 'index'])
+                    ->name('index');
+
+                Route::prefix(__('route.create'))->name('create.')->group(function () {
+                    Route::get('/', [ProductController::class, 'add'])
+                        ->name('index');
+
+                    Route::post('store', [ProductController::class, 'store'])
+                        ->name('store');
+                });
+
+                Route::prefix(__('route.edit'))->name('edit.')->group(function () {
+                    Route::get('/{id}', [ProductController::class, 'edit'])
+                        ->name('index');
+
+                    Route::put('store/{id}', [ProductController::class, 'update'])
+                        ->name('store');
+                });
             });
 
             // Manage Stocks
