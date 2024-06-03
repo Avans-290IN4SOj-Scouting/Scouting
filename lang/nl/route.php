@@ -19,6 +19,8 @@ return [
     "orders" => "bestellingen",
     "order-details" => "bestelling",
     "filter" => "filteren",
+    "create" => "toevoegen",
+    "edit" => "bewerken",
     "backorders" => "backorders",
     "download" => "download",
     "stocks" => "voorraad",
