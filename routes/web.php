@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 use App\Http\Controllers\ManageOrdersController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ use App\Http\Controllers\TestController;
 require __DIR__ . '/auth.php';
 
 Route::get('/', [OrderController::class, 'index'])
+    ->name('home');
+
+Route::get('/faq', [FaqController::class, 'index'])
     ->name('home');
 
 Route::middleware('auth')->group(function () {
