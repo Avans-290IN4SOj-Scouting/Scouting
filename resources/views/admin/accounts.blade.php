@@ -32,7 +32,9 @@
                             {{__('manage-accounts/accounts.remove_filters_button')}}
                         </a>
                     </div>
-                    <button class="bg-red-600 rounded p-2 mb-4 text-white w-full sm:w-auto">Wijzigingen ongedaan maken</button>
+                    <button onclick="resetLocalStorage(); return false;"
+                            class="bg-red-600 rounded p-2 mb-4 text-white w-full sm:w-auto">Wijzigingen ongedaan maken
+                    </button>
                 </div>
 
                 <!-- Add these hidden fields to remember the sort direction and column -->

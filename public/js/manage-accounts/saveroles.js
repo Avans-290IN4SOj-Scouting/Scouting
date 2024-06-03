@@ -213,3 +213,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return selectedRoles;
     }
 });
+
+function resetLocalStorage() {
+    localStorage.removeItem('roleChanges');
+    location.reload();
+}
