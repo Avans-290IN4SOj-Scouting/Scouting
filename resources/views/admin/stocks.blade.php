@@ -13,8 +13,9 @@
         <form method="POST" action="{{ route('manage.stocks.destroy') }}">
             @csrf
             @method('DELETE')
-            <div class="m-8">
-                <x-modal :button-text="__('manage-stocks/stocks.empty_inventory')"
+            <div class="m-3">
+                <x-modal id="clear-stocks"
+                         :button-text="__('manage-stocks/stocks.empty_inventory')"
                          :title="__('manage-stocks/stocks.empty_inventory_title')"
                          :modal-button="__('manage-stocks/stocks.empty_inventory_confirm')"
                          :modal-text="__('manage-stocks/stocks.empty_inventory_text')"

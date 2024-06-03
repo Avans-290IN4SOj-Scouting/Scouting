@@ -2,14 +2,15 @@
 
 @php
     $title = __('manage-orders/orders.page_title');
+    $admin = auth()->user()->hasRole('admin');
 @endphp
 
 @push('scripts')
     <script type="module" src="{{ asset('js/manage-orders/updatestatus.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/manage-orders/updateprice.js') }}" defer></script>
 @endpush
 
 @section('content')
-
     <p><a class="text-blue-600 underline decoration-blue-600 hover:opacity-80"
           href="{{ route('manage.orders.index')}}">{{ __('manage-orders/order.back') }}</a></p>
 
@@ -19,7 +20,8 @@
                 <h1 class="text-4xl font-bold dark:text-white mb-4 lg:mb-0">{{ __('manage-orders/order.page_title') }} {{ $order->id }}</h1>
 
                 @if ($order->status == App\Enum\DeliveryStatus::AwaitingPayment->value)
-                    <x-modal :button-text="__('orders/order_details.cancel_order')"
+                    <x-modal id="cancel-order"
+                             :button-text="__('orders/order_details.cancel_order')"
                              :title="__('orders/order_details.cancel_order') . ' ' . $order->id"
                              :modal-button="__('orders/order_details.cancel_order_confirm')"
                              :modal-text="__('orders/order_details.cancel_order_text')"
@@ -112,6 +114,8 @@
                     class="flex flex-col max-w-300 sm:max-w-none gap-4 bg-white border rounded-xl p-4 md:p-5 dark:bg-slate-900 dark:border-slate-700">
                     <h2 class="text-3xl dark:text-white">{{ __('manage-orders/order.products') }}</h2>
 
+                    <x-error id="product-price" :error="$errors->first('product-price')"/>
+
                     <div class="p-1.5 min-w-full inline-block align-middle overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
                             <thead>
@@ -132,21 +136,98 @@
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
                                     {{ __('manage-orders/order.amount') }}
                                 </th>
+                                @if($admin)
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-slate-500">
+                                    </th>
+                                @endif
                             </tr>
                             </thead>
 
                             <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
-                            @foreach ($order->orderLines as $orderLine)
+                            @forelse($order->orderLines as $orderLine)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->product_size }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                        @if($admin)
+                                            <div class="flex rounded-lg ">
+                                                    <span
+                                                        class="px-4 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 text-sm text-gray-500 dark:bg-neutral-700 dark:border-neutral-700 dark:text-neutral-400">
+                                                        {{ __('common.currency_symbol') }}
+                                                    </span>
+                                                <form
+                                                    action="{{ route('manage.orders.update-price', ['id' => $orderLine->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <label for="product-price"
+                                                           class="sr-only">{{ __('manage-orders/order.price-per') }}</label>
+                                                    <input type="number" id="product-price" step="0.01"
+                                                           name="product-price"
+                                                           value="{{ number_format($orderLine->product_price, 2)  }}"
+                                                           class="py-3 px-4 block w-min border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                                </form>
+                                            </div>
+                                        @else
+                                            {{ __('common.currency_symbol') }} {{ number_format($orderLine->product_price, 2, __('common.seperator'), '.') }}
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{{ $orderLine->amount }}</td>
+                                    @if($admin)
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                            <form
+                                                action="{{ route('manage.orders.delete.orderline', ['id' => $orderLine->id ]) }}"
+                                                method="POST">
+                                                @csrf
+                                                <button type="submit" id="trash-{{ $orderLine->id }}"
+                                                        name="trash-{{ $orderLine->id }}"
+                                                        dusk="delete-orderline-{{ $orderLine->id }}"
+                                                        aria-label="{{ __('manage-orders/order.delete', ['product' => $orderLine->product->name]) }}"
+                                                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-slate-200 text-red-500 hover:border-slate-100 hover:text-red-400 disabled:opacity-50 disabled:pointer-events-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
+                                                         stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td class="px-6 italic py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200"
+                                        colspan="5">{{ __('manage-orders/order.no_products') }}</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
+
+                    @if($admin)
+                        <x-modal id="add-product"
+                                 :button-text="__('manage-orders/order.add_product')"
+                                 :title="__('manage-orders/order.add_product')"
+                                 :modal-button="__('manage-orders/order.add_product_modal')"
+                                 modal-text=" "
+                                 :route="route('manage.orders.add.product', ['id' => $order->id])"
+                                 color="blue">
+                            <label for="product-select"
+                                   class="sr-only">{{ __('manage-orders/order.add_product_modal_text') }}</label>
+                            <select id="product-select" name="product-select"
+                                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                <option disabled
+                                        selected="">{{ __('manage-orders/order.add_product_modal_text') }}</option>
+                                @foreach($products as $product)
+                                    <option value="{{ $product->row_number }}">{{ $product->name }}
+                                        , {{ $product->type }}, {{ $product->size }},
+                                        {{ __('common.currency_symbol') }} {{ number_format($product->price, 2, __('common.seperator'), '.') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </x-modal>
+                    @endif
                 </div>
                 <!-- /Producten -->
             </div>

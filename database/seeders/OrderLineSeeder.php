@@ -19,7 +19,7 @@ class OrderLineSeeder extends Seeder
             'amount' => 1,
             'product_price' => 12.34,
             'product_size' => 'S',
-            'product_image_path' => 'image/products/placeholder.png',
+            'product_image_path' => 'images/products/placeholder.png',
             'product_type_id' => 1
         ]);
 

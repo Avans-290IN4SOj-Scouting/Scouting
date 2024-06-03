@@ -333,5 +333,48 @@ class ManageOrdersTest extends DuskTestCase
                 ->responsiveScreenshots('manage-orders/order');
         });
     }
+
+    public function test_admin_edit_product_price(): void
+    {
+        $admin = User::factory()->create(['email' => 'god@mode'])->assignRole('admin');
+        $order = Order::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($admin, $order) {
+            $browser->loginAs($admin)
+                ->visit(route('manage.orders.order', ['id' => $order->id]))
+                ->value('#product-price', 10)
+                ->keys('#product-price', WebDriverKeys::ENTER)
+                ->assertSee(__('toast/messages.product-update-success'))
+                ->assertInputValue('#product-price', '10.00');
+        });
+    }
+
+    public function test_admin_remove_product(): void
+    {
+        $admin = User::factory()->create(['email' => 'god@mode'])->assignRole('admin');
+        $order = Order::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($admin, $order) {
+            $browser->loginAs($admin)
+                ->visit(route('manage.orders.order', ['id' => $order->id]))
+                ->click('@delete-orderline-' . $order->orderLines->first()->id)
+                ->assertSee(__('manage-orders/order.product-removed'));
+        });
+    }
+
+    public function test_admin_add_product(): void
+    {
+        $admin = User::factory()->create(['email' => 'god@mode'])->assignRole('admin');
+        $order = Order::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($admin, $order) {
+            $browser->loginAs($admin)
+                ->visit(route('manage.orders.order', ['id' => $order->id]))
+                ->press(__('manage-orders/order.add_product'))
+                ->select('product-select', 1)
+                ->press(__('manage-orders/order.add_product_modal'))
+                ->assertSee(__('manage-orders/order.product-add-success'));
+        });
+    }
 }
 

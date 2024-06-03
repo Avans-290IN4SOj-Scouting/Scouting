@@ -24,4 +24,6 @@ return [
     "backorders" => "backorders",
     "download" => "download",
     "stocks" => "voorraad",
+    "delete" => "verwijderen",
+    "add_product" => "product-toevoegen",
 ];

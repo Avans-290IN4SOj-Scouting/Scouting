@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
+use App\Http\Requests\UpdateProductPriceRequest;
 use App\Models\Order;
-use App\Models\OrderStatus;
+use App\Models\OrderLine;
+use App\Models\Product;
+use App\Models\ProductType;
 use Exception;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -16,8 +19,7 @@ class ManageOrdersController extends Controller
     {
         $orders = Order::query();
 
-        if (Auth::user()->hasRole('teamleader'))
-        {
+        if (Auth::user()->hasRole('teamleader')) {
             $orders = $orders->whereIn('group_id', $this->getUserRoles());
         }
 
@@ -44,9 +46,31 @@ class ManageOrdersController extends Controller
                 ]);
         }
 
+        $products = $this->getAllProducts();
+
         return view('admin.order-details', [
             'order' => $order,
+            'products' => $products,
         ]);
+    }
+
+    private function getAllProducts()
+    {
+        $products = Product::query()
+            ->join('product_product_type', 'product_product_type.product_id', '=', 'products.id')
+            ->join('product_types', 'product_types.id', '=', 'product_product_type.product_type_id')
+            ->join('product_product_size', 'product_product_size.product_id', '=', 'products.id')
+            ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
+            ->select('products.*', 'product_types.type as type', 'product_sizes.size as size', 'product_product_size.price as price')
+            ->orderBy('products.name')
+            ->orderBy('product_types.type')
+            ->get();
+
+        $products->each(function ($product, $index) {
+            $product->row_number = $index + 1;
+        });
+
+        return $products;
     }
 
     public function updateOrderStatus(Request $request, string $id)
@@ -77,6 +101,28 @@ class ManageOrdersController extends Controller
         ]);
     }
 
+    public function updateProductPrice(UpdateProductPriceRequest $request, string $id)
+    {
+        $orderline = OrderLine::find($id);
+
+        if ($orderline === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('toast/messages.product-update-fail')
+                ]);
+        }
+
+        $orderline->product_price = $request->input('product-price');
+        $orderline->save();
+
+        return redirect()->back()
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('toast/messages.product-update-success')
+            ]);
+    }
+
     public function cancelOrder(string $id)
     {
         $order = Order::find($id);
@@ -98,6 +144,79 @@ class ManageOrdersController extends Controller
             ]);
     }
 
+    public function deleteOrderLine(Request $request, string $id)
+    {
+        $validated = $request->validate;
+
+        $orderLine = OrderLine::find($id);
+        if ($orderLine === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.product-remove-fail')
+                ]);
+        }
+
+        $orderLine->delete();
+
+        return redirect()->back()
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('manage-orders/order.product-removed')
+            ]);
+    }
+
+    public function addProduct(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'product-select' => 'required',
+        ]);
+
+        $products = $this->getAllProducts();
+        $product = $products->where('row_number', $validated['product-select'])->first();
+
+        $order = Order::find($id);
+        if ($order === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.order-doesnt-exist')
+                ]);
+        }
+
+        if ($product === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.product-add-fail')
+                ]);
+        }
+
+        $orderLine = OrderLine::create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'amount' => 1,
+            'product_price' => $product->price,
+            'product_size' => $product->size,
+            'product_type_id' => ProductType::where('type', $product->type)->first()->id,
+            'product_image_path' => Product::find($product->id)->first()->image_path,
+        ]);
+
+        if ($orderLine === null) {
+            return redirect()->back()
+                ->with([
+                    'toast-type' => 'error',
+                    'toast-message' => __('manage-orders/order.product-add-fail')
+                ]);
+        }
+
+        return redirect()->back()
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('manage-orders/order.product-add-success')
+            ]);
+    }
+
     public function filter(Request $request)
     {
         $search = $request->input('q');
@@ -105,16 +224,14 @@ class ManageOrdersController extends Controller
 
         $orders = Order::query();
 
-        if (Auth::user()->hasRole('teamleader'))
-        {
+        if (Auth::user()->hasRole('teamleader')) {
             $orders = $orders->whereIn('group_id', $this->getUserRoles());
         }
 
         $status = DeliveryStatus::hasStatus($status) ? $status : null;
 
         // Check for Email
-        if (!empty($search))
-        {
+        if (!empty($search)) {
             $orders = $orders->whereHas('user', function ($query) use ($search) {
                 $query->where('email', 'like', "%$search%");
             });

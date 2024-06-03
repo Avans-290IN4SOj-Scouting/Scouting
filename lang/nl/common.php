@@ -10,4 +10,5 @@ return [
     "date_time" => 'd-m-Y H:i:s',
     "required" => ":attribute is verplicht",
     "close" => "Sluiten",
+    "image_of" => "Afbeelding van ",
 ];
