@@ -31,7 +31,7 @@ Route::get('/', [OrderController::class, 'index'])
     ->name('home');
 
 Route::get('/faq', [FaqController::class, 'index'])
-    ->name('home');
+    ->name('faq');
 
 Route::middleware('auth')->group(function () {
     Route::prefix(__('route.profile'))->name('profile.')->group(function () {
