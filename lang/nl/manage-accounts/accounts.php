@@ -18,5 +18,6 @@ return [
     "filter_error" => "Filteren van accounts mislukt!",
     "add-role" => "Rol toevoegen",
     "reset_changes" => "Wijzigingen ongedaan maken",
-    "no-access" => "Geen toegang tot URL",
+    "no_roles" => "Geen rollen",
+    "unknown_role" => "Onbekende rol",
 ];

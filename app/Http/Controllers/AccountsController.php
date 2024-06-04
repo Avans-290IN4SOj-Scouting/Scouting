@@ -36,8 +36,8 @@ class AccountsController extends Controller
             $allAccounts = $this->getAllUsers()->get();
             $roles = $this->getRoles();
             $langNoOptions = __('toast/messages.warning-accounts-no-options');
-            $langNoRoles = 'Geen rollen';
-            $langUnknownRole = 'Onbekende rol';
+            $langNoRoles = __('manage-accounts/accounts.no_roles');
+            $langUnknownRole = __('manage-accounts/accounts.unknown_role');
 
             return response()->json(
                 [
@@ -51,7 +51,7 @@ class AccountsController extends Controller
 
         return redirect()->back()->with([
             'toast-type' => 'error',
-            'toast-message' => __('manage-accounts/accounts.no-access'),
+            'toast-message' => __('toast/messages.error-no_access_to_url'),
         ]);
     }
 

@@ -16,6 +16,8 @@ return [
     "success-order-status-update" => "Status successvol geüpdate!",
     "error-order-status-not-updated" => "Status kon niet veranderd worden!",
     "warning-accounts-no-options" => "Geen opties meer beschikbaar voor deze groep!",
+    "error-no_access_to_url" => "Geen toegang tot URL",
+
 ];
 
 
