@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const accountsData = data.allAccounts;
                 const rolesData = data.roles;
                 const langNoOptions = data.langNoOptions;
+                let selectCounter = 0;
 
                 setupDropdownsForAccountsData();
 
@@ -141,6 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 function addDropdown(selectedValue, selectedGroupId, tdElement, options, email) {
+                    selectCounter++;
+
                     const existingRoles = Array.from(tdElement.querySelectorAll('select')).map(select => select.value);
 
                     const nonSelectedOptions = options.filter(option => !existingRoles.includes(option.id.toString()));
@@ -150,7 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         newElement.className = 'relative';
 
                         const selectElement = document.createElement('select');
-                        selectElement.id = `subroleSelect${selectedValue}`;
+                        selectElement.id = `subroleSelect${selectedValue}${selectCounter.toString()}`;
+                        console.log('trigger');
                         selectElement.style = 'border-right-width:28px';
                         selectElement.style.width = '150px';
                         selectElement.className = 'peer p-4 pr-10 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2 appearance-none bg-no-repeat bg-right pr-10';
@@ -167,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         newElement.appendChild(selectElement);
 
                         const labelElement = document.createElement('label');
-                        labelElement.setAttribute('for', `subroleSelect${selectedValue}`);
+                        labelElement.setAttribute('for', `subroleSelect${selectedValue}${selectCounter.toString()}`);
                         labelElement.className = 'absolute top-0 start-0 p-4 h-full truncate pointer-events-none transition ease-in-out duration-100 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 dark:peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-gray-500';
                         labelElement.textContent = selectedValue;
 
