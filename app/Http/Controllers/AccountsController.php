@@ -95,7 +95,7 @@ class AccountsController extends Controller
 
         $adminRole = Role::where('name', 'admin')->first();
 
-        return $groupSelection->add($adminRole->name);
+        return $groupSelection->add($adminRole->display_name);
     }
 
     private function getAllUsers()
