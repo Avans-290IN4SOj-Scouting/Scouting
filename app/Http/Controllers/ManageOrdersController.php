@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
 use App\Http\Requests\UpdateProductPriceRequest;
-use App\Mail\OrderStatusChanged;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Services\GmailService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use ReflectionException;
 
@@ -102,8 +100,8 @@ class ManageOrdersController extends Controller
         $order->status = $status;
 
         $productTypes = ProductType::all();
-        $emailContent = View::make('orders.emails.order_status_changed', ['order' => $order, 'productTypes' => $productTypes])->render();
-        $this->gmailService->sendMail('v.vanhintum@student.avans.nl', __('manage-orders/email.orderstatus-changed.subject'), $emailContent);
+        $emailContent = View::make('orders.emails.orderstatus_changed', ['order' => $order, 'productTypes' => $productTypes])->render();
+        $this->gmailService->sendMail('v.vanhintum@student.avans.nl', __('email.orderstatus-changed.subject'), $emailContent);
 
         $delocalizedStatus = DeliveryStatus::delocalised($status);
         $order->status = $delocalizedStatus;

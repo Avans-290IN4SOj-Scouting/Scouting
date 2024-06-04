@@ -12,4 +12,14 @@ return[
         'product-amount' => 'Productaantal',
     ],
 
+    'order-placed-success' => [
+        'subject' => 'Uw bestelling is geplaatst',
+        'message' => 'Hieronder staat de bestelling inclusief de details',
+        'product-name' => 'Productnaam',
+        'product-size' => 'Productmaat',
+        'product-type' => 'Producttype',
+        'product-price' => 'Productprijs',
+        'product-amount' => 'Productaantal',
+    ],
+
 ];

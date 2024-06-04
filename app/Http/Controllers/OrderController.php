@@ -7,16 +7,19 @@ use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
+use App\Models\ProductType;
+use App\Services\GmailService;
 use App\Services\ShoppingCartService;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class OrderController extends Controller
 {
     public function __construct(
-        protected ShoppingCartService $shoppingCartService
+        protected ShoppingCartService $shoppingCartService, protected GmailService $gmailService
     )
     {
     }
@@ -157,6 +160,11 @@ class OrderController extends Controller
                 'toast-message' => __('toast/messages.order-no-products'),
             ]);
         }
+
+        $order->status = __('delivery_status.awaiting_payment');
+        $productTypes = ProductType::all();
+        $emailContent = View::make('orders.emails.order_placed_success', ['order' => $order, 'productTypes' => $productTypes])->render();
+        $this->gmailService->sendMail($order->user->email, __('email.order-placed-success.subject'), $emailContent);
 
         $this->shoppingCartService->clearShoppingCart();
         return redirect()->route('orders.checkout.completed')

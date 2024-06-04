@@ -1,4 +1,5 @@
-<p>{{ __('manage-orders/email.orderstatus-changed.message') . $order->status }}</p>
+<p>{{ __('email.orderstatus-changed.message') . $order->status }}</p>
+<br>
 <table>
     <thead>
     <tr>
@@ -21,10 +22,10 @@
 <table>
     <thead>
     <tr>
-        <th>{{ __('manage-orders/email.orderstatus-changed.product-name') }}</th>
-        <th>{{ __('manage-orders/email.orderstatus-changed.product-type') }}</th>
-        <th>{{ __('manage-orders/email.orderstatus-changed.product-size') }}</th>
-        <th>{{ __('manage-orders/email.orderstatus-changed.product-price') }}</th>
+        <th>{{ __('email.orderstatus-changed.product-name') }}</th>
+        <th>{{ __('email.orderstatus-changed.product-type') }}</th>
+        <th>{{ __('email.orderstatus-changed.product-size') }}</th>
+        <th>{{ __('email.orderstatus-changed.product-price') }}</th>
         <th>{{ __('manage-orders/order.amount') }}</th>
     </tr>
     </thead>
@@ -34,7 +35,7 @@
             <td>{{ $orderLine->product->name }}</td>
             <td>{{ $productTypes->where('id', $orderLine->product_type_id)->first()->type }}</td>
             <td>{{ $orderLine->product_size }}</td>
-            <td>{{ $orderLine->product_price }}</td>
+            <td>{{ '€' . $orderLine->product_price }}</td>
             <td>{{ $orderLine->amount }}</td>
         </tr>
     @endforeach
