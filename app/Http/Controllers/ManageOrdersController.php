@@ -101,7 +101,7 @@ class ManageOrdersController extends Controller
 
         $productTypes = ProductType::all();
         $emailContent = View::make('orders.emails.orderstatus_changed', ['order' => $order, 'productTypes' => $productTypes])->render();
-        $this->gmailService->sendMail('v.vanhintum@student.avans.nl', __('email.orderstatus-changed.subject'), $emailContent);
+        $this->gmailService->sendMail($order->user->email, __('email.orderstatus-changed.subject'), $emailContent);
 
         $delocalizedStatus = DeliveryStatus::delocalised($status);
         $order->status = $delocalizedStatus;
