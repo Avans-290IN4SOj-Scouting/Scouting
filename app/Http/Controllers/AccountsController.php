@@ -30,6 +30,31 @@ class AccountsController extends Controller
             ]);
     }
 
+    public function getData(Request $request)
+    {
+        if ($request->header('X-Requested-With') === 'XMLHttpRequest') {
+            $allAccounts = $this->getAllUsers()->get();
+            $roles = $this->getRoles();
+            $langNoOptions = __('toast/messages.warning-accounts-no-options');
+            $langNoRoles = 'Geen rollen';
+            $langUnknownRole = 'Onbekende rol';
+
+            return response()->json(
+                [
+                    'allAccounts' => $allAccounts,
+                    'roles' => $roles,
+                    'langNoOptions' => $langNoOptions,
+                    'langNoRoles' => $langNoRoles,
+                    'langUnknownRole' => $langUnknownRole,
+                ]);
+        }
+
+        return redirect()->back()->with([
+            'toast-type' => 'error',
+            'toast-message' => __('manage-accounts/accounts.no-access'),
+        ]);
+    }
+
     public function filter(Request $request)
     {
         $search = $request->input('q');
