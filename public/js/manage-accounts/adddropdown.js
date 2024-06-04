@@ -43,8 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                     if (filteredOptions.length > 0) {
                                         addDropdown(selectedValue, selectedGroupId, tdElement, filteredOptions, email);
-                                    } else {
-                                        showToast('warning', langNoOptions);
                                     }
                                 }
                             }
@@ -186,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
 `;
                         removeButton.addEventListener('click', function () {
                             newElement.remove();
-                            updateAvailableOptions(selectedGroupId, email);
+                            updateDropdowns(selectedGroupId, email);
                         });
 
                         newElement.appendChild(removeButton);
@@ -197,39 +195,13 @@ document.addEventListener('DOMContentLoaded', function () {
                             updateDropdowns(selectedGroupId, email);
                         });
 
-                        updateAvailableOptions(selectedGroupId, email);
+                        updateDropdowns(selectedGroupId, email);
                     } else {
                         showToast('warning', langNoOptions);
                     }
                 }
 
                 function updateDropdowns(groupId, email) {
-                    const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
-                    const selectedValues = Array.from(selects).map(select => select.value);
-
-                    selects.forEach(select => {
-                        const currentValue = select.value;
-                        const options = rolesData.filter(role => {
-                            return role.group_id === parseInt(groupId) && (role.id.toString() === currentValue || !selectedValues.includes(role.id.toString()));
-                        });
-
-                        while (select.firstChild) {
-                            select.removeChild(select.firstChild);
-                        }
-
-                        options.forEach(option => {
-                            const optionElement = document.createElement('option');
-                            optionElement.textContent = option.display_name;
-                            optionElement.value = option.id;
-                            if (option.id.toString() === currentValue) {
-                                optionElement.selected = true;
-                            }
-                            select.appendChild(optionElement);
-                        });
-                    });
-                }
-
-                function updateAvailableOptions(groupId, email) {
                     const selects = document.querySelectorAll(`select[data-group-id='${groupId}'][data-email='${email}']`);
                     const selectedValues = Array.from(selects).map(select => select.value);
 

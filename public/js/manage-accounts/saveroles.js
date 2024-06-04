@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const accountsData = data.allAccounts;
             const rolesData = data.roles;
             const langUnknownRole = data.langUnknownRole;
+            const langNoRoles = data.langNoRoles;
 
             const confirmModal = document.getElementById('confirmModal');
             const closeModalBtn = document.getElementById('closeModalBtn');
@@ -141,9 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         oldRolesSorted.some((role, index) => role !== newRolesSorted[index]);
 
                     if (hasChanges) {
-                        // TODO: add localization
-                        const formattedOldRoles = oldRoles.length > 0 ? oldRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
-                        const formattedNewRoles = newRoles.length > 0 ? newRoles.map(roleId => getRoleNameById(roleId)).join(', ') : 'Geen rollen';
+                        const formattedOldRoles = oldRoles.length > 0 ? oldRoles.map(roleId => getRoleNameById(roleId)).join(', ') : langNoRoles;
+                        const formattedNewRoles = newRoles.length > 0 ? newRoles.map(roleId => getRoleNameById(roleId)).join(', ') : langNoRoles;
 
                         infoHtml += `<strong>${email}</strong>: ${formattedOldRoles} -> ${formattedNewRoles}<br>`;
                     }
