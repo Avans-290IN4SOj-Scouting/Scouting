@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enum\DeliveryStatus;
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Services\GmailService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class OrderDetailsController extends Controller
 {
@@ -75,8 +74,8 @@ class OrderDetailsController extends Controller
 
         if (in_array($order->status, $this->ableToCancelStatus)) {
             $email = Auth::user()->getEmail();
-
-            $message = $this->gmailService->sendMail($email, 'Order is cancelled', 'Order is cancelled');
+            $emailContent = View::make('orders.emails.order_cancelled', ['order' => $order])->render();
+            $this->gmailService->sendMail($email, __('email.order-cancelled.subject'), $emailContent);
 
             $order->status = 'cancelled';
             $order->save();

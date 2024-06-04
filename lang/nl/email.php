@@ -22,4 +22,9 @@ return[
         'product-amount' => 'Productaantal',
     ],
 
+    'order-cancelled' => [
+        'subject' => 'Bestelling is geannuleerd',
+        'message' => 'Uw bestelling is succesvol geannuleerd',
+    ],
+
 ];
