@@ -17,4 +17,5 @@ return [
     "remove_filters_button" => "Filters verwijderen",
     "filter_error" => "Filteren van accounts mislukt!",
     "add-role" => "Rol toevoegen",
+    "reset_changes" => "Wijzigingen ongedaan maken",
 ];
