@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const rolesData = data.roles;
             const langUnknownRole = data.langUnknownRole;
             const langNoRoles = data.langNoRoles;
+            const langNoChanges = data.langNoChanges;
 
             const confirmModal = document.getElementById('confirmModal');
             const closeModalBtn = document.getElementById('closeModalBtn');
@@ -25,7 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const saveButton = document.getElementById('saveBtn');
             if (saveButton) {
                 saveButton.addEventListener('click', function () {
-                    confirmModal.classList.remove('hidden');
+                    if (changedAccountsInfo.length > 0) {
+                        confirmModal.classList.remove('hidden');
+                    } else {
+                        showToast('warning', langNoChanges);
+                    }
                 });
             }
 

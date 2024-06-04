@@ -38,6 +38,7 @@ class AccountsController extends Controller
             $langNoOptions = __('toast/messages.warning-accounts-no-options');
             $langNoRoles = __('manage-accounts/accounts.no_roles');
             $langUnknownRole = __('manage-accounts/accounts.unknown_role');
+            $langNoChanges = __('toast/messages.warning-accounts');
 
             return response()->json(
                 [
@@ -46,6 +47,7 @@ class AccountsController extends Controller
                     'langNoOptions' => $langNoOptions,
                     'langNoRoles' => $langNoRoles,
                     'langUnknownRole' => $langUnknownRole,
+                    'langNoChanges' => $langNoChanges,
                 ]);
         }
 

@@ -1,54 +1,43 @@
-const timeUntilFade = 4000;
-const fadeInterval = 8;
-const removeAtOpacity = 0.05;
-const maxOpacity = 1;
-const removePerInterval = 0.01;
-
-function createToast(text, type) {
+function showToast(type, message) {
     const toastContainer = document.createElement('div');
-    toastContainer.classList.add('.norefresh-toast');
+    toastContainer.id = 'dismiss-toast';
+    toastContainer.className = 'z-50 fixed bottom-0 end-0 m-6 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-md bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700';
+    toastContainer.setAttribute('role', 'alert');
 
-    let toastTypeClass = '';
-    switch (type)
-    {
-        case 'success':
-            toastTypeClass = 'toast-success';
-            break;
-        case 'error':
-            toastTypeClass =  'toast-error';
-            break;
-        case 'warning':
-            toastTypeClass =  'toast-warning';
-            break;
-        default:
-            toastTypeClass =  'toast-info';
-            break;
-    }
+    const toast = document.createElement('div');
+    toast.className = `toast-${type} flex p-4`;
+    toastContainer.appendChild(toast);
 
-    const toastHTML =
-    `
-    <div class="absolute bottom-0 end-0" style="margin: 1rem;">
-        <div class="${toastTypeClass}" role="alert">
-            <div class="flex p-4">
-                ${text}
-            </div>
-        </div>
-    </div>
-    `;
+    const boldText = document.createElement('span');
+    boldText.className = 'font-bold';
+    boldText.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} - `;
+    toast.appendChild(boldText);
 
-    toastContainer.innerHTML = toastHTML;
-    let toast = toastContainer.firstElementChild;
-    document.body.appendChild(toast);
+    const messageText = document.createElement('p');
+    messageText.className = 'text-sm text-gray-700 dark:text-gray-400';
+    messageText.textContent = message;
+    toast.appendChild(messageText);
 
-    setTimeout(() => {
-        const intervalId = setInterval(() => {
-            const currentOpacity = parseFloat(toast.style.opacity) || maxOpacity;
-            toast.style.opacity = currentOpacity - removePerInterval;
+    const closeButtonContainer = document.createElement('div');
+    closeButtonContainer.className = 'ms-auto';
+    toast.appendChild(closeButtonContainer);
 
-            if (currentOpacity <= removeAtOpacity) {
-                toast.remove();
-                clearInterval(intervalId);
-            }
-        }, fadeInterval);
-    }, timeUntilFade);
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'inline-flex flex-shrink-0 justify-center items-center size-5 rounded-lg text-gray-800 opacity-50 hover:opacity-100 focus:outline-none focus:opacity-100 dark:text-white';
+    closeButton.dataset.hsRemoveElement = '#dismiss-toast';
+    closeButton.innerHTML = `
+            <span class="sr-only">Close</span>
+            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"/>
+                <path d="m6 6 12 12"/>
+            </svg>
+        `;
+    closeButton.addEventListener('click', function () {
+        toastContainer.classList.add('hs-removing');
+        setTimeout(() => toastContainer.remove(), 300);
+    });
+    closeButtonContainer.appendChild(closeButton);
+
+    document.body.appendChild(toastContainer);
 }
