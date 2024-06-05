@@ -15,7 +15,8 @@ function createToast(type, message) {
 
     const messageText = document.createElement('p');
     messageText.className = 'text-sm text-gray-700 dark:text-gray-400';
-    messageText.textContent = message;
+    messageText.style.whiteSpace = 'pre';
+    messageText.textContent = ` ${message}`;
     toast.appendChild(messageText);
 
     const closeButtonContainer = document.createElement('div');
