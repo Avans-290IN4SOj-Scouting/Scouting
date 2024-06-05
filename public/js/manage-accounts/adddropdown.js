@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         updateDropdowns(selectedGroupId, email);
                     } else {
-                        showToast('warning', langNoOptions);
+                        createToast('warning', langNoOptions);
                     }
                 }
 

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (changedAccountsInfo.length > 0) {
                         confirmModal.classList.remove('hidden');
                     } else {
-                        showToast('warning', langNoChanges);
+                        createToast('warning', langNoChanges);
                     }
                 });
             }
