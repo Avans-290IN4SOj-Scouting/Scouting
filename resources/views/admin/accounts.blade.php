@@ -5,9 +5,10 @@
 @endphp
 
 @push('scripts')
-    <script src="{{ asset('js/manage-accounts/accounts.js') }}" defer></script>
+    <script src="{{ asset('js/manage-accounts/saveroles.js') }}" defer></script>
     <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
     <script src="{{ asset('js/manage-accounts/addrolebutton.js') }}" defer></script>
+    <script src="{{ asset('js/manage-accounts/adddropdown.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -16,19 +17,26 @@
     <div class="flex flex-col">
         <div class="p-1.5 min-w-full inline-block align-middle">
             <form action="{{ route('manage.accounts.filter') }}" method="GET">
-                <div
-                    class="flex space-y-2 items-start pb-4 flex-col  sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-                    <x-search-bar search="{{ $search }}"
-                                  placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
+                <div class="lg:flex lg:flex-row lg:justify-between">
+                    <div
+                        class="flex space-y-2 items-start pb-4 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+                        <x-search-bar search="{{ $search }}"
+                                      placeholder="{{ __('manage-accounts/accounts.search_placeholder') }}"/>
 
-                    <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
-                              name="filter" selected="{{ $selected }}"/>
+                        <x-filter placeholder="{{ __('manage-accounts/accounts.filter_placeholder') }}"
+                                  :options="$allroles" label="{{ __('manage-accounts/accounts.filter_placeholder') }}"
+                                  name="filter" selected="{{ $selected }}"/>
 
-                    <a href="{{ route('manage.accounts.index') }}"
-                       class="text-blue-600 hover:underline hover:decoration-blue-600">
-                        {{__('manage-accounts/accounts.remove_filters_button')}}
-                    </a>
+                        <a href="{{ route('manage.accounts.index') }}"
+                           class="text-blue-600 hover:underline hover:decoration-blue-600">
+                            {{__('manage-accounts/accounts.remove_filters_button')}}
+                        </a>
+                    </div>
+                    <!-- TODO: LOCALIZATION -->
+                    <button type="button" onclick="resetLocalStorage(); return false;"
+                            class="py-3 px-4 mb-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-500 hover:bg-red-100 hover:text-red-800 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-red-800/30 dark:hover:text-red-400">
+                        {{ __('manage-accounts/accounts.reset_changes') }}
+                    </button>
                 </div>
 
                 <!-- Add these hidden fields to remember the sort direction and column -->
@@ -80,60 +88,35 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($accounts as $account)
-                        <tr>
+                        <tr class="h-[87px]" data-email="{{ $account['email'] }}">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {{ $account['email'] }}
                             </td>
-                            <td class="flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                <div class="relative">
-                                    <select id="subroleSelect{{ $account->id }}" class="peer p-4 pe-9 block w-[150px] border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:focus:ring-neutral-600
-                                        focus:pt-6
-                                        focus:pb-2
-                                        [&:not(:placeholder-shown)]:pt-6
-                                        [&:not(:placeholder-shown)]:pb-2
-                                        autofill:pt-6
-                                        autofill:pb-2">
-                                        <option>A</option>
-                                        <option>B</option>
-                                        <option>C</option>
-                                    </select>
-                                    <label for="subroleSelect{{ $account->id }}" class="absolute top-0 start-0 p-4 h-full truncate pointer-events-none transition ease-in-out duration-100 border border-transparent peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                                        peer-focus:text-xs
-                                        peer-focus:-translate-y-1.5
-                                        peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
-                                        peer-[:not(:placeholder-shown)]:text-xs
-                                        peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                                        peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-gray-500">Bevers</label>
-                                </div>
+                            <td id="roleContainer{{ $account->id }}"
+                                class="h-[87px] flex items-center gap-2 justify-end px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 <div id="selectRoleContainer" class="flex flex-row gap-2 hidden items-center">
                                     <div id="selectRole-wrapper" class="relative w-[250px]"
-                                         data-account-email="{{ $account->email }}"
                                          data-old-roles="{{ json_encode($account->roles->pluck('name')) }}">
-                                        <label for="selectRole"
+                                        <label for="selectRole{{ $account->id }}"
                                                hidden>{{ __('manage-accounts/accounts.role')  }}</label>
-                                        <select id="selectRole" multiple
-                                                data-hs-select='{
-                                                    "placeholder": "{{ __('manage-accounts/accounts.multiple_select_placeholder') }}",
-                                                    "toggleTag": "<button type=\"button\"></button>",
-                                                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 h-[54px] relative items-center z-0 py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
-                                                    "dropdownClasses": "z-50 mt-2 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
-                                                    "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
-                                                    "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
-                                                    }' class="hidden">
-                                            @foreach($roles as $role)
-                                                <option value="{{ $role->name }}"
-                                                        data-translated-name="{{ __('manage-accounts/roles.' . $role->name) }}" {{ in_array($role->name, $account->roles->pluck('name')->toArray()) ? 'selected' : '' }}>
-                                                    {{ __('manage-accounts/roles.' . $role->name) }}
+                                        <select id="selectRole{{ $account->id }}" name="selectRole"
+                                                class="h-[54px] py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                            <option value="" disabled selected>Kies rol</option>
+                                            @foreach($roles as $id => $role)
+                                                <option
+                                                    value="{{ $role }}" data-group-id="{{ $id }}">
+                                                    {{ $role }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div id="cancelButton" class="text-red-600 h-[35px]">
                                         <button class="items-center h-[35px]">
-                                            <svg class="svg-icon" width="35px" height="35px" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
+                                            <svg class="svg-icon" width="35px" height="35px" viewBox="0 0 1024 1024"
+                                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M810.66 170.66q18.33 0 30.49 12.17t12.17 30.49q0 18-12.33 30.33L572.34 512l268.81 268.34q12.33 12.33 12.33 30.33 0 18.33-12.17 30.49t-30.49 12.17q-18 0-30.33-12.33L512 572.34 243.66 841.15q-12.33 12.33-30.33 12.33-18.33 0-30.49-12.17t-12.17-30.49q0-18 12.33-30.33L451.66 512 182.99 243.66q-12.33-12.33-12.33-30.33 0-18.33 12.17-30.49t30.49-12.17q18 0 30.33 12.33L512 451.66 780.34 182.99q12.33-12.33 30.33-12.33z"/>
                                             </svg>
-
                                         </button>
                                     </div>
                                 </div>
@@ -146,7 +129,6 @@
                                                       d="M12 2C12.5523 2 13 2.44772 13 3V11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H13V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H11V3C11 2.44772 11.4477 2 12 2Z"
                                                       fill="currentColor"/>
                                             </svg>
-                                            <!-- TODO: add localisation when done -->
                                             <span
                                                 class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700"
                                                 role="tooltip">{{ __('manage-accounts/accounts.add-role') }}</span>
