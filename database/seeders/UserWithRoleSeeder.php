@@ -13,10 +13,40 @@ class UserWithRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::factory(1)->create([
-            'email' => 'admin@admin.nl',
-        ])->first();
-        $admin->assignRole('admin');
+        {
+            $admin = User::factory(1)->create([
+                'email' => 'admin@admin.nl',
+            ])->first();
+            $admin->assignRole('admin');
+        }
+
+        {
+            $admin = User::factory(1)->create([
+                'email' => 'jeroen-admin@admin.nl',
+            ])->first();
+            $admin->assignRole('admin');
+        }
+
+        {
+            $admin = User::factory(1)->create([
+                'email' => 'linde-admin@admin.nl',
+            ])->first();
+            $admin->assignRole('admin');
+        }
+
+        {
+            $admin = User::factory(1)->create([
+                'email' => 'delite-admin@admin.nl',
+            ])->first();
+            $admin->assignRole('admin');
+        }
+
+        {
+            $admin = User::factory(1)->create([
+                'email' => 'vincent-admin@admin.nl',
+            ])->first();
+            $admin->assignRole('admin');
+        }
 
         $groupLeader = User::factory(1)->create([
             'email' => 'groepsleider@azge.nl',
