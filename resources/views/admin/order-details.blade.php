@@ -6,8 +6,8 @@
 @endphp
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/manage-orders/updatestatus.js') }}" defer></script>
-    <script type="module" src="{{ asset('js/manage-orders/updateprice.js') }}" defer></script>
+    <script type="module" src="{{ secure_asset('js/manage-orders/updatestatus.js') }}" defer></script>
+    <script type="module" src="{{ secure_asset('js/manage-orders/updateprice.js') }}" defer></script>
 @endpush
 
 @section('content')

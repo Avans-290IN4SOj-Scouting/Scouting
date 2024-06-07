@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @push('scripts')
-    <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-products/product.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -93,7 +93,7 @@
                                 class="sr-only">
                             <div class="flex justify-center items-center containerMaxH">
                                 @if ($product->image_path)
-                                    <img id="file-image" src="{{ asset($product->image_path) }}" alt="Preview"
+                                    <img id="file-image" src="{{ secure_asset($product->image_path) }}" alt="Preview"
                                         class="containerMaxH">
                                 @endif
                             </div>
