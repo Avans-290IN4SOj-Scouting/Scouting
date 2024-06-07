@@ -163,9 +163,10 @@ class OrderController extends Controller
         }
 
         $order->status = __('delivery_status.awaiting_payment');
-        $productTypes = ProductType::all();
-        $emailContent = View::make('orders.emails.order_placed_success', ['order' => $order, 'productTypes' => $productTypes])->render();
-        $this->gmailService->sendMail($order->user->email, __('email.order-placed-success.subject'), $emailContent);
+
+        $logoPath = public_path('images/scouting/AZG_Scouting_logo_slogan_compact_RGB.png');
+        $emailContent = View::make('orders.emails.order_placed_success', ['order' => $order, 'productTypes' => ProductType::all()])->render();
+        $this->gmailService->sendMail($order->user->email, __('email.order-placed-success.subject'), $emailContent, $logoPath);
 
         $this->shoppingCartService->clearShoppingCart();
         return redirect()->route('orders.checkout.completed')

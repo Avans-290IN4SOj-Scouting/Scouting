@@ -99,9 +99,9 @@ class ManageOrdersController extends Controller
         $status = $request->input('status');
         $order->status = $status;
 
-        $productTypes = ProductType::all();
-        $emailContent = View::make('orders.emails.orderstatus_changed', ['order' => $order, 'productTypes' => $productTypes])->render();
-        $this->gmailService->sendMail($order->user->email, __('email.orderstatus-changed.subject'), $emailContent);
+        $logoPath = public_path('images/scouting/AZG_Scouting_logo_slogan_compact_RGB.png');
+        $emailContent = View::make('orders.emails.orderstatus_changed', ['order' => $order, 'productTypes' => ProductType::all()])->render();
+        $this->gmailService->sendMail($order->user->email, __('email.orderstatus-changed.subject'), $emailContent, $logoPath);
 
         $delocalizedStatus = DeliveryStatus::delocalised($status);
         $order->status = $delocalizedStatus;

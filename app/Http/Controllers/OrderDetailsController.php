@@ -74,8 +74,10 @@ class OrderDetailsController extends Controller
 
         if (in_array($order->status, $this->ableToCancelStatus)) {
             $email = Auth::user()->getEmail();
+
+            $logoPath = public_path('images/scouting/AZG_Scouting_logo_slogan_compact_RGB.png');
             $emailContent = View::make('orders.emails.order_cancelled', ['order' => $order])->render();
-            $this->gmailService->sendMail($email, __('email.order-cancelled.subject'), $emailContent);
+            $this->gmailService->sendMail($email, __('email.order-cancelled.subject'), $emailContent, $logoPath);
 
             $order->status = 'cancelled';
             $order->save();
