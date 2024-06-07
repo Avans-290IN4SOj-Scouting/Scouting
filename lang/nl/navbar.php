@@ -14,4 +14,5 @@ return [
     'manage' => 'Beheer',
     'register' => 'Registreren',
     'download_backorders' => 'Download backorders',
+    'faq' => 'FAQ',
 ];

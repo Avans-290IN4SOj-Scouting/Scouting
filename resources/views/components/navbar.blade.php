@@ -90,6 +90,11 @@
                     </div>
                 @endif
 
+                <div>
+                    <a class="{{ request()->routeIs('faq') ? 'active-nav-link' : 'inactive-nav-link' }}"
+                        href="{{ route('faq') }}">{{ __('navbar.faq') }}</a>
+                </div>
+
                 @if (Auth::guest())
                     <a class="flex items-center gap-x-2 {{ request()->routeIs('login') ? 'active-nav-link' : 'inactive-nav-link' }}"
                         href="{{ route('login') }}">
