@@ -69,5 +69,14 @@ class ProductGroupSeeder extends Seeder
 
         $scouts->products()->attach($poloScouts);
         $scouts->products()->attach($truiScouts);
+
+        // Waterwerk
+        $poloWaterwerkV = Product::where('name', 'Polo - Waterwerk dames')->first();
+        $poloWaterwerkM = Product::where('name', 'Polo - Waterwerk heren')->first();
+        $truiWaterwerk = Product::where('name', 'Trui - Waterwerk')->first();
+
+        $waterwerk->products()->attach($poloWaterwerkV);
+        $waterwerk->products()->attach($poloWaterwerkM);
+        $waterwerk->products()->attach($truiWaterwerk);
     }
 }

@@ -223,6 +223,62 @@ class ProductSeeder extends Seeder
                         ]);
                     }
                 }
+                // Waterwerk
+                {
+                    $sizes = [
+                        ProductSizesEnum::XS,
+                        ProductSizesEnum::S,
+                        ProductSizesEnum::M,
+                        ProductSizesEnum::L,
+                        ProductSizesEnum::XL,
+                        ProductSizesEnum::XXL,
+                    ];
+
+                    $poloDames = Product::create([
+                        'name' => 'Polo - Waterwerk dames',
+                        'image_path' => '/images/products/polo-waterwerk-v.png',
+                        'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Dames)->first()->id,
+                    ]);
+
+                    $poloDames->productTypes()->attach($product->id, [
+                        'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
+                    ]);
+
+                    $poloHeren = Product::create([
+                        'name' => 'Polo - Waterwerk heren',
+                        'image_path' => '/images/products/polo-waterwerk.png',
+                        'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Heren)->first()->id,
+                    ]);
+
+                    $poloHeren->productTypes()->attach($product->id, [
+                        'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
+                    ]);
+
+                    $trui = Product::create([
+                        'name' => 'Trui - Waterwerk',
+                        'image_path' => '/images/products/trui-waterwerk.png',
+                        'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+                    ]);
+
+                    $trui->productTypes()->attach($product->id, [
+                        'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
+                    ]);
+
+                    foreach ($sizes as $size) {
+                        $poloDames->productSizes()->attach($poloDames->id, [
+                            'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                            'price' => 23.00
+                        ]);
+                        $poloHeren->productSizes()->attach($poloHeren->id, [
+                            'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                            'price' => 23.00
+                        ]);
+                        $trui->productSizes()->attach($trui->id, [
+                            'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                            'price' => 26.00
+                        ]);
+                    }
+                }
             }
         }
     }
