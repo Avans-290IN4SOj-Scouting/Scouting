@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('groups', function (Blueprint $table) {
             $table->dropColumn('max_age');
             $table->dropColumn('min_age');
+            $table->dropColumn('size_id');
         });
     }
 

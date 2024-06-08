@@ -15,7 +15,8 @@
 
 @section('content')
 
-    <x-breadcrumbs :names="[$group->name, $product->name]" :routes="[route('orders.overview', ['category' => $group->name]), '']" />
+    <x-breadcrumbs :names="[$group->name, $product->name]"
+                   :routes="[route('orders.overview', ['category' => $group->name]), '']"/>
 
     <div id="wrapper">
         <div id="main">
@@ -30,15 +31,12 @@
                         <p class="dark:text-white">
                             <span>{{ __('common.currency_symbol') }}</span>
                             <span id="product-price">
-                            @if (count($productSizes->where('size', '=', $group->size->size)) === 0)
-                                    {{ number_format($productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
-                                @else
-                                    {{ number_format($productSizes->where('size', '=', $group->size->size)->first()->pivot->price, 2, __('common.seperator'), '.') }}
-                                @endif
-                        </span>
+                                {{ number_format($productSizes->first()->pivot->price, 2, __('common.seperator'), '.') }}
+                            </span>
                         </p>
                         @if (count($productSizes) === 1)
-                            <p class="dark:text-white">{{ __('orders/orders.size') }} - {{ $productSizes->first()->size }}</p>
+                            <p class="dark:text-white">{{ __('orders/orders.size') }}
+                                - {{ $productSizes->first()->size }}</p>
                         @endif
                     </div>
                     <div class="actions">
@@ -54,7 +52,7 @@
                         autofill:pb-2">
                                     @foreach ($productSizes as $productSize)
                                         <option
-                                            id="{{ $productSize->id }}" @selected($group->size_id == $productSize->id)>
+                                            id="{{ $productSize->id }}" @selected($productSizes->first() == $productSize)>
                                             {{ $productSize->size }}
                                             - {{ __('common.currency_symbol') }} {{ number_format($productSize->pivot->price, 2, __('common.seperator'), '.') }}
                                         </option>
