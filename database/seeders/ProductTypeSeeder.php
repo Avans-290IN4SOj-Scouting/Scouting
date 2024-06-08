@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\ProductTypeEnum;
 use App\Models\ProductType;
 use Illuminate\Database\Seeder;
 
@@ -12,17 +13,12 @@ class ProductTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        ProductType::create([
-            'type' => 'default'
-        ]);
-        ProductType::create([
-            'type' => 'groen'
-        ]);
-        ProductType::create([
-            'type' => 'blauw'
-        ]);
-        ProductType::create([
-            'type' => 'geel'
-        ]);
+        $types = ProductTypeEnum::cases();
+
+        foreach ($types as $type) {
+            ProductType::create([
+                'type' => $type->value
+            ]);
+        }
     }
 }

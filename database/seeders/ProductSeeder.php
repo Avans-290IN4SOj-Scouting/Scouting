@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use App\Enum\ProductSizesEnum;
+use App\Enum\ProductTypeEnum;
 use App\Enum\ProductVarietyEnum;
 use App\Models\Product;
 use App\Models\ProductSize;
+use App\Models\ProductType;
 use App\Models\ProductVariety;
 use Illuminate\Database\Seeder;
 
@@ -30,7 +32,9 @@ class ProductSeeder extends Seeder
                 'price' => 7.75
             ]);
 
-            $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
+            $product->productTypes()->attach($product->id, [
+                'product_type_id' => ProductType::where('type', ProductTypeEnum::Default)->first()->id
+            ]);
         }
         // Dasring
         {
@@ -45,7 +49,9 @@ class ProductSeeder extends Seeder
                 'price' => 2.75
             ]);
 
-            $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
+            $product->productTypes()->attach($product->id, [
+                'product_type_id' => ProductType::where('type', ProductTypeEnum::Default)->first()->id
+            ]);
         }
         // Bevers
         {
@@ -70,8 +76,9 @@ class ProductSeeder extends Seeder
                 ]);
             }
 
-            // TODO: Linde
-            $polo->productTypes()->attach($polo->id, ['product_type_id' => 1]);
+            $polo->productTypes()->attach($product->id, [
+                'product_type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
+            ]);
         }
     }
 
