@@ -24,6 +24,17 @@ class ProductSeeder extends Seeder
 
             $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
         }
+        // Dasring
+        {
+            $product = Product::create([
+                'name' => 'Dasring',
+                'image_path' => '/images/products/dasring.png',
+            ]);
+
+            $product->productSizes()->attach($product->id, ['product_size_id' => 1, 'price' => 2.75]);
+
+            $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
+        }
     }
 
 }

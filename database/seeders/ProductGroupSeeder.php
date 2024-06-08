@@ -14,9 +14,6 @@ class ProductGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        // Products
-        $das = Product::where('name', 'Das')->first();
-
         // Groups
         $kabouters = Group::where('name', 'Kabouters')->first();
         $welpen = Group::where('name', 'Welpen')->first();
@@ -25,12 +22,24 @@ class ProductGroupSeeder extends Seeder
         $bevers = Group::where('name', 'Bevers')->first();
         $zeeverkenners = Group::where('name', 'Zeeverkenners')->first();
 
-        // Attach products to groups
+        // Das
+        $das = Product::where('name', 'Das')->first();
+
         $kabouters->products()->attach($das);
         $welpen->products()->attach($das);
         $scouts->products()->attach($das);
         $gidsen->products()->attach($das);
         $bevers->products()->attach($das);
         $zeeverkenners->products()->attach($das);
+
+        // Dasring
+        $dasring = Product::where('name', 'Dasring')->first();
+
+        $kabouters->products()->attach($dasring);
+        $welpen->products()->attach($dasring);
+        $scouts->products()->attach($dasring);
+        $gidsen->products()->attach($dasring);
+        $bevers->products()->attach($dasring);
+        $zeeverkenners->products()->attach($dasring);
     }
 }
