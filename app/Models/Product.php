@@ -26,6 +26,11 @@ class Product extends Model
             ->withPivot('price');
     }
 
+    public function productVarieties(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductVariety::class, 'product_product_variety', 'product_id', 'product_variety_id');
+    }
+
     public function size()
     {
         return $this->belongsTo(ProductSize::class, 'product_size_id');

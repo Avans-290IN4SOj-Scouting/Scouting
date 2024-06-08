@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             // Also, php artisan migrate:fresh --seed  |  https://laravel.com/docs/10.x/seeding#running-seeders
             ProductTypeSeeder::class,
             ProductSizeSeeder::class,
+            ProductVarietySeeder::class,
             ProductSeeder::class,
             GroupSeeder::class,
             ProductGroupSeeder::class,
