@@ -47,6 +47,32 @@ class ProductSeeder extends Seeder
 
             $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
         }
+        // Bevers
+        {
+            $polo = Product::create([
+                'name' => 'Polo - Bevers',
+                'image_path' => '/images/products/polo-bevers.jpg',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+            ]);
+
+            $poloSizes = [
+                ProductSizesEnum::_116,
+                ProductSizesEnum::_128,
+                ProductSizesEnum::_140,
+                ProductSizesEnum::_152,
+                ProductSizesEnum::_164,
+            ];
+
+            foreach ($poloSizes as $size) {
+                $polo->productSizes()->attach($polo->id, [
+                    'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                    'price' => 18.50
+                ]);
+            }
+
+            // TODO: Linde
+            $polo->productTypes()->attach($polo->id, ['product_type_id' => 1]);
+        }
     }
 
 }
