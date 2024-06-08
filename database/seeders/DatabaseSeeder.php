@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserWithRoleSeeder::class,
             OrderSeeder::class,
-            OrderLineSeeder::class
         ]);
 
         foreach ($users as $user) {
