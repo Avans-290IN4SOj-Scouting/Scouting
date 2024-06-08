@@ -20,7 +20,7 @@ class ProductGroupSeeder extends Seeder
         $scouts = Group::where('name', 'Scouts')->first();
         $gidsen = Group::where('name', 'Gidsen')->first();
         $bevers = Group::where('name', 'Bevers')->first();
-        $zeeverkenners = Group::where('name', 'Zeeverkenners')->first();
+        $waterwerk = Group::where('name', 'Waterwerk')->first();
 
         // Das
         $das = Product::where('name', 'Das')->first();
@@ -30,7 +30,7 @@ class ProductGroupSeeder extends Seeder
         $scouts->products()->attach($das);
         $gidsen->products()->attach($das);
         $bevers->products()->attach($das);
-        $zeeverkenners->products()->attach($das);
+        $waterwerk->products()->attach($das);
 
         // Dasring
         $dasring = Product::where('name', 'Dasring')->first();
@@ -40,7 +40,7 @@ class ProductGroupSeeder extends Seeder
         $scouts->products()->attach($dasring);
         $gidsen->products()->attach($dasring);
         $bevers->products()->attach($dasring);
-        $zeeverkenners->products()->attach($dasring);
+        $waterwerk->products()->attach($dasring);
 
         // Bevers
         $poloBevers = Product::where('name', 'Polo - Bevers')->first();

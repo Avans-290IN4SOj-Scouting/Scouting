@@ -31,7 +31,7 @@ class RoleSeeder extends Seeder
             ['team_gidsen', '2'],
             ['team_kabouters', '3'],
             ['team_scouts', '4'],
-            ['team_zeeverkenners', '5'],
+            ['team_waterwerk', '5'],
             ['team_welpen', '6']
         ];
 

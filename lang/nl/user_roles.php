@@ -7,6 +7,6 @@ return [
     "team_gidsen" => "GIDSEN",
     "team_kabouters" => "KABOUTERS",
     "team_scouts" => "SCOUTS",
-    "team_zeeverkenners" => "ZEEVERKENNERS",
+    "team_waterwerk" => "WATERWERK",
     "team_welpen" => "WELPEN",
 ];

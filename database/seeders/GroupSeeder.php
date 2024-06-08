@@ -34,7 +34,7 @@ class GroupSeeder extends Seeder
         ]);
 
         Group::create([
-            "name" => "Zeeverkenners",
+            "name" => "Waterwerk",
             "image_url" => "/images/groups/zee_verkenners.png",
         ]);
 
