@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enum\ProductSizesEnum;
 use App\Models\Product;
+use App\Models\ProductSize;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -20,7 +22,10 @@ class ProductSeeder extends Seeder
                 'image_path' => '/images/products/das.png',
             ]);
 
-            $product->productSizes()->attach($product->id, ['product_size_id' => 1, 'price' => 7.75]);
+            $product->productSizes()->attach($product->id, [
+                'product_size_id' => ProductSize::where('size', ProductSizesEnum::nvt)->first()->id,
+                'price' => 7.75
+            ]);
 
             $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
         }
@@ -31,7 +36,10 @@ class ProductSeeder extends Seeder
                 'image_path' => '/images/products/dasring.png',
             ]);
 
-            $product->productSizes()->attach($product->id, ['product_size_id' => 1, 'price' => 2.75]);
+            $product->productSizes()->attach($product->id, [
+                'product_size_id' => ProductSize::where('size', ProductSizesEnum::nvt)->first()->id,
+                'price' => 2.75
+            ]);
 
             $product->productTypes()->attach($product->id, ['product_type_id' => 1]);
         }

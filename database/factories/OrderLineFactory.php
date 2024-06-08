@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\ProductSizesEnum;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\ProductProductType;
@@ -29,8 +30,7 @@ class OrderLineFactory extends Factory
         return [
             'product_id' => $product->id,
             'product_price' => $this->faker->randomFloat(2, 1, 100),
-            // TODO: Linde Sizes
-            'product_size' => $this->faker->randomElement(['S', 'M', 'L', 'XL']),
+            'product_size' => $this->faker->randomElement(ProductSizesEnum::cases()),
             'product_image_path' => $product->image_path,
             'amount' => $this->faker->numberBetween(1, 10),
             'product_type_id' => ProductProductType::where('product_id', $product->id)->first()->product_type_id,
