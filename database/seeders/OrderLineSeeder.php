@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\OrderLine;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +20,7 @@ class OrderLineSeeder extends Seeder
             'amount' => 1,
             'product_price' => 12.34,
             'product_size' => 'S',
-            'product_image_path' => 'images/products/placeholder.png',
+            'product_image_path' => Product::where('id', 1)->first()->image_path,
             'product_type_id' => 1
         ]);
 
@@ -29,7 +30,7 @@ class OrderLineSeeder extends Seeder
             'amount' => 2,
             'product_price' => 23.45,
             'product_size' => 'S',
-            'product_image_path' => 'image/products/placeholder.png',
+            'product_image_path' => Product::where('id', 2)->first()->image_path,
             'product_type_id' => 1
         ]);
     }
