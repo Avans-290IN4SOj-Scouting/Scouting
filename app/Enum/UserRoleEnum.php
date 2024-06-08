@@ -12,6 +12,7 @@ enum UserRoleEnum: string
     case Scouts = 'team_scouts';
     case Waterwerk = 'team_waterwerk';
     case Welpen = 'team_welpen';
+    case Leiders = 'team_leiders';
 
     public static function localised(): array
     {
@@ -24,6 +25,7 @@ enum UserRoleEnum: string
             self::Scouts->value => __('user_roles.team_scouts'),
             self::Waterwerk->value => __('user_roles.team_waterwerk'),
             self::Welpen->value => __('user_roles.team_welpen'),
+            self::Leiders->value => __('user_roles.team_leiders'),
         ];
     }
 
@@ -38,6 +40,7 @@ enum UserRoleEnum: string
             __('user_roles.team_scouts') => self::Scouts,
             __('user_roles.team_waterwerk') => self::Waterwerk,
             __('user_roles.team_welpen') => self::Welpen,
+            __('user_roles.team_leiders') => self::Leiders,
         };
     }
 
@@ -52,6 +55,7 @@ enum UserRoleEnum: string
             self::Scouts->value => __('user_roles.team_scouts'),
             self::Waterwerk->value => __('user_roles.team_waterwerk'),
             self::Welpen->value => __('user_roles.team_welpen'),
+            self::Leiders->value => __('user_roles.team_leiders'),
         };
     }
 }

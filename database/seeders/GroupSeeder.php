@@ -42,5 +42,10 @@ class GroupSeeder extends Seeder
             "name" => "Welpen",
             "image_url" => "/images/groups/welpen.png",
         ]);
+
+        Group::create([
+            "name" => "Leiders",
+            "image_url" => "/images/groups/leiders.png",
+        ]);
     }
 }

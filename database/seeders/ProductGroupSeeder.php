@@ -21,6 +21,7 @@ class ProductGroupSeeder extends Seeder
         $gidsen = Group::where('name', 'Gidsen')->first();
         $bevers = Group::where('name', 'Bevers')->first();
         $waterwerk = Group::where('name', 'Waterwerk')->first();
+        $leiders = Group::where('name', 'Leiders')->first();
 
         // Das
         $das = Product::where('name', 'Das')->first();
@@ -31,6 +32,7 @@ class ProductGroupSeeder extends Seeder
         $gidsen->products()->attach($das);
         $bevers->products()->attach($das);
         $waterwerk->products()->attach($das);
+        $leiders->products()->attach($das);
 
         // Dasring
         $dasring = Product::where('name', 'Dasring')->first();
@@ -41,6 +43,7 @@ class ProductGroupSeeder extends Seeder
         $gidsen->products()->attach($dasring);
         $bevers->products()->attach($dasring);
         $waterwerk->products()->attach($dasring);
+        $leiders->products()->attach($dasring);
 
         // Bevers
         $poloBevers = Product::where('name', 'Polo - Bevers')->first();

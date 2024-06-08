@@ -9,4 +9,5 @@ return [
     "team_scouts" => "SCOUTS",
     "team_waterwerk" => "WATERWERK",
     "team_welpen" => "WELPEN",
+    "team_leiders" => "LEIDERS"
 ];
