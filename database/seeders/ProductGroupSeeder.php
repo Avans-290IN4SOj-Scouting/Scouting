@@ -48,5 +48,12 @@ class ProductGroupSeeder extends Seeder
 
         $bevers->products()->attach($poloBevers);
         $bevers->products()->attach($truiBevers);
+
+        // Gidsen
+        $poloGidsen = Product::where('name', 'Polo - Gidsen')->first();
+        $truiGidsen = Product::where('name', 'Trui - Gidsen')->first();
+
+        $gidsen->products()->attach($poloGidsen);
+        $gidsen->products()->attach($truiGidsen);
     }
 }

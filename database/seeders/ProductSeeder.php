@@ -94,6 +94,51 @@ class ProductSeeder extends Seeder
                 ]);
             }
         }
+        // Gidsen
+        {
+            $sizes = [
+                ProductSizesEnum::_140,
+                ProductSizesEnum::_152,
+                ProductSizesEnum::_164,
+                ProductSizesEnum::S,
+                ProductSizesEnum::M,
+                ProductSizesEnum::L,
+            ];
+
+            $polo = Product::create([
+                'name' => 'Polo - Gidsen',
+                'image_path' => '/images/products/polo-gidsen.jpg',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+            ]);
+
+            $polo->productTypes()->attach($product->id, [
+                'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkBlue)->first()->id
+            ]);
+
+            $trui = Product::create([
+                'name' => 'Trui - Gidsen',
+                'image_path' => '/images/products/trui-gidsen.jpg',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+            ]);
+
+            $trui->productTypes()->attach($product->id, [
+                'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkBlue)->first()->id
+            ]);
+
+            foreach ($sizes as $size) {
+                $poloPrice = ($size == ProductSizesEnum::S || $size == ProductSizesEnum::M || $size == ProductSizesEnum::L) ? 23.00 : 18.50;
+                $truiPrice = ($size == ProductSizesEnum::S || $size == ProductSizesEnum::M || $size == ProductSizesEnum::L) ? 26.00 : 20.00;
+
+                $polo->productSizes()->attach($polo->id, [
+                    'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                    'price' => $poloPrice
+                ]);
+                $trui->productSizes()->attach($trui->id, [
+                    'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                    'price' => $truiPrice
+                ]);
+            }
+        }
     }
 
 }
