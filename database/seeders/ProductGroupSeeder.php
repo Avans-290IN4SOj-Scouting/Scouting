@@ -78,5 +78,12 @@ class ProductGroupSeeder extends Seeder
         $waterwerk->products()->attach($poloWaterwerkV);
         $waterwerk->products()->attach($poloWaterwerkM);
         $waterwerk->products()->attach($truiWaterwerk);
+
+        // Welpen
+        $poloWelpen = Product::where('name', 'Polo - Welpen')->first();
+        $truiWelpen = Product::where('name', 'Trui - Welpen')->first();
+
+        $welpen->products()->attach($poloWelpen);
+        $welpen->products()->attach($truiWelpen);
     }
 }

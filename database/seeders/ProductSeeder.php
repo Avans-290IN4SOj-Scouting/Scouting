@@ -278,6 +278,47 @@ class ProductSeeder extends Seeder
                             'price' => 26.00
                         ]);
                     }
+                    // Welpen
+                    {
+                        $sizes = [
+                            ProductSizesEnum::_116,
+                            ProductSizesEnum::_128,
+                            ProductSizesEnum::_140,
+                            ProductSizesEnum::_152,
+                            ProductSizesEnum::_164,
+                        ];
+
+                        $polo = Product::create([
+                            'name' => 'Polo - Welpen',
+                            'image_path' => '/images/products/polo-welp.jpg',
+                            'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+                        ]);
+
+                        $polo->productTypes()->attach($product->id, [
+                            'product_type_id' => ProductType::where('type', ProductTypeEnum::Green)->first()->id
+                        ]);
+
+                        $trui = Product::create([
+                            'name' => 'Trui - Welpen',
+                            'image_path' => '/images/products/trui-welp.jpeg',
+                            'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+                        ]);
+
+                        $trui->productTypes()->attach($product->id, [
+                            'product_type_id' => ProductType::where('type', ProductTypeEnum::Green)->first()->id
+                        ]);
+
+                        foreach ($sizes as $size) {
+                            $polo->productSizes()->attach($polo->id, [
+                                'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                                'price' => 18.50
+                            ]);
+                            $trui->productSizes()->attach($trui->id, [
+                                'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                                'price' => 20.00
+                            ]);
+                        }
+                    }
                 }
             }
         }
