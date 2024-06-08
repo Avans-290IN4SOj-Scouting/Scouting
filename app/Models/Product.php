@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -26,9 +27,9 @@ class Product extends Model
             ->withPivot('price');
     }
 
-    public function productVarieties(): BelongsToMany
+    public function variety() : HasOne
     {
-        return $this->belongsToMany(ProductVariety::class, 'product_product_variety', 'product_id', 'product_variety_id');
+        return $this->hasOne(ProductVariety::class, 'variety_id');
     }
 
     public function size()

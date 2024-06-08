@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Enum\ProductSizesEnum;
+use App\Enum\ProductVarietyEnum;
 use App\Models\Product;
 use App\Models\ProductSize;
+use App\Models\ProductVariety;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -20,6 +22,7 @@ class ProductSeeder extends Seeder
             $product = Product::create([
                 'name' => 'Das',
                 'image_path' => '/images/products/das.png',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
             ]);
 
             $product->productSizes()->attach($product->id, [
@@ -34,6 +37,7 @@ class ProductSeeder extends Seeder
             $product = Product::create([
                 'name' => 'Dasring',
                 'image_path' => '/images/products/dasring.png',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
             ]);
 
             $product->productSizes()->attach($product->id, [
