@@ -14,24 +14,6 @@ class OrderLineSeeder extends Seeder
      */
     public function run(): void
     {
-        OrderLine::create([
-            'order_id' => 1,
-            'product_id' => 1,
-            'amount' => 1,
-            'product_price' => 12.34,
-            'product_size' => 'S',
-            'product_image_path' => Product::where('id', 1)->first()->image_path,
-            'product_type_id' => 1
-        ]);
-
-        OrderLine::create([
-            'order_id' => 1,
-            'product_id' => 2,
-            'amount' => 2,
-            'product_price' => 23.45,
-            'product_size' => 'S',
-            'product_image_path' => Product::where('id', 2)->first()->image_path,
-            'product_type_id' => 1
-        ]);
+        // TODO: Linde OrderLines
     }
 }

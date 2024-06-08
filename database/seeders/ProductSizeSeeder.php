@@ -14,6 +14,9 @@ class ProductSizeSeeder extends Seeder
     public function run(): void
     {
         ProductSize::create([
+            'size' => 'nvt'
+        ]);
+        ProductSize::create([
             'size' => 'S'
         ]);
         ProductSize::create([

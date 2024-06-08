@@ -13,6 +13,9 @@ class ProductTypeSeeder extends Seeder
     public function run(): void
     {
         ProductType::create([
+            'type' => 'default'
+        ]);
+        ProductType::create([
             'type' => 'groen'
         ]);
         ProductType::create([

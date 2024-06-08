@@ -14,42 +14,23 @@ class ProductGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        $test1Product = Product::where('name', 'TestHeren')->first();
-        $test2Product = Product::where('name', 'TestDames')->first();
-        $test3Product = Product::where('name', 'TestUnisex')->first();
-        $test4Product = Product::where('name', 'TestSingleSize')->first();
+        // Products
+        $das = Product::where('name', 'Das')->first();
 
-        $kabouterGroup = Group::where('name', 'Kabouters')->first();
-        $welpenGroup = Group::where('name', 'Welpen')->first();
-        $scoutsGroup = Group::where('name', 'Scouts')->first();
+        // Groups
+        $kabouters = Group::where('name', 'Kabouters')->first();
+        $welpen = Group::where('name', 'Welpen')->first();
+        $scouts = Group::where('name', 'Scouts')->first();
+        $gidsen = Group::where('name', 'Gidsen')->first();
+        $bevers = Group::where('name', 'Bevers')->first();
+        $zeeverkenners = Group::where('name', 'Zeeverkenners')->first();
 
-        $kabouterGroup->products()->attach($test3Product);
-        $kabouterGroup->products()->attach($test4Product);
-        $welpenGroup->products()->attach($test1Product);
-        $welpenGroup->products()->attach($test2Product);
-        $scoutsGroup->products()->attach($test2Product);
-        $scoutsGroup->products()->attach($test3Product);
-
-        {
-            $product = Product::where('id', 1)->first();
-            $group = Group::where('id', 1)->first();
-            $group->products()->attach($product);
-        }
-        {
-            $product = Product::where('id', 1)->first();
-            $group = Group::where('id', 2)->first();
-            $group->products()->attach($product);
-        }
-        {
-            $product = Product::where('id', 1)->first();
-            $group = Group::where('id', 3)->first();
-            $group->products()->attach($product);
-        }
-        {
-            $product = Product::where('id', 1)->first();
-            $group = Group::where('id', 4)->first();
-            $group->products()->attach($product);
-        }
+        // Attach products to groups
+        $kabouters->products()->attach($das);
+        $welpen->products()->attach($das);
+        $scouts->products()->attach($das);
+        $gidsen->products()->attach($das);
+        $bevers->products()->attach($das);
+        $zeeverkenners->products()->attach($das);
     }
-
 }
