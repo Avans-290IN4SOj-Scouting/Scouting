@@ -55,5 +55,12 @@ class ProductGroupSeeder extends Seeder
 
         $gidsen->products()->attach($poloGidsen);
         $gidsen->products()->attach($truiGidsen);
+
+        // Kabouters
+        $poloKabouters = Product::where('name', 'Polo - Kabouters')->first();
+        $truiKabouters = Product::where('name', 'Trui - Kabouters')->first();
+
+        $kabouters->products()->attach($poloKabouters);
+        $kabouters->products()->attach($truiKabouters);
     }
 }
