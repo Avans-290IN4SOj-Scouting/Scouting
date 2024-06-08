@@ -5,7 +5,7 @@ namespace App\Enum;
 enum ProductSizesEnum: string
 {
     case nvt = 'nvt';
-    case _166 = '116';
+    case _116 = '116';
     case _128 = '128';
     case _140 = '140';
     case _152 = '152';
