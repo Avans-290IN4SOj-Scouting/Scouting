@@ -88,5 +88,14 @@ class ProductGroupSeeder extends Seeder
 
         $welpen->products()->attach($poloWelpen);
         $welpen->products()->attach($truiWelpen);
+
+        // Leiders
+        $poloLeidsters = Product::where('name', 'Polo - Leidsters')->first();
+        $poloLeiders = Product::where('name', 'Polo - Leiders')->first();
+        $truiLeiding = Product::where('name', 'Trui - Leiding')->first();
+
+        $leiders->products()->attach($poloLeidsters);
+        $leiders->products()->attach($poloLeiders);
+        $leiders->products()->attach($truiLeiding);
     }
 }
