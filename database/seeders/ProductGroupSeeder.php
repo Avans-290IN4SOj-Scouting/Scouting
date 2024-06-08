@@ -42,9 +42,11 @@ class ProductGroupSeeder extends Seeder
         $bevers->products()->attach($dasring);
         $zeeverkenners->products()->attach($dasring);
 
-        // Polo - Bevers
+        // Bevers
         $poloBevers = Product::where('name', 'Polo - Bevers')->first();
+        $truiBevers = Product::where('name', 'Trui - Bevers')->first();
 
         $bevers->products()->attach($poloBevers);
+        $bevers->products()->attach($truiBevers);
     }
 }

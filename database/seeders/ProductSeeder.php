@@ -55,13 +55,7 @@ class ProductSeeder extends Seeder
         }
         // Bevers
         {
-            $polo = Product::create([
-                'name' => 'Polo - Bevers',
-                'image_path' => '/images/products/polo-bevers.jpg',
-                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-            ]);
-
-            $poloSizes = [
+            $sizes = [
                 ProductSizesEnum::_116,
                 ProductSizesEnum::_128,
                 ProductSizesEnum::_140,
@@ -69,16 +63,36 @@ class ProductSeeder extends Seeder
                 ProductSizesEnum::_164,
             ];
 
-            foreach ($poloSizes as $size) {
-                $polo->productSizes()->attach($polo->id, [
-                    'product_size_id' => ProductSize::where('size', $size)->first()->id,
-                    'price' => 18.50
-                ]);
-            }
+            $polo = Product::create([
+                'name' => 'Polo - Bevers',
+                'image_path' => '/images/products/polo-bevers.jpg',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+            ]);
 
             $polo->productTypes()->attach($product->id, [
                 'product_type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
             ]);
+
+            $trui = Product::create([
+                'name' => 'Trui - Bevers',
+                'image_path' => '/images/products/trui-bevers.jpeg',
+                'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+            ]);
+
+            $trui->productTypes()->attach($product->id, [
+                'product_type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
+            ]);
+
+            foreach ($sizes as $size) {
+                $polo->productSizes()->attach($polo->id, [
+                    'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                    'price' => 18.50
+                ]);
+                $trui->productSizes()->attach($trui->id, [
+                    'product_size_id' => ProductSize::where('size', $size)->first()->id,
+                    'price' => 20.00
+                ]);
+            }
         }
     }
 
