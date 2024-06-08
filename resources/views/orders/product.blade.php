@@ -26,8 +26,7 @@
                 </div>
                 <div class="info">
                     <div>
-                        <h1 class="text-4xl font-extrabold dark:text-white">{{ $product->name }}
-                            - {{ $group->name }}</h1>
+                        <h1 class="text-4xl font-extrabold dark:text-white">{{ $product->name }}</h1>
                         <p class="dark:text-white">
                             <span>{{ __('common.currency_symbol') }}</span>
                             <span id="product-price">
@@ -51,10 +50,9 @@
                         autofill:pt-6
                         autofill:pb-2">
                                     @foreach ($productSizes as $productSize)
-                                        <option
-                                            id="{{ $productSize->id }}" @selected($productSizes->first() == $productSize)>
+                                        <option data-price="{{ $productSize->pivot->price }}"
+                                                id="{{ $productSize->id }}" @selected($productSizes->first() == $productSize)>
                                             {{ $productSize->size }}
-                                            - {{ __('common.currency_symbol') }} {{ number_format($productSize->pivot->price, 2, __('common.seperator'), '.') }}
                                         </option>
                                     @endforeach
                                 </select>

@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     productSizes.addEventListener('change', (event) => {
-        const value = event.target.options[event.target.selectedIndex].textContent;
-        document.querySelector('#product-price').textContent = value.substring(value.indexOf('-') + 4);
+        const price = event.target.options[event.target.selectedIndex].dataset.price;
+        document.querySelector('#product-price').textContent = price.replace('.', ',');
     });
 })
 
