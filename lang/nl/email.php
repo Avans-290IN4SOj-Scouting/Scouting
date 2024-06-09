@@ -8,7 +8,7 @@ return[
         'website' => 'azgewinkel.nl',
         'url' => 'https://azgewinkel.nl',
         'email' => 'azgwinkel@gmail.com',
-        'regards' => 'Met vriendelijke groet, ',
+        'regards' => 'Met vriendelijke groeten, ',
         'logo-scouting' => 'Logo van '
     ],
 
