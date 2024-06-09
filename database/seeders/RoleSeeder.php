@@ -32,7 +32,8 @@ class RoleSeeder extends Seeder
             ['team_kabouters', '3'],
             ['team_scouts', '4'],
             ['team_waterwerk', '5'],
-            ['team_welpen', '6']
+            ['team_welpen', '6'],
+            ['team_leiders', '7']
         ];
 
         foreach ($teamleaderRoles as $subRole) {
