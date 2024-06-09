@@ -46,7 +46,7 @@ class GroupSeeder extends Seeder
         ]);
 
         Group::create([
-            "name" => "Zeeverkenners",
+            "name" => "Waterwerk",
             "min_age" => "12",
             "max_age" => "15",
             "image_url" => "/images/groups/zee_verkenners.png",
@@ -59,6 +59,14 @@ class GroupSeeder extends Seeder
             "max_age" => "11",
             "image_url" => "/images/groups/welpen.png",
             "size_id" => "6"
+        ]);
+
+        Group::create([
+            "name" => "Leiders",
+            "min_age" => "1",
+            "max_age" => "99",
+            "image_url" => "/images/groups/leiders,png",
+            "size_id" => "7"
         ]);
     }
 }

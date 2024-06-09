@@ -43,6 +43,8 @@ class RoleSeeder extends Seeder
             ['D', '5'],
             ['A', '6'],
             ['B', '6'],
+            ['A', '7'],
+            ['B', '7'],
         ];
 
         foreach ($teamleaderRoles as $subRole) {
