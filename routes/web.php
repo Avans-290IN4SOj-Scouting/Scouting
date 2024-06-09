@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\BackordersController;
+use App\Http\Controllers\StocksController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\ProfileController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\OrderDetailsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GmailController;
 use App\Http\Controllers\ManageOrdersController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestController;
 
 /*
@@ -46,32 +49,73 @@ Route::get(__('route.logout'), function () {
 
 Route::middleware('role:admin|teamleader')->group(function () {
     Route::prefix(__('route.manage'))->name('manage.')->group(function () {
-        Route::middleware('role:admin')->prefix(__('route.accounts'))->name('accounts.')->group(function () {
-            Route::get('/', [AccountsController::class, 'index'])
-                ->name('index');
+        Route::middleware('role:admin')->group(function () {
+            Route::prefix(__('route.accounts'))->name('accounts.')->group(function () {
+                Route::get('/', [AccountsController::class, 'index'])
+                    ->name('index');
 
-            Route::get(__('route.filter'), [AccountsController::class, 'filter'])
-                ->name('filter');
+                Route::get(__('route.filter'), [AccountsController::class, 'filter'])
+                    ->name('filter');
 
-            Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
-                ->name('update.roles');
+                Route::post(__('route.update_roles'), [AccountsController::class, 'updateRoles'])
+                    ->name('update.roles');
 
-            Route::get('warning-toast-accounts', function () {
-                return redirect()
-                    ->route('manage.accounts.index')
-                    ->with([
-                        'toast-type' => 'warning',
-                        'toast-message' => __('toast/messages.warning-accounts')
-                    ]);
+                Route::get('warning-toast-accounts', function () {
+                    return redirect()
+                        ->route('manage.accounts.index')
+                        ->with([
+                            'toast-type' => 'warning',
+                            'toast-message' => __('toast/messages.warning-accounts')
+                        ]);
+                });
+
+                Route::get('warning-toast-no-admins', function () {
+                    return redirect()
+                        ->route('manage.accounts.index')
+                        ->with([
+                            'toast-type' => 'warning',
+                            'toast-message' => __('toast/messages.warning-no-admins')
+                        ]);
+                });
             });
 
-            Route::get('warning-toast-no-admins', function () {
-                return redirect()
-                    ->route('manage.accounts.index')
-                    ->with([
-                        'toast-type' => 'warning',
-                        'toast-message' => __('toast/messages.warning-no-admins')
-                    ]);
+            Route::prefix(__('route.backorders'))->name('backorders.')->group(function () {
+                Route::get(__('route.download'), [BackordersController::class, 'download'])
+                    ->name('download');
+            });
+
+            // Manage Proucts
+            Route::prefix(__('route.products'))->name('products.')->group(function () {
+                Route::get('/', [ProductController::class, 'index'])
+                    ->name('index');
+
+                Route::prefix(__('route.create'))->name('create.')->group(function () {
+                    Route::get('/', [ProductController::class, 'add'])
+                        ->name('index');
+
+                    Route::post('store', [ProductController::class, 'store'])
+                        ->name('store');
+                });
+
+                Route::prefix(__('route.edit'))->name('edit.')->group(function () {
+                    Route::get('/{id}', [ProductController::class, 'edit'])
+                        ->name('index');
+
+                    Route::put('store/{id}', [ProductController::class, 'update'])
+                        ->name('store');
+                });
+            });
+
+            // Manage Stocks
+            Route::prefix(__('route.stocks'))->name('stocks.')->group(function () {
+                Route::put('/{product}/{type}', [StocksController::class, 'update'])
+                    ->name('update');
+
+                Route::get('/', [StocksController::class, 'index'])
+                    ->name('index');
+
+                Route::delete('/destroy', [StocksController::class, 'destroy'])
+                    ->name('destroy');
             });
         });
 
@@ -84,6 +128,15 @@ Route::middleware('role:admin|teamleader')->group(function () {
 
             Route::get(__('route.filter'), [ManageOrdersController::class, 'filter'])
                 ->name('filter');
+
+            Route::post(__('route.delete') . '/{id}', [ManageOrdersController::class, 'deleteOrderLine'])
+                ->name('delete.orderline');
+
+            Route::post(__('route.add_product') . '/{id}', [ManageOrdersController::class, 'addProduct'])
+                ->name('add.product');
+
+            Route::post(__('route.update') . '/{id}', [ManageOrdersController::class, 'updateProductPrice'])
+                ->name('update-price');
 
             // In geval dat '/{id}' breekt, vervang deze met de uigecommente route hieronder
             // Route::post(__('route.cancel-order') . '/{id}', [ManageOrdersController::class, 'cancelOrder'])
@@ -98,6 +151,7 @@ Route::middleware('role:admin|teamleader')->group(function () {
         Route::middleware('role:admin')->get(__('navbar.manage_products'), function () {
             return view('admin.products');
         })->name('products');
+
     });
 });
 

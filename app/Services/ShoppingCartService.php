@@ -15,6 +15,7 @@ class JsProduct {
     public $id;
     public $amount;
     public $size;
+    public $productTypeId;
 }
 
 class JsPriceChange {
@@ -34,12 +35,13 @@ class ShoppingCartService
     {
         try
         {
-            $amount = count($products);
+            $amount = 0;
             $totalPrice = 0.00;
 
             foreach ($products as $product)
             {
                 $totalPrice += ($product->price * $product->amount);
+                $amount += $product->amount;
             }
 
             return new JsPriceChange($amount, round($totalPrice, 2));
@@ -87,6 +89,8 @@ class ShoppingCartService
 
                 $product->amount = $shoppingCartProduct->amount;
                 $product->size = $product->size;
+                $product->product_type_id = $shoppingCartProduct->productTypeId;
+                $product->type = $product->productTypes()->where('id', '=', $shoppingCartProduct->productTypeId)->first()->type;
                 array_push($products, $product);
             }
 

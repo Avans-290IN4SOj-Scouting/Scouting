@@ -49,6 +49,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('home'))
+            ->with([
+                'toast-type' => 'success',
+                'toast-message' => __('auth/auth.register-success')
+            ]);
     }
 }
