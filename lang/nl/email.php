@@ -9,6 +9,7 @@ return[
         'url' => 'https://azgewinkel.nl',
         'email' => 'azgwinkel@gmail.com',
         'regards' => 'Met vriendelijke groet, ',
+        'logo-scouting' => 'Logo van '
     ],
 
     'orderstatus-changed' => [

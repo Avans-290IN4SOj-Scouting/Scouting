@@ -4,7 +4,7 @@
         <tbody>
         <tr>
             <td>
-                <img src="cid:image1" alt="image not found" width="150" height="100">
+                <img src="cid:image1" alt="{{ __('email.general.logo-scouting') . config('app.name') }}" width="150" height="100">
             </td>
             <td>
                 <table>
