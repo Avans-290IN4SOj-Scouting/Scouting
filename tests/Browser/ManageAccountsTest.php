@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Dusk\Browser;
+use Spatie\Permission\Models\Role;
 use Tests\DuskTestCase;
 use App\Models\User;
 
@@ -50,6 +51,26 @@ class ManageAccountsTest extends DuskTestCase
                 ->within('#roleContainer' . $userToEdit->id, function ($container) use ($groupToSelect) {
                     $container->waitFor('#subroleSelect' . $groupToSelect->name . '1')
                         ->assertVisible('#subroleSelect' . $groupToSelect->name . '1');
+                });
+        });
+    }
+
+    public function testExistingRoleAddsRoleSelect() {
+        $admin = User::factory()->create(['email' => 'role.existing.select']);
+        $admin->assignRole('admin');
+
+        $user = User::find(1);
+        $role = Role::find(4); // bevers_a
+        $group = Group::find($role->group_id);
+        $user->assignRole($role);
+
+        $this->browse(function (Browser $browser) use ($admin, $user, $group) {
+            $browser->loginAs($admin)
+                ->visitRoute('manage.accounts.index')
+                ->pause(5000)
+                ->within('#roleContainer' . $user->id, function ($container) use ($group) {
+                    $container->waitFor('#subroleSelect' . $group->name . '1')
+                        ->assertVisible('#subroleSelect' . $group->name . '1');
                 });
         });
     }
