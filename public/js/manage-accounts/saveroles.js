@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const saveButton = document.getElementById('saveBtn');
             if (saveButton) {
                 saveButton.addEventListener('click', function () {
-                    if (changedAccountsInfo.length > 0) {
+                    if (changedAccountsInfo.innerHTML.trim().length > 0) {
                         confirmModal.classList.remove('hidden');
                     } else {
                         createToast('warning', langNoChanges);
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (confirmModalBtn) {
                 confirmModalBtn.addEventListener('click', function () {
+                    submitForm();
                     confirmModal.classList.add('hidden');
                 });
             }
@@ -225,6 +226,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 return selectedRoles;
+            }
+
+            function submitForm() {
+                const savedRoleChanges = JSON.parse(localStorage.getItem('roleChanges')) || [];
+                document.getElementById('userRoles').value = JSON.stringify(savedRoleChanges);
+                document.getElementById('updateRoleForm').submit();
             }
         })
         .catch(error => console.error(error))

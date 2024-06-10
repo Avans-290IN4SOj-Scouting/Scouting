@@ -144,7 +144,8 @@ class AccountsController extends Controller
                         $user->assignRole($teamleaderRole);
                     }
 
-                    $role = Role::firstOrCreate(["name" => $newRole]);
+                    $role = Role::where('id', $newRole)->first();
+
                     $user->assignRole($role);
                 }
             }
