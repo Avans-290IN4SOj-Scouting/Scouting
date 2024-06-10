@@ -31,8 +31,8 @@ class ManageAccountsTest extends TestCase
         $userRolesData = [
             [
                 'email' => $userToBeModified->email,
-                'oldRoles' => $userToBeModified->roles()->first()->name,
-                'newRoles' => ['admin'],
+                'oldRoles' => $userToBeModified->roles()->first()->id,
+                'newRoles' => [Role::where('name', 'admin')->first()->id],
             ]
         ];
 
