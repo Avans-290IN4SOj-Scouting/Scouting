@@ -48,7 +48,7 @@ class ManageAccountsTest extends DuskTestCase
                 });
         });
     }
-    
+
     public function testAddRoleAndShowModal()
     {
         $admin = User::factory()->create(['email' => 'modal.displayed']);
@@ -86,6 +86,9 @@ class ManageAccountsTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
                 ->visit(route('manage.accounts.index'))
+                ->pause(5000)
+                ->waitFor('#resetButton')
+                ->click('#resetButton')
                 ->pause(5000)
                 ->waitFor('#saveBtn')
                 ->assertVisible('#saveBtn')
