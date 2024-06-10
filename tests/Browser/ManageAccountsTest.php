@@ -81,7 +81,7 @@ class ManageAccountsTest extends DuskTestCase
      */
     public function testModalAppearsAfterRoleChange()
     {
-        $admin = User::factory()->create(['email' => 'role.dropdown.test']);
+        $admin = User::factory()->create(['email' => 'modal.displayed']);
         $admin->assignRole('admin');
 
         $userToEdit = User::find(1);
@@ -110,16 +110,18 @@ class ManageAccountsTest extends DuskTestCase
 
     public function testNoModalDisplayedWithNoChanges()
     {
-        $admin = User::factory()->create(['email' => 'no.model.displayed']);
+        $admin = User::factory()->create(['email' => 'no.modal.displayed']);
         $admin->assignRole('admin');
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
                 ->visit(route('manage.accounts.index'))
-                ->click('.saveBtn')
-                ->waitFor('.toast-warning', 10)
-                ->assertVisible('.toast-warning')
-                ->screenshot('manage-accounts/warning-toast');
+                ->pause(5000)
+                ->waitFor('#saveBtn')
+                ->assertVisible('#saveBtn')
+                ->press('#saveBtn')
+                ->waitFor('#dismiss-toast')
+                ->assertVisible('#dismiss-toast');
         });
     }
 }
