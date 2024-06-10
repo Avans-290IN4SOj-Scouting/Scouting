@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -27,16 +28,29 @@ class ManageAccountsTest extends DuskTestCase
         });
     }
 
-    public function testRoleDropdown()
+    public function testAddRoleSelect()
     {
         $admin = User::factory()->create(['email' => 'role.dropdown.test']);
         $admin->assignRole('admin');
 
-        $this->browse(function (Browser $browser) use ($admin) {
+        $userToEdit = User::find(1);
+        $groupToSelect = Group::find(1);
+
+        $this->browse(function (Browser $browser) use ($admin, $userToEdit, $groupToSelect) {
             $browser->loginAs($admin)
-                ->visit(route('manage.accounts.index'))
-                ->click('#selectRole-div')
-                ->assertSee(__('manage-accounts/roles.admin'));
+                ->visitRoute('manage.accounts.index')
+                ->pause(5000)
+                ->whenAvailable('#roleContainer' . $userToEdit->id, function ($container) {
+                    $container->click('#addRoleButton');
+                })
+                ->waitFor('#selectRole' . $userToEdit->id)
+                ->assertVisible('#selectRole' . $userToEdit->id)
+                ->select('#selectRole' . $userToEdit->id, $groupToSelect->name)
+                ->pause(5000)
+                ->within('#roleContainer' . $userToEdit->id, function ($container) use ($groupToSelect) {
+                    $container->waitFor('#subroleSelect' . $groupToSelect->name . '1')
+                        ->assertVisible('#subroleSelect' . $groupToSelect->name . '1');
+                });
         });
     }
 
