@@ -30,6 +30,9 @@ class AccountsController extends Controller
             ]);
     }
 
+    /*
+     * Is used to send data to JS files without exposing the return data
+     */
     public function getData(Request $request)
     {
         if ($request->header('X-Requested-With') === 'XMLHttpRequest') {
