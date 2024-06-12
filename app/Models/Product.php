@@ -15,6 +15,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'image_path',
+        'variety_id',
     ];
 
     public function productTypes(): BelongsToMany

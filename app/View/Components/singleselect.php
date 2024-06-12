@@ -14,8 +14,9 @@ class Singleselect extends Component
     public $value;
     public $name;
     public $class;
+    public $selected;
 
-    public function __construct($label, $name, $placeholder, $options, $value = null, $class = '')
+    public function __construct($label, $name, $placeholder, $options, $value = null, $class = '', $selected = null)
     {
         $this->label = $label;
         $this->name = $name;
@@ -23,6 +24,7 @@ class Singleselect extends Component
         $this->options = $options;
         $this->value = $value;
         $this->class = $class;
+        $this->selected = $selected;
     }
 
     public function render(): View|Closure|string

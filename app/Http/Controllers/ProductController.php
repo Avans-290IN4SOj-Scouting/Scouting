@@ -10,6 +10,7 @@ use App\Models\ProductType;
 use App\Models\OrderLine;
 use App\Http\Requests\ProductCreationRequest;
 use App\Http\Requests\ProductEditRequest;
+use App\Models\ProductVariety;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Enum\PriceSizeErrorEnum;
@@ -31,6 +32,7 @@ class ProductController extends Controller
                         'price' => $size->pivot->price,
                     ];
                 }),
+                'variety' => ProductVariety::find($product->variety_id)->variety,
                 'id' => $product->id,
             ];
         });
@@ -46,11 +48,13 @@ class ProductController extends Controller
         $categories = ProductType::all();
         $groups = Group::all();
         $productSizes = ProductSize::whereNot('size', 'Default')->get();
+        $varieties = ProductVariety::all();
 
         return view('admin.add-product', [
             'baseCategories' => $categories,
             'baseGroups' => $groups,
             'baseProductSizes' => $productSizes,
+            'baseVarieties' => $varieties,
             'price_sizeErrorTypes' => PriceSizeErrorEnum::toArray(),
             'sizes' => ProductSize::all(),
         ]);
@@ -95,14 +99,18 @@ class ProductController extends Controller
             }
         }
 
+        $variety = ProductVariety::find($product->variety_id)->variety;
+
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
         return view('admin.edit-product', [
             'product' => $product,
             'baseCategories' => ProductType::all(),
             'baseGroups' => Group::all(),
             'baseProductSizes' => ProductSize::whereNot('size', 'Default')->get(),
+            'baseVarieties' => ProductVariety::all(),
             'chosenCategories' => $product->productTypes,
             'chosenGroups' => $product->groups,
+            'chosenVariety' => $variety,
             'sizesWithPrices' => $sizes,
             'defaultSizeWithPrice' => $defaultSize,
             'nameDisabled' => $nameDisabled,
@@ -115,9 +123,14 @@ class ProductController extends Controller
     // POST
     public function store(ProductCreationRequest $request)
     {
+        // Variety
+        $requestVariety = $request->input('products-variety-select');
+        $variety = ProductVariety::where('variety', '=', $requestVariety)->first()->id;
+
         $product = Product::create([
+            'variety_id' => $variety,
             'name' => $request->input('name'),
-            'image_path' => '/images/products/placeholder.png'
+            'image_path' => '/images/products/placeholder.png',
         ]);
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
 
@@ -268,6 +281,11 @@ class ProductController extends Controller
                 $category = ProductType::where('type', '=', $inputCategory)->first();
                 $product->productTypes()->attach($category);
             }
+
+            // Variety
+            $requestVariety = $request->input('products-variety-select');
+            $variety = ProductVariety::where('variety', '=', $requestVariety)->first()->id;
+            $product->variety_id = $variety;
 
             DB::commit();
             $product->save();

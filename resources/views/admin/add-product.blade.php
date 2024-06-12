@@ -55,6 +55,11 @@
                     <!-- Product Category Field -->
                     <x-multiselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" id="product-category"
                         name="products-category-multiselect" class="manage-products/products.category-multiselect" />
+
+                    <!-- Product Variety Field -->
+                    <x-singleselect :label="__('manage-products/products.variety_input_label')" :placeholder="__('manage-products/products.variety_input_placeholder')" :options="$baseVarieties->pluck('variety')" id="product-variety"
+                        name="products-variety-select" class="manage-products/products.variety-select" />
+
                     <!-- Add Product Button -->
                     <button type="submit" id="add-product-button"
                         class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">

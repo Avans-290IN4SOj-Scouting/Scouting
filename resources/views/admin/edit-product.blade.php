@@ -67,6 +67,10 @@
                     <x-multiselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" :selected="$chosenCategories->pluck('type')"
                         name="products-category-multiselect" class="manage-products/products.category-multiselect" />
 
+                    <!-- Product Variety Field -->
+                    <x-singleselect :label="__('manage-products/products.variety_input_label')" :placeholder="__('manage-products/products.variety_input_placeholder')" :options="$baseVarieties->pluck('variety')" :value="$chosenVariety"
+                        name="products-variety-select" class="manage-products/products.variety-select" />
+
                     <!-- Disable Product Checkbox -->
                     <div class="flex">
                         <input name="inactive-checkbox" type="checkbox"
