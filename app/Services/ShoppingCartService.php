@@ -113,7 +113,6 @@ class ShoppingCartService
         }
         catch(Exception $e)
         {
-            dd($e);
             $this->clearShoppingCart();
         }
 
