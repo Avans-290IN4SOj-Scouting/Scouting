@@ -92,12 +92,14 @@ function formatPrice(price) {
 function DOM_addProductFromProductPage(productId) {
     try
     {
-        const sizeElement = document.querySelector('#product-sizes');
-        const sizeId = sizeElement.options[sizeElement.selectedIndex].id;
+        let typeId = 0;
+        let sizeId = 0;
 
+        const sizeElement = document.querySelector('#product-sizes');
+        if (sizeElement !== null) {
+            sizeId = sizeElement.options[sizeElement.selectedIndex].id;
+        }
         const typeElement = document.querySelector('#product-types');
-        // TODO: Hardcoded type id naar unisex
-        const typeId = 2;
 
         const amount = 1;
         addProductToShoppingCart(productId, sizeId, typeId, amount);

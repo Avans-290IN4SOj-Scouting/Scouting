@@ -40,7 +40,7 @@
                                 <div>
                                     <div>
                                         <p class="text-lg font-bold text-gray-800 dark:text-white">
-                                            {{ $product->name }} - {{ __('orders/orders.size') }} {{ $product->size }} - {{ $product->type }}
+                                            {{ $product->name }} - {{ __('orders/orders.size') }} {{ $product->size }} @if($product->type !== null) - {{ $product->type }} @endif
                                         </p>
                                         <p class="dark:text-white">
                                             <span
