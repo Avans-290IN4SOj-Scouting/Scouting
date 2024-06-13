@@ -16,6 +16,7 @@ class Product extends Model
         'name',
         'image_path',
         'variety_id',
+        'type_id',
     ];
 
     public function productTypes(): BelongsToMany
@@ -27,6 +28,11 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductSize::class, 'product_product_size', 'product_id', 'product_size_id')
             ->withPivot('price');
+    }
+
+    public function type(): HasOne
+    {
+        return $this->hasOne(ProductType::class, 'type_id');
     }
 
     public function variety() : HasOne

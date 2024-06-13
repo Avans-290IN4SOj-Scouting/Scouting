@@ -68,9 +68,7 @@
                                     @endforeach
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                    @foreach ($product['category'] as $category)
-                                        <div>{{ $category }}</div>
-                                    @endforeach
+                                    <div>{{ $product['category'] }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                     <div>{{ $product['variety'] }}</div>

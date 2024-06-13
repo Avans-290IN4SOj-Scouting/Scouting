@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             ProductTypeSeeder::class,
             ProductSizeSeeder::class,
             ProductVarietySeeder::class,
-            ProductSeeder::class,
+//            ProductSeeder::class,
             GroupSeeder::class,
             ProductGroupSeeder::class,
         ]);
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserWithRoleSeeder::class,
-            OrderSeeder::class,
+//            OrderSeeder::class,
         ]);
 
         foreach ($users as $user) {

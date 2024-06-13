@@ -93,7 +93,14 @@ function DOM_addProductFromProductPage(productId) {
     try
     {
         const sizeElement = document.querySelector('#product-sizes');
-        const sizeId = sizeElement.options[sizeElement.selectedIndex].id;
+        let sizeId;
+
+        if (!sizeElement) {
+            sizeId = 1; // Default size (nvt)
+        }
+        else {
+            sizeId = sizeElement.options[sizeElement.selectedIndex].id;
+        }
 
         const amount = 1;
         addProductToShoppingCart(productId, sizeId, amount);

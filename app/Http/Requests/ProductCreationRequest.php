@@ -23,7 +23,8 @@ class ProductCreationRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'products-category-multiselect' => 'required|array',
+            'products-category-select' => 'required',
+            'products-variety-select' => 'required',
             'products-group-multiselect' => 'required|array',
             'price_input' => 'required|array',
             'price_input.*' => 'required|numeric|max:1000|min:0',
@@ -36,8 +37,8 @@ class ProductCreationRequest extends FormRequest
         return [
             'name.required' => __('manage-products/requests.name.required'),
             'name.string' => __('manage-products/requests.name.string'),
-            'products-category-multiselect.required' => __('manage-products/requests.category.required'),
-            'products-category-multiselect.array' => __('manage-products/requests.category.array'),
+            'products-category-select.required' => __('manage-products/requests.category.required'),
+            'products-variety-select.required' => __('manage-products/requests.variety.required'),
             'af-submit-app-upload-images.required' => __('manage-products/requests.image.required'),
             'af-submit-app-upload-images.file' => __('manage-products/requests.image.file'),
             'af-submit-app-upload-images.image' => __('manage-products/requests.image.image'),

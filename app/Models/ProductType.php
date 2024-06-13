@@ -13,8 +13,8 @@ class ProductType extends Model
 
     protected $fillable = ['type'];
 
-    public function products(): BelongsToMany
+    public function products(): HasMany
     {
-        return $this->belongsToMany(Product::class, 'product_product_type', 'product_type_id', 'product_id');
+        return $this->hasMany(Product::class);
     }
 }
