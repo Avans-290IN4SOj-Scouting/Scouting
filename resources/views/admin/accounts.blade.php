@@ -32,7 +32,6 @@
                             {{__('manage-accounts/accounts.remove_filters_button')}}
                         </a>
                     </div>
-                    <!-- TODO: LOCALIZATION -->
                     <button id="resetButton" type="button" onclick="resetLocalStorage(); return false;"
                             class="py-3 px-4 mb-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-500 hover:bg-red-100 hover:text-red-800 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-red-800/30 dark:hover:text-red-400">
                         {{ __('manage-accounts/accounts.reset_changes') }}
