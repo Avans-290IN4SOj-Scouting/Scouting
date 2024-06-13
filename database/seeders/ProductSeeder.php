@@ -25,15 +25,12 @@ class ProductSeeder extends Seeder
                 'name' => 'Das',
                 'image_path' => '/images/products/das.png',
                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+                'type_id' => ProductType::where('type', ProductTypeEnum::Default)->first()->id
             ]);
 
             $product->productSizes()->attach($product->id, [
                 'product_size_id' => ProductSize::where('size', ProductSizesEnum::nvt)->first()->id,
                 'price' => 7.75
-            ]);
-
-            $product->productTypes()->attach($product->id, [
-                'product_type_id' => ProductType::where('type', ProductTypeEnum::Default)->first()->id
             ]);
         }
         // Dasring
@@ -42,15 +39,12 @@ class ProductSeeder extends Seeder
                 'name' => 'Dasring',
                 'image_path' => '/images/products/dasring.png',
                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
+                'type_id' => ProductType::where('type', ProductTypeEnum::Default)->first()->id
             ]);
 
             $product->productSizes()->attach($product->id, [
                 'product_size_id' => ProductSize::where('size', ProductSizesEnum::nvt)->first()->id,
                 'price' => 2.75
-            ]);
-
-            $product->productTypes()->attach($product->id, [
-                'product_type_id' => ProductType::where('type', ProductTypeEnum::Default)->first()->id
             ]);
         }
         // Bevers
@@ -67,20 +61,14 @@ class ProductSeeder extends Seeder
                 'name' => 'Polo - Bevers',
                 'image_path' => '/images/products/polo-bevers.jpg',
                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-            ]);
-
-            $polo->productTypes()->attach($product->id, [
-                'product_type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
+                'type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
             ]);
 
             $trui = Product::create([
                 'name' => 'Trui - Bevers',
                 'image_path' => '/images/products/trui-bevers.jpeg',
                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-            ]);
-
-            $trui->productTypes()->attach($product->id, [
-                'product_type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
+                'type_id' => ProductType::where('type', ProductTypeEnum::Red)->first()->id
             ]);
 
             foreach ($sizes as $size) {
@@ -109,20 +97,14 @@ class ProductSeeder extends Seeder
                 'name' => 'Polo - Gidsen',
                 'image_path' => '/images/products/polo-gidsen.jpg',
                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-            ]);
-
-            $polo->productTypes()->attach($product->id, [
-                'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkBlue)->first()->id
+                'type_id' => ProductType::where('type', ProductTypeEnum::DarkBlue)->first()->id
             ]);
 
             $trui = Product::create([
                 'name' => 'Trui - Gidsen',
                 'image_path' => '/images/products/trui-gidsen.jpg',
                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-            ]);
-
-            $trui->productTypes()->attach($product->id, [
-                'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkBlue)->first()->id
+                'type_id' => ProductType::where('type', ProductTypeEnum::DarkBlue)->first()->id
             ]);
 
             foreach ($sizes as $size) {
@@ -152,20 +134,14 @@ class ProductSeeder extends Seeder
                     'name' => 'Polo - Kabouters',
                     'image_path' => '/images/products/polo-kabouter.jpg',
                     'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                ]);
-
-                $polo->productTypes()->attach($product->id, [
-                    'product_type_id' => ProductType::where('type', ProductTypeEnum::LightBlue)->first()->id
+                    'type_id' => ProductType::where('type', ProductTypeEnum::LightBlue)->first()->id
                 ]);
 
                 $trui = Product::create([
                     'name' => 'Trui - Kabouters',
                     'image_path' => '/images/products/trui-kabouter.jpeg',
                     'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                ]);
-
-                $trui->productTypes()->attach($product->id, [
-                    'product_type_id' => ProductType::where('type', ProductTypeEnum::LightBlue)->first()->id
+                    'type_id' => ProductType::where('type', ProductTypeEnum::LightBlue)->first()->id
                 ]);
 
                 foreach ($sizes as $size) {
@@ -193,20 +169,14 @@ class ProductSeeder extends Seeder
                         'name' => 'Polo - Scouts',
                         'image_path' => '/images/products/polo-verkenners.jpg',
                         'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                    ]);
-
-                    $polo->productTypes()->attach($product->id, [
-                        'product_type_id' => ProductType::where('type', ProductTypeEnum::Gray)->first()->id
+                        'type_id' => ProductType::where('type', ProductTypeEnum::Gray)->first()->id
                     ]);
 
                     $trui = Product::create([
                         'name' => 'Trui - Scouts',
                         'image_path' => '/images/products/trui-verkenners.jpg',
                         'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                    ]);
-
-                    $trui->productTypes()->attach($product->id, [
-                        'product_type_id' => ProductType::where('type', ProductTypeEnum::Gray)->first()->id
+                        'type_id' => ProductType::where('type', ProductTypeEnum::Gray)->first()->id
                     ]);
 
                     foreach ($sizes as $size) {
@@ -238,30 +208,21 @@ class ProductSeeder extends Seeder
                         'name' => 'Polo - Waterwerk dames',
                         'image_path' => '/images/products/polo-waterwerk-v.png',
                         'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Dames)->first()->id,
-                    ]);
-
-                    $poloDames->productTypes()->attach($product->id, [
-                        'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
+                        'type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
                     ]);
 
                     $poloHeren = Product::create([
                         'name' => 'Polo - Waterwerk heren',
                         'image_path' => '/images/products/polo-waterwerk.png',
                         'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Heren)->first()->id,
-                    ]);
-
-                    $poloHeren->productTypes()->attach($product->id, [
-                        'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
+                        'type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
                     ]);
 
                     $trui = Product::create([
                         'name' => 'Trui - Waterwerk',
                         'image_path' => '/images/products/trui-waterwerk.png',
                         'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                    ]);
-
-                    $trui->productTypes()->attach($product->id, [
-                        'product_type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
+                        'type_id' => ProductType::where('type', ProductTypeEnum::DarkGray)->first()->id
                     ]);
 
                     foreach ($sizes as $size) {
@@ -292,20 +253,14 @@ class ProductSeeder extends Seeder
                             'name' => 'Polo - Welpen',
                             'image_path' => '/images/products/polo-welp.jpg',
                             'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                        ]);
-
-                        $polo->productTypes()->attach($product->id, [
-                            'product_type_id' => ProductType::where('type', ProductTypeEnum::Green)->first()->id
+                            'type_id' => ProductType::where('type', ProductTypeEnum::Green)->first()->id
                         ]);
 
                         $trui = Product::create([
                             'name' => 'Trui - Welpen',
                             'image_path' => '/images/products/trui-welp.jpeg',
                             'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                        ]);
-
-                        $trui->productTypes()->attach($product->id, [
-                            'product_type_id' => ProductType::where('type', ProductTypeEnum::Green)->first()->id
+                            'type_id' => ProductType::where('type', ProductTypeEnum::Green)->first()->id
                         ]);
 
                         foreach ($sizes as $size) {
@@ -333,30 +288,21 @@ class ProductSeeder extends Seeder
                                 'name' => 'Polo - Leidsters',
                                 'image_path' => '/images/products/polo-staf-v.png',
                                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Dames)->first()->id,
-                            ]);
-
-                            $poloDames->productTypes()->attach($product->id, [
-                                'product_type_id' => ProductType::where('type', ProductTypeEnum::Black)->first()->id
+                                'type_id' => ProductType::where('type', ProductTypeEnum::Black)->first()->id
                             ]);
 
                             $poloHeren = Product::create([
                                 'name' => 'Polo - Leiders',
                                 'image_path' => '/images/products/polo-staf.png',
                                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Heren)->first()->id,
-                            ]);
-
-                            $poloHeren->productTypes()->attach($product->id, [
-                                'product_type_id' => ProductType::where('type', ProductTypeEnum::Black)->first()->id
+                                'type_id' => ProductType::where('type', ProductTypeEnum::Black)->first()->id
                             ]);
 
                             $trui = Product::create([
                                 'name' => 'Trui - Leiding',
                                 'image_path' => '/images/products/trui-staf.png',
                                 'variety_id' => ProductVariety::where('variety', ProductVarietyEnum::Unisex)->first()->id,
-                            ]);
-
-                            $trui->productTypes()->attach($product->id, [
-                                'product_type_id' => ProductType::where('type', ProductTypeEnum::Black)->first()->id
+                                'type_id' => ProductType::where('type', ProductTypeEnum::Black)->first()->id
                             ]);
 
                             foreach ($sizes as $size) {

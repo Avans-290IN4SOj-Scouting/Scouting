@@ -6,8 +6,8 @@ use App\Enum\ProductSizesEnum;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\ProductProductSize;
-use App\Models\ProductProductType;
 use App\Models\ProductSize;
+use App\Models\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\File;
 
@@ -38,7 +38,7 @@ class OrderLineFactory extends Factory
             'product_size' => $size,
             'product_image_path' => $product->image_path,
             'amount' => $amount,
-            'product_type_id' => ProductProductType::where('product_id', $product->id)->first()->product_type_id,
+            'product_type_id' => ProductType::where('id', $product->type_id)->first()->id,
         ];
     }
 }
