@@ -141,7 +141,8 @@ class OrderController extends Controller
                 $orderLine->amount = $product->amount;
                 $orderLine->product_price = $product->price;
                 $orderLine->product_size = $product->size;
-                $orderLine->product_type_id = $product->product_type_id;
+                // TODO: Fix this
+                $orderLine->product_type_id = 1;
                 $orderLine->product_image_path = $product->image_path;
 
                 $orderLine->save();

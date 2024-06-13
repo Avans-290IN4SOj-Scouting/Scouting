@@ -15,7 +15,6 @@ class JsProduct {
     public $id;
     public $amount;
     public $size;
-    public $productTypeId;
 }
 
 class JsPriceChange {
@@ -77,9 +76,10 @@ class ShoppingCartService
             {
                 $product = Product::join('product_product_size', 'products.id', '=', 'product_product_size.product_id')
                     ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
+                    ->join('product_varieties', 'product_varieties.id', '=', 'products.variety_id')
                     ->where('products.id', '=', $shoppingCartProduct->id)
                     ->where('product_sizes.id', '=', $shoppingCartProduct->sizeId)
-                    ->select('products.*', 'product_product_size.*', 'product_sizes.*')
+                    ->select('products.*', 'product_product_size.*', 'product_sizes.*', 'product_varieties.*')
                     ->first();
 
                 if ($product === null)
@@ -89,8 +89,7 @@ class ShoppingCartService
 
                 $product->amount = $shoppingCartProduct->amount;
                 $product->size = $product->size;
-                $product->product_type_id = $shoppingCartProduct->productTypeId;
-                $product->type = $product->productTypes()->where('id', '=', $shoppingCartProduct->productTypeId)->first()->type;
+
                 array_push($products, $product);
             }
 
@@ -98,7 +97,8 @@ class ShoppingCartService
         }
         catch(Exception $e)
         {
-            $this->clearShoppingCart();
+            dd($e);
+//            $this->clearShoppingCart();
         }
 
         return [];
