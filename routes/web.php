@@ -199,3 +199,10 @@ Route::get('/gmail/authenticate', [GmailController::class, 'authenticate'])
     ->name('gmail.authenticate');
 Route::get("/auth/google/callback", [GmailController::class, 'gmailAuthCallback'])
     ->name('gmail.auth-callback');
+
+/*
+JS fetch route to get variables from AccountsController
+Hardcoded URL as JS cannot use lang files
+*/
+Route::get('/getData', [AccountsController::class, 'getData'])
+    ->name('getData');

@@ -99,7 +99,7 @@ function addProductToShoppingCart(id, sizeId, typeId, amount) {
     saveShoppingCart(shoppingCart);
 
     // 4. Show message
-    createToast('Product toegevoegd aan winkelwagen!', 'success');
+    createToast('success', 'Product toegevoegd aan winkelwagen!' );
 }
 
 function removeProductFromShoppingCart(id, sizeId, typeId) {
@@ -116,7 +116,7 @@ function removeProductFromShoppingCart(id, sizeId, typeId) {
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);
-    createToast('Product verwijderd uit uw winkelwagen!', 'success');
+    createToast('success', 'Product verwijderd uit uw winkelwagen!');
 }
 
 function setShoppingCartProductAmount(id, sizeId, typeId, amount) {
