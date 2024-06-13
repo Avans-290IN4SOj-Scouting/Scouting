@@ -65,7 +65,7 @@ class GroupSeeder extends Seeder
             "name" => "Leiders",
             "min_age" => "1",
             "max_age" => "99",
-            "image_url" => "/images/groups/leiders,png",
+            "image_url" => "/images/groups/leiders.png",
             "size_id" => "7"
         ]);
     }

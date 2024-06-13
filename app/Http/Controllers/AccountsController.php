@@ -6,6 +6,7 @@ use App\Enum\UserRoleEnum;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class AccountsController extends Controller
@@ -30,6 +31,9 @@ class AccountsController extends Controller
             ]);
     }
 
+    /*
+     * Is used to send data to JS files without exposing the return data
+     */
     public function getData(Request $request)
     {
         if ($request->header('X-Requested-With') === 'XMLHttpRequest') {
@@ -64,12 +68,18 @@ class AccountsController extends Controller
             ->where('email', 'like', "%$search%");
 
         $filter = $request->input('filter');
+
         if ($filter) {
             try {
-                $accounts = $accounts->whereHas('roles', function ($query) use ($filter) {
-                    $filter = UserRoleEnum::delocalised($filter);
-                    return $query->where('name', $filter);
-                });
+                $normalizedFilter = Str::snake(Str::lower($filter));
+
+                $roleId = Role::where('name', $normalizedFilter)->value('id');
+
+                if ($roleId) {
+                    $accounts = $accounts->whereHas('roles', function ($query) use ($normalizedFilter) {
+                        return $query->where('name', $normalizedFilter);
+                    });
+                }
             } catch (\UnhandledMatchError $e) {
                 return redirect()->route('manage.accounts.index')->with([
                     'toast-type' => 'error',
@@ -119,7 +129,8 @@ class AccountsController extends Controller
 
         return $allRoles->reduce(function ($carry, $role) {
             if ($role !== self::TEAM_LEADER) {
-                $carry[] = __('manage-accounts/roles.' . $role);
+                $formattedRole = Str::title(str_replace('_', ' ', $role));
+                $carry[] = $formattedRole;
             }
 
             return $carry;
@@ -144,7 +155,8 @@ class AccountsController extends Controller
                         $user->assignRole($teamleaderRole);
                     }
 
-                    $role = Role::firstOrCreate(["name" => $newRole]);
+                    $role = Role::where('id', $newRole)->first();
+
                     $user->assignRole($role);
                 }
             }
