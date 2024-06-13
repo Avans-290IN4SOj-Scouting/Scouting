@@ -11,7 +11,7 @@
     }'>
         <option value="">{{ __('manage-products/products.choose') . $name }}</option>
         @foreach ($options as $option)
-            <option {{ $value == $option ? 'selected' : '' }}>{{ $option }}</option>
+            <option value="{{ $option }}" {{ $value == $option ? 'selected' : '' }}>{{ $option }}</option>
         @endforeach
     </select>
     <div class="absolute top-1/2 end-3 -translate-y-1/2">

@@ -251,14 +251,13 @@ class ProductController extends Controller
             $category = ProductType::where('type', '=', $categoryInput)->first();
 
             $product->type_id = $category->id;
-
             // Variety
             $requestVariety = $request->input('products-variety-select');
             $variety = ProductVariety::where('variety', '=', $requestVariety)->first()->id;
             $product->variety_id = $variety;
 
-            DB::commit();
             $product->save();
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->route('manage.products.index')->with([

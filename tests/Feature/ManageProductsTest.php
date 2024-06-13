@@ -28,11 +28,12 @@ class ManageProductsTest extends TestCase
 
         $data = [
             'name' => 'Grootste Vlinderdas',
-            'products-category-multiselect' => ['Groen', 'Blauw'],
-            'af-submit-app-upload-images' => $image,
             'size_input' => ['1', '2'],
             'price_input' => [200.00, 300.00],
             'products-group-multiselect' => ['Bevers', 'Welpen'],
+            'products-category-select' => 'Donkerblauw',
+            'products-variety-select' => 'Unisex',
+            'af-submit-app-upload-images' => $image,
         ];
         $this->actingAs($admin)->post(route('manage.products.create.store'), $data);
 
@@ -45,18 +46,21 @@ class ManageProductsTest extends TestCase
         $product = Product::create([
             'name' => 'Existing Product',
             'image_path' => 'fake_image.jpg',
-            'product_type_id' => $initialProductType->id
+            'product_type_id' => $initialProductType->id,
+            'variety_id' => 1,
+            'type_id' => 1,
         ]);
         $admin = User::factory()
             ->create(['email' => 'admin@test.nl'])
             ->assignRole('admin');
         $data = [
             'name' => 'Updated Product Name',
-            'products-category-multiselect' => ['Groen', 'Blauw'],
-            'image_path' => 'fake_image.jpg',
             'size_input' => ['1', '2'],
             'price_input' => [200, 300],
             'products-group-multiselect' => ['Scouts', 'Welpen'],
+            'products-category-select' => 'Donkerblauw',
+            'products-variety-select' => 'Unisex',
+            'image_path' => 'fake_image.jpg',
         ];
         $this->actingAs($admin)->put(route('manage.products.edit.store', $product->id), $data);
 
