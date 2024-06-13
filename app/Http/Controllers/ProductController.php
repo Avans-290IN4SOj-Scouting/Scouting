@@ -20,7 +20,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productTypes', 'groups')->get();
+        $products = Product::with('groups')->get();
         $productsModel = $products->map(function ($product) {
             return [
                 'name' => $product->name,
@@ -63,7 +63,7 @@ class ProductController extends Controller
     // GET
     public function edit($productId)
     {
-        $product = Product::with(['productTypes', 'groups', 'productSizes'])->find($productId);
+        $product = Product::with(['groups', 'productSizes'])->find($productId);
         if (!$product) {
             // Product not found, redirect back with an error message
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
