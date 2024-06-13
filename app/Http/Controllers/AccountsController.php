@@ -141,23 +141,30 @@ class AccountsController extends Controller
     {
         $accounts = json_decode($request->input("userRoles"), true);
 
-        $teamRoles = Role::where("name", "LIKE", "team_%")->pluck("name")->toArray();
-
         foreach ($accounts as $account) {
             $user = User::where("email", $account["email"])->first();
 
             if ($user && isset($account["newRoles"])) {
                 $user->roles()->detach();
 
-                foreach ($account["newRoles"] as $newRole) {
-                    if (in_array($newRole, $teamRoles)) {
-                        $teamleaderRole = Role::where("name", self::TEAM_LEADER)->first();
-                        $user->assignRole($teamleaderRole);
-                    }
+                $hasLeaderRole = false;
 
+                foreach ($account["newRoles"] as $newRole) {
                     $role = Role::where('id', $newRole)->first();
 
+                    if ($role && $role->group_id) {
+                        $hasLeaderRole = true;
+                    }
+
                     $user->assignRole($role);
+                }
+
+                if ($hasLeaderRole) {
+                    $teamleaderRole = Role::where('name', self::TEAM_LEADER)->first();
+
+                    if ($teamleaderRole) {
+                        $user->assignRole($teamleaderRole);
+                    }
                 }
             }
         }
