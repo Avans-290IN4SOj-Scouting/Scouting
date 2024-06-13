@@ -32,7 +32,7 @@
 
                         @foreach ($products as $product)
                         <div class="shoppingcart-product"
-                            id="product-{{ $product->product_id }}size-{{ $product->product_size_id }}type-{{ $product->product_type_id }}">
+                            id="product-{{ $product->product_id }}size-{{ $product->product_size_id }}">
                             <div class="split">
                                 <div class="image">
                                     <img class="product-image" src="{{ $product->image_path }}" alt="{{ $product->name }}">
@@ -40,7 +40,7 @@
                                 <div>
                                     <div>
                                         <p class="text-lg font-bold text-gray-800 dark:text-white">
-                                            {{ $product->name }} - {{ __('orders/orders.size') }} {{ $product->size }} @if($product->type !== null) - {{ $product->type }} @endif
+                                            {{ $product->name }} - {{ __('orders/orders.size') }} {{ $product->size }}
                                         </p>
                                         <p class="dark:text-white">
                                             <span
@@ -53,7 +53,7 @@
                                         data-hs-input-number>
                                         <div class="flex items-center gap-x-1.5">
                                             <button type="button"
-                                                onclick="DOM_shoppingCartProductAdd({{ $product->product_id }}, '{{ $product->product_size_id }}', {{ $product->product_type_id }}, -1)"
+                                                onclick="DOM_shoppingCartProductAdd({{ $product->product_id }}, '{{ $product->product_size_id }}', -1)"
                                                 class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                 <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -63,14 +63,14 @@
                                                     <span class="sr-only">{{ __('orders/orders.decrease_product_amount_by_1') }}</span>
                                             </button>
 
-                                            <label for="input-{{ $product->product_id }}size-{{ $product->product_size_id }}type-{{ $product->product_type_id }}" class="sr-only">{{ __('orders/orders.product_amount') }}</label>
-                                            <input id="input-{{ $product->product_id }}size-{{ $product->product_size_id }}type-{{ $product->product_type_id }}" name="input-{{ $product->product_id }}size-{{ $product->product_size_id }}type-{{ $product->product_type_id }}"
+                                            <label for="input-{{ $product->product_id }}size-{{ $product->product_size_id }}" class="sr-only">{{ __('orders/orders.product_amount') }}</label>
+                                            <input id="input-{{ $product->product_id }}size-{{ $product->product_size_id }}" name="input-{{ $product->product_id }}size-{{ $product->product_size_id }}"
                                                 class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 dark:text-white"
-                                                onchange="DOM_shoppingCartProductAmountChange({{ $product->product_id }}, '{{ $product->product_size_id }}', {{ $product->product_type_id }})"
+                                                onchange="DOM_shoppingCartProductAmountChange({{ $product->product_id }}, '{{ $product->product_size_id }}')"
                                                 type="text" value="{{ $product->amount }}">
 
                                             <button type="button"
-                                                onclick="DOM_shoppingCartProductAdd({{ $product->product_id }}, '{{ $product->product_size_id }}', {{ $product->product_type_id }}, 1)"
+                                                onclick="DOM_shoppingCartProductAdd({{ $product->product_id }}, '{{ $product->product_size_id }}', 1)"
                                                 class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                 <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -87,7 +87,7 @@
 
                             <div class="product-shoppingcart-delete">
                                 <button type="submit" name="delete"
-                                    onclick="DOM_removeShoppingCartProduct({{ $product->product_id }}, '{{ $product->product_size_id }}', {{ $product->product_type_id }})">
+                                    onclick="DOM_removeShoppingCartProduct({{ $product->product_id }}, '{{ $product->product_size_id }}')">
                                     <div class="icon">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">

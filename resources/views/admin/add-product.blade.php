@@ -53,8 +53,8 @@
                         name="products-group-multiselect" class="manage-products/products.groups-multiselect" />
 
                     <!-- Product Category Field -->
-                    <x-multiselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" id="product-category"
-                        name="products-category-multiselect" class="manage-products/products.category-multiselect" />
+                    <x-singleselect :label="__('manage-products/products.category_input_label')" :placeholder="__('manage-products/products.category_input_placeholder')" :options="$baseCategories->pluck('type')" id="product-category"
+                        name="products-category-select" class="manage-products/products.category-select" />
 
                     <!-- Product Variety Field -->
                     <x-singleselect :label="__('manage-products/products.variety_input_label')" :placeholder="__('manage-products/products.variety_input_placeholder')" :options="$baseVarieties->pluck('variety')" id="product-variety"

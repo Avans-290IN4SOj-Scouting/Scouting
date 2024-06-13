@@ -12,7 +12,8 @@ class StocksController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productTypes', 'productSizes', 'stocks')->get();
+        $products = Product::with('productSizes', 'stocks')
+            ->join('product_types', 'product_types.id', '=', 'products.type_id')->get();
 
         return view('admin.stocks', ['products' => $products]);
     }

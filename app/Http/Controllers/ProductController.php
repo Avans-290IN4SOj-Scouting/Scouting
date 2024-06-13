@@ -20,11 +20,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productTypes', 'groups')->get();
+        $products = Product::with('groups')->get();
         $productsModel = $products->map(function ($product) {
             return [
                 'name' => $product->name,
-                'category' => $product->productTypes->pluck('type')->toArray(),
+                'category' => ProductType::find($product->type_id)->type,
                 'groups' => $product->groups->pluck('name')->toArray(),
                 'sizesWithPrices' => $product->productSizes->map(function ($size) {
                     return [
@@ -63,7 +63,7 @@ class ProductController extends Controller
     // GET
     public function edit($productId)
     {
-        $product = Product::with(['productTypes', 'groups', 'productSizes'])->find($productId);
+        $product = Product::with(['groups', 'productSizes'])->find($productId);
         if (!$product) {
             // Product not found, redirect back with an error message
             return redirect()->back()->with('error', __('manage-products/products.not_found'));
@@ -100,6 +100,7 @@ class ProductController extends Controller
         }
 
         $variety = ProductVariety::find($product->variety_id)->variety;
+        $type = ProductType::find($product->type_id)->type;
 
         $nameDisabled = OrderLine::where('product_id', $productId)->exists();
         return view('admin.edit-product', [
@@ -108,7 +109,7 @@ class ProductController extends Controller
             'baseGroups' => Group::all(),
             'baseProductSizes' => ProductSize::whereNot('size', 'Default')->get(),
             'baseVarieties' => ProductVariety::all(),
-            'chosenCategories' => $product->productTypes,
+            'chosenCategory' => $type,
             'chosenGroups' => $product->groups,
             'chosenVariety' => $variety,
             'sizesWithPrices' => $sizes,
@@ -127,26 +128,28 @@ class ProductController extends Controller
         $requestVariety = $request->input('products-variety-select');
         $variety = ProductVariety::where('variety', '=', $requestVariety)->first()->id;
 
+        // Type
+        $categoryInput = $request->input('products-category-select');
+        $category = ProductType::where('type', '=', $categoryInput)->first()->id;
+
         $product = Product::create([
             'variety_id' => $variety,
+            'type_id' => $category,
             'name' => $request->input('name'),
             'image_path' => '/images/products/placeholder.png',
         ]);
         $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
 
         DB::beginTransaction();
-        try
-        {
+        try {
             // Set custom sizes and prices
             $sizes = $request->input('size_input', []);
             $prices = $request->input('price_input', []);
 
-            for ($i = 0; $i < count($sizes); $i++)
-            {
+            for ($i = 0; $i < count($sizes); $i++) {
                 $size = $sizes[$i];
                 $price = $prices[$i];
-                if ($product->productSizes()->where('product_size_id', $size)->exists())
-                {
+                if ($product->productSizes()->where('product_size_id', $size)->exists()) {
                     return redirect()->back()->with('error_same_product_size', __('manage-products/products.error_same_product_size'));
                 }
                 $product->productSizes()->attach($product->id, ['product_size_id' => $size, 'price' => $price]);
@@ -154,25 +157,14 @@ class ProductController extends Controller
 
             // Groups
             $groups = $request->input('products-group-multiselect');
-            foreach ($groups as $inputGroup)
-            {
+            foreach ($groups as $inputGroup) {
                 $group = Group::where('name', '=', $inputGroup)->first();
                 $product->groups()->attach($group);
             }
 
-            // Categories / Colors
-            $categories = $request->input('products-category-multiselect');
-            foreach ($categories as $inputCategory)
-            {
-                $category = ProductType::where('type', '=', $inputCategory)->first();
-                $product->productTypes()->attach($category);
-            }
-
             DB::commit();
             $product->save();
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             DB::rollback();
 
             return redirect()->route('manage.products.index')->with([
@@ -191,20 +183,17 @@ class ProductController extends Controller
     public function update(ProductEditRequest $request, $productId)
     {
         $product = Product::find($productId);
-        if ($product === null)
-        {
+        if ($product === null) {
             return redirect()->back()->with('error', __('manage-products/products.product_not_found'));
         }
 
         // Name
-        if ($product->name !== $request->input('name') && $request->input('name') !== null)
-        {
+        if ($product->name !== $request->input('name') && $request->input('name') !== null) {
             $product->name = $request->input('name');
         }
 
         // Image
-        if($request->file('af-submit-app-upload-images'))
-        {
+        if ($request->file('af-submit-app-upload-images')) {
             $product->image_path = $this->savePicture($request->file('af-submit-app-upload-images'), $product->id);
         }
 
@@ -212,16 +201,14 @@ class ProductController extends Controller
         $product->inactive = $request->has('inactive-checkbox') ? 1 : 0;
 
         DB::beginTransaction();
-        try
-        {
+        try {
             // Set custom sizes and prices
             $productSizePrices = $product->productSizes;
 
             $inputSizes = $request->input('size_input', []);
             $inputPrices = $request->input('price_input', []);
 
-            foreach ($productSizePrices as $productSizePrice)
-            {
+            foreach ($productSizePrices as $productSizePrice) {
                 $key = array_search($productSizePrice->pivot->product_size_id, $inputSizes);
                 if ($key === false) {
                     $product->productSizes()->detach($productSizePrice);
@@ -231,14 +218,12 @@ class ProductController extends Controller
                 }
             }
             // Add remaining
-            foreach ($inputSizes as $inputSize)
-            {
+            foreach ($inputSizes as $inputSize) {
                 $index = array_search($inputSize, $inputSizes);
                 $size = $inputSizes[$index];
                 $price = $inputPrices[$index];
 
-                if ($product->productSizes()->where('product_size_id', $size)->exists())
-                {
+                if ($product->productSizes()->where('product_size_id', $size)->exists()) {
                     return redirect()->back()->with('error_same_product_size', __('manage-products/products.error_same_product_size'));
                 }
                 $product->productSizes()->attach($product->id, ['product_size_id' => $size, 'price' => $price]);
@@ -247,8 +232,7 @@ class ProductController extends Controller
             // Groups
             $productGroups = $product->groups;
             $inputGroups = $request->input('products-group-multiselect');
-            foreach ($productGroups as $group)
-            {
+            foreach ($productGroups as $group) {
                 $key = array_search($group->name, $inputGroups);
                 if ($key === false) {
                     $product->groups()->detach($group);
@@ -257,30 +241,16 @@ class ProductController extends Controller
                 }
             }
             // Add remaining
-            foreach ($inputGroups as $inputGroup)
-            {
+            foreach ($inputGroups as $inputGroup) {
                 $group = Group::where('name', '=', $inputGroup)->first();
                 $product->groups()->attach($group);
             }
 
             // Categories / Colors
-            $productCategories = $product->productTypes;
-            $inputCategories = $request->input('products-category-multiselect');
-            foreach ($productCategories as $category)
-            {
-                $key = array_search($category->type, $inputCategories);
-                if ($key === false) {
-                    $product->productTypes()->detach($category);
-                } else {
-                    unset($inputCategories[$key]);
-                }
-            }
-            // Add remaining
-            foreach ($inputCategories as $inputCategory)
-            {
-                $category = ProductType::where('type', '=', $inputCategory)->first();
-                $product->productTypes()->attach($category);
-            }
+            $categoryInput = $request->input('products-category-select');
+            $category = ProductType::where('type', '=', $categoryInput)->first();
+
+            $product->type_id = $category->id;
 
             // Variety
             $requestVariety = $request->input('products-variety-select');
@@ -289,9 +259,7 @@ class ProductController extends Controller
 
             DB::commit();
             $product->save();
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             DB::rollback();
             return redirect()->route('manage.products.index')->with([
                 'toast-type' => 'error',
@@ -313,8 +281,7 @@ class ProductController extends Controller
         try {
             Storage::disk('public')->put('/images/products/product-' . $id . '.png', $picture->get());
             return '/images/products/product-' . $id . '.png';
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             return "/images/products/placeholder.png";
         }
     }

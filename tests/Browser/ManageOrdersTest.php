@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Enum\DeliveryStatus;
 use App\Models\Order;
 use App\Models\OrderLine;
+use App\Models\ProductType;
 use App\Models\User;
 use Carbon\Carbon;
 use Facebook\WebDriver\WebDriverKeys;
@@ -39,6 +40,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
             OrderLine::create([
@@ -47,6 +49,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
         }
@@ -70,6 +73,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
             OrderLine::create([
@@ -78,6 +82,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
         }
@@ -101,6 +106,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
             OrderLine::create([
@@ -109,6 +115,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
         }
@@ -132,6 +139,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
             OrderLine::create([
@@ -140,6 +148,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
         }
@@ -163,6 +172,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 1,
                 'product_price' => 12.34,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
             OrderLine::create([
@@ -171,6 +181,7 @@ class ManageOrdersTest extends DuskTestCase
                 'amount' => 2,
                 'product_price' => 22.33,
                 'product_size' => 'S',
+                'product_type_id' => 1,
                 'product_image_path' => 'image/products/placeholder.png'
             ]);
         }

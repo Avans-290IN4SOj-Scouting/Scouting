@@ -16,17 +16,18 @@ class Product extends Model
         'name',
         'image_path',
         'variety_id',
+        'type_id',
     ];
-
-    public function productTypes(): BelongsToMany
-    {
-        return $this->belongsToMany(ProductType::class, 'product_product_type', 'product_id', 'product_type_id');
-    }
 
     public function productSizes(): BelongsToMany
     {
         return $this->belongsToMany(ProductSize::class, 'product_product_size', 'product_id', 'product_size_id')
             ->withPivot('price');
+    }
+
+    public function type(): HasOne
+    {
+        return $this->hasOne(ProductType::class, 'type_id');
     }
 
     public function variety() : HasOne
