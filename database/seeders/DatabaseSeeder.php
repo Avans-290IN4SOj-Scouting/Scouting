@@ -43,9 +43,5 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             OrderLineSeeder::class
         ]);
-
-//        foreach ($users as $user) {
-//            $user->assignRole('user');
-//        }
     }
 }

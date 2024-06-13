@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     {
         $guardName = 'web';
 
-        $roles = ['admin', 'teamleader', 'user'];
+        $roles = ['admin', 'teamleader'];
 
         foreach ($roles as $role) {
             if (!Role::where('name', $role)->exists()) {
