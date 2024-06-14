@@ -12,10 +12,6 @@ class ManageAccountsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     */
-
     public function test_can_update_roles(): void
     {
         $admin = User::factory()->create(['email' => 'admin@test.com']);
@@ -35,8 +31,8 @@ class ManageAccountsTest extends TestCase
         $userRolesData = [
             [
                 'email' => $userToBeModified->email,
-                'oldRoles' => $userToBeModified->roles()->first()->name,
-                'newRoles' => ['admin'],
+                'oldRoles' => $userToBeModified->roles()->first()->id,
+                'newRoles' => [Role::where('name', 'admin')->first()->id],
             ]
         ];
 
