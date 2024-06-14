@@ -16,4 +16,8 @@ return [
     "empty_table" => "Geen accounts gevonden",
     "remove_filters_button" => "Filters verwijderen",
     "filter_error" => "Filteren van accounts mislukt!",
+    "add-role" => "Rol toevoegen",
+    "reset_changes" => "Wijzigingen ongedaan maken",
+    "no_roles" => "Geen rollen",
+    "unknown_role" => "Onbekende rol",
 ];
