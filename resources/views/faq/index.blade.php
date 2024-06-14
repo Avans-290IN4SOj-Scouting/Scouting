@@ -252,5 +252,31 @@
         </div>
         <br>
     </div>
+
+    <h1 class="text-4xl dark:text-white">{{ __('faq/faq.h1.promote-accounts') }}</h1>
+    <div>
+        <h2 class="text-3xl dark:text-white">Rol toevoegen</h2>
+        <ol class="list-decimal list-inside text-gray-800 dark:text-white">
+            <li>Klik op het plusje in een rij.</li>
+            <li>Een select is verschenen, klik hierop om de selectie van rollen te zien.</li>
+            <li>Na het kiezen van een rol verschijnt er een select-element; hierin kunt u een subrol specificeren. Dit is niet het geval voor de adminrol: voor de admin verschijnt er een tag.</li>
+            <li>Als de gewenste rollen toegevoegd zijn, klik dan op 'opslaan'.</li>
+            <li>Een modal verschijnt met alle accounts waarvan de rollen zijn aangepast. Klik op 'opslaan' om de selectie definitief op te slaan.</li>
+            <li>De rollen zijn nu definitief aangepast. Dit is te zien aan de select-elementen en tags die automatisch verschijnen.</li>
+        </ol>
+        <h2 class="text-3xl dark:text-white">Rol verwijderen</h2>
+        <ol class="list-decimal list-inside text-gray-800 dark:text-white">
+            <li>Accounts bevatten select-elementen en tags. Deze bevatten een kruisje om ze te verwijderen.</li>
+            <li>Een rol is verwijderd wanneer het select-element/tag niet meer zichtbaar is.</li>
+            <li>Om de verwijdering definitief te maken, klik op 'opslaan'.</li>
+            <li>Een modal verschijnt met alle accounts waarvan de rollen zijn aangepast. Klik op 'opslaan' om de selectie definitief op te slaan.</li>
+            <li>De verwijderde rollen zijn niet meer te zien in de lijst.</li>
+        </ol>
+        <h2 class="text-3xl dark:text-white">Aanpassingen ongedaan maken</h2>
+        <ol class="list-decimal list-inside text-gray-800 dark:text-white">
+            <li>Als er aanpassingen zijn gemaakt voordat er is opgeslagen, kunnen deze ongedaan gemaakt worden door op de 'wijzigingen ongedaan maken' knop te drukken.</li>
+            <li>De pagina zal hierna herladen. De select-elementen en tags zullen hersteld worden naar hun oorspronkelijke staat.</li>
+        </ol>
+    </div>
     @endif
 @endsection
