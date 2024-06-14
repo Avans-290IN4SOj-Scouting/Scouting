@@ -14,7 +14,7 @@ return[
 
     'orderstatus-changed' => [
         'subject' => 'Status van uw bestelling is veranderd',
-        'message' => 'de status van uw bestelling is veranderd naar: ',
+        'message' => 'De status van uw bestelling is veranderd naar: ',
         'product-name' => 'Productnaam',
         'product-size' => 'Productmaat',
         'product-type' => 'Producttype',
@@ -24,7 +24,7 @@ return[
 
     'order-placed-success' => [
         'subject' => 'Uw bestelling is geplaatst',
-        'message' => 'hieronder staat uw bestelling inclusief details',
+        'message' => 'Hieronder staat uw bestelling inclusief details',
         'product-name' => 'Productnaam',
         'product-size' => 'Productmaat',
         'product-type' => 'Producttype',
@@ -34,7 +34,7 @@ return[
 
     'order-cancelled' => [
         'subject' => 'Bestelling is geannuleerd',
-        'message' => 'uw bestelling is succesvol geannuleerd',
+        'message' => 'Uw bestelling is succesvol geannuleerd',
     ],
 
 ];
