@@ -13,8 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(10)->create();
-
         $this->call([
             ProductTypeSeeder::class,
             ProductSizeSeeder::class,
@@ -22,13 +20,9 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             GroupSeeder::class,
             ProductGroupSeeder::class,
-        ]);
-
-
-        $this->call([
             RoleSeeder::class,
             UserWithRoleSeeder::class,
-            OrderSeeder::class,
+//            OrderSeeder::class,
         ]);
     }
 }
