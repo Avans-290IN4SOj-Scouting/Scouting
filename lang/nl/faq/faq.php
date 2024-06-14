@@ -13,7 +13,7 @@ return [
     'h1.manage-stock' => 'Voorraad Beheren',
     'h1.manage-orders' => 'Bestellingen Beheren',
     'h1.download-backorders' => 'Backorders downloaden',
-    'h1.' => '',
+    'h1.godmode' => 'Godmode',
 
     '' => '',
     '' => '',

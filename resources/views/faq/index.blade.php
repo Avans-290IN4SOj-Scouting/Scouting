@@ -232,6 +232,24 @@
     <h1 class="text-4xl dark:text-white">{{ __('faq/faq.h1.godmode') }}</h1>
     <div>
         <h2 class="text-3xl dark:text-white">Bestellingen beheren</h2>
+        <h3 class="text-2xl dark:text-white">Prijs aanpassen of verwijderen</h3>
+        <div>
+            <ol class="list-decimal list-inside text-gray-800 dark:text-white">
+                <li>Ga via het Beheer dropdown in de navigatiebalk naar "Beheer bestellingen".</li>
+                <li>Selecteer de bestelling die aangepast moet worden.</li>
+                <li>Aan de rechterkant onder "Producten" kan de prijs aangepast worden, of verwijderd worden door op het prullenbak icoontje te klikken.</li>
+            </ol>
+        </div>
+        <h3 class="text-2xl dark:text-white">Product toevoegen</h3>
+        <div>
+            <ol class="list-decimal list-inside text-gray-800 dark:text-white">
+                <li>Ga via het Beheer dropdown in de navigatiebalk naar "Beheer bestellingen".</li>
+                <li>Selecteer de bestelling die aangepast moet worden.</li>
+                <li>Aan de rechterkant onder "Producten" staat een "Voeg product toe" knop, klik hierop.</li>
+                <li>Selecteer een product uit de lijst en klik op "Voeg product toe aan bestelling".</li>
+                <li>De wijziging is automatisch opgeslagen.</li>
+            </ol>
+        </div>
         <br>
     </div>
     @endif
