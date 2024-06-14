@@ -12,8 +12,14 @@ class StocksController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productSizes', 'stocks')
-            ->join('product_types', 'product_types.id', '=', 'products.type_id')->get();
+//        $products = Product::with('productSizes', 'stocks')
+//            ->join('product_types', 'product_types.id', '=', 'products.type_id')
+//            ->join('product_varieties', 'product_varieties.id', '=', 'products.variety_id')
+//            ->get();
+
+        $products = Product::with(['productSizes', 'type', 'variety', 'stocks'])->get();
+
+//        dd($products);
 
         return view('admin.stocks', ['products' => $products]);
     }
@@ -26,7 +32,7 @@ class StocksController extends Controller
         foreach ($stockUpdateRequest->all() as $key => $value) {
             if (Str::startsWith($key, 'size-')) {
                 $size = Str::after($key, 'size-');
-                $size = strtoupper(preg_replace("/[^A-Za-z]/", '', $size));
+                $size = explode('-', $size)[0];
 
                 $productSize = $product->productSizes()->where('size', $size)->first();
 

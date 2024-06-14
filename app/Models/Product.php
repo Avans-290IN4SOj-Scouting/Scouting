@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -25,14 +26,14 @@ class Product extends Model
             ->withPivot('price');
     }
 
-    public function type(): HasOne
+    public function type(): BelongsTo
     {
-        return $this->hasOne(ProductType::class, 'type_id');
+        return $this->BelongsTo(ProductType::class, 'type_id');
     }
 
-    public function variety() : HasOne
+    public function variety() : BelongsTo
     {
-        return $this->hasOne(ProductVariety::class, 'variety_id');
+        return $this->BelongsTo(ProductVariety::class, 'variety_id');
     }
 
     public function size()
