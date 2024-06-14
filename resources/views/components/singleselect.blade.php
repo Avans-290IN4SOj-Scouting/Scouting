@@ -1,6 +1,7 @@
 <label class="block text-gray-700 font-semibold">{{ $label }}</label>
 <div class="relative">
-    <select name="{{ $name }}"
+    <select dusk="single-select-{{ __($class) }}" class="{{ $class }}"
+        name="{{ $name }}"
         data-hs-select='{
         "placeholder": "{{ $placeholder }}",
         "toggleTag": "<button type=\"button\"></button>",
