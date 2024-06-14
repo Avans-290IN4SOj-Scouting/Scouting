@@ -8,13 +8,22 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Services\GmailService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
+use ReflectionException;
 
 class ManageOrdersController extends Controller
 {
+    public function __construct(
+        protected GmailService $gmailService
+    )
+    {
+    }
+
     public function index()
     {
         $orders = Order::query();
@@ -73,6 +82,9 @@ class ManageOrdersController extends Controller
         return $products;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function updateOrderStatus(Request $request, string $id)
     {
         $order = Order::find($id);
@@ -85,9 +97,15 @@ class ManageOrdersController extends Controller
         }
 
         $status = $request->input('status');
-        $delocalizedStatus = DeliveryStatus::delocalised($status);
+        $order->status = $status;
 
+        $logoPath = public_path('images/scouting/AZG_Scouting_logo_slogan_compact_RGB.png');
+        $emailContent = View::make('orders.emails.orderstatus_changed', ['order' => $order, 'productTypes' => ProductType::all()])->render();
+        $this->gmailService->sendMail($order->user->email, __('email.orderstatus-changed.subject'), $emailContent, $logoPath);
+
+        $delocalizedStatus = DeliveryStatus::delocalised($status);
         $order->status = $delocalizedStatus;
+
         if (!$order->save()) {
             return redirect()->back()->with([
                 'toast-type' => 'error',
