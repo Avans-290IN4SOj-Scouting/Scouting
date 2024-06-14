@@ -5,7 +5,9 @@ namespace Tests\Browser;
 use App\Enum\UserRoleEnum;
 use App\Models\User;
 use Facebook\WebDriver\WebDriverKeys;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
+use Spatie\Permission\Models\Role;
 use Tests\DuskTestCase;
 
 class ManageAccountFilterTest extends DuskTestCase
@@ -82,10 +84,14 @@ class ManageAccountFilterTest extends DuskTestCase
     public function test_filtering_by_role()
     {
         $this->createUsers();
-        $this->browse(function (Browser $browser) {
+
+        $roleToFilter = Role::where('name', 'admin')->first();
+        $formattedRoleName = Str::title(str_replace('_', ' ', $roleToFilter->name));
+
+        $this->browse(function (Browser $browser) use ($formattedRoleName) {
             $browser->loginAs($this->admin)
                 ->visit(route('manage.accounts.index'))
-                ->select('filter', UserRoleEnum::localisedValue(UserRoleEnum::Admin->value))
+                ->select('filter', $formattedRoleName)
                 ->assertDontSee('aaa')
                 ->assertSee('aab');
         });

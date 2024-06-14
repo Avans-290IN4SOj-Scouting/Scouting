@@ -22,11 +22,11 @@ class UserWithRoleSeeder extends Seeder
             'email' => 'groepsleider@azge.nl',
         ])->first();
         $groupLeader->assignRole('teamleader');
-        $groupLeader->assignRole('team_bevers');
-        $groupLeader->assignRole('team_gidsen');
+        $groupLeader->assignRole('bevers_a');
+        $groupLeader->assignRole('gidsen_a');
 
         $user = User::factory(1)->create()->first();
-        $user->assignRole('team_bevers');
-        $user->assignRole('team_gidsen');
+        $user->assignRole('bevers_a');
+        $user->assignRole('gidsen_a');
     }
 }
