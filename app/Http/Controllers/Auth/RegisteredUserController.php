@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -31,6 +28,9 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterRequest $request): RedirectResponse
     {
+        $url = $request->session()->pull('url.intended', route('home'));
+        $request->session()->forget('url.intended');
+
         try {
             $request->authorize();
         } catch (AuthenticationException $e) {
@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('home'))
+        return redirect()->to($url)
             ->with([
                 'toast-type' => 'success',
                 'toast-message' => __('auth/auth.register-success')
