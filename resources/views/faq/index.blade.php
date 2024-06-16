@@ -10,24 +10,6 @@
 
 @section('content')
 
-    <p>Je MOET deze gebruiken (staan in code)</p>
-    <h1 class="text-4xl dark:text-white">h1. Preline heading</h1>
-    <h2 class="text-3xl dark:text-white">h2. Preline heading</h2>
-    <h3 class="text-2xl dark:text-white">h3. Preline heading</h3>
-    <h4 class="text-xl dark:text-white">h4. Preline heading</h4>
-    <h5 class="text-lg dark:text-white">h5. Preline heading</h5>
-    <h6 class="text-base dark:text-white">h6. Preline heading</h6>
-
-    <a class="text-blue-600 underline decoration-blue-600 hover:opacity-80" href="#">Link</a>
-
-    <div>
-        <ol class="list-decimal list-inside text-gray-800 dark:text-white">
-            <li>Item</li>
-        </ol>
-    </div>
-
-    <p>==================================</p>
-
     <h1 id="register" class="text-4xl dark:text-white">{{ __('faq/faq.h1.register') }}</h1>
     <div>
         <div>
@@ -117,12 +99,6 @@
         </div>
         <br>
     </div>
-
-    @if (Auth::user() && (Auth::user()->hasAnyRole(['admin', 'teamleader'])))
-    <h1 class="text-4xl dark:text-white">{{ __('faq/faq.h1.manage-accounts') }}</h1>
-    <p>Als je deze doet voordat Delite klaar is krijg je een gele kaart :)</p>
-    <br>
-    @endif
 
     @if (Auth::user() && (Auth::user()->hasRole('admin')))
     <h1 class="text-4xl dark:text-white">{{ __('faq/faq.h1.manage-products') }}</h1>
