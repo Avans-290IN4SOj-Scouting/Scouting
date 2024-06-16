@@ -25,37 +25,31 @@ class ManageStocksTest extends DuskTestCase
 
     /**
      * @throws Throwable
+     * @group manage-stocks
      */
     public function test_admin_update_stock(): void
     {
-        $product = Product::inRandomOrder()->first();
+        $product = Product::first();
         $stockValue = random_int(1, 100);
         $size = $product->productSizes()->inRandomOrder()->first();
-        $typeIndex = random_int(1, 3);
 
         $accordionItemSelector = '#accordion-item-' . $product->id;
-        $sizeSelector = '#size-' . strtolower($size->size) . '-' . $product->id . '-' . $typeIndex;
-        $updateSelector = '#update-' . $product->id . '-' . $typeIndex;
+        $sizeSelector = 'input[name="size-' . strtolower($size->size) . '-' . $product->id . '-' . $size->id . '"]';
+        $updateSelector = '#update-' . $product->id;
 
-        $this->browse(function (Browser $browser) use ($accordionItemSelector, $sizeSelector, $updateSelector, $typeIndex, $stockValue) {
+        $this->browse(function (Browser $browser) use ($accordionItemSelector, $sizeSelector, $updateSelector, $stockValue) {
             $browser->loginAs($this->admin)
                 ->visitRoute('manage.stocks.index')
                 ->pause(1000)
                 ->click($accordionItemSelector)
-                ->pause(1000)
-                ->click($accordionItemSelector . '-' . $typeIndex)
-                ->pause(1000)
-                ->click($sizeSelector)
                 ->pause(1000)
                 ->value($sizeSelector, $stockValue)
                 ->click($updateSelector)
                 ->pause(1000)
                 ->click($accordionItemSelector)
                 ->pause(1000)
-                ->click($accordionItemSelector . '-' . $typeIndex)
-                ->pause(1000)
                 ->assertValue($sizeSelector, $stockValue);
         });
     }
-
+    
 }
