@@ -7,16 +7,19 @@ use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\Product;
+use App\Models\ProductType;
+use App\Services\GmailService;
 use App\Services\ShoppingCartService;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class OrderController extends Controller
 {
     public function __construct(
-        protected ShoppingCartService $shoppingCartService
+        protected ShoppingCartService $shoppingCartService, protected GmailService $gmailService
     )
     {
     }
@@ -141,7 +144,7 @@ class OrderController extends Controller
                 $orderLine->amount = $product->amount;
                 $orderLine->product_price = $product->price;
                 $orderLine->product_size = $product->size;
-                $orderLine->product_type_id = $product->product_type_id;
+                $orderLine->product_type_id = $product->type_id;
                 $orderLine->product_image_path = $product->image_path;
 
                 $orderLine->save();
@@ -158,6 +161,12 @@ class OrderController extends Controller
                 'toast-message' => __('toast/messages.order-no-products'),
             ]);
         }
+
+        $order->status = __('delivery_status.awaiting_payment');
+
+        $logoPath = public_path('images/scouting/AZG_Scouting_logo_slogan_compact_RGB.png');
+        $emailContent = View::make('orders.emails.order_placed_success', ['order' => $order, 'productTypes' => ProductType::all()])->render();
+        $this->gmailService->sendMail($order->user->email, __('email.order-placed-success.subject'), $emailContent, $logoPath);
 
         $this->shoppingCartService->clearShoppingCart();
         return redirect()->route('orders.checkout.completed')

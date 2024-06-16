@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Group extends Model
 {
-    use HasFactory;
-
-        /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -28,9 +26,5 @@ class Group extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Product::class);
-    }
-
-    public function size(): HasOne {
-        return $this->hasOne(ProductSize::class, 'id', 'size_id');
     }
 }

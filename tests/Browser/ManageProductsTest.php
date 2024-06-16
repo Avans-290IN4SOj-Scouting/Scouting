@@ -58,7 +58,7 @@ class ManageProductsTest extends DuskTestCase
 
                 // Either Dusk can't do this or I spent too much time on it
                 $browser->script('
-                    let i = 1;
+                    let i = 2;
                     document.querySelectorAll("#size_input").forEach((selectInput) => {
                         selectInput.value = i++;
                     });
@@ -74,10 +74,15 @@ class ManageProductsTest extends DuskTestCase
                 ->click(__('[data-value="Bevers"]'))
                 ->click(__('[data-value="Kabouters"]'))
                 ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
-                ->click('@multiple-select-' . trans('manage-products/products.category-multiselect') . ' + *')
-                ->click(__('[data-value="blauw"]'))
-                ->click(__('[data-value="geel"]'))
+
+                ->click('@single-select-' . trans('manage-products/products.category-select') . ' + *')
+                ->click(__('[data-value="Donkerblauw"]'))
+
+                ->click('@single-select-' . trans('manage-products/products.variety-select') . ' + *')
+                ->click(__('[data-value="Unisex"]'))
+
                 ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png');
+
                 $browser->script('document.querySelector("#add-product-button").click();');
                 $browser->assertSee(__('toast/messages.success-product-add'));
         });
@@ -96,13 +101,17 @@ class ManageProductsTest extends DuskTestCase
                 ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
                 ->click(__('[data-value="Bevers"]'))
                 ->click(__('[data-value="Kabouters"]'))
-                ->click('@multiple-select-' . trans('manage-products/products.category-multiselect') . ' + *')
-                ->click(__('[data-value="groen"]'))
-                ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png')
-                ->screenshot('test_jeroen')
-                ;
+                ->click('@multiple-select-' . trans('manage-products/products.groups-multiselect') . ' + *')
+
+                ->click('@single-select-' . trans('manage-products/products.category-select') . ' + *')
+                ->click(__('[data-value="Rood"]'))
+
+                ->click('@single-select-' . trans('manage-products/products.variety-select') . ' + *')
+                ->click(__('[data-value="Dames"]'))
+
+                ->attach('af-submit-app-upload-images', 'public/images/products/placeholder.png');
+
                 $browser->script('document.querySelector("#update-product-button").click();');
-                $browser->screenshot('test_jeroen2');
                 $browser->assertSee(__('toast/messages.success-product-update'));
         });
     }

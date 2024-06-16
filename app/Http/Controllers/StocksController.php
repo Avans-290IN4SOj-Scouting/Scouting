@@ -12,7 +12,7 @@ class StocksController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productTypes', 'productSizes', 'stocks')->get();
+        $products = Product::with(['productSizes', 'type', 'variety', 'stocks'])->get();
 
         return view('admin.stocks', ['products' => $products]);
     }
@@ -25,7 +25,7 @@ class StocksController extends Controller
         foreach ($stockUpdateRequest->all() as $key => $value) {
             if (Str::startsWith($key, 'size-')) {
                 $size = Str::after($key, 'size-');
-                $size = strtoupper(preg_replace("/[^A-Za-z]/", '', $size));
+                $size = explode('-', $size)[0];
 
                 $productSize = $product->productSizes()->where('size', $size)->first();
 

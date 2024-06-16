@@ -13,7 +13,7 @@ class OrderTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                 ->click('@Bevers')
-                ->click('@TestAll')
+                ->click('@Das')
                 ->press(__('orders/orders.add-to-shoppingcart'))
                 ->assertSee(__('orders/orders.product-added'));
         });
@@ -36,7 +36,7 @@ class OrderTest extends DuskTestCase
                 ->responsiveScreenshots('orders/home')
                 ->visit(route('orders.overview', 'welpen'))
                 ->responsiveScreenshots('orders/product-overview')
-                ->visit(route('orders.product', '/TestAll/Welpen'))
+                ->visit(route('orders.product', '/Das/Welpen'))
                 ->responsiveScreenshots('orders/product')
                 ->visit(route('orders.shoppingcart.index'))
                 ->responsiveScreenshots('orders/shopping-cart')
