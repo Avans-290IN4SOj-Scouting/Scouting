@@ -72,22 +72,38 @@ class GmailService
         }
     }
 
-    public function sendMail($receiver, $subject, $message)
+    public function sendMail($receiver, $subject, $message, $imagePath = null)
     {
-        // base64_encode can cause issues if mail is invalid
         try
         {
             $service = new Gmail($this->client);
             $email = new Message();
-            $email->setRaw(base64_encode(
-                "From: $this->email\r\n" .
-                "To: $receiver\r\n" .
-                "Subject: =?utf-8?B?" . $subject . "?=\r\n" .
-                "MIME-Version: 1.0\r\n" .
-                "Content-Type: text/html; charset=utf-8\r\n" .
-                "Content-Transfer-Encoding: quoted-printable" . "\r\n\r\n" .
-                "$message\r\n"
-            ));
+
+            $boundary = uniqid('_Part_'.time(), true);
+            $rawMessage = "MIME-Version: 1.0\r\n";
+            $rawMessage .= 'Subject: =?utf-8?B?' . base64_encode($subject) . "?=\r\n";
+            $rawMessage .= "To: $receiver\r\n";
+            $rawMessage .= "From: $this->email\r\n";
+            $rawMessage .= "Content-Type: multipart/related; boundary=\"$boundary\"\r\n\r\n";
+
+            $rawMessage .= "--$boundary\r\n";
+            $rawMessage .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
+            $rawMessage .= "$message\r\n";
+
+            if ($imagePath && file_exists($imagePath)) {
+                $imageData = base64_encode(file_get_contents($imagePath));
+                $rawMessage .= "--$boundary\r\n";
+                $rawMessage .= "Content-Type: image/jpeg\r\n"; // or png, etc.
+                $rawMessage .= "Content-Transfer-Encoding: base64\r\n";
+                $rawMessage .= "Content-ID: <image1>\r\n\r\n";
+                $rawMessage .= "$imageData\r\n";
+            }
+
+            $rawMessage .= "--$boundary--";
+
+            $rawMessage = base64_encode($rawMessage);
+            $rawMessage = str_replace(['+', '/', '='], ['-', '_', ''], $rawMessage); // replace non-url safe base64 characters
+            $email->setRaw($rawMessage);
 
             $service->users_messages->send("me", $email);
         }
