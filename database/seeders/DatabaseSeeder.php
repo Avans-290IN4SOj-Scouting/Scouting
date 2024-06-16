@@ -13,35 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $this->call([
-            // ORDER OF SEEDING IS VERY IMPORTANT!!!
-            // Also, php artisan migrate:fresh --seed  |  https://laravel.com/docs/10.x/seeding#running-seeders
             ProductTypeSeeder::class,
             ProductSizeSeeder::class,
+            ProductVarietySeeder::class,
             ProductSeeder::class,
             GroupSeeder::class,
             ProductGroupSeeder::class,
-            StockSeeder::class,
-
-            // Below are unordered
-            FeedbackFormSeeder::class,
-            FeedbackTypeSeeder::class,
-            // GroupSeeder::class,
-        ]);
-
-
-        $this->call([
-            PermissionSeeder::class,
-            RoleSeeder::class, UserWithRoleSeeder::class,
-            OrderSeeder::class,
-            OrderLineSeeder::class
+            RoleSeeder::class,
+            UserWithRoleSeeder::class,
+//            OrderSeeder::class,
         ]);
     }
 }

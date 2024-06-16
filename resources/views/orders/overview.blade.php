@@ -35,7 +35,7 @@
                                     <p class="dark:text-white">
                                         <span class="dark:text-white">
                                             {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->min(), 2, __('common.seperator'), '.') }}
-                                            @if (count($product->productSizes) > 1)
+                                            @if (count($product->productSizes) > 1 && $product->productSizes->pluck('pivot.price')->min() != $product->productSizes->pluck('pivot.price')->max())
                                             {{ __('orders/orders.till') }}
                                             {{ __('common.currency_symbol') }} {{ number_format($product->productSizes->pluck('pivot.price')->max(), 2, __('common.seperator'), '.') }}
                                             @endif

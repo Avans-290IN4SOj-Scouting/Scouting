@@ -10,7 +10,6 @@ class Product {
         this.id;
         this.amount;
         this.sizeId;
-        this.productTypeId;
     }
 }
 
@@ -19,12 +18,11 @@ class ShoppingCart {
         this.products = [];
     }
 
-    isProductInShoppingCart(id, sizeId, typeId) {
+    isProductInShoppingCart(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
             if (
                 parseInt(this.products[i].id) === parseInt(id) &&
-                parseInt(this.products[i].sizeId) === parseInt(sizeId) &&
-                parseInt(this.products[i].productTypeId) === parseInt(typeId)
+                parseInt(this.products[i].sizeId) === parseInt(sizeId)
             ) {
                 return true;
             }
@@ -33,12 +31,11 @@ class ShoppingCart {
         return false;
     }
 
-    removeProductById(id, sizeId, typeId) {
+    removeProductById(id, sizeId) {
         for (let i = 0; i < this.products.length; i++) {
             if (
                 parseInt(this.products[i].id) === parseInt(id) &&
-                parseInt(this.products[i].sizeId) === parseInt(sizeId) &&
-                parseInt(this.products[i].productTypeId) === parseInt(typeId)
+                parseInt(this.products[i].sizeId) === parseInt(sizeId)
             ) {
                 this.products.splice(i, 1);
                 return true;
@@ -48,12 +45,11 @@ class ShoppingCart {
         return false;
     }
 
-    setProductAmount(id, sizeId, typeId, amount) {
+    setProductAmount(id, sizeId, amount) {
         for (let i = 0; i < this.products.length; i++) {
             if (
                 parseInt(this.products[i].id) === parseInt(id) &&
-                parseInt(this.products[i].sizeId) === parseInt(sizeId) &&
-                parseInt(this.products[i].productTypeId) === parseInt(typeId)
+                parseInt(this.products[i].sizeId) === parseInt(sizeId)
             ) {
                 this.products[i].amount = amount;
                 return true;
@@ -61,12 +57,11 @@ class ShoppingCart {
         }
     }
 
-    addAmountToProduct(id, sizeId, typeId, amount) {
+    addAmountToProduct(id, sizeId, amount) {
         for (let i = 0; i < this.products.length; i++) {
             if (
                 parseInt(this.products[i].id) === parseInt(id) &&
-                parseInt(this.products[i].sizeId) === parseInt(sizeId) &&
-                parseInt(this.products[i].productTypeId) === parseInt(typeId)
+                parseInt(this.products[i].sizeId) === parseInt(sizeId)
             ) {
                 this.products[i].amount += amount;
                 return true;
@@ -76,20 +71,19 @@ class ShoppingCart {
 }
 
 // Code
-function addProductToShoppingCart(id, sizeId, typeId, amount) {
+function addProductToShoppingCart(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
     // Check if Product already exists
-    if (shoppingCart.isProductInShoppingCart(id, sizeId, typeId) === true) {
-        shoppingCart.addAmountToProduct(id, sizeId, typeId, 1);
+    if (shoppingCart.isProductInShoppingCart(id, sizeId) === true) {
+        shoppingCart.addAmountToProduct(id, sizeId, 1);
     } else {
         let newProduct = new Product();
         newProduct.id = parseInt(id);
         newProduct.amount = parseInt(amount);
         newProduct.sizeId = parseInt(sizeId);
-        newProduct.productTypeId = parseInt(typeId);
 
         console.log(newProduct);
         shoppingCart.products.push(newProduct);
@@ -102,14 +96,14 @@ function addProductToShoppingCart(id, sizeId, typeId, amount) {
     createToast('success', 'Product toegevoegd aan winkelwagen!' );
 }
 
-function removeProductFromShoppingCart(id, sizeId, typeId) {
+function removeProductFromShoppingCart(id, sizeId) {
     console.log('Removing product from shopping cart:', id, sizeId);
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
     // Check if product exists
-    if (shoppingCart.removeProductById(id, sizeId, typeId) === false) {
+    if (shoppingCart.removeProductById(id, sizeId) === false) {
         console.warn("Product could not be removed from shopping cart, product was not present.");
         return;
     }
@@ -119,12 +113,12 @@ function removeProductFromShoppingCart(id, sizeId, typeId) {
     createToast('success', 'Product verwijderd uit uw winkelwagen!');
 }
 
-function setShoppingCartProductAmount(id, sizeId, typeId, amount) {
+function setShoppingCartProductAmount(id, sizeId, amount) {
     // 1. Get Current
     let shoppingCart = getShoppingCart();
 
     // 2. Make Changes
-    shoppingCart.setProductAmount(id, sizeId, typeId, amount);
+    shoppingCart.setProductAmount(id, sizeId, amount);
 
     // 3. Save Changes
     saveShoppingCart(shoppingCart);

@@ -28,7 +28,7 @@ class OrderFactory extends Factory
             'order_date' => $this->faker->dateTime(),
             'lid_name' => $this->faker->name(),
             'group_id' => $this->faker->numberBetween(1, 4),
-            'user_id' => User::factory()->create()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'status' => array_rand(DeliveryStatus::localised()),
         ];
     }
