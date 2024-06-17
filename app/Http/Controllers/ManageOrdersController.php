@@ -66,8 +66,7 @@ class ManageOrdersController extends Controller
     private function getAllProducts()
     {
         $products = Product::query()
-            ->join('product_product_type', 'product_product_type.product_id', '=', 'products.id')
-            ->join('product_types', 'product_types.id', '=', 'product_product_type.product_type_id')
+            ->join('product_types', 'product_types.id', '=', 'products.type_id')
             ->join('product_product_size', 'product_product_size.product_id', '=', 'products.id')
             ->join('product_sizes', 'product_sizes.id', '=', 'product_product_size.product_size_id')
             ->select('products.*', 'product_types.type as type', 'product_sizes.size as size', 'product_product_size.price as price')
