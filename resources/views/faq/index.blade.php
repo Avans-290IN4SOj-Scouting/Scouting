@@ -147,7 +147,6 @@
             <ol class="list-decimal list-inside text-gray-800 dark:text-white">
                 <li>Ga via het Beheer dropdown in de navigatie balk naar "Beheer voorraad".</li>
                 <li>Klik in de tabel op het product waarvan u de voorraad wilt wijzigen.</li>
-                <li>Klik in de uitgeklapte optie op de categorie waarvan u de voorraad wilt wijzigen.</li>
                 <li>Verander per maat het aantal en klik op de "Opslaan" knop.</li>
             </ol>
         </div>
