@@ -12,6 +12,7 @@ use App\Http\Controllers\GmailController;
 use App\Http\Controllers\ManageOrdersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,9 @@ require __DIR__ . '/auth.php';
 
 Route::get('/', [OrderController::class, 'index'])
     ->name('home');
+
+Route::get('/faq', [FaqController::class, 'index'])
+    ->name('faq');
 
 Route::middleware('auth')->group(function () {
     Route::prefix(__('route.profile'))->name('profile.')->group(function () {
