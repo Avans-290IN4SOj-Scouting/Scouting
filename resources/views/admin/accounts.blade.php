@@ -5,10 +5,10 @@
 @endphp
 
 @push('scripts')
-    <script src="{{ asset('js/manage-accounts/saveroles.js') }}" defer></script>
-    <script src="{{ asset('js/manage-accounts/filter.js') }}" defer></script>
-    <script src="{{ asset('js/manage-accounts/addrolebutton.js') }}" defer></script>
-    <script src="{{ asset('js/manage-accounts/adddropdown.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-accounts/saveroles.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-accounts/filter.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-accounts/addrolebutton.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-accounts/adddropdown.js') }}" defer></script>
 @endpush
 
 @section('content')

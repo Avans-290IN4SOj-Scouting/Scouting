@@ -5,12 +5,12 @@
 @endphp
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/orders/product-page.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/orders/main.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/orders/product-page.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/orders/shopping-cart.js') }}" defer></script>
-    <script src="{{ asset('js/orders/shopping-cart-dom.js') }}" defer></script>
+    <script src="{{ secure_asset('js/orders/shopping-cart.js') }}" defer></script>
+    <script src="{{ secure_asset('js/orders/shopping-cart-dom.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -22,7 +22,7 @@
         <div id="main">
             <div class="single-product-view">
                 <div class="image">
-                    <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}">
+                    <img src="{{ secure_asset($product->image_path) }}" alt="{{ $product->name }}">
                 </div>
                 <div class="info">
                     <div>

@@ -54,7 +54,7 @@
             <div class="m-4">
                 <div
                         class="flex flex-col gap-1 sm:gap-0 pb-1 sm:pb-0 sm:flex-row justify-between items-center sm:pr-6 rounded-xl border dark:text-white dark:border-gray-700">
-                    <img src="{{ asset($orderLine->product_image_path) }}" alt="{{ __('common.image_of') . $orderLine->product->name }}"
+                    <img src="{{ secure_asset($orderLine->product_image_path) }}" alt="{{ __('common.image_of') . $orderLine->product->name }}"
                          class="rounded-t-xl sm:rounded-tr-none sm:rounded-l-xl w-full sm:w-48 h-auto">
                     <div class="w-28 text-center">
                         <a href="{{ route('orders.product', [ 'name' => $orderLine->product->name, 'groupName' => $orderLine->product->group_name]) }}"

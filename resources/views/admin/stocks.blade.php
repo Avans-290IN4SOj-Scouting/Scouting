@@ -1,10 +1,10 @@
 @extends('layouts.base')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/accordion/accordion.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/accordion/accordion.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/accordion/accordion.js') }}" defer></script>
+    <script src="{{ secure_asset('js/accordion/accordion.js') }}" defer></script>
 @endpush
 
 @section('content')

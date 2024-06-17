@@ -5,8 +5,8 @@
 @endphp
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/orders/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/orders/overview.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/orders/main.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/orders/overview.css') }}">
 @endpush
 
 @section('content')
@@ -25,7 +25,7 @@
                 <a dusk="{{ $product->name }}" href="{{ route('orders.product', [ 'name' => $product->name, 'groupName' => $group->name]) }}">
                     <div class="product">
                         <div class="flex flex-col bg-white border rounded-xl dark:bg-slate-900">
-                            <img class="rounded-t-xl" src="{{ asset($product->image_path) }}" alt="{{ $product->name }}">
+                            <img class="rounded-t-xl" src="{{ secure_asset($product->image_path) }}" alt="{{ $product->name }}">
                         <div class="p-2">
                             <div class="product-info-container">
                                 <div>

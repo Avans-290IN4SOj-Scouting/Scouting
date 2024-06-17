@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @push('scripts')
-    <script src="{{ asset('js/manage-products/product.js') }}" defer></script>
+    <script src="{{ secure_asset('js/manage-products/product.js') }}" defer></script>
 @endpush
 
 @section('content')
