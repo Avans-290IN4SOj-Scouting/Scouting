@@ -15,7 +15,4 @@ return [
     'h1.download-backorders' => 'Backorders downloaden',
     'h1.godmode' => 'Godmode',
     'h1.promote-accounts' => 'Accounts promoveren',
-
-    '' => '',
-    '' => '',
 ];
